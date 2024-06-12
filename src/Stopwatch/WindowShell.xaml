@@ -1,0 +1,42 @@
+﻿<Page
+    x:Class="Stopwatch.WindowShell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mux="using:Microsoft.UI.Xaml.Controls"
+    xmlns:toolkit="using:Uno.UI.Toolkit"
+    d:RequestedTheme="Light"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <Grid toolkit:VisibleBoundsPadding.PaddingMask="All">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid
+            x:Name="TitleBarGrid"
+            Height="48"
+            Padding="16,0"
+            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+            ColumnSpacing="16"
+            Visibility="{x:Bind HasCustomTitleBar}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image
+                Width="16"
+                Height="16"
+                Source="ms-appx:///Assets/Icons/appicon.png" />
+            <TextBlock
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Style="{ThemeResource CaptionTextBlockStyle}"
+                Text="{x:Bind ViewModel.Title}" />
+        </Grid>
+        <Frame x:Name="InnerFrame" Grid.Row="1" />
+    </Grid>
+</Page>
