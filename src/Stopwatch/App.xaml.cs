@@ -1,4 +1,7 @@
-using Uno.Resizetizer;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using MZikmund.Services.Dialogs;
+using Stopwatch.Services.Navigation;
+using Stopwatch.ViewModels;
 
 namespace Stopwatch;
 public partial class App : Application
@@ -15,7 +18,7 @@ public partial class App : Application
     protected Window? MainWindow { get; private set; }
     internal static IHost? Host { get; private set; }
 
-    protected override void OnLaunched(LaunchActivatedEventArgs args)
+    protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
         var builder = this.CreateBuilder(args)
             .Configure(host => host
@@ -23,40 +26,49 @@ public partial class App : Application
                 // Switch to Development environment when running in DEBUG
                 .UseEnvironment(Environments.Development)
 #endif
-                .ConfigureServices((context, services) =>
-                {
-                    // TODO: Register your services
-                    //services.AddSingleton<IMyService, MyService>();
-                })
+                .ConfigureServices((context, services) => ConfigureServices(services))
             );
         MainWindow = builder.Window;
-
 #if DEBUG
         MainWindow.EnableHotReload();
 #endif
-        MainWindow.SetWindowIcon();
 
         Host = builder.Build();
+        Ioc.Default.ConfigureServices(Host.Services);
 
         // Do not repeat app initialization when the Window already has content,
         // just ensure that the window is active
-        if (MainWindow.Content is not Frame rootFrame)
+        if (MainWindow.Content is not WindowShell windowShell)
         {
             // Create a Frame to act as the navigation context and navigate to the first page
-            rootFrame = new Frame();
+            windowShell = new WindowShell(Host.Services, MainWindow);
 
             // Place the frame in the current Window
-            MainWindow.Content = rootFrame;
+            MainWindow.Content = windowShell;
         }
 
-        if (rootFrame.Content == null)
+        if (windowShell.RootFrame.Content is null)
         {
             // When the navigation stack isn't restored navigate to the first page,
             // configuring the new page by passing required information as a navigation
             // parameter
-            rootFrame.Navigate(typeof(MainPage), args.Arguments);
+            windowShell.ServiceProvider.GetRequiredService<INavigationService>().Navigate<OnboardingViewModel>(args.Arguments);
         }
+
         // Ensure the current window is active
         MainWindow.Activate();
+    }
+
+    private void ConfigureServices(IServiceCollection services)
+    {
+        services.AddScoped<WindowShellViewModel>();
+        services.AddScoped<MainViewModel>();
+        services.AddScoped<OnboardingViewModel>();
+
+        services.AddScoped<IDialogCoordinator, DialogCoordinator>();
+        services.AddScoped<IFrameProvider, FrameProvider>();
+        services.AddScoped<INavigationService, NavigationService>();
+        services.AddScoped<IDialogService, DialogService>();
+        services.AddScoped<IWindowShellProvider, WindowShellProvider>();
     }
 }

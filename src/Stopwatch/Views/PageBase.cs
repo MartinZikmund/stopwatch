@@ -1,4 +1,4 @@
-﻿using Stopwatch.ViewModels;
+using Stopwatch.ViewModels;
 
 namespace Stopwatch.Views;
 
