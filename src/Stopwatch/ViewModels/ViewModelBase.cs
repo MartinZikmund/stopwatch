@@ -8,17 +8,17 @@ namespace Stopwatch.ViewModels;
 
 public abstract partial class PageViewModel : ObservableRecipient
 {
-    private readonly INavigationService _navigationService;
-
     protected PageViewModel(INavigationService navigationService)
     {
-        _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
+        NavigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
     }
 
-    public bool CanGoBack => _navigationService.CanGoBack;
+    public INavigationService NavigationService { get; }
+
+    public bool CanGoBack => NavigationService.CanGoBack;
 
     [RelayCommand]
-    public void GoBack() => _navigationService.GoBack();
+    public void GoBack() => NavigationService.GoBack();
 
     [ObservableProperty]
     private string _title = "";

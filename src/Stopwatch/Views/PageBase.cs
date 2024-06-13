@@ -62,6 +62,9 @@ public abstract partial class PageBase<TViewModel> : Page
             return;
         }
 
-        ViewModel = App.Host!.Services.GetRequiredService<TViewModel>();
+        if (XamlRoot?.Content is WindowShell windowShell)
+        {
+            ViewModel = windowShell.ServiceProvider.GetRequiredService<TViewModel>();
+        }
     }
 }

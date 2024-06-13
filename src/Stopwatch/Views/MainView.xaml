@@ -19,7 +19,7 @@
             </Grid>
         </Viewbox>
         <StackPanel Grid.Row="1" HorizontalAlignment="Right">
-            <Button>
+            <Button Command="{x:Bind ViewModel.GoToSettingsCommand}">
                 <SymbolIcon Symbol="Setting" />
             </Button>
         </StackPanel>

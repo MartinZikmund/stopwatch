@@ -8,4 +8,7 @@ public partial class MainViewModel : PageViewModel
 	public MainViewModel(INavigationService navigationService) : base(navigationService)
 	{
 	}
+
+    [RelayCommand]
+    public void GoToSettings() => NavigationService.Navigate<SettingsViewModel>();
 }
