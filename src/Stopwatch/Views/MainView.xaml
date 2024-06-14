@@ -15,10 +15,15 @@
         </Grid.RowDefinitions>
         <Viewbox Grid.Row="0">
             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="00:01:34.32" />
+                <TextBlock>
+                    <Run FontSize="18" Text="{x:Bind ViewModel.Stopwatch.CurrentTime, Mode=OneWay}" /><Run FontSize="14" Text="{x:Bind ViewModel.Stopwatch.CurrentTimeMilliseconds, Mode=OneWay}" />
+                </TextBlock>
             </Grid>
         </Viewbox>
         <StackPanel Grid.Row="1" HorizontalAlignment="Right">
+            <Button Command="{x:Bind ViewModel.StartStopCommand}">
+                <SymbolIcon Symbol="Play" />
+            </Button>
             <Button Command="{x:Bind ViewModel.GoToSettingsCommand}">
                 <SymbolIcon Symbol="Setting" />
             </Button>
