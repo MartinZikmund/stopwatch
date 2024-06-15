@@ -27,7 +27,8 @@ public partial class App : Application
                 // Switch to Development environment when running in DEBUG
                 .UseEnvironment(Environments.Development)
 #endif
-                .ConfigureServices((context, services) => ConfigureServices(services))
+				.UseLocalization()
+				.ConfigureServices((context, services) => ConfigureServices(services))
             );
         MainWindow = builder.Window;
 #if DEBUG
@@ -53,7 +54,7 @@ public partial class App : Application
             // When the navigation stack isn't restored navigate to the first page,
             // configuring the new page by passing required information as a navigation
             // parameter
-            windowShell.ServiceProvider.GetRequiredService<INavigationService>().Navigate<OnboardingViewModel>(args.Arguments);
+            windowShell.ServiceProvider.GetRequiredService<INavigationService>().Navigate<MainViewModel>(args.Arguments);
         }
 
         // Ensure the current window is active
@@ -63,7 +64,8 @@ public partial class App : Application
     private void ConfigureServices(IServiceCollection services)
     {
         services.AddScoped<WindowShellViewModel>();
-        services.AddScoped<MainViewModel>();
+        services.AddScoped<SettingsViewModel>();
+		services.AddScoped<MainViewModel>();
         services.AddScoped<OnboardingViewModel>();
 
         services.AddScoped<IDialogCoordinator, DialogCoordinator>();

@@ -19,7 +19,7 @@
             x:Name="TitleBarGrid"
             Height="48"
             Padding="16,0"
-            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+            Background="Transparent"
             ColumnSpacing="16"
             Visibility="{x:Bind HasCustomTitleBar}">
             <Grid.ColumnDefinitions>
