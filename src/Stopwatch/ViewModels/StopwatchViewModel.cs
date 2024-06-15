@@ -18,7 +18,7 @@ public class StopwatchViewModel : ObservableObject
 		_timerProvider = timerProvider;
 		_stopwatchService = new StopwatchService(stopwatch);
 		_timer = timerProvider.Create();
-		_timer.Interval = TimeSpan.FromMilliseconds(50);
+		_timer.Interval = TimeSpan.FromMilliseconds(16);
 		_timer.Tick += (sender, e) => OnPropertyChanged("");
 	}
 
@@ -38,7 +38,7 @@ public class StopwatchViewModel : ObservableObject
 
 	public string CurrentTime => _stopwatchService.CurrentTime.ToString(@"hh\:mm\:ss\:");
 
-	public string CurrentTimeMilliseconds => _stopwatchService.CurrentTime.Milliseconds.ToString("D3");
+	public string CurrentTimeMilliseconds => _stopwatchService.CurrentTime.Milliseconds.ToString("D2");
 
 	public bool IsRunning => _stopwatch.IsRunning;
 
