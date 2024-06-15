@@ -7,10 +7,12 @@ namespace Stopwatch.ViewModels;
 public partial class MainViewModel : PageViewModel
 {
 	private readonly ITimerFactory _timerFactory;
+	private readonly IWindowShellProvider _windowShellProvider;
 
-	public MainViewModel(INavigationService navigationService, ITimerFactory timerFactory) : base(navigationService)
+	public MainViewModel(INavigationService navigationService, ITimerFactory timerFactory, IWindowShellProvider windowShellProvider) : base(navigationService)
 	{
 		Stopwatch = new StopwatchViewModel(new Model.StopwatchModel(), timerFactory);
+		_windowShellProvider = windowShellProvider;
 	}
 
 	public StopwatchViewModel Stopwatch { get; }
@@ -30,4 +32,16 @@ public partial class MainViewModel : PageViewModel
 
 	[RelayCommand]
 	public void GoToSettings() => NavigationService.Navigate<SettingsViewModel>();
+
+	[RelayCommand]
+	public void CompactOverlay()
+	{
+		_windowShellProvider.Window.AppWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay);
+	}
+
+	[RelayCommand]
+	public void FullScreen()
+	{
+		_windowShellProvider.Window.AppWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.FullScreen);
+	}
 }
