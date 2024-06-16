@@ -8,5 +8,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240606-rc" />
+	<PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
   </ItemGroup>
 </Project>

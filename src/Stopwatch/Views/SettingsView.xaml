@@ -7,6 +7,7 @@
     xmlns:local="using:Stopwatch.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
+    xmlns:toolkit1="using:Uno.Extensions.Toolkit"
     xmlns:ui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d">
 
@@ -32,7 +33,13 @@
                     Description="You can use a FontIcon, SymbolIcon or BitmapIcon to set the cards HeaderIcon."
                     Header="Icon options"
                     HeaderIcon="{ui:FontIcon Glyph=&#xE708;}">
-                    <ComboBox ItemsSource="{x:Bind ViewModel.ThemeOptions}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}" />
+                    <ComboBox ItemsSource="{x:Bind ViewModel.ThemeOptions}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="toolkit1:AppTheme">
+                                <TextBlock Text="{x:Bind Converter={StaticResource EnumLocalizationConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </toolkit:SettingsCard>
             </StackPanel>
         </ScrollViewer>

@@ -1,6 +1,6 @@
 namespace Stopwatch.Services.Settings;
 
-public interface IAppSettings
+public interface IAppPreferences
 {
 	int DataVersion { get; set; }
 

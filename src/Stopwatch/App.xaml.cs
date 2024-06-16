@@ -1,6 +1,9 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using MZikmund.Services.Dialogs;
+using Stopwatch.Services;
 using Stopwatch.Services.Navigation;
+using Stopwatch.Services.Settings;
+using Stopwatch.Services.Theming;
 using Stopwatch.Services.Timer;
 using Stopwatch.ViewModels;
 
@@ -74,5 +77,8 @@ public partial class App : Application
         services.AddScoped<IDialogService, DialogService>();
         services.AddScoped<IWindowShellProvider, WindowShellProvider>();
 		services.AddScoped<ITimerFactory, TimerFactory>();
+		services.AddScoped<IThemeManager, ThemeManager>();
+		services.AddScoped<ISettingsService, SettingsService>();
+		services.AddScoped<IAppPreferences, AppPreferences>();
 	}
 }

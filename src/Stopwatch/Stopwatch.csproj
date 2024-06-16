@@ -43,10 +43,19 @@
     </UnoFeatures>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Resources\Converters.xaml" />
     <None Remove="Strings\cs\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Resources\Converters.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Resources\Converters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
 </Project>
