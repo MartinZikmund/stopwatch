@@ -1,41 +1,39 @@
 #nullable enable
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Stopwatch.Services.Navigation;
 
 namespace Stopwatch.ViewModels;
 
 public abstract partial class PageViewModel : ObservableRecipient
 {
-    private readonly INavigationService _navigationService;
+	protected PageViewModel(INavigationService navigationService)
+	{
+		NavigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
+	}
 
-    protected PageViewModel(INavigationService navigationService)
-    {
-        _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-    }
+	public INavigationService NavigationService { get; }
 
-    public bool CanGoBack => _navigationService.CanGoBack;
+	public bool CanGoBack => NavigationService.CanGoBack;
 
-    [RelayCommand]
-    public void GoBack() => _navigationService.GoBack();
+	[RelayCommand]
+	public void GoBack() => NavigationService.GoBack();
 
-    [ObservableProperty]
-    private string _title = "";
+	[ObservableProperty]
+	private string _title = "";
 
-    public virtual void ViewCreated() { }
+	public virtual void ViewCreated() { }
 
-    public virtual void ViewLoading() { }
+	public virtual void ViewLoading() { }
 
-    public virtual void ViewLoaded() { }
+	public virtual void ViewLoaded() { }
 
-    public virtual void ViewUnloaded() { }
+	public virtual void ViewUnloaded() { }
 
-    public void ViewNavigatedToInternal(object? parameter)
-    {
-        OnPropertyChanged(nameof(CanGoBack));
-        ViewNavigatedTo(parameter);
-    }
+	public void ViewNavigatedToInternal(object? parameter)
+	{
+		OnPropertyChanged(nameof(CanGoBack));
+		ViewNavigatedTo(parameter);
+	}
 
-    public virtual void ViewNavigatedTo(object? parameter) { }
+	public virtual void ViewNavigatedTo(object? parameter) { }
 }

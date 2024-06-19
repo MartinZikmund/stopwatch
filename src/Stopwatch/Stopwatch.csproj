@@ -1,13 +1,13 @@
-<Project Sdk="Uno.Sdk">
+﻿<Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <TargetFrameworks>
-      net8.0-android;
-      net8.0-ios;
-      net8.0-maccatalyst;
-      net8.0-windows10.0.19041;
-      net8.0-desktop;
-      net8.0-browserwasm;
-    </TargetFrameworks>
+		net8.0-windows10.0.22621;
+		net8.0-android;
+		net8.0-ios;
+		net8.0-maccatalyst;
+		net8.0-desktop;
+		net8.0-browserwasm;
+	</TargetFrameworks>
 
     <OutputType>Exe</OutputType>
     <UnoSingleProject>true</UnoSingleProject>
@@ -42,5 +42,22 @@
       ThemeService;
     </UnoFeatures>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Resources\Converters.xaml" />
+    <None Remove="Strings\cs\Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
+    <PackageReference Include="CommunityToolkit.WinUI.Converters" />
+    <PackageReference Include="MZikmund.Toolkit.WinUI" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Resources\Converters.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Resources\Converters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
 
 </Project>
