@@ -13,7 +13,7 @@ public class StopwatchViewModel : ObservableObject
 	private readonly DispatcherQueueTimer _timer;
 
 	public StopwatchViewModel(StopwatchModel stopwatch, ITimerFactory timerProvider)
-    {
+	{
 		_stopwatch = stopwatch;
 		_timerProvider = timerProvider;
 		_stopwatchService = new StopwatchService(stopwatch);

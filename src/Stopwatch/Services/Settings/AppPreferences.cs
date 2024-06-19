@@ -1,61 +1,61 @@
-using MZikmund.Services.Preferences;
+using MZikmund.Toolkit.WinUI.Services;
 
 namespace Stopwatch.Services.Settings;
 
 public class AppPreferences : IAppPreferences
 {
-	private readonly IPreferencesService _preferencesService;
+	private readonly IPreferences _preferences;
 
-	public AppPreferences(IPreferencesService preferencesService)
+	public AppPreferences(IPreferences preferences)
 	{
-		_preferencesService = preferencesService;
+		_preferences = preferences ?? throw new ArgumentNullException(nameof(preferences));
 	}
 
 	private const string DataVersionKey = "AppDataVersion";
 
 	public int DataVersion
 	{
-		get => _preferencesService.GetSetting(DataVersionKey, () => 0);
-		set => _preferencesService.SetSetting(DataVersionKey, value);
+		get => _preferences.Get(DataVersionKey, 0);
+		set => _preferences.Set(DataVersionKey, value);
 	}
 
 	private const string FirstStartKey = "AppFirstStart";
 
 	public bool FirstStart
 	{
-		get => _preferencesService.GetSetting(FirstStartKey, () => true);
-		set => _preferencesService.SetSetting(FirstStartKey, value);
+		get => _preferences.Get(FirstStartKey, true);
+		set => _preferences.Set(FirstStartKey, value);
 	}
 
 	private const string LaunchCountKey = "AppLaunchCount";
 
 	public int LaunchCount
 	{
-		get => _preferencesService.GetSetting(LaunchCountKey, () => 0);
-		set => _preferencesService.SetSetting(LaunchCountKey, value);
+		get => _preferences.Get(LaunchCountKey, 0);
+		set => _preferences.Set(LaunchCountKey, value);
 	}
 
 	private const string OfferUserRatingKey = "OfferUserRating";
 
 	public bool OfferUserRating
 	{
-		get => _preferencesService.GetSetting(OfferUserRatingKey, () => true, true);
-		set => _preferencesService.SetSetting(OfferUserRatingKey, value, true);
+		get => _preferences.Get(OfferUserRatingKey, true);
+		set => _preferences.Set(OfferUserRatingKey, value);
 	}
 
 	private const string AppThemeKey = "AppTheme";
 
 	public AppTheme Theme
 	{
-		get => _preferencesService.GetComplex(AppThemeKey, () => AppTheme.System, true);
-		set => _preferencesService.SetComplex(AppThemeKey, value, true);
+		get => _preferences.GetComplex<AppTheme>(AppThemeKey, AppTheme.System);
+		set => _preferences.SetComplex(AppThemeKey, value);
 	}
 
     private const string CurrentStopwatchTimeKey = "CurrentStopwatchTime";
 
     public TimeSpan CurrentStopwatchTime
     {
-        get => _preferencesService.GetSetting(CurrentStopwatchTimeKey, () => TimeSpan.Zero);
-        set => _preferencesService.SetSetting(CurrentStopwatchTimeKey, value);
+        get => _preferences.Get(CurrentStopwatchTimeKey, TimeSpan.Zero);
+        set => _preferences.Set(CurrentStopwatchTimeKey, value);
     }
 }

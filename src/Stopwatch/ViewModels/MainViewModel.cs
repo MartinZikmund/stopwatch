@@ -1,4 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Timer;
 

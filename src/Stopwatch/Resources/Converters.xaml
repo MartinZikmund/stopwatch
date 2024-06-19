@@ -1,7 +1,9 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converter="using:Stopwatch.Converter">
+    xmlns:converter="using:Stopwatch.Converter"
+    xmlns:wct="using:CommunityToolkit.WinUI.Converters">
 
     <converter:EnumLocalizationConverter x:Key="EnumLocalizationConverter" />
+    <wct:BoolToObjectConverter x:Key="BoolToObjectConverter" />
 </ResourceDictionary>

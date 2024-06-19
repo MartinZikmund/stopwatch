@@ -6,7 +6,19 @@
     xmlns:ex="using:Stopwatch.Extensions.Xaml"
     xmlns:local="using:Stopwatch.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wctc="using:CommunityToolkit.WinUI.Converters"
     mc:Ignorable="d">
+
+    <local:MainViewBase.Resources>
+        <wctc:BoolToObjectConverter x:Key="IsRunningToSymbolConverter">
+            <wctc:BoolToObjectConverter.TrueValue>
+                <Symbol>Pause</Symbol>
+            </wctc:BoolToObjectConverter.TrueValue>
+            <wctc:BoolToObjectConverter.FalseValue>
+                <Symbol>Play</Symbol>
+            </wctc:BoolToObjectConverter.FalseValue>
+        </wctc:BoolToObjectConverter>
+    </local:MainViewBase.Resources>
 
     <Grid Padding="20">
         <Grid.RowDefinitions>
@@ -38,8 +50,8 @@
             </Grid>
         </Viewbox>
         <StackPanel Grid.Row="2" HorizontalAlignment="Right">
-            <Button Command="{x:Bind ViewModel.StartStopCommand}">
-                <SymbolIcon Symbol="Play" />
+            <Button Command="{x:Bind ViewModel.StartStopCommand}" Style="{StaticResource ControlButtonStyle}">
+                <SymbolIcon Symbol="{x:Bind ViewModel.Stopwatch.IsRunning, Mode=OneWay, Converter={StaticResource IsRunningToSymbolConverter}}" />
             </Button>
             <Button Command="{x:Bind ViewModel.GoToSettingsCommand}" ToolTipService.ToolTip="{ex:Localize Key=Settings}">
                 <SymbolIcon Symbol="Setting" />
