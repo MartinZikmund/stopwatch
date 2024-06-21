@@ -40,5 +40,6 @@ public class StopwatchService
 	{
 		_stopwatch.LastStartTime = null;
 		_stopwatch.PausedElapsedTime = TimeSpan.Zero;
+		_stopwatch.Laps.Clear();
 	}
 }

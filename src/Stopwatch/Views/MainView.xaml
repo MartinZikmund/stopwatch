@@ -74,8 +74,27 @@
                 </StackPanel>
             </Grid>
         </Viewbox>
-        <Grid Grid.Row="2">
-            <ListView HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.Stopwatch.Laps, Mode=OneWay}">
+        <Grid
+            Grid.Row="2"
+            MaxWidth="500"
+            HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Order" />
+                <TextBlock Grid.Column="1" Text="Lap time" />
+            </Grid>
+            <ListView
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                ItemsSource="{x:Bind ViewModel.Stopwatch.Laps, Mode=OneWay}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalAlignment" Value="Stretch" />

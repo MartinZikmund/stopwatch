@@ -44,11 +44,14 @@ public class StopwatchViewModel : ObservableObject
 
 	public bool IsRunning => _stopwatch.IsRunning;
 
+	public bool IsZero => _stopwatchService.CurrentTime == TimeSpan.Zero;
+
 	public LapsObservableCollection Laps { get; }
 
 	public void Reset()
 	{
 		_stopwatchService.Reset();
+		Laps.Clear();
 		OnPropertyChanged("");
 	}
 

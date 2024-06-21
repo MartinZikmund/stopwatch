@@ -31,6 +31,7 @@ public partial class MainViewModel : PageViewModel
 			Stopwatch.Start();
 		}
 		LapCommand?.NotifyCanExecuteChanged();
+		ResetCommand?.NotifyCanExecuteChanged();
 	}
 
 	[RelayCommand(CanExecute = nameof(CanLap))]
@@ -41,11 +42,15 @@ public partial class MainViewModel : PageViewModel
 
 	private bool CanLap() => Stopwatch.IsRunning;
 
-	[RelayCommand]
+	[RelayCommand(CanExecute = nameof(CanReset))]
 	public void Reset()
 	{
 		Stopwatch.Reset();
+		LapCommand?.NotifyCanExecuteChanged();
+		ResetCommand?.NotifyCanExecuteChanged();
 	}
+
+	private bool CanReset() => !Stopwatch.IsZero || Stopwatch.IsRunning;
 
 	[RelayCommand]
 	public void GoToSettings() => NavigationService.Navigate<SettingsViewModel>();
