@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:Stopwatch.Extensions.Xaml"
+    xmlns:lapVM="using:Stopwatch.ViewModels"
     xmlns:local="using:Stopwatch.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wctc="using:CommunityToolkit.WinUI.Converters"
@@ -74,15 +75,23 @@
             </Grid>
         </Viewbox>
         <Grid Grid.Row="2">
-            <ListView ItemsSource="{x:Bind ViewModel.Stopwatch.Laps, Mode=OneWay}">
+            <ListView HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.Stopwatch.Laps, Mode=OneWay}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="lapVM:LapViewModel">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="120" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
+                            <TextBlock Text="{x:Bind Order}" />
+                            <TextBlock Grid.Column="1" Text="{x:Bind LapTime}" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

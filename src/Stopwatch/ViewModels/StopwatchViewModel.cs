@@ -44,7 +44,7 @@ public class StopwatchViewModel : ObservableObject
 
 	public bool IsRunning => _stopwatch.IsRunning;
 
-	public ObservableCollection<LapViewModel> Laps { get; }
+	public LapsObservableCollection Laps { get; }
 
 	public void Reset()
 	{
@@ -55,7 +55,7 @@ public class StopwatchViewModel : ObservableObject
 	internal void Lap()
 	{
 		_stopwatch.Laps.Add(_stopwatchService.CurrentTime);
-		Laps.Add(new(_stopwatchService.CurrentTime));
+		Laps.AddLap(_stopwatchService.CurrentTime);
 		OnPropertyChanged(nameof(Laps));
 	}
 }

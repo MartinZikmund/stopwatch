@@ -6,10 +6,11 @@ public class LapViewModel : ObservableObject
 
 	public LapViewModel(int order, TimeSpan lapTime)
 	{
+		Order = order;
 		_lapTime = lapTime;
 	}
 
-	public int Order { get; set; }
+	public int Order { get; }
 
 	/// <summary>
 	/// Output in the format 00:33:23.23
