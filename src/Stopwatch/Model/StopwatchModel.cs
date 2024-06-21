@@ -6,5 +6,7 @@ public class StopwatchModel
 
     public TimeSpan PausedElapsedTime { get; set; }
 
-    public bool IsRunning => LastStartTime is not null;
+	public bool IsRunning => LastStartTime is not null;
+
+	public List<TimeSpan> Laps { get; } = new();
 }

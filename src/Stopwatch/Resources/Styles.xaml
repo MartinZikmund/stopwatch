@@ -419,11 +419,20 @@
     </Style>
 
     <Style
-        x:Key="ControlButtonStyle"
+        x:Key="AccentControlButtonStyle"
         BasedOn="{StaticResource AccentButtonStyle}"
         TargetType="Button">
-        <Setter Property="Width" Value="120" />
-        <Setter Property="Height" Value="120" />
-        <Setter Property="CornerRadius" Value="60" />
+        <Setter Property="Width" Value="64" />
+        <Setter Property="Height" Value="64" />
+        <Setter Property="CornerRadius" Value="32" />
+    </Style>
+
+    <Style
+        x:Key="ControlButtonStyle"
+        BasedOn="{StaticResource DefaultButtonStyle}"
+        TargetType="Button">
+        <Setter Property="Width" Value="64" />
+        <Setter Property="Height" Value="64" />
+        <Setter Property="CornerRadius" Value="32" />
     </Style>
 </ResourceDictionary>

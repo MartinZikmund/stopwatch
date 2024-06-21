@@ -42,20 +42,51 @@
                 </Grid>
             </Button>
         </StackPanel>
-        <Viewbox Grid.Row="1">
-            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock>
-                    <Run FontSize="18" Text="{x:Bind ViewModel.Stopwatch.CurrentTime, Mode=OneWay}" /><Run FontSize="14" Text="{x:Bind ViewModel.Stopwatch.CurrentTimeMilliseconds, Mode=OneWay}" />
-                </TextBlock>
+        <Viewbox Grid.Row="1" Stretch="None">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock>
+                        <Run FontSize="120" Text="{x:Bind ViewModel.Stopwatch.CurrentTime, Mode=OneWay}" /><Run FontSize="80" Text="{x:Bind ViewModel.Stopwatch.CurrentTimeMilliseconds, Mode=OneWay}" />
+                    </TextBlock>
+                </Grid>
+                <StackPanel
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <Button Command="{x:Bind ViewModel.StartStopCommand}" Style="{StaticResource AccentControlButtonStyle}">
+                        <SymbolIcon Symbol="{x:Bind ViewModel.Stopwatch.IsRunning, Mode=OneWay, Converter={StaticResource IsRunningToSymbolConverter}}" />
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.LapCommand}" Style="{StaticResource ControlButtonStyle}">
+                        <SymbolIcon Symbol="Flag" />
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ResetCommand}" Style="{StaticResource ControlButtonStyle}">
+                        <SymbolIcon Symbol="Undo" />
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.GoToSettingsCommand}" ToolTipService.ToolTip="{ex:Localize Key=Settings}">
+                        <SymbolIcon Symbol="Refresh" />
+                    </Button>
+                </StackPanel>
             </Grid>
         </Viewbox>
-        <StackPanel Grid.Row="2" HorizontalAlignment="Right">
-            <Button Command="{x:Bind ViewModel.StartStopCommand}" Style="{StaticResource ControlButtonStyle}">
-                <SymbolIcon Symbol="{x:Bind ViewModel.Stopwatch.IsRunning, Mode=OneWay, Converter={StaticResource IsRunningToSymbolConverter}}" />
-            </Button>
-            <Button Command="{x:Bind ViewModel.GoToSettingsCommand}" ToolTipService.ToolTip="{ex:Localize Key=Settings}">
-                <SymbolIcon Symbol="Setting" />
-            </Button>
-        </StackPanel>
+        <Grid Grid.Row="2">
+            <ListView ItemsSource="{x:Bind ViewModel.Stopwatch.Laps, Mode=OneWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
     </Grid>
 </local:MainViewBase>
