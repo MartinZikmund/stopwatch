@@ -6,9 +6,11 @@ public interface IDataSource
 {
 	StopwatchModel[] GetAll();
 
-	StopwatchModel Get(int id);
+	StopwatchModel? Get(int id);
 
 	void Add(StopwatchModel stopwatch);
 
 	void Update(StopwatchModel stopwatch);
+
+	Task InitializeAsync();
 }

@@ -68,9 +68,6 @@
                     <Button Command="{x:Bind ViewModel.ResetCommand}" Style="{StaticResource ControlButtonStyle}">
                         <SymbolIcon Symbol="Undo" />
                     </Button>
-                    <Button Command="{x:Bind ViewModel.GoToSettingsCommand}" ToolTipService.ToolTip="{ex:Localize Key=Settings}">
-                        <SymbolIcon Symbol="Refresh" />
-                    </Button>
                 </StackPanel>
             </Grid>
         </Viewbox>

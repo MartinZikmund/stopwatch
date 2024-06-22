@@ -42,10 +42,10 @@ public partial class App : Application
 
         Host = builder.Build();
         Ioc.Default.ConfigureServices(Host.Services);
-
-        // Do not repeat app initialization when the Window already has content,
-        // just ensure that the window is active
-        if (MainWindow.Content is not WindowShell windowShell)
+		await (Host.Services.GetRequiredService<IDataSource>()).InitializeAsync();
+		// Do not repeat app initialization when the Window already has content,
+		// just ensure that the window is active
+		if (MainWindow.Content is not WindowShell windowShell)
         {
             // Create a Frame to act as the navigation context and navigate to the first page
             windowShell = new WindowShell(Host.Services, MainWindow);
@@ -68,9 +68,13 @@ public partial class App : Application
 
     private void ConfigureServices(IServiceCollection services)
     {
+#if !__WASM__
 		services.AddSingleton<IDataSource, LiteDbDataSource>();
+#else
+		services.AddSingleton<IDataSource, FileDataSource>();
+#endif
 
-        services.AddScoped<WindowShellViewModel>();
+		services.AddScoped<WindowShellViewModel>();
         services.AddScoped<SettingsViewModel>();
 		services.AddScoped<MainViewModel>();
         services.AddScoped<OnboardingViewModel>();
