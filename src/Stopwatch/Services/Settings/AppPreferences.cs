@@ -51,12 +51,4 @@ public class AppPreferences : IAppPreferences
 		get => _preferences.GetComplex<AppTheme>(AppThemeKey, AppTheme.System);
 		set => _preferences.SetComplex(AppThemeKey, value);
 	}
-
-    private const string CurrentStopwatchKey = "CurrentStopwatch";
-
-    public StopwatchModel? CurrentStopwatch
-	{
-        get => _preferences.GetComplex<StopwatchModel?>(CurrentStopwatchKey, null);
-        set => _preferences.SetComplex(CurrentStopwatchKey, value);
-    }
 }

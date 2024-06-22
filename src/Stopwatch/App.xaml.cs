@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using MZikmund.Services.Dialogs;
 using MZikmund.Toolkit.WinUI.Services;
 using Stopwatch.Services;
+using Stopwatch.Services.Data;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Theming;
@@ -67,6 +68,8 @@ public partial class App : Application
 
     private void ConfigureServices(IServiceCollection services)
     {
+		services.AddSingleton<IDataSource, LiteDbDataSource>();
+
         services.AddScoped<WindowShellViewModel>();
         services.AddScoped<SettingsViewModel>();
 		services.AddScoped<MainViewModel>();

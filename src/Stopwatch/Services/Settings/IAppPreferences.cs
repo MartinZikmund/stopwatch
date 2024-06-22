@@ -13,6 +13,4 @@ public interface IAppPreferences
 	bool OfferUserRating { get; set; }
 
 	AppTheme Theme { get; set; }
-
-	StopwatchModel? CurrentStopwatch { get; set; }
 }

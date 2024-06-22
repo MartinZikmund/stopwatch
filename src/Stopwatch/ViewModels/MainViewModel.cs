@@ -1,3 +1,5 @@
+using Stopwatch.Model;
+using Stopwatch.Services.Data;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Timer;
@@ -6,14 +8,26 @@ namespace Stopwatch.ViewModels;
 
 public partial class MainViewModel : PageViewModel
 {
-	private readonly ITimerFactory _timerFactory;
 	private readonly IWindowShellProvider _windowShellProvider;
 	private readonly IAppPreferences _appPreferences;
 
-	public MainViewModel(INavigationService navigationService, ITimerFactory timerFactory, IWindowShellProvider windowShellProvider, IAppPreferences appPreferences) : base(navigationService)
+	public MainViewModel(
+		INavigationService navigationService,
+		ITimerFactory timerFactory,
+		IDataSource dataSource,
+		IWindowShellProvider windowShellProvider) : base(navigationService)
 	{
-		_appPreferences = appPreferences ?? throw new ArgumentNullException(nameof(appPreferences));
-		Stopwatch = new(_appPreferences.CurrentStopwatch ?? new(), timerFactory);
+		StopwatchModel stopwatch;
+		if (dataSource.GetAll() is { Length: > 0 } array)
+		{
+			stopwatch = array[0];
+		}
+		else
+		{
+			stopwatch = new StopwatchModel();
+			dataSource.Add(stopwatch);
+		}
+		Stopwatch = new(stopwatch, dataSource, timerFactory);
 		_windowShellProvider = windowShellProvider;
 	}
 
