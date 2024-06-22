@@ -49,6 +49,7 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
     <PackageReference Include="CommunityToolkit.WinUI.Converters" />
+    <PackageReference Include="LiteDB" />
     <PackageReference Include="MZikmund.Toolkit.WinUI" />
   </ItemGroup>
   <ItemGroup>

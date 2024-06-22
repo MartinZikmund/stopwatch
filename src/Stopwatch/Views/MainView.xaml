@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:Stopwatch.Extensions.Xaml"
+    xmlns:lapVM="using:Stopwatch.ViewModels"
     xmlns:local="using:Stopwatch.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wctc="using:CommunityToolkit.WinUI.Converters"
@@ -42,20 +43,75 @@
                 </Grid>
             </Button>
         </StackPanel>
-        <Viewbox Grid.Row="1">
-            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock>
-                    <Run FontSize="18" Text="{x:Bind ViewModel.Stopwatch.CurrentTime, Mode=OneWay}" /><Run FontSize="14" Text="{x:Bind ViewModel.Stopwatch.CurrentTimeMilliseconds, Mode=OneWay}" />
-                </TextBlock>
+        <Viewbox Grid.Row="1" Stretch="None">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock>
+                        <Run FontSize="120" Text="{x:Bind ViewModel.Stopwatch.CurrentTime, Mode=OneWay}" /><Run FontSize="80" Text="{x:Bind ViewModel.Stopwatch.CurrentTimeMilliseconds, Mode=OneWay}" />
+                    </TextBlock>
+                </Grid>
+                <StackPanel
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <Button Command="{x:Bind ViewModel.StartStopCommand}" Style="{StaticResource AccentControlButtonStyle}">
+                        <SymbolIcon Symbol="{x:Bind ViewModel.Stopwatch.IsRunning, Mode=OneWay, Converter={StaticResource IsRunningToSymbolConverter}}" />
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.LapCommand}" Style="{StaticResource ControlButtonStyle}">
+                        <SymbolIcon Symbol="Flag" />
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ResetCommand}" Style="{StaticResource ControlButtonStyle}">
+                        <SymbolIcon Symbol="Undo" />
+                    </Button>
+                </StackPanel>
             </Grid>
         </Viewbox>
-        <StackPanel Grid.Row="2" HorizontalAlignment="Right">
-            <Button Command="{x:Bind ViewModel.StartStopCommand}" Style="{StaticResource ControlButtonStyle}">
-                <SymbolIcon Symbol="{x:Bind ViewModel.Stopwatch.IsRunning, Mode=OneWay, Converter={StaticResource IsRunningToSymbolConverter}}" />
-            </Button>
-            <Button Command="{x:Bind ViewModel.GoToSettingsCommand}" ToolTipService.ToolTip="{ex:Localize Key=Settings}">
-                <SymbolIcon Symbol="Setting" />
-            </Button>
-        </StackPanel>
+        <Grid
+            Grid.Row="2"
+            MaxWidth="500"
+            HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Order" />
+                <TextBlock Grid.Column="1" Text="Lap time" />
+            </Grid>
+            <ListView
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                ItemsSource="{x:Bind ViewModel.Stopwatch.Laps, Mode=OneWay}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="lapVM:LapViewModel">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{x:Bind Order}" />
+                            <TextBlock Grid.Column="1" Text="{x:Bind LapTime}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
     </Grid>
 </local:MainViewBase>

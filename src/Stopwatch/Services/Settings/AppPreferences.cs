@@ -1,4 +1,5 @@
 using MZikmund.Toolkit.WinUI.Services;
+using Stopwatch.Model;
 
 namespace Stopwatch.Services.Settings;
 
@@ -50,12 +51,4 @@ public class AppPreferences : IAppPreferences
 		get => _preferences.GetComplex<AppTheme>(AppThemeKey, AppTheme.System);
 		set => _preferences.SetComplex(AppThemeKey, value);
 	}
-
-    private const string CurrentStopwatchTimeKey = "CurrentStopwatchTime";
-
-    public TimeSpan CurrentStopwatchTime
-    {
-        get => _preferences.Get(CurrentStopwatchTimeKey, TimeSpan.Zero);
-        set => _preferences.Set(CurrentStopwatchTimeKey, value);
-    }
 }

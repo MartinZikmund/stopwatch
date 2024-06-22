@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using MZikmund.Services.Dialogs;
 using MZikmund.Toolkit.WinUI.Services;
 using Stopwatch.Services;
+using Stopwatch.Services.Data;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Theming;
@@ -41,10 +42,10 @@ public partial class App : Application
 
         Host = builder.Build();
         Ioc.Default.ConfigureServices(Host.Services);
-
-        // Do not repeat app initialization when the Window already has content,
-        // just ensure that the window is active
-        if (MainWindow.Content is not WindowShell windowShell)
+		await (Host.Services.GetRequiredService<IDataSource>()).InitializeAsync();
+		// Do not repeat app initialization when the Window already has content,
+		// just ensure that the window is active
+		if (MainWindow.Content is not WindowShell windowShell)
         {
             // Create a Frame to act as the navigation context and navigate to the first page
             windowShell = new WindowShell(Host.Services, MainWindow);
@@ -67,7 +68,9 @@ public partial class App : Application
 
     private void ConfigureServices(IServiceCollection services)
     {
-        services.AddScoped<WindowShellViewModel>();
+		services.AddSingleton<IDataSource, LiteDbDataSource>();
+
+		services.AddScoped<WindowShellViewModel>();
         services.AddScoped<SettingsViewModel>();
 		services.AddScoped<MainViewModel>();
         services.AddScoped<OnboardingViewModel>();

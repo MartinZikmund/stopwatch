@@ -1,3 +1,5 @@
+using Stopwatch.Model;
+
 namespace Stopwatch.Services.Settings;
 
 public interface IAppPreferences
@@ -11,6 +13,4 @@ public interface IAppPreferences
 	bool OfferUserRating { get; set; }
 
 	AppTheme Theme { get; set; }
-
-    TimeSpan CurrentStopwatchTime { get; set; }
 }
