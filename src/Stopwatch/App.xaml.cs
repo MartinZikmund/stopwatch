@@ -68,11 +68,7 @@ public partial class App : Application
 
     private void ConfigureServices(IServiceCollection services)
     {
-#if !__WASM__
 		services.AddSingleton<IDataSource, LiteDbDataSource>();
-#else
-		services.AddSingleton<IDataSource, FileDataSource>();
-#endif
 
 		services.AddScoped<WindowShellViewModel>();
         services.AddScoped<SettingsViewModel>();

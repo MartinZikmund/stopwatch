@@ -11,12 +11,16 @@ public class FileDataSource : IDataSource
 
 	public FileDataSource()
 	{
-		_filePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, FileName);
-		//if (!File.Exists(_filePath))
-		//{
-		//	Console.WriteLine("File does not exist");
-		//	SaveData(new DataFileLayout());
-		//}
+	}
+
+	public async Task InitializeAsync()
+	{
+		var dataFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Data", CreationCollisionOption.OpenIfExists);
+		_filePath = Path.Combine(dataFolder.Path, FileName);
+		if (!File.Exists(_filePath))
+		{
+			SaveData(new DataFileLayout());
+		}
 	}
 
 	public void Add(StopwatchModel stopwatch)
@@ -32,6 +36,7 @@ public class FileDataSource : IDataSource
 		var data = ReadData();
 		return data.Stopwatches.FirstOrDefault(s => s.Id == id);
 	}
+
 	public StopwatchModel[] GetAll()
 	{
 		var data = ReadData();

@@ -12,7 +12,7 @@ internal class LiteDbDataSource : IDataSource
 
 	public async Task InitializeAsync()
 	{
-		var dataFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Data");
+		var dataFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Data", CreationCollisionOption.OpenIfExists);
 		var dbPath = Path.Combine(dataFolder.Path, "stopwatch.db");
 		_liteDatabase = new LiteDatabase(dbPath);
 	}
@@ -23,6 +23,7 @@ internal class LiteDbDataSource : IDataSource
 		var id = collection.Insert(stopwatch);
 		stopwatch.Id = id.AsInt32;
 	}
+
 	public StopwatchModel Get(int id)
 	{
 		var collection = _liteDatabase.GetCollection<StopwatchModel>();
