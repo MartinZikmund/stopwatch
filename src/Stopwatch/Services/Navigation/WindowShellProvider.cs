@@ -27,6 +27,15 @@ public sealed class WindowShellProvider : IWindowShellProvider
 		_dispatcherQueue = shell.DispatcherQueue;
 	}
 
+	public FrameworkElement Shell
+	{
+		get
+		{
+			EnsureInitialized();
+			return (FrameworkElement)_shell;
+		}
+	}
+
 	public Window Window
 	{
 		get

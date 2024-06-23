@@ -43,6 +43,7 @@ public partial class App : Application
         Host = builder.Build();
         Ioc.Default.ConfigureServices(Host.Services);
 		await (Host.Services.GetRequiredService<IDataSource>()).InitializeAsync();
+
 		// Do not repeat app initialization when the Window already has content,
 		// just ensure that the window is active
 		if (MainWindow.Content is not WindowShell windowShell)
@@ -54,7 +55,7 @@ public partial class App : Application
             MainWindow.Content = windowShell;
         }
 
-        if (windowShell.RootFrame.Content is null)
+		if (windowShell.RootFrame.Content is null)
         {
             // When the navigation stack isn't restored navigate to the first page,
             // configuring the new page by passing required information as a navigation

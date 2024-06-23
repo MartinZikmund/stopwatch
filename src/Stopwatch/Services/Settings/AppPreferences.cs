@@ -46,9 +46,9 @@ public class AppPreferences : IAppPreferences
 
 	private const string AppThemeKey = "AppTheme";
 
-	public AppTheme Theme
+	public ElementTheme Theme
 	{
-		get => _preferences.GetComplex<AppTheme>(AppThemeKey, AppTheme.System);
+		get => _preferences.GetComplex<ElementTheme>(AppThemeKey, ElementTheme.Default);
 		set => _preferences.SetComplex(AppThemeKey, value);
 	}
 }

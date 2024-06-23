@@ -42,7 +42,12 @@
                     <FontIcon Glyph="&#xE8A7;" />
                 </Grid>
             </Button>
-        </StackPanel>
+			<Button Command="{x:Bind ViewModel.GoToSettingsCommand}" Style="{ThemeResource SubtleButtonStyle}">
+				<Grid>
+					<SymbolIcon Symbol="Setting" />
+				</Grid>
+			</Button>
+		</StackPanel>
         <Viewbox Grid.Row="1" Stretch="None">
             <Grid>
                 <Grid.RowDefinitions>

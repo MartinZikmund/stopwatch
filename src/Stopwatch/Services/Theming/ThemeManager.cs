@@ -11,28 +11,13 @@ public class ThemeManager : IThemeManager
 		_windowShellProvider = windowShellProvider;
 	}
 
-	public void SetTheme(AppTheme theme) =>
-		GetRootElement().RequestedTheme = theme switch
-		{
-			AppTheme.System => ElementTheme.Default,
-			AppTheme.Light => ElementTheme.Light,
-			AppTheme.Dark => ElementTheme.Dark,
-			_ => throw new ArgumentOutOfRangeException(nameof(theme))
-		};
+	public void SetTheme(ElementTheme theme) => GetRootElement().RequestedTheme = theme;
 
-	public AppTheme CurrentTheme =>
-		GetRootElement().RequestedTheme switch
-		{
-			ElementTheme.Default => Application.Current.RequestedTheme == ApplicationTheme.Dark ?
-				AppTheme.Dark : AppTheme.Light,
-			ElementTheme.Light => AppTheme.Light,
-			ElementTheme.Dark => AppTheme.Dark,
-			_ => throw new ArgumentOutOfRangeException()
-		};
+	public ElementTheme CurrentTheme => GetRootElement().RequestedTheme;
 
 	private FrameworkElement GetRootElement()
 	{
-		var rootElement = _windowShellProvider.Window.Content as FrameworkElement;
+		var rootElement = _windowShellProvider.Shell;
 		if (rootElement == null)
 		{
 			throw new InvalidOperationException("Root element of the window is not a FrameworkElement");

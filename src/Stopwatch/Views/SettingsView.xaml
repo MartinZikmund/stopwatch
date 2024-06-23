@@ -7,7 +7,6 @@
     xmlns:local="using:Stopwatch.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
-    xmlns:toolkit1="using:Uno.Extensions.Toolkit"
     xmlns:ui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d">
 
@@ -30,12 +29,11 @@
         <ScrollViewer Grid.Row="1">
             <StackPanel Orientation="Vertical">
                 <toolkit:SettingsCard
-                    Description="You can use a FontIcon, SymbolIcon or BitmapIcon to set the cards HeaderIcon."
-                    Header="Icon options"
+                    Header="{ex:Localize Key=Theme}"
                     HeaderIcon="{ui:FontIcon Glyph=&#xE708;}">
                     <ComboBox ItemsSource="{x:Bind ViewModel.ThemeOptions}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}">
                         <ComboBox.ItemTemplate>
-                            <DataTemplate x:DataType="toolkit1:AppTheme">
+                            <DataTemplate x:DataType="ElementTheme">
                                 <TextBlock Text="{x:Bind Converter={StaticResource EnumLocalizationConverter}}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>

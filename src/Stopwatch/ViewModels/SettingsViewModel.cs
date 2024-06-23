@@ -15,9 +15,9 @@ public class SettingsViewModel : PageViewModel
 		_themeManager = themeManager;
 	}
 
-	public AppTheme[] ThemeOptions { get; } = [AppTheme.Light, AppTheme.Dark, AppTheme.System];
+	public ElementTheme[] ThemeOptions { get; } = [ElementTheme.Default, ElementTheme.Light, ElementTheme.Dark];
 
-	public AppTheme SelectedTheme
+	public ElementTheme SelectedTheme
 	{
 		get => _appSettings.Theme;
 		set
