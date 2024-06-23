@@ -51,4 +51,12 @@ public class AppPreferences : IAppPreferences
 		get => _preferences.GetComplex<ElementTheme>(AppThemeKey, ElementTheme.Default);
 		set => _preferences.SetComplex(AppThemeKey, value);
 	}
+
+	private const string BackgroundColorKey = "BackgroundColor";
+
+	public string? BackgroundColor
+	{
+		get => _preferences.Get<string?>(BackgroundColorKey, null);
+		set => _preferences.Set(BackgroundColorKey, value);
+	}
 }

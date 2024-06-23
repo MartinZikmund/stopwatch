@@ -1,6 +1,10 @@
+using CommunityToolkit.WinUI.Helpers;
+using Microsoft.UI;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Theming;
+using Windows.UI;
+using ColorHelper = CommunityToolkit.WinUI.Helpers.ColorHelper;
 
 namespace Stopwatch.ViewModels;
 
@@ -26,6 +30,19 @@ public class SettingsViewModel : PageViewModel
 			{
 				_appSettings.Theme = value;
 				_themeManager.SetTheme(SelectedTheme);
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public Color BackgroundColor
+	{
+		get => _appSettings.BackgroundColor is not null ? ColorHelper.ToColor(_appSettings.BackgroundColor) : Colors.Transparent;
+		set
+		{
+			if (_appSettings.BackgroundColor != ColorHelper.ToHex(value))
+			{
+				_appSettings.BackgroundColor = ColorHelper.ToHex(value);
 				OnPropertyChanged();
 			}
 		}

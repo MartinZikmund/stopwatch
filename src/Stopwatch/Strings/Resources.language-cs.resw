@@ -132,7 +132,7 @@
   <data name="Theme" xml:space="preserve">
     <value>Motiv</value>
   </data>
-  <data name="ElementTheme_System" xml:space="preserve">
+  <data name="ElementTheme_Default" xml:space="preserve">
     <value>Dle systému</value>
   </data>
   <data name="ElementTheme_Dark" xml:space="preserve">

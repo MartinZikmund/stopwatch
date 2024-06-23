@@ -13,4 +13,6 @@ public interface IAppPreferences
 	bool OfferUserRating { get; set; }
 
 	ElementTheme Theme { get; set; }
+
+	string BackgroundColor { get; set; }
 }
