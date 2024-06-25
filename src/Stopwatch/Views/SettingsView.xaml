@@ -29,9 +29,9 @@
         <ScrollViewer Grid.Row="1">
 			<StackPanel Orientation="Vertical">
 				<toolkit:SettingsCard
-                    Header="{ex:Localize Key=Theme}"
+                    Header="{ex:Localize Key=FullScreen}"
                     HeaderIcon="{ui:FontIcon Glyph=&#xE708;}">
-					<ComboBox ItemsSource="{x:Bind ViewModel.ThemeOptions}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}">
+					<ComboBox ItemsSource="{x:Bind ViewModel.ThemeOptions}" Style="{StaticResource DefaultComboBoxStyle}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}">
 						<ComboBox.ItemTemplate>
 							<DataTemplate x:DataType="ElementTheme">
 								<TextBlock Text="{x:Bind Converter={StaticResource EnumLocalizationConverter}}" />
@@ -55,6 +55,15 @@
 						</SplitButton.Flyout>
 					</SplitButton>
 				</toolkit:SettingsCard>
+				<!--<toolkit:SettingsCard
+                    Header="{ex:Localize Key=BackgroundColor}"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE708;}">
+					<StackPanel Orientation="Horizontal">
+						<Button Content="{ex:Localize Key=BrowseImage}" Command="{x:Bind ViewModel.BrowseImageCommand}" />
+						<Button Visibility="{x:Bind ViewModel.BackroundImage, Mode=OneWay, Converter={StaticResource }}" Content="{ex:Localize Key=BrowseImage}" Command="{x:Bind ViewModel.ClaerImageCommand}" />
+					</StackPanel>
+				</toolkit:SettingsCard>-->
+
 			</StackPanel>
 		</ScrollViewer>
     </Grid>
