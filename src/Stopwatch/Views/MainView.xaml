@@ -132,8 +132,8 @@
                                     Text="{ex:Localize Key=Slowest}"
                                     Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
                             </StackPanel>
-                            <TextBlock Grid.Column="1" Text="{x:Bind LapTime}" />
-
+                            <TextBlock Grid.Column="1" Text="{x:Bind TimeString}" />
+                            <TextBlock Grid.Column="2" Text="{x:Bind TotalTimeString}" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

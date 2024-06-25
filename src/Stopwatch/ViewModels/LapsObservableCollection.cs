@@ -12,23 +12,31 @@ public class LapsObservableCollection : ObservableCollection<LapViewModel>
 	{
 		foreach (var lap in laps)
 		{
-			Add(new LapViewModel(Count + 1, lap));
+			AddLapInner(lap);
 		}
+
 		UpdateExtremes();
 	}
 
-	public void AddLap(TimeSpan lap)
+	public void AddLap(TimeSpan lapTime)
 	{
-		Add(new LapViewModel(Count + 1, lap));
+		AddLapInner(lapTime);
 		UpdateExtremes();
+	}
+
+	private void AddLapInner(TimeSpan lapTime)
+	{
+		var lastTotalTime = Count == 0 ? TimeSpan.Zero : this[0].TotalTime;
+		var diff = lapTime - lastTotalTime;
+		Insert(0, new LapViewModel(Count + 1, diff, lapTime));
 	}
 
 	private void UpdateExtremes()
 	{
 		if (Count >= 2)
 		{
-			var fastest = this.OrderBy(l => l.LapTime).FirstOrDefault();
-			var slowest = this.OrderByDescending(l => l.LapTime).FirstOrDefault();
+			var fastest = this.OrderBy(l => l.Time).FirstOrDefault();
+			var slowest = this.OrderByDescending(l => l.Time).FirstOrDefault();
 
 			foreach (var lap in this)
 			{
@@ -38,5 +46,5 @@ public class LapsObservableCollection : ObservableCollection<LapViewModel>
 		}
 	}
 
-	public TimeSpan? AverageLap => Count == 0 ? null : TimeSpan.FromTicks((long)this.Select(l => l.LapTime.Ticks).Average());
+	public TimeSpan? AverageLap => Count == 0 ? null : TimeSpan.FromTicks((long)this.Select(l => l.Time.Ticks).Average());
 }
