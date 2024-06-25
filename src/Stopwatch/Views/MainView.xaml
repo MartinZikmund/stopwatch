@@ -10,44 +10,44 @@
     xmlns:wctc="using:CommunityToolkit.WinUI.Converters"
     mc:Ignorable="d">
 
-    <local:MainViewBase.Resources>
-        <wctc:BoolToObjectConverter x:Key="IsRunningToSymbolConverter">
-            <wctc:BoolToObjectConverter.TrueValue>
-                <Symbol>Pause</Symbol>
-            </wctc:BoolToObjectConverter.TrueValue>
-            <wctc:BoolToObjectConverter.FalseValue>
-                <Symbol>Play</Symbol>
-            </wctc:BoolToObjectConverter.FalseValue>
-        </wctc:BoolToObjectConverter>
-    </local:MainViewBase.Resources>
+    <local:MainViewBase.Resources />
 
-    <Grid Padding="20">
+    <Grid
+        Padding="20"
+        Background="Transparent"
+        PointerMoved="RootGridPointerEvent"
+        PointerPressed="RootGridPointerEvent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel
+            x:Name="ControlButtonsPanel"
             HorizontalAlignment="Right"
             Orientation="Horizontal"
             Spacing="8">
             <Button
-                Command="{x:Bind ViewModel.FullScreenCommand}"
+                Command="{x:Bind ViewModel.ToggleFullScreenCommand}"
                 Style="{ThemeResource SubtleButtonStyle}"
-                ToolTipService.ToolTip="{ex:Localize Key=FullScreen}">
-                <SymbolIcon Symbol="FullScreen" />
+                ToolTipService.ToolTip="{ex:Localize Key=FullScreen}"
+                Visibility="{x:Bind ViewModel.ShowFullScreenButton, Mode=OneWay}">
+                <FontIcon Glyph="{x:Bind ViewModel.IsFullScreen, Mode=OneWay, Converter={StaticResource IsFullScreenToSymbolConverter}}" />
             </Button>
-            <Button Command="{x:Bind ViewModel.CompactOverlayCommand}" Style="{ThemeResource SubtleButtonStyle}">
+            <Button
+                Command="{x:Bind ViewModel.ToggleCompactOverlayCommand}"
+                Style="{ThemeResource SubtleButtonStyle}"
+                Visibility="{x:Bind ViewModel.ShowCompactOverlayButton, Mode=OneWay}">
                 <Grid>
-                    <FontIcon Glyph="&#xE8A7;" />
+                    <FontIcon Glyph="{x:Bind ViewModel.IsCompactOverlay, Mode=OneWay, Converter={StaticResource IsCompactOverlayToSymbolConverter}}" />
                 </Grid>
             </Button>
-			<Button Command="{x:Bind ViewModel.GoToSettingsCommand}" Style="{ThemeResource SubtleButtonStyle}">
-				<Grid>
-					<SymbolIcon Symbol="Setting" />
-				</Grid>
-			</Button>
-		</StackPanel>
+            <Button Command="{x:Bind ViewModel.GoToSettingsCommand}" Style="{ThemeResource SubtleButtonStyle}">
+                <Grid>
+                    <SymbolIcon Symbol="Setting" />
+                </Grid>
+            </Button>
+        </StackPanel>
         <Viewbox Grid.Row="1" Stretch="None">
             <Grid>
                 <Grid.RowDefinitions>

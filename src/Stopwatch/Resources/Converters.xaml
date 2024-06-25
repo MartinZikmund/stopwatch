@@ -5,5 +5,32 @@
     xmlns:wct="using:CommunityToolkit.WinUI.Converters">
 
     <converter:EnumLocalizationConverter x:Key="EnumLocalizationConverter" />
-	<wct:BoolToObjectConverter x:Key="BoolToObjectConverter" />
+    <wct:BoolToObjectConverter x:Key="BoolToObjectConverter" />
+
+    <wct:BoolToObjectConverter x:Key="IsRunningToSymbolConverter">
+        <wct:BoolToObjectConverter.TrueValue>
+            <Symbol>Pause</Symbol>
+        </wct:BoolToObjectConverter.TrueValue>
+        <wct:BoolToObjectConverter.FalseValue>
+            <Symbol>Play</Symbol>
+        </wct:BoolToObjectConverter.FalseValue>
+    </wct:BoolToObjectConverter>
+
+    <wct:BoolToObjectConverter x:Key="IsFullScreenToSymbolConverter">
+        <wct:BoolToObjectConverter.TrueValue>
+            <x:String>&#xE73F;</x:String>
+        </wct:BoolToObjectConverter.TrueValue>
+        <wct:BoolToObjectConverter.FalseValue>
+            <x:String>&#xE740;</x:String>
+        </wct:BoolToObjectConverter.FalseValue>
+    </wct:BoolToObjectConverter>
+
+    <wct:BoolToObjectConverter x:Key="IsCompactOverlayToSymbolConverter">
+        <wct:BoolToObjectConverter.TrueValue>
+            <x:String>&#xEE47;</x:String>
+        </wct:BoolToObjectConverter.TrueValue>
+        <wct:BoolToObjectConverter.FalseValue>
+            <x:String>&#xEE49;</x:String>
+        </wct:BoolToObjectConverter.FalseValue>
+    </wct:BoolToObjectConverter>
 </ResourceDictionary>

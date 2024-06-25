@@ -15,4 +15,6 @@ public interface IAppPreferences
 	ElementTheme Theme { get; set; }
 
 	string BackgroundColor { get; set; }
+
+	bool AutoHideButtons { get; set; }
 }

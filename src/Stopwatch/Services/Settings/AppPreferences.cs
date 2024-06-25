@@ -59,4 +59,12 @@ public class AppPreferences : IAppPreferences
 		get => _preferences.Get<string?>(BackgroundColorKey, null);
 		set => _preferences.Set(BackgroundColorKey, value);
 	}
+
+	private const string AutoHideButtonsKey = "AutoHideButtons";
+
+	public bool AutoHideButtons
+	{
+		get => _preferences.Get(AutoHideButtonsKey, false);
+		set => _preferences.Set(AutoHideButtonsKey, value);
+	}
 }
