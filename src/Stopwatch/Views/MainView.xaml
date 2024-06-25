@@ -84,14 +84,20 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Grid>
+            <Grid ColumnSpacing="16">
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontWeight" Value="SemiBold" />
+                    </Style>
+                </Grid.Resources>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Order" />
-                <TextBlock Grid.Column="1" Text="Lap time" />
+                <TextBlock Text="{ex:Localize Key=Laps}" />
+                <TextBlock Grid.Column="1" Text="{ex:Localize Key=LapTime}" />
+                <TextBlock Grid.Column="2" Text="{ex:Localize Key=TotalTime}" />
             </Grid>
             <ListView
                 Grid.Row="1"
@@ -105,14 +111,29 @@
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="lapVM:LapViewModel">
-                        <Grid>
+                        <Grid ColumnSpacing="16">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{x:Bind Order}" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{x:Bind Order}" />
+                                <TextBlock
+                                    x:Name="FastestBlock"
+                                    Grid.Column="2"
+                                    x:Load="True"
+                                    Text="{ex:Localize Key=Fastest}"
+                                    Visibility="{x:Bind IsFastest, Mode=OneWay}" />
+                                <TextBlock
+                                    x:Name="SlowestBlock"
+                                    Grid.Column="2"
+                                    x:Load="True"
+                                    Text="{ex:Localize Key=Slowest}"
+                                    Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
+                            </StackPanel>
                             <TextBlock Grid.Column="1" Text="{x:Bind LapTime}" />
+
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

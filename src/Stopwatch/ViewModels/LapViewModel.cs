@@ -1,19 +1,25 @@
 ﻿namespace Stopwatch.ViewModels;
 
-public class LapViewModel : ObservableObject
+public partial class LapViewModel : ObservableObject
 {
-	private readonly TimeSpan _lapTime;
+	[ObservableProperty]
+	private bool _isFastest;
+
+	[ObservableProperty]
+	private bool _isSlowest;
 
 	public LapViewModel(int order, TimeSpan lapTime)
 	{
 		Order = order;
-		_lapTime = lapTime;
+		LapTime = lapTime;
 	}
 
 	public int Order { get; }
 
+	public TimeSpan LapTime { get; }
+
 	/// <summary>
 	/// Output in the format 00:33:23.23
 	/// </summary>
-	public string LapTime => _lapTime.ToString(@"hh\:mm\:ss\.ff");
+	public string LapTimeString => LapTime.ToString(@"hh\:mm\:ss\.ff");
 }
