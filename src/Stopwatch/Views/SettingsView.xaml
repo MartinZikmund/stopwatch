@@ -27,35 +27,41 @@
                 Text="{ex:Localize Key=Settings}" />
         </Grid>
         <ScrollViewer Grid.Row="1">
-			<StackPanel Orientation="Vertical">
-				<toolkit:SettingsCard
-                    Header="{ex:Localize Key=FullScreen}"
-                    HeaderIcon="{ui:FontIcon Glyph=&#xE708;}">
-					<ComboBox ItemsSource="{x:Bind ViewModel.ThemeOptions}" Style="{StaticResource DefaultComboBoxStyle}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}">
-						<ComboBox.ItemTemplate>
-							<DataTemplate x:DataType="ElementTheme">
-								<TextBlock Text="{x:Bind Converter={StaticResource EnumLocalizationConverter}}" />
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
-				</toolkit:SettingsCard>
-				<toolkit:SettingsCard
-                    Header="{ex:Localize Key=BackgroundColor}"
-                    HeaderIcon="{ui:FontIcon Glyph=&#xE708;}">
-					<SplitButton>
-						<Border x:Name="CurrentColor" Width="32" Height="32" CornerRadius="4,0,0,4">
-							<Border.Background>
-								<SolidColorBrush Color="{x:Bind ViewModel.BackgroundColor, Mode=OneWay}" />
-							</Border.Background>
-						</Border>
-						<SplitButton.Flyout>
-							<Flyout Placement="Bottom">
-								<ColorPicker IsAlphaSliderVisible="True" IsAlphaEnabled="True" Color="{x:Bind ViewModel.BackgroundColor, Mode=TwoWay}" />
-							</Flyout>
-						</SplitButton.Flyout>
-					</SplitButton>
-				</toolkit:SettingsCard>
-				<!--<toolkit:SettingsCard
+            <StackPanel Orientation="Vertical">
+                <toolkit:SettingsCard Header="{ex:Localize Key=FullScreen}" HeaderIcon="{ui:FontIcon Glyph=&#xE708;}">
+                    <ComboBox
+                        ItemsSource="{x:Bind ViewModel.ThemeOptions}"
+                        SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}"
+                        Style="{StaticResource DefaultComboBoxStyle}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="ElementTheme">
+                                <TextBlock Text="{x:Bind Converter={StaticResource EnumLocalizationConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </toolkit:SettingsCard>
+                <toolkit:SettingsCard Header="{ex:Localize Key=BackgroundColor}" HeaderIcon="{ui:FontIcon Glyph=&#xE708;}">
+                    <SplitButton>
+                        <Border
+                            x:Name="CurrentColor"
+                            Width="32"
+                            Height="32"
+                            CornerRadius="4,0,0,4">
+                            <Border.Background>
+                                <SolidColorBrush Color="{x:Bind ViewModel.BackgroundColor, Mode=OneWay}" />
+                            </Border.Background>
+                        </Border>
+                        <SplitButton.Flyout>
+                            <Flyout Placement="Bottom">
+                                <ColorPicker
+                                    IsAlphaEnabled="True"
+                                    IsAlphaSliderVisible="True"
+                                    Color="{x:Bind ViewModel.BackgroundColor, Mode=TwoWay}" />
+                            </Flyout>
+                        </SplitButton.Flyout>
+                    </SplitButton>
+                </toolkit:SettingsCard>
+                <!--<toolkit:SettingsCard
                     Header="{ex:Localize Key=BackgroundColor}"
                     HeaderIcon="{ui:FontIcon Glyph=&#xE708;}">
 					<StackPanel Orientation="Horizontal">
@@ -64,7 +70,7 @@
 					</StackPanel>
 				</toolkit:SettingsCard>-->
 
-			</StackPanel>
-		</ScrollViewer>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </local:SettingsViewBase>
