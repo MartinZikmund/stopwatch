@@ -65,7 +65,7 @@
                     Orientation="Horizontal"
                     Spacing="8">
                     <Button Command="{x:Bind ViewModel.StartStopCommand}" Style="{StaticResource AccentControlButtonStyle}">
-                        <SymbolIcon Symbol="{x:Bind ViewModel.Stopwatch.IsRunning, Mode=OneWay, Converter={StaticResource IsRunningToSymbolConverter}}" />
+                        <FontIcon Glyph="{x:Bind ViewModel.Stopwatch.IsRunning, Mode=OneWay, Converter={StaticResource IsRunningToSymbolConverter}}" />
                     </Button>
                     <Button Command="{x:Bind ViewModel.LapCommand}" Style="{StaticResource ControlButtonStyle}">
                         <SymbolIcon Symbol="Flag" />
