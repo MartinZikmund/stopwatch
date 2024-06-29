@@ -20,7 +20,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1.5*" />
         </Grid.RowDefinitions>
         <StackPanel
             x:Name="ControlButtonsPanel"

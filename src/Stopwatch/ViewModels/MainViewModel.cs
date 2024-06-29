@@ -18,6 +18,7 @@ public partial class MainViewModel : PageViewModel
 		ITimerFactory timerFactory,
 		IDataSource dataSource,
 		IWindowShellProvider windowShellProvider,
+		IAppPreferences appPreferences,
 		IDisplayRequestManager displayRequestManager) : base(navigationService)
 	{
 		StopwatchModel stopwatch;
@@ -30,7 +31,7 @@ public partial class MainViewModel : PageViewModel
 			stopwatch = new StopwatchModel();
 			dataSource.Add(stopwatch);
 		}
-		Stopwatch = new(stopwatch, dataSource, timerFactory, displayRequestManager);
+		Stopwatch = new(stopwatch, dataSource, timerFactory, appPreferences, displayRequestManager);
 		_windowShellProvider = windowShellProvider;
 	}
 

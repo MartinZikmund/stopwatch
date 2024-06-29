@@ -72,7 +72,7 @@ public class AppPreferences : IAppPreferences
 
 	public bool KeepScreenOn
 	{
-		get => _preferences.Get(KeepScreenOnKey, false);
+		get => _preferences.Get(KeepScreenOnKey, true);
 		set => _preferences.Set(KeepScreenOnKey, value);
 	}
 }

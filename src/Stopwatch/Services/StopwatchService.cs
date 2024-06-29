@@ -1,5 +1,6 @@
 ﻿using Stopwatch.Model;
 using Stopwatch.Services.Data;
+using Stopwatch.Services.Settings;
 using Uno.Disposables;
 
 namespace Stopwatch.Services;
@@ -8,13 +9,15 @@ public class StopwatchService
 {
 	private readonly StopwatchModel _stopwatch;
 	private readonly IDataSource _dataSource;
+	private readonly IAppPreferences _appPreferences;
 	private readonly IDisplayRequestManager _displayRequestManager;
 	private readonly SerialDisposable _displayRequestDisposable = new();
 
-	public StopwatchService(StopwatchModel stopwatch, IDataSource dataSource, IDisplayRequestManager displayRequestManager)
+	public StopwatchService(StopwatchModel stopwatch, IDataSource dataSource, IAppPreferences appPreferences, IDisplayRequestManager displayRequestManager)
 	{
 		_stopwatch = stopwatch;
 		_dataSource = dataSource;
+		_appPreferences = appPreferences;
 		_displayRequestManager = displayRequestManager;
 	}
 
@@ -33,7 +36,11 @@ public class StopwatchService
 
 		_stopwatch.LastStartTime = DateTimeOffset.Now;
 		_dataSource.Update(_stopwatch);
-		_displayRequestDisposable.Disposable = _displayRequestManager.RequestActive();
+
+		if (_appPreferences.KeepScreenOn)
+		{
+			_displayRequestDisposable.Disposable = _displayRequestManager.RequestActive();
+		}
 	}
 
 	public void Stop()
@@ -43,8 +50,8 @@ public class StopwatchService
 			return;
 		}
 
-		_stopwatch.LastStartTime = null;
 		_stopwatch.PausedElapsedTime = _stopwatch.PausedElapsedTime + (DateTimeOffset.UtcNow - _stopwatch.LastStartTime!.Value);
+		_stopwatch.LastStartTime = null;
 		_dataSource.Update(_stopwatch);
 		_displayRequestDisposable.Disposable = null;
 	}

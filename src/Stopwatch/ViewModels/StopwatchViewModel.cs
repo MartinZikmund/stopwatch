@@ -3,6 +3,7 @@ using Microsoft.UI.Dispatching;
 using Stopwatch.Model;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
+using Stopwatch.Services.Settings;
 using Stopwatch.Services.Timer;
 
 namespace Stopwatch.ViewModels;
@@ -15,13 +16,13 @@ public class StopwatchViewModel : ObservableObject
 	private readonly StopwatchService _stopwatchService;
 	private readonly DispatcherQueueTimer _timer;
 
-	public StopwatchViewModel(StopwatchModel stopwatch, IDataSource dataSource, ITimerFactory timerProvider, IDisplayRequestManager displayRequestManager)
+	public StopwatchViewModel(StopwatchModel stopwatch, IDataSource dataSource, ITimerFactory timerProvider, IAppPreferences appPreferences, IDisplayRequestManager displayRequestManager)
 	{
 		_stopwatch = stopwatch;
 		_dataSource = dataSource;
 		Laps = new(_stopwatch.Laps);
 		_timerProvider = timerProvider;
-		_stopwatchService = new StopwatchService(stopwatch, dataSource, displayRequestManager);
+		_stopwatchService = new StopwatchService(stopwatch, dataSource, appPreferences, displayRequestManager);
 		_timer = timerProvider.Create();
 		_timer.Interval = TimeSpan.FromMilliseconds(16);
 		_timer.Tick += (sender, e) => OnPropertyChanged("");

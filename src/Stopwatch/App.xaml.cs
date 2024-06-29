@@ -70,6 +70,7 @@ public partial class App : Application
     private void ConfigureServices(IServiceCollection services)
     {
 		services.AddSingleton<IDataSource, LiteDbDataSource>();
+		services.AddSingleton<IDisplayRequestManager, DisplayRequestManager>();
 
 		services.AddScoped<WindowShellViewModel>();
         services.AddScoped<SettingsViewModel>();
