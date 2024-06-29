@@ -67,4 +67,12 @@ public class AppPreferences : IAppPreferences
 		get => _preferences.Get(AutoHideButtonsKey, false);
 		set => _preferences.Set(AutoHideButtonsKey, value);
 	}
+
+	private const string KeepScreenOnKey = "KeepScreenOn";
+
+	public bool KeepScreenOn
+	{
+		get => _preferences.Get(KeepScreenOnKey, false);
+		set => _preferences.Set(KeepScreenOnKey, value);
+	}
 }

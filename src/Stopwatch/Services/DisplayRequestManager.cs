@@ -1,4 +1,7 @@
-﻿namespace Stopwatch.Services;
+﻿using Uno.Disposables;
+using Windows.System.Display;
+
+namespace Stopwatch.Services;
 
 internal class DisplayRequestManager : IDisplayRequestManager
 {

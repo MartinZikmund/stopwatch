@@ -15,13 +15,13 @@ public class StopwatchViewModel : ObservableObject
 	private readonly StopwatchService _stopwatchService;
 	private readonly DispatcherQueueTimer _timer;
 
-	public StopwatchViewModel(StopwatchModel stopwatch, IDataSource dataSource, ITimerFactory timerProvider)
+	public StopwatchViewModel(StopwatchModel stopwatch, IDataSource dataSource, ITimerFactory timerProvider, IDisplayRequestManager displayRequestManager)
 	{
 		_stopwatch = stopwatch;
 		_dataSource = dataSource;
 		Laps = new(_stopwatch.Laps);
 		_timerProvider = timerProvider;
-		_stopwatchService = new StopwatchService(stopwatch, dataSource);
+		_stopwatchService = new StopwatchService(stopwatch, dataSource, displayRequestManager);
 		_timer = timerProvider.Create();
 		_timer.Interval = TimeSpan.FromMilliseconds(16);
 		_timer.Tick += (sender, e) => OnPropertyChanged("");

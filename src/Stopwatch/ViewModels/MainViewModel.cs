@@ -1,5 +1,6 @@
 using Microsoft.UI.Windowing;
 using Stopwatch.Model;
+using Stopwatch.Services;
 using Stopwatch.Services.Data;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
@@ -16,7 +17,8 @@ public partial class MainViewModel : PageViewModel
 		INavigationService navigationService,
 		ITimerFactory timerFactory,
 		IDataSource dataSource,
-		IWindowShellProvider windowShellProvider) : base(navigationService)
+		IWindowShellProvider windowShellProvider,
+		IDisplayRequestManager displayRequestManager) : base(navigationService)
 	{
 		StopwatchModel stopwatch;
 		if (dataSource.GetAll() is { Length: > 0 } array)
@@ -28,7 +30,7 @@ public partial class MainViewModel : PageViewModel
 			stopwatch = new StopwatchModel();
 			dataSource.Add(stopwatch);
 		}
-		Stopwatch = new(stopwatch, dataSource, timerFactory);
+		Stopwatch = new(stopwatch, dataSource, timerFactory, displayRequestManager);
 		_windowShellProvider = windowShellProvider;
 	}
 
