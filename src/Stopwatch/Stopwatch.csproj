@@ -47,5 +47,6 @@
 		<PackageReference Include="CommunityToolkit.WinUI.Converters" />
 		<PackageReference Include="LiteDB" />
 		<PackageReference Include="MZikmund.Toolkit.WinUI" />
+		<PackageReference Include="Plugin.InAppBilling" />
 	</ItemGroup>
 </Project>
