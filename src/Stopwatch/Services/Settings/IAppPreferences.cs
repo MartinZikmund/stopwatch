@@ -17,4 +17,6 @@ public interface IAppPreferences
 	string BackgroundColor { get; set; }
 
 	bool AutoHideButtons { get; set; }
+
+	bool KeepScreenOn { get; set; }
 }
