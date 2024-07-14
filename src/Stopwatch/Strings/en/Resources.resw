@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApplicationName" xml:space="preserve">
-    <value>Stopwatch</value>
+    <value>Fluent Stopwatch</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>Start</value>
@@ -140,5 +140,14 @@
   </data>
   <data name="ElementTheme_Light" xml:space="preserve">
     <value>Light</value>
+  </data>
+  <data name="Laps" xml:space="preserve">
+    <value>Laps</value>
+  </data>
+  <data name="LapTime" xml:space="preserve">
+    <value>Lap time</value>
+  </data>
+  <data name="Total Time" xml:space="preserve">
+    <value>Total time</value>
   </data>
 </root>

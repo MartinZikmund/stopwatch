@@ -141,4 +141,13 @@
   <data name="ElementTheme_Light" xml:space="preserve">
     <value>Světlý</value>
   </data>
+  <data name="Laps" xml:space="preserve">
+    <value>Kola</value>
+  </data>
+  <data name="LapTime" xml:space="preserve">
+    <value>Čas kola</value>
+  </data>
+  <data name="TotalTime" xml:space="preserve">
+    <value>Celkový čas</value>
+  </data>
 </root>

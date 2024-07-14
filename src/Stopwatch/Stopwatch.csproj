@@ -41,6 +41,8 @@
 			Localization;
 			ThemeService;
 		</UnoFeatures>
+
+		<UnoIconForegroundScale>1</UnoIconForegroundScale>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
