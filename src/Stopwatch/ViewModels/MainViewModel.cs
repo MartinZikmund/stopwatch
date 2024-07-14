@@ -1,4 +1,6 @@
+using Microsoft.UI.Windowing;
 using Stopwatch.Model;
+using Stopwatch.Services;
 using Stopwatch.Services.Data;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
@@ -15,7 +17,9 @@ public partial class MainViewModel : PageViewModel
 		INavigationService navigationService,
 		ITimerFactory timerFactory,
 		IDataSource dataSource,
-		IWindowShellProvider windowShellProvider) : base(navigationService)
+		IWindowShellProvider windowShellProvider,
+		IAppPreferences appPreferences,
+		IDisplayRequestManager displayRequestManager) : base(navigationService)
 	{
 		StopwatchModel stopwatch;
 		if (dataSource.GetAll() is { Length: > 0 } array)
@@ -27,7 +31,7 @@ public partial class MainViewModel : PageViewModel
 			stopwatch = new StopwatchModel();
 			dataSource.Add(stopwatch);
 		}
-		Stopwatch = new(stopwatch, dataSource, timerFactory);
+		Stopwatch = new(stopwatch, dataSource, timerFactory, appPreferences, displayRequestManager);
 		_windowShellProvider = windowShellProvider;
 	}
 
@@ -70,14 +74,36 @@ public partial class MainViewModel : PageViewModel
 	public void GoToSettings() => NavigationService.Navigate<SettingsViewModel>();
 
 	[RelayCommand]
-	public void CompactOverlay()
+	public void ToggleCompactOverlay()
 	{
-		_windowShellProvider.Window.AppWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay);
+		var newPresenterKind = IsCompactOverlay ? Microsoft.UI.Windowing.AppWindowPresenterKind.Default : Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay;
+		_windowShellProvider.Window.AppWindow.SetPresenter(newPresenterKind);
+
+		UpdatePresenterButtons();
 	}
 
 	[RelayCommand]
-	public void FullScreen()
+	public void ToggleFullScreen()
 	{
-		_windowShellProvider.Window.AppWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.FullScreen);
+		var newPresenterKind = IsFullScreen ? Microsoft.UI.Windowing.AppWindowPresenterKind.Default : Microsoft.UI.Windowing.AppWindowPresenterKind.FullScreen;
+		_windowShellProvider.Window.AppWindow.SetPresenter(newPresenterKind);
+
+		UpdatePresenterButtons();
 	}
+
+	private void UpdatePresenterButtons()
+	{
+		OnPropertyChanged(nameof(IsFullScreen));
+		OnPropertyChanged(nameof(IsCompactOverlay));
+		OnPropertyChanged(nameof(ShowCompactOverlayButton));
+		OnPropertyChanged(nameof(ShowFullScreenButton));
+	}
+
+	public bool IsFullScreen => _windowShellProvider.Window.AppWindow.Presenter is FullScreenPresenter;
+
+	public bool IsCompactOverlay => _windowShellProvider.Window.AppWindow.Presenter is CompactOverlayPresenter;
+
+	public bool ShowCompactOverlayButton => !IsFullScreen;
+
+	public bool ShowFullScreenButton => !IsCompactOverlay;
 }

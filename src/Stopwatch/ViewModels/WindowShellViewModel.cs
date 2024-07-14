@@ -1,3 +1,4 @@
+using Stopwatch.Services.Localization;
 using Stopwatch.Services.Navigation;
 
 namespace Stopwatch.ViewModels;
@@ -19,7 +20,7 @@ public partial class WindowShellViewModel : ObservableObject
 		_navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
 	}
 
-	public string Title { get; set; } = "Stopwatch";
+	public string Title { get; set; } = Localizer.Instance.GetString("ApplicationName");
 
 	public void BackRequested() => _navigationService.GoBack();
 }

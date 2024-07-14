@@ -3,6 +3,8 @@ using Stopwatch.Infrastructure;
 using Stopwatch.Services.Navigation;
 using Stopwatch.ViewModels;
 using MZikmund.Services.Dialogs;
+using Stopwatch.Services.Settings;
+using Stopwatch.Services.Theming;
 
 namespace Stopwatch;
 
@@ -21,7 +23,11 @@ public sealed partial class WindowShell : Page, IWindowShell
         ServiceProvider.GetRequiredService<INavigationService>().RegisterViewsFromAssembly(typeof(Stopwatch.App).Assembly);
         ServiceProvider.GetRequiredService<IDialogService>().RegisterDialogsFromAssembly(typeof(Stopwatch.App).Assembly);
 
-        ViewModel = ServiceProvider.GetRequiredService<WindowShellViewModel>();
+		var settings = ServiceProvider.GetRequiredService<IAppPreferences>();
+		var themeService = ServiceProvider.GetRequiredService<IThemeManager>();
+		themeService.SetTheme(settings.Theme);
+
+		ViewModel = ServiceProvider.GetRequiredService<WindowShellViewModel>();
 
         //_uiSettings.ColorValuesChanged += ColorValuesChanged;
         _associatedWindow = associatedWindow;

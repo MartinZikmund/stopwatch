@@ -16,7 +16,7 @@ public class Localizer
 	public string GetString(string key)
 	{
 		var result = _stringLocalizer.Value.GetString(key);
-		return !string.IsNullOrEmpty(result) ? result : $"???{key}???";
+		return !result.ResourceNotFound ? result.Value : $"???{key}???";
 	}
 
 	public string this[string key] => GetString(key);

@@ -7,7 +7,6 @@
     xmlns:local="using:Stopwatch.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
-    xmlns:toolkit1="using:Uno.Extensions.Toolkit"
     xmlns:ui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d">
 
@@ -29,18 +28,48 @@
         </Grid>
         <ScrollViewer Grid.Row="1">
             <StackPanel Orientation="Vertical">
-                <toolkit:SettingsCard
-                    Description="You can use a FontIcon, SymbolIcon or BitmapIcon to set the cards HeaderIcon."
-                    Header="Icon options"
-                    HeaderIcon="{ui:FontIcon Glyph=&#xE708;}">
-                    <ComboBox ItemsSource="{x:Bind ViewModel.ThemeOptions}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}">
+                <toolkit:SettingsCard Header="{ex:Localize Key=FullScreen}" HeaderIcon="{ui:FontIcon Glyph=&#xE708;}">
+                    <ComboBox
+                        ItemsSource="{x:Bind ViewModel.ThemeOptions}"
+                        SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}"
+                        Style="{StaticResource DefaultComboBoxStyle}">
                         <ComboBox.ItemTemplate>
-                            <DataTemplate x:DataType="toolkit1:AppTheme">
+                            <DataTemplate x:DataType="ElementTheme">
                                 <TextBlock Text="{x:Bind Converter={StaticResource EnumLocalizationConverter}}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </toolkit:SettingsCard>
+                <toolkit:SettingsCard Header="{ex:Localize Key=BackgroundColor}" HeaderIcon="{ui:FontIcon Glyph=&#xE708;}">
+                    <SplitButton>
+                        <Border
+                            x:Name="CurrentColor"
+                            Width="32"
+                            Height="32"
+                            CornerRadius="4,0,0,4">
+                            <Border.Background>
+                                <SolidColorBrush Color="{x:Bind ViewModel.BackgroundColor, Mode=OneWay}" />
+                            </Border.Background>
+                        </Border>
+                        <SplitButton.Flyout>
+                            <Flyout Placement="Bottom">
+                                <ColorPicker
+                                    IsAlphaEnabled="True"
+                                    IsAlphaSliderVisible="True"
+                                    Color="{x:Bind ViewModel.BackgroundColor, Mode=TwoWay}" />
+                            </Flyout>
+                        </SplitButton.Flyout>
+                    </SplitButton>
+                </toolkit:SettingsCard>
+                <!--<toolkit:SettingsCard
+                    Header="{ex:Localize Key=BackgroundColor}"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE708;}">
+					<StackPanel Orientation="Horizontal">
+						<Button Content="{ex:Localize Key=BrowseImage}" Command="{x:Bind ViewModel.BrowseImageCommand}" />
+						<Button Visibility="{x:Bind ViewModel.BackroundImage, Mode=OneWay, Converter={StaticResource }}" Content="{ex:Localize Key=BrowseImage}" Command="{x:Bind ViewModel.ClaerImageCommand}" />
+					</StackPanel>
+				</toolkit:SettingsCard>-->
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

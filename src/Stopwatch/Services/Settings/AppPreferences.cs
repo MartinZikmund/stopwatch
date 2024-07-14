@@ -46,9 +46,33 @@ public class AppPreferences : IAppPreferences
 
 	private const string AppThemeKey = "AppTheme";
 
-	public AppTheme Theme
+	public ElementTheme Theme
 	{
-		get => _preferences.GetComplex<AppTheme>(AppThemeKey, AppTheme.System);
+		get => _preferences.GetComplex<ElementTheme>(AppThemeKey, ElementTheme.Default);
 		set => _preferences.SetComplex(AppThemeKey, value);
+	}
+
+	private const string BackgroundColorKey = "BackgroundColor";
+
+	public string? BackgroundColor
+	{
+		get => _preferences.Get<string?>(BackgroundColorKey, null);
+		set => _preferences.Set(BackgroundColorKey, value);
+	}
+
+	private const string AutoHideButtonsKey = "AutoHideButtons";
+
+	public bool AutoHideButtons
+	{
+		get => _preferences.Get(AutoHideButtonsKey, false);
+		set => _preferences.Set(AutoHideButtonsKey, value);
+	}
+
+	private const string KeepScreenOnKey = "KeepScreenOn";
+
+	public bool KeepScreenOn
+	{
+		get => _preferences.Get(KeepScreenOnKey, true);
+		set => _preferences.Set(KeepScreenOnKey, value);
 	}
 }
