@@ -156,4 +156,22 @@
   <data name="Slowest" xml:space="preserve">
     <value>Slowest</value>
   </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Browse...</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Customization</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Background image</value>
+  </data>
+  <data name="BackgroundImageOpacity" xml:space="preserve">
+    <value>Background image opacity</value>
+  </data>
 </root>
