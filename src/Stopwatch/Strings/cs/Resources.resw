@@ -150,4 +150,10 @@
   <data name="TotalTime" xml:space="preserve">
     <value>Celkový čas</value>
   </data>
+  <data name="Fastest" xml:space="preserve">
+    <value>Nejrychlejší</value>
+  </data>
+  <data name="Slowest" xml:space="preserve">
+    <value>Nejpomalejší</value>
+  </data>
 </root>

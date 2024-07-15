@@ -147,7 +147,13 @@
   <data name="LapTime" xml:space="preserve">
     <value>Lap time</value>
   </data>
-  <data name="Total Time" xml:space="preserve">
+  <data name="TotalTime" xml:space="preserve">
     <value>Total time</value>
+  </data>
+  <data name="Fastest" xml:space="preserve">
+    <value>Fastest</value>
+  </data>
+  <data name="Slowest" xml:space="preserve">
+    <value>Slowest</value>
   </data>
 </root>

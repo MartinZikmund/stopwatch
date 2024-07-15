@@ -9,7 +9,7 @@
 
     <wct:BoolToObjectConverter x:Key="IsRunningToSymbolConverter">
         <wct:BoolToObjectConverter.TrueValue>
-            <x:String>&#xE62E;</x:String>
+			<x:String>&#xF8AE;</x:String>
         </wct:BoolToObjectConverter.TrueValue>
         <wct:BoolToObjectConverter.FalseValue>
             <x:String>&#xF5B0;</x:String>

@@ -14,6 +14,7 @@
 
     <Grid
         Padding="20"
+		RowSpacing="20"
         Background="Transparent"
         PointerMoved="RootGridPointerEvent"
         PointerPressed="RootGridPointerEvent">
@@ -78,34 +79,34 @@
         </Viewbox>
         <Grid
             Grid.Row="2"
-            MaxWidth="500"
-            HorizontalAlignment="Center">
+            MaxWidth="600"
+            HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Grid ColumnSpacing="16">
-                <Grid.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="FontWeight" Value="SemiBold" />
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{ex:Localize Key=Laps}" />
-                <TextBlock Grid.Column="1" Text="{ex:Localize Key=LapTime}" />
-                <TextBlock Grid.Column="2" Text="{ex:Localize Key=TotalTime}" />
-            </Grid>
-            <ListView
+			<Grid ColumnSpacing="16" BorderThickness="0,0,0,1" Padding="8" BorderBrush="{ThemeResource AccentAAFillColorDefaultBrush}">
+				<Grid.Resources>
+					<Style TargetType="TextBlock">
+						<Setter Property="FontWeight" Value="SemiBold" />
+					</Style>
+				</Grid.Resources>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<TextBlock Text="{ex:Localize Key=Laps}" />
+				<TextBlock Grid.Column="1" Text="{ex:Localize Key=LapTime}" />
+				<TextBlock Grid.Column="2" Text="{ex:Localize Key=TotalTime}" />
+			</Grid>
+			<ListView
                 Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 ItemsSource="{x:Bind ViewModel.Stopwatch.Laps, Mode=OneWay}">
                 <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Style TargetType="ListViewItem" BasedOn="{StaticResource DefaultListViewItemStyle}">
+						<Setter Property="HorizontalAlignment" Value="Stretch" />
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     </Style>
                 </ListView.ItemContainerStyle>
@@ -114,11 +115,11 @@
                         <Grid ColumnSpacing="16">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{x:Bind Order}" />
+                            <StackPanel Spacing="8" Orientation="Horizontal">
+                                <TextBlock FontWeight="Bold" Text="{x:Bind Order}" />
                                 <TextBlock
                                     x:Name="FastestBlock"
                                     Grid.Column="2"
