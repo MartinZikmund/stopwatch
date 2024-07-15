@@ -118,18 +118,20 @@
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <StackPanel Spacing="8" Orientation="Horizontal">
+                            <StackPanel Spacing="16" Orientation="Horizontal">
                                 <TextBlock FontWeight="Bold" Text="{x:Bind Order}" />
                                 <TextBlock
                                     x:Name="FastestBlock"
                                     Grid.Column="2"
                                     x:Load="True"
+									Style="{ThemeResource CaptionTextBlockStyle}"
                                     Text="{ex:Localize Key=Fastest}"
                                     Visibility="{x:Bind IsFastest, Mode=OneWay}" />
                                 <TextBlock
                                     x:Name="SlowestBlock"
                                     Grid.Column="2"
                                     x:Load="True"
+									Style="{ThemeResource CaptionTextBlockStyle}"
                                     Text="{ex:Localize Key=Slowest}"
                                     Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
                             </StackPanel>

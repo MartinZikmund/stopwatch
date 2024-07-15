@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using MZikmund.Services.Dialogs;
 using MZikmund.Toolkit.WinUI.Services;
+using Stopwatch.Core.Services;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
 using Stopwatch.Services.Navigation;
@@ -84,6 +85,7 @@ public partial class App : Application
 
 		services.AddScoped<IDialogCoordinator, DialogCoordinator>();
 		services.AddScoped<IFrameProvider, FrameProvider>();
+		services.AddScoped<IImagePickerService, ImagePickerService>();
 		services.AddScoped<INavigationService, NavigationService>();
 		services.AddScoped<IDialogService, DialogService>();
 		services.AddScoped<IWindowShellProvider, WindowShellProvider>();

@@ -21,6 +21,9 @@ public abstract partial class PageViewModel : ObservableRecipient
 	[ObservableProperty]
 	private string _title = "";
 
+	[ObservableProperty]
+	private bool _isWorking;
+
 	public virtual void ViewCreated() { }
 
 	public virtual void ViewLoading() { }

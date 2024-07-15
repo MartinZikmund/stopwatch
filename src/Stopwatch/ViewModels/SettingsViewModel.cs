@@ -1,5 +1,6 @@
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI;
+using Stopwatch.Core.Services;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Theming;
@@ -13,7 +14,14 @@ public class SettingsViewModel : PageViewModel
 	private readonly IAppPreferences _appSettings;
 	private readonly IThemeManager _themeManager;
 
-	public SettingsViewModel(INavigationService navigationService, IAppPreferences appSettings, IThemeManager themeManager) : base(navigationService)
+	[ObservableProperty]
+	private Uri? _backgroundImageUri;
+
+	public SettingsViewModel(
+		INavigationService navigationService,
+		IAppPreferences appSettings,
+		IThemeManager themeManager,
+		IImagePickerService imagePickerService) : base(navigationService)
     {
 		_appSettings = appSettings;
 		_themeManager = themeManager;
@@ -46,5 +54,13 @@ public class SettingsViewModel : PageViewModel
 				OnPropertyChanged();
 			}
 		}
+	}
+
+	[RelayCommand]
+	private async Task ChooseYourImageAsync()
+	{
+		IsWorking = true;
+		BackgroundImageUri = (await _backgroundPickerService.PickBackgroundAsync()) ?? LastCustomBackgroundUri;
+		IsWorking = false;
 	}
 }
