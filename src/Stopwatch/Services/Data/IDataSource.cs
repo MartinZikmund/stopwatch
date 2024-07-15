@@ -8,6 +8,8 @@ public interface IDataSource
 
 	StopwatchModel? Get(int id);
 
+	StopwatchModel GetOrCreateFirst();
+
 	void Add(StopwatchModel stopwatch);
 
 	void Update(StopwatchModel stopwatch);

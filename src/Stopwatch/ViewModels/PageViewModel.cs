@@ -16,10 +16,13 @@ public abstract partial class PageViewModel : ObservableRecipient
 	public bool CanGoBack => NavigationService.CanGoBack;
 
 	[RelayCommand]
-	public void GoBack() => NavigationService.GoBack();
+	public virtual void GoBack() => NavigationService.GoBack();
 
 	[ObservableProperty]
 	private string _title = "";
+
+	[ObservableProperty]
+	private bool _isWorking;
 
 	public virtual void ViewCreated() { }
 

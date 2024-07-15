@@ -12,132 +12,157 @@
 
     <local:MainViewBase.Resources />
 
-    <Grid
-        Padding="20"
-        Background="Transparent"
-        PointerMoved="RootGridPointerEvent"
-        PointerPressed="RootGridPointerEvent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="1.5*" />
-        </Grid.RowDefinitions>
-        <StackPanel
-            x:Name="ControlButtonsPanel"
-            HorizontalAlignment="Right"
-            Orientation="Horizontal"
-            Spacing="8">
-            <Button
-                Command="{x:Bind ViewModel.ToggleFullScreenCommand}"
-                Style="{ThemeResource SubtleButtonStyle}"
-                ToolTipService.ToolTip="{ex:Localize Key=FullScreen}"
-                Visibility="{x:Bind ViewModel.ShowFullScreenButton, Mode=OneWay}">
-                <FontIcon Glyph="{x:Bind ViewModel.IsFullScreen, Mode=OneWay, Converter={StaticResource IsFullScreenToSymbolConverter}}" />
-            </Button>
-            <Button
-                Command="{x:Bind ViewModel.ToggleCompactOverlayCommand}"
-                Style="{ThemeResource SubtleButtonStyle}"
-                Visibility="{x:Bind ViewModel.ShowCompactOverlayButton, Mode=OneWay}">
-                <Grid>
-                    <FontIcon Glyph="{x:Bind ViewModel.IsCompactOverlay, Mode=OneWay, Converter={StaticResource IsCompactOverlayToSymbolConverter}}" />
-                </Grid>
-            </Button>
-            <Button Command="{x:Bind ViewModel.GoToSettingsCommand}" Style="{ThemeResource SubtleButtonStyle}">
-                <Grid>
-                    <SymbolIcon Symbol="Setting" />
-                </Grid>
-            </Button>
-        </StackPanel>
-        <Viewbox Grid.Row="1" Stretch="Uniform">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock>
-                        <Run FontSize="120" Text="{x:Bind ViewModel.Stopwatch.CurrentTime, Mode=OneWay}" /><Run FontSize="80" Text="{x:Bind ViewModel.Stopwatch.CurrentTimeMilliseconds, Mode=OneWay}" />
-                    </TextBlock>
-                </Grid>
-                <StackPanel
-                    Grid.Row="1"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal"
-                    Spacing="8">
-                    <Button Command="{x:Bind ViewModel.StartStopCommand}" Style="{StaticResource AccentControlButtonStyle}">
-                        <FontIcon Glyph="{x:Bind ViewModel.Stopwatch.IsRunning, Mode=OneWay, Converter={StaticResource IsRunningToSymbolConverter}}" />
-                    </Button>
-                    <Button Command="{x:Bind ViewModel.LapCommand}" Style="{StaticResource ControlButtonStyle}">
-                        <SymbolIcon Symbol="Flag" />
-                    </Button>
-                    <Button Command="{x:Bind ViewModel.ResetCommand}" Style="{StaticResource ControlButtonStyle}">
-                        <SymbolIcon Symbol="Undo" />
-                    </Button>
-                </StackPanel>
-            </Grid>
-        </Viewbox>
+    <Grid>
+
+        <!--  Background layer  -->
+        <Border
+            Visibility="{x:Bind ViewModel.Stopwatch.BackgroundImageUri, Converter={StaticResource NonNullToVisibilityConverter}, FallbackValue=Collapsed, Mode=OneWay}">
+            <Image
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Opacity="{x:Bind ViewModel.Stopwatch.BackgroundImageOpacity, Mode=OneWay}"
+                Stretch="UniformToFill">
+                <Image.Source>
+                    <BitmapImage UriSource="{x:Bind ViewModel.Stopwatch.BackgroundImageUri, Mode=OneWay}" />
+                </Image.Source>
+            </Image>
+        </Border>
+		
         <Grid
-            Grid.Row="2"
-            MaxWidth="500"
-            HorizontalAlignment="Center">
+            Padding="20"
+            Background="Transparent"
+            PointerMoved="RootGridPointerEvent"
+            PointerPressed="RootGridPointerEvent"
+            RowSpacing="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="1.5*" />
             </Grid.RowDefinitions>
-            <Grid ColumnSpacing="16">
-                <Grid.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="FontWeight" Value="SemiBold" />
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{ex:Localize Key=Laps}" />
-                <TextBlock Grid.Column="1" Text="{ex:Localize Key=LapTime}" />
-                <TextBlock Grid.Column="2" Text="{ex:Localize Key=TotalTime}" />
+
+            <StackPanel
+                x:Name="ControlButtonsPanel"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal"
+                Spacing="8">
+                <Button
+                    Command="{x:Bind ViewModel.ToggleFullScreenCommand}"
+                    Style="{ThemeResource SubtleButtonStyle}"
+                    ToolTipService.ToolTip="{ex:Localize Key=FullScreen}"
+                    Visibility="{x:Bind ViewModel.ShowFullScreenButton, Mode=OneWay}">
+                    <FontIcon Glyph="{x:Bind ViewModel.IsFullScreen, Mode=OneWay, Converter={StaticResource IsFullScreenToSymbolConverter}}" />
+                </Button>
+                <Button
+                    Command="{x:Bind ViewModel.ToggleCompactOverlayCommand}"
+                    Style="{ThemeResource SubtleButtonStyle}"
+                    Visibility="{x:Bind ViewModel.ShowCompactOverlayButton, Mode=OneWay}">
+                    <Grid>
+                        <FontIcon Glyph="{x:Bind ViewModel.IsCompactOverlay, Mode=OneWay, Converter={StaticResource IsCompactOverlayToSymbolConverter}}" />
+                    </Grid>
+                </Button>
+                <Button Command="{x:Bind ViewModel.GoToSettingsCommand}" Style="{ThemeResource SubtleButtonStyle}">
+                    <Grid>
+                        <SymbolIcon Symbol="Setting" />
+                    </Grid>
+                </Button>
+            </StackPanel>
+            <Viewbox Grid.Row="1" Stretch="Uniform">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock>
+                            <Run FontSize="120" Text="{x:Bind ViewModel.Stopwatch.CurrentTime, Mode=OneWay}" /><Run FontSize="80" Text="{x:Bind ViewModel.Stopwatch.CurrentTimeMilliseconds, Mode=OneWay}" />
+                        </TextBlock>
+                    </Grid>
+                    <StackPanel
+                        Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <Button Command="{x:Bind ViewModel.StartStopCommand}" Style="{StaticResource AccentControlButtonStyle}">
+                            <FontIcon Glyph="{x:Bind ViewModel.Stopwatch.IsRunning, Mode=OneWay, Converter={StaticResource IsRunningToSymbolConverter}}" />
+                        </Button>
+                        <Button Command="{x:Bind ViewModel.LapCommand}" Style="{StaticResource ControlButtonStyle}">
+                            <SymbolIcon Symbol="Flag" />
+                        </Button>
+                        <Button Command="{x:Bind ViewModel.ResetCommand}" Style="{StaticResource ControlButtonStyle}">
+                            <SymbolIcon Symbol="Undo" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Viewbox>
+            <Grid
+                Grid.Row="2"
+                MaxWidth="600"
+                HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid
+                    Padding="8"
+                    BorderBrush="{ThemeResource AccentAAFillColorDefaultBrush}"
+                    BorderThickness="0,0,0,1"
+                    ColumnSpacing="16">
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontWeight" Value="SemiBold" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{ex:Localize Key=Laps}" />
+                    <TextBlock Grid.Column="1" Text="{ex:Localize Key=LapTime}" />
+                    <TextBlock Grid.Column="2" Text="{ex:Localize Key=TotalTime}" />
+                </Grid>
+                <ListView
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    ItemsSource="{x:Bind ViewModel.Stopwatch.Laps, Mode=OneWay}">
+                    <ListView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="lapVM:LapViewModel">
+                            <Grid ColumnSpacing="16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" Spacing="16">
+                                    <TextBlock FontWeight="Bold" Text="{x:Bind Order}" />
+                                    <TextBlock
+                                        x:Name="FastestBlock"
+                                        Grid.Column="2"
+                                        x:Load="True"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Text="{ex:Localize Key=Fastest}"
+                                        Visibility="{x:Bind IsFastest, Mode=OneWay}" />
+                                    <TextBlock
+                                        x:Name="SlowestBlock"
+                                        Grid.Column="2"
+                                        x:Load="True"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Text="{ex:Localize Key=Slowest}"
+                                        Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Text="{x:Bind TimeString}" />
+                                <TextBlock Grid.Column="2" Text="{x:Bind TotalTimeString}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Grid>
-            <ListView
-                Grid.Row="1"
-                HorizontalAlignment="Stretch"
-                ItemsSource="{x:Bind ViewModel.Stopwatch.Laps, Mode=OneWay}">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalAlignment" Value="Stretch" />
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="lapVM:LapViewModel">
-                        <Grid ColumnSpacing="16">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{x:Bind Order}" />
-                                <TextBlock
-                                    x:Name="FastestBlock"
-                                    Grid.Column="2"
-                                    x:Load="True"
-                                    Text="{ex:Localize Key=Fastest}"
-                                    Visibility="{x:Bind IsFastest, Mode=OneWay}" />
-                                <TextBlock
-                                    x:Name="SlowestBlock"
-                                    Grid.Column="2"
-                                    x:Load="True"
-                                    Text="{ex:Localize Key=Slowest}"
-                                    Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
-                            </StackPanel>
-                            <TextBlock Grid.Column="1" Text="{x:Bind TimeString}" />
-                            <TextBlock Grid.Column="2" Text="{x:Bind TotalTimeString}" />
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
         </Grid>
     </Grid>
 </local:MainViewBase>

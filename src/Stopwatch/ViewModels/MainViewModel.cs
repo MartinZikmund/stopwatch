@@ -10,8 +10,11 @@ namespace Stopwatch.ViewModels;
 
 public partial class MainViewModel : PageViewModel
 {
+	private readonly ITimerFactory _timerFactory;
+	private readonly IDataSource _dataSource;
 	private readonly IWindowShellProvider _windowShellProvider;
 	private readonly IAppPreferences _appPreferences;
+	private readonly IDisplayRequestManager _displayRequestManager;
 
 	public MainViewModel(
 		INavigationService navigationService,
@@ -21,21 +24,20 @@ public partial class MainViewModel : PageViewModel
 		IAppPreferences appPreferences,
 		IDisplayRequestManager displayRequestManager) : base(navigationService)
 	{
-		StopwatchModel stopwatch;
-		if (dataSource.GetAll() is { Length: > 0 } array)
-		{
-			stopwatch = array[0];
-		}
-		else
-		{
-			stopwatch = new StopwatchModel();
-			dataSource.Add(stopwatch);
-		}
-		Stopwatch = new(stopwatch, dataSource, timerFactory, appPreferences, displayRequestManager);
+		_timerFactory = timerFactory;
+		_dataSource = dataSource;
 		_windowShellProvider = windowShellProvider;
+		_appPreferences = appPreferences;
+		_displayRequestManager = displayRequestManager;
 	}
 
-	public StopwatchViewModel Stopwatch { get; }
+	public StopwatchViewModel Stopwatch { get; set; }
+
+	public override void ViewNavigatedTo(object? parameter)
+	{
+		var stopwatch = _dataSource.GetOrCreateFirst();
+		Stopwatch = new(stopwatch, _dataSource, _timerFactory, _appPreferences, _displayRequestManager);
+	}
 
 	[RelayCommand]
 	public void StartStop()

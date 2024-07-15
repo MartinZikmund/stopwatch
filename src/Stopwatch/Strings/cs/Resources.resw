@@ -150,4 +150,28 @@
   <data name="TotalTime" xml:space="preserve">
     <value>Celkový čas</value>
   </data>
+  <data name="Fastest" xml:space="preserve">
+    <value>Nejrychlejší</value>
+  </data>
+  <data name="Slowest" xml:space="preserve">
+    <value>Nejpomalejší</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Náhled</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Obrázek na pozadí</value>
+  </data>
+  <data name="BackgroundImageOpacity" xml:space="preserve">
+    <value>Viditelnost obrázku</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Přizpůsobení</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Vybrat...</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Odebrat</value>
+  </data>
 </root>
