@@ -52,7 +52,9 @@ public class StopwatchViewModel : ObservableObject
 
 	public string CurrentTime => _stopwatchService.CurrentTime.ToString(@"hh\:mm\:ss\.");
 
-	public string CurrentTimeMilliseconds => _stopwatchService.CurrentTime.Milliseconds.ToString("D3");
+	public string CurrentTimeFull => _stopwatchService.CurrentTime.ToString(@"hh\:mm\:ss\.ff");
+
+	public string CurrentTimeMilliseconds => _stopwatchService.CurrentTime.Milliseconds.ToString("D2");
 
 	public bool IsRunning => _stopwatchService.IsRunning;
 
