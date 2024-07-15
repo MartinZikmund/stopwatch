@@ -16,6 +16,8 @@ public partial class SettingsViewModel : PageViewModel
 	private readonly IImagePickerService _imagePickerService;
 	private readonly IDataSource _dataSource;
 
+	private double _backgroundImageOpacityPercent;
+
 	[ObservableProperty]
 	private Uri? _lastBackgroundImageUri;
 
@@ -33,6 +35,10 @@ public partial class SettingsViewModel : PageViewModel
 		_themeManager = themeManager;
 		_imagePickerService = imagePickerService;
 		_dataSource = dataSource;
+
+		var stopwatch = _dataSource.GetOrCreateFirst();
+		BackgroundImageUri = stopwatch.BackgroundImageUri is not null ? new(stopwatch.BackgroundImageUri) : null;
+		BackgroundImageOpacityPercent = stopwatch.BackgroundImageOpacity * 100;
 	}
 
 	public override void GoBack()
@@ -58,6 +64,22 @@ public partial class SettingsViewModel : PageViewModel
 		}
 	}
 
+	public double BackgroundImageOpacityPercent
+	{
+		get => _backgroundImageOpacityPercent;
+		set
+		{
+			if (_backgroundImageOpacityPercent != value)
+			{
+				_backgroundImageOpacityPercent = value;
+				SaveChanges();
+				OnPropertyChanged(nameof(BackgroundImageOpacity));
+			}
+		}
+	}
+
+	public double BackgroundImageOpacity => BackgroundImageOpacityPercent / 100;
+
 	public Color BackgroundColor
 	{
 		get => _appSettings.BackgroundColor is not null ? ColorHelper.ToColor(_appSettings.BackgroundColor) : Colors.Transparent;
@@ -75,7 +97,21 @@ public partial class SettingsViewModel : PageViewModel
 	private async Task PickBackgroundImageAsync()
 	{
 		IsWorking = true;
-		BackgroundImageUri = (await _imagePickerService.PickAsync()) ?? LastBackgroundImageUri;
+
+		if (await _imagePickerService.PickAsync() is { } imageUri)
+		{
+			BackgroundImageUri = imageUri;
+		}
+		
+		SaveChanges();
+		IsWorking = false;
+	}
+
+	[RelayCommand]
+	private async Task RemoveBackgroundImageAsync()
+	{
+		IsWorking = true;
+		BackgroundImageUri = null;
 		SaveChanges();
 		IsWorking = false;
 	}
@@ -84,6 +120,7 @@ public partial class SettingsViewModel : PageViewModel
 	{
 		var stopwatch = _dataSource.GetOrCreateFirst();
 		stopwatch.BackgroundImageUri = BackgroundImageUri?.ToString();
+		stopwatch.BackgroundImageOpacity = BackgroundImageOpacityPercent / 100;
 		_dataSource.Update(stopwatch);
 	}
 }

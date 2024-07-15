@@ -55,54 +55,25 @@
 
 				<toolkit:SettingsCard Header="{ex:Localize Key=BackgroundImage}" HeaderIcon="{ui:FontIcon Glyph=&#xE91B;}">
 					<StackPanel Orientation="Horizontal" Spacing="8">
-						<Button Content="{ex:Localize Key=PickBackgroundImage}" Command="{x:Bind ViewModel.PickBackgroundImageCommand}" />
-						<Button Command="{x:Bind ViewModel.RemoveBackgroundImageCommand}">
+						<Button Content="{ex:Localize Key=Browse}" Command="{x:Bind ViewModel.PickBackgroundImageCommand}" />
+						<Button ToolTipService.ToolTip="{ex:Localize Key=Clear}" Command="{x:Bind ViewModel.RemoveBackgroundImageCommand}" Visibility="{x:Bind ViewModel.BackgroundImageUri, Converter={StaticResource NonNullToVisibilityConverter}, Mode=OneWay}">
 							<SymbolIcon Symbol="Delete" />
 						</Button>
 					</StackPanel>
 				</toolkit:SettingsCard>
 
-				<toolkit:SettingsCard Header="{ex:Localize Key=BackgroundImage}" HeaderIcon="{ui:FontIcon Glyph=&#xE91B;}">
+				<toolkit:SettingsCard Header="{ex:Localize Key=BackgroundImageOpacity}" HeaderIcon="{ui:FontIcon Glyph=&#xE91B;}">
 					<StackPanel>
-						<Button Content="{ex:Localize Key=PickBackgroundImage}" Command="{x:Bind ViewModel.PickBackgroundImageCommand}" />
+						<Slider Width="120" Minimum="0" Maximum="100" Value="{x:Bind ViewModel.BackgroundImageOpacityPercent, Mode=TwoWay}" />
 					</StackPanel>
 				</toolkit:SettingsCard>
-
-				<toolkit:SettingsCard Header="{ex:Localize Key=BackgroundColor}" HeaderIcon="{ui:FontIcon Glyph=&#xE708;}">
-					<SplitButton>
-						<Border
-                            Width="32"
-                            Height="32"
-                            CornerRadius="4,0,0,4">
-							<Border.Background>
-								<SolidColorBrush Color="{x:Bind ViewModel.BackgroundColor, Mode=OneWay}" />
-							</Border.Background>
-						</Border>
-						<SplitButton.Flyout>
-							<Flyout Placement="Bottom">
-								<ColorPicker
-                                    IsAlphaEnabled="True"
-                                    IsAlphaSliderVisible="True"
-                                    Color="{x:Bind ViewModel.BackgroundColor, Mode=TwoWay}" />
-							</Flyout>
-						</SplitButton.Flyout>
-					</SplitButton>
-				</toolkit:SettingsCard>
-				<!--<toolkit:SettingsCard
-                    Header="{ex:Localize Key=BackgroundColor}"
-                    HeaderIcon="{ui:FontIcon Glyph=&#xE708;}">
-					<StackPanel Orientation="Horizontal">
-						<Button Content="{ex:Localize Key=BrowseImage}" Command="{x:Bind ViewModel.BrowseImageCommand}" />
-						<Button Visibility="{x:Bind ViewModel.BackroundImage, Mode=OneWay, Converter={StaticResource }}" Content="{ex:Localize Key=BrowseImage}" Command="{x:Bind ViewModel.ClaerImageCommand}" />
-					</StackPanel>
-				</toolkit:SettingsCard>-->
 
 				<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Localize Key=Preview}" />
-				<Grid>
-					<Border HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundAccentBrush}" />
+				<Grid Width="320" Height="240" HorizontalAlignment="Center">
 					<Image
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
+						Opacity="{x:Bind ViewModel.BackgroundImageOpacity, Mode=OneWay}"
                         Stretch="UniformToFill">
 						<Image.Source>
 							<BitmapImage UriSource="{x:Bind ViewModel.BackgroundImageUri, Mode=OneWay}" />
@@ -112,7 +83,7 @@
                         Margin="10"
                         VerticalAlignment="Bottom"
                         Foreground="#FFF"
-                        Opacity="0.8"
+                        Opacity="0.5"
                         Text="{ex:Localize Key=Preview}" />
 				</Grid>
 			</StackPanel>

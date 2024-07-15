@@ -20,7 +20,7 @@
             <Image
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Opacity="1"
+                Opacity="{x:Bind ViewModel.Stopwatch.BackgroundImageOpacity, Mode=OneWay}"
                 Stretch="UniformToFill">
                 <Image.Source>
                     <BitmapImage UriSource="{x:Bind ViewModel.Stopwatch.BackgroundImageUri, Mode=OneWay}" />

@@ -47,6 +47,8 @@ public class StopwatchViewModel : ObservableObject
 	}
 
 	public Uri? BackgroundImageUri => _stopwatch.BackgroundImageUri is not null ? new(_stopwatch.BackgroundImageUri) : null;
+	
+	public double BackgroundImageOpacity => _stopwatch.BackgroundImageOpacity;
 
 	public string CurrentTime => _stopwatchService.CurrentTime.ToString(@"hh\:mm\:ss\.");
 
