@@ -46,6 +46,8 @@ public class StopwatchViewModel : ObservableObject
 		OnPropertyChanged("");
 	}
 
+	public Uri? BackgroundImageUri => _stopwatch.BackgroundImageUri is not null ? new(_stopwatch.BackgroundImageUri) : null;
+
 	public string CurrentTime => _stopwatchService.CurrentTime.ToString(@"hh\:mm\:ss\.");
 
 	public string CurrentTimeMilliseconds => _stopwatchService.CurrentTime.Milliseconds.ToString("D3");

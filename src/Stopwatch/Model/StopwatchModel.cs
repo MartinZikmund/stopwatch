@@ -9,4 +9,6 @@ public class StopwatchModel
     public TimeSpan PausedElapsedTime { get; set; }
 
 	public TimeSpan[] Laps { get; set; } = Array.Empty<TimeSpan>();
+
+	public string? BackgroundImageUri { get; set; }
 }

@@ -16,7 +16,7 @@ public abstract partial class PageViewModel : ObservableRecipient
 	public bool CanGoBack => NavigationService.CanGoBack;
 
 	[RelayCommand]
-	public void GoBack() => NavigationService.GoBack();
+	public virtual void GoBack() => NavigationService.GoBack();
 
 	[ObservableProperty]
 	private string _title = "";

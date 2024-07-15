@@ -1,6 +1,6 @@
-using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI;
 using Stopwatch.Core.Services;
+using Stopwatch.Services.Data;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Theming;
@@ -9,10 +9,15 @@ using ColorHelper = CommunityToolkit.WinUI.Helpers.ColorHelper;
 
 namespace Stopwatch.ViewModels;
 
-public class SettingsViewModel : PageViewModel
+public partial class SettingsViewModel : PageViewModel
 {
 	private readonly IAppPreferences _appSettings;
 	private readonly IThemeManager _themeManager;
+	private readonly IImagePickerService _imagePickerService;
+	private readonly IDataSource _dataSource;
+
+	[ObservableProperty]
+	private Uri? _lastBackgroundImageUri;
 
 	[ObservableProperty]
 	private Uri? _backgroundImageUri;
@@ -21,10 +26,20 @@ public class SettingsViewModel : PageViewModel
 		INavigationService navigationService,
 		IAppPreferences appSettings,
 		IThemeManager themeManager,
-		IImagePickerService imagePickerService) : base(navigationService)
-    {
+		IImagePickerService imagePickerService,
+		IDataSource dataSource) : base(navigationService)
+	{
 		_appSettings = appSettings;
 		_themeManager = themeManager;
+		_imagePickerService = imagePickerService;
+		_dataSource = dataSource;
+	}
+
+	public override void GoBack()
+	{
+		SaveChanges();
+
+		base.GoBack();
 	}
 
 	public ElementTheme[] ThemeOptions { get; } = [ElementTheme.Default, ElementTheme.Light, ElementTheme.Dark];
@@ -57,10 +72,18 @@ public class SettingsViewModel : PageViewModel
 	}
 
 	[RelayCommand]
-	private async Task ChooseYourImageAsync()
+	private async Task PickBackgroundImageAsync()
 	{
 		IsWorking = true;
-		BackgroundImageUri = (await _backgroundPickerService.PickBackgroundAsync()) ?? LastCustomBackgroundUri;
+		BackgroundImageUri = (await _imagePickerService.PickAsync()) ?? LastBackgroundImageUri;
+		SaveChanges();
 		IsWorking = false;
+	}
+
+	private void SaveChanges()
+	{
+		var stopwatch = _dataSource.GetOrCreateFirst();
+		stopwatch.BackgroundImageUri = BackgroundImageUri?.ToString();
+		_dataSource.Update(stopwatch);
 	}
 }

@@ -1,4 +1,5 @@
-﻿using LiteDB;
+﻿using System.Diagnostics;
+using LiteDB;
 using Stopwatch.Model;
 
 namespace Stopwatch.Services.Data;
@@ -39,5 +40,21 @@ internal class LiteDbDataSource : IDataSource
 	{
 		var collection = _liteDatabase.GetCollection<StopwatchModel>();
 		collection.Update(stopwatch);
+	}
+
+	public StopwatchModel GetOrCreateFirst()
+	{
+		StopwatchModel stopwatch;
+		if (GetAll() is { Length: > 0 } array)
+		{
+			stopwatch = array[0];
+		}
+		else
+		{
+			stopwatch = new StopwatchModel();
+			Add(stopwatch);
+		}
+
+		return stopwatch;
 	}
 }

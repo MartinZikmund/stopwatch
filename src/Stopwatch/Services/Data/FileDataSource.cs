@@ -66,4 +66,20 @@ public class FileDataSource : IDataSource
 	{
 		File.WriteAllText(_filePath, JsonSerializer.Serialize(dataFileLayout));
 	}
+
+	public StopwatchModel GetOrCreateFirst()
+	{
+		StopwatchModel stopwatch;
+		if (GetAll() is { Length: > 0 } array)
+		{
+			stopwatch = array[0];
+		}
+		else
+		{
+			stopwatch = new StopwatchModel();
+			Add(stopwatch);
+		}
+
+		return stopwatch;
+	}
 }

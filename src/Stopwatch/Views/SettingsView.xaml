@@ -54,25 +54,18 @@
 				<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Localize Key=Customization}" />
 
 				<toolkit:SettingsCard Header="{ex:Localize Key=BackgroundImage}" HeaderIcon="{ui:FontIcon Glyph=&#xE91B;}">
-					<SplitButton>
-						<Border
-                        x:Name="CurrentColor"
-                        Width="32"
-                        Height="32"
-                        CornerRadius="4,0,0,4">
-							<Border.Background>
-								<SolidColorBrush Color="{x:Bind ViewModel.BackgroundColor, Mode=OneWay}" />
-							</Border.Background>
-						</Border>
-						<SplitButton.Flyout>
-							<Flyout Placement="Bottom">
-								<ColorPicker
-                                IsAlphaEnabled="True"
-                                IsAlphaSliderVisible="True"
-                                Color="{x:Bind ViewModel.BackgroundColor, Mode=TwoWay}" />
-							</Flyout>
-						</SplitButton.Flyout>
-					</SplitButton>
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<Button Content="{ex:Localize Key=PickBackgroundImage}" Command="{x:Bind ViewModel.PickBackgroundImageCommand}" />
+						<Button Command="{x:Bind ViewModel.RemoveBackgroundImageCommand}">
+							<SymbolIcon Symbol="Delete" />
+						</Button>
+					</StackPanel>
+				</toolkit:SettingsCard>
+
+				<toolkit:SettingsCard Header="{ex:Localize Key=BackgroundImage}" HeaderIcon="{ui:FontIcon Glyph=&#xE91B;}">
+					<StackPanel>
+						<Button Content="{ex:Localize Key=PickBackgroundImage}" Command="{x:Bind ViewModel.PickBackgroundImageCommand}" />
+					</StackPanel>
 				</toolkit:SettingsCard>
 
 				<toolkit:SettingsCard Header="{ex:Localize Key=BackgroundColor}" HeaderIcon="{ui:FontIcon Glyph=&#xE708;}">
