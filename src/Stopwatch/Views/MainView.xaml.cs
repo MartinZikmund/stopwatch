@@ -21,7 +21,6 @@ public sealed partial class MainView : MainViewBase
 			_fadeOutTimer.Stop();
 			ControlButtonsPanel.Opacity = 0;
 		};
-		_fadeOutTimer.Start();
 
 		if (ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "OpacityTransition"))
 		{
