@@ -3,6 +3,6 @@
 		"version": "8.0.303"
 	},
 	"msbuild-sdks": {
-		"Uno.Sdk": "5.4.0-dev.119"
+		"Uno.Sdk": "5.4.0-dev.133"
 	}
 }

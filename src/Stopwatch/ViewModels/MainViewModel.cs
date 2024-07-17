@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.UI.Windowing;
 using Stopwatch.Model;
 using Stopwatch.Services;
@@ -16,6 +17,9 @@ public partial class MainViewModel : PageViewModel
 	private readonly IAppPreferences _appPreferences;
 	private readonly IDisplayRequestManager _displayRequestManager;
 
+	[ObservableProperty]
+	private StopwatchViewModel? _stopwatch;
+
 	public MainViewModel(
 		INavigationService navigationService,
 		ITimerFactory timerFactory,
@@ -29,11 +33,22 @@ public partial class MainViewModel : PageViewModel
 		_windowShellProvider = windowShellProvider;
 		_appPreferences = appPreferences;
 		_displayRequestManager = displayRequestManager;
+		ReloadStopwatch();
 	}
 
-	public StopwatchViewModel Stopwatch { get; set; }
+	public override void ViewLoaded()
+	{
+		ReloadStopwatch();
+	}
 
-	public override void ViewNavigatedTo(object? parameter)
+	public override void ViewUnloaded()
+	{
+		Stopwatch?.Dispose();
+		Stopwatch = null!;
+	}
+
+	[MemberNotNull(nameof(Stopwatch))]
+	private void ReloadStopwatch()
 	{
 		var stopwatch = _dataSource.GetOrCreateFirst();
 		Stopwatch = new(stopwatch, _dataSource, _timerFactory, _appPreferences, _displayRequestManager);
@@ -42,6 +57,11 @@ public partial class MainViewModel : PageViewModel
 	[RelayCommand]
 	public void StartStop()
 	{
+		if (Stopwatch is null)
+		{
+			throw new InvalidOperationException("Stopwatch is was already unset");
+		}
+
 		if (Stopwatch.IsRunning)
 		{
 			Stopwatch.Stop();
@@ -57,20 +77,30 @@ public partial class MainViewModel : PageViewModel
 	[RelayCommand(CanExecute = nameof(CanLap))]
 	public void Lap()
 	{
+		if (Stopwatch is null)
+		{
+			throw new InvalidOperationException("Stopwatch is was already unset");
+		}
+
 		Stopwatch.Lap();
 	}
 
-	private bool CanLap() => Stopwatch.IsRunning;
+	private bool CanLap() => Stopwatch?.IsRunning ?? false;
 
 	[RelayCommand(CanExecute = nameof(CanReset))]
 	public void Reset()
 	{
+		if (Stopwatch is null)
+		{
+			throw new InvalidOperationException("Stopwatch is was already unset");
+		}
+
 		Stopwatch.Reset();
 		LapCommand?.NotifyCanExecuteChanged();
 		ResetCommand?.NotifyCanExecuteChanged();
 	}
 
-	private bool CanReset() => !Stopwatch.IsZero || Stopwatch.IsRunning;
+	private bool CanReset() => Stopwatch is not null ? !Stopwatch.IsZero || Stopwatch.IsRunning : false;
 
 	[RelayCommand]
 	public void GoToSettings() => NavigationService.Navigate<SettingsViewModel>();

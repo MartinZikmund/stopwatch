@@ -8,7 +8,7 @@ using Stopwatch.Services.Timer;
 
 namespace Stopwatch.ViewModels;
 
-public class StopwatchViewModel : ObservableObject
+public class StopwatchViewModel : ObservableObject, IDisposable
 {
 	private readonly StopwatchModel _stopwatch;
 	private readonly IDataSource _dataSource;
@@ -24,8 +24,8 @@ public class StopwatchViewModel : ObservableObject
 		_timerProvider = timerProvider;
 		_stopwatchService = new StopwatchService(stopwatch, dataSource, appPreferences, displayRequestManager);
 		_timer = timerProvider.Create();
-		_timer.Interval = TimeSpan.FromMilliseconds(16);
-		_timer.Tick += (sender, e) => OnPropertyChanged("");
+		_timer.Interval = TimeSpan.FromMilliseconds(50);
+		_timer.Tick += (sender, e) => OnPropertyChanged(nameof(CurrentTimeFull));
 		if (_stopwatchService.IsRunning)
 		{
 			_timer.Start();
@@ -47,7 +47,7 @@ public class StopwatchViewModel : ObservableObject
 	}
 
 	public Uri? BackgroundImageUri => _stopwatch.BackgroundImageUri is not null ? new(_stopwatch.BackgroundImageUri) : null;
-	
+
 	public double BackgroundImageOpacity => _stopwatch.BackgroundImageOpacity;
 
 	public string CurrentTime => _stopwatchService.CurrentTime.ToString(@"hh\:mm\:ss\.");
@@ -73,6 +73,10 @@ public class StopwatchViewModel : ObservableObject
 	{
 		var lapTime = _stopwatchService.AddLap();
 		Laps.AddLap(lapTime);
-		OnPropertyChanged(nameof(Laps));
+	}
+
+	public void Dispose()
+	{
+		_timer.Stop();
 	}
 }
