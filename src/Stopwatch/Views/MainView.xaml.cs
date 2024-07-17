@@ -33,7 +33,6 @@ public sealed partial class MainView : MainViewBase
 	private void MainView_Loaded(object sender, RoutedEventArgs e)
 	{
 		StartAutoHide();
-		Bindings.Update();
 	}
 
 	private void RootGridPointerEvent(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
