@@ -43,6 +43,7 @@
 		</UnoFeatures>
 
 		<UnoIconForegroundScale>1</UnoIconForegroundScale>
+		<UnoIconForegroundScale Condition="'$(IsAndroid)' == 'true'">0.65</UnoIconForegroundScale>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
