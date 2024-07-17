@@ -35,8 +35,12 @@ public class Application : Microsoft.UI.Xaml.NativeApplication
             .Build();
 
         ImageLoader.Instance.Init(config);
+		var displayImageOptions = new DisplayImageOptions.Builder()
+			.CacheInMemory(false)
+			.CacheOnDisk(false)
+			.Build();
 
-        ImageSource.DefaultImageLoader = ImageLoader.Instance.LoadImageAsync;
+		ImageSource.DefaultImageLoader = (ct, uri, imageView, size) => ImageLoader.Instance.LoadImageAsync(ct, uri, imageView, size, displayImageOptions);
     }
 }
 
