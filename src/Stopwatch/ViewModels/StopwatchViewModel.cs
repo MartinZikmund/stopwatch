@@ -25,7 +25,7 @@ public class StopwatchViewModel : ObservableObject, IDisposable
 		_stopwatchService = new StopwatchService(stopwatch, dataSource, appPreferences, displayRequestManager);
 		_timer = timerProvider.Create();
 		_timer.Interval = TimeSpan.FromMilliseconds(50);
-		_timer.Tick += (sender, e) => OnPropertyChanged(nameof(CurrentTimeFull));
+		_timer.Tick += (sender, e) => OnPropertyChanged("");
 		if (_stopwatchService.IsRunning)
 		{
 			_timer.Start();
@@ -54,7 +54,7 @@ public class StopwatchViewModel : ObservableObject, IDisposable
 
 	public string CurrentTimeFull => _stopwatchService.CurrentTime.ToString(@"hh\:mm\:ss\.ff");
 
-	public string CurrentTimeMilliseconds => _stopwatchService.CurrentTime.Milliseconds.ToString("D2");
+	public string CurrentTimeMilliseconds => (_stopwatchService.CurrentTime.Milliseconds / 10).ToString("D2");
 
 	public bool IsRunning => _stopwatchService.IsRunning;
 
