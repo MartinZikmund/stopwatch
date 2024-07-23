@@ -8,7 +8,9 @@
     xmlns:local="using:Stopwatch.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wctc="using:CommunityToolkit.WinUI.Converters"
-    mc:Ignorable="d">
+	xmlns:not_android="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:android="http://uno.ui/android"
+    mc:Ignorable="d android">
 
     <local:MainViewBase.Resources />
 
@@ -73,10 +75,14 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock>
+						<not_android:TextBlock>
                             <Run FontSize="120" Text="{x:Bind ViewModel.Stopwatch.CurrentTime, Mode=OneWay}" /><Run FontSize="80" Text="{x:Bind ViewModel.Stopwatch.CurrentTimeMilliseconds, Mode=OneWay}" />
-                        </TextBlock>
-                    </Grid>
+                        </not_android:TextBlock>
+						<!-- Workaround for https://github.com/unoplatform/uno/issues/17282 -->
+						<android:TextBlock FontSize="120">
+							<Run Text="{x:Bind ViewModel.Stopwatch.CurrentTimeFull, Mode=OneWay}" />
+						</android:TextBlock>
+					</Grid>
                     <StackPanel
                         Grid.Row="1"
                         HorizontalAlignment="Center"

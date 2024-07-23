@@ -38,7 +38,7 @@
 		</Grid>
 		<ScrollViewer Grid.Row="1">
 			<StackPanel Orientation="Vertical" Spacing="8">
-				<toolkit:SettingsCard Header="{ex:Localize Key=Theme}" HeaderIcon="{ui:FontIcon Glyph=&#xE793;}">
+				<toolkit:SettingsCard Header="{ex:Localize Key=Theme}" HeaderIcon="{ui:FontIcon Glyph=&#xE793;, FontFamily={ThemeResource SymbolThemeFontFamily}}">
 					<ComboBox
                         ItemsSource="{x:Bind ViewModel.ThemeOptions}"
                         SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}"
@@ -53,7 +53,7 @@
 
 				<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Localize Key=Customization}" />
 
-				<toolkit:SettingsCard Header="{ex:Localize Key=BackgroundImage}" HeaderIcon="{ui:FontIcon Glyph=&#xE91B;}">
+				<toolkit:SettingsCard Header="{ex:Localize Key=BackgroundImage}" HeaderIcon="{ui:FontIcon Glyph=&#xE91B;, FontFamily={ThemeResource SymbolThemeFontFamily}}">
 					<StackPanel Orientation="Horizontal" Spacing="8">
 						<Button Content="{ex:Localize Key=Browse}" Command="{x:Bind ViewModel.PickBackgroundImageCommand}" />
 						<Button ToolTipService.ToolTip="{ex:Localize Key=Clear}" Command="{x:Bind ViewModel.RemoveBackgroundImageCommand}" Visibility="{x:Bind ViewModel.BackgroundImageUri, Converter={StaticResource NonNullToVisibilityConverter}, Mode=OneWay}">
@@ -62,14 +62,14 @@
 					</StackPanel>
 				</toolkit:SettingsCard>
 
-				<toolkit:SettingsCard Header="{ex:Localize Key=BackgroundImageOpacity}" HeaderIcon="{ui:FontIcon Glyph=&#xE91B;}">
+				<toolkit:SettingsCard Header="{ex:Localize Key=BackgroundImageOpacity}" HeaderIcon="{ui:FontIcon Glyph=&#xE91B;, FontFamily={ThemeResource SymbolThemeFontFamily}}">
 					<StackPanel>
 						<Slider Width="120" Minimum="0" Maximum="100" Value="{x:Bind ViewModel.BackgroundImageOpacityPercent, Mode=TwoWay}" />
 					</StackPanel>
 				</toolkit:SettingsCard>
 
 				<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Localize Key=Preview}" />
-				<Grid Width="320" Height="240" HorizontalAlignment="Center">
+				<Grid Width="320" Height="240" HorizontalAlignment="Center" BorderThickness="1" CornerRadius="4">
 					<Image
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"

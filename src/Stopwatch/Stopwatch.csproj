@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Uno.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>
-			net8.0-windows10.0.22621;
 			net8.0-android;
+			net8.0-windows10.0.22621;
 			net8.0-ios;
 			net8.0-maccatalyst;
 			net8.0-desktop;
@@ -43,6 +43,7 @@
 		</UnoFeatures>
 
 		<UnoIconForegroundScale>1</UnoIconForegroundScale>
+		<UnoIconForegroundScale Condition="'$(IsAndroid)' == 'true'">0.65</UnoIconForegroundScale>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />

@@ -42,9 +42,9 @@ public partial class App : Application
 				.ConfigureServices((context, services) => ConfigureServices(services))
 			);
 		MainWindow = builder.Window;
-#if DEBUG
-		MainWindow.EnableHotReload();
-#endif
+//#if DEBUG
+//		MainWindow.EnableHotReload();
+//#endif
 
 		Host = builder.Build();
 		Ioc.Default.ConfigureServices(Host.Services);
