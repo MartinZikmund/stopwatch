@@ -1,3 +1,7 @@
+using CommunityToolkit.WinUI.Helpers;
+using Microsoft.UI;
+using Windows.UI;
+
 namespace Stopwatch.Model;
 
 public class StopwatchModel
@@ -13,4 +17,6 @@ public class StopwatchModel
 	public string? BackgroundImageUri { get; set; }
 
 	public double BackgroundImageOpacity { get; set; } = 0.8;
+
+	public string BackgroundColor { get; set; } = ColorHelper.ToHex(Colors.Transparent);
 }

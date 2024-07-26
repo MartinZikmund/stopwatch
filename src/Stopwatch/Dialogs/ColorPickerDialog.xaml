@@ -1,0 +1,17 @@
+﻿<ContentDialog
+    x:Class="Stopwatch.Dialogs.ColorPickerDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Stopwatch.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="{ex:Localize Key=PickColor}"
+	xmlns:ex="using:Stopwatch.Extensions.Xaml"
+    Style="{ThemeResource DefaultContentDialogStyle}"
+    PrimaryButtonText="{ex:Localize Key=Save}"
+    SecondaryButtonText="{ex:Localize Key=Cancel}"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+	<Grid>
+		<ColorPicker x:Name="Picker" IsAlphaEnabled="True" IsAlphaSliderVisible="True" IsAlphaTextInputVisible="True" />
+	</Grid>
+</ContentDialog>

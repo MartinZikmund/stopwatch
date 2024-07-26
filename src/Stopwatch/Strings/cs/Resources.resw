@@ -174,4 +174,16 @@
   <data name="Clear" xml:space="preserve">
     <value>Odebrat</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Uložit</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Zrušit</value>
+  </data>
+  <data name="Pick" xml:space="preserve">
+    <value>Vybrat...</value>
+  </data>
+  <data name="PickColor" xml:space="preserve">
+    <value>Vybrat barvu</value>
+  </data>
 </root>
