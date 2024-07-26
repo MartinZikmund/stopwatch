@@ -186,4 +186,10 @@
   <data name="PickColor" xml:space="preserve">
     <value>Vybrat barvu</value>
   </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Barva na pozadí</value>
+  </data>
+  <data name="BackgroundColorSettingDescription" xml:space="preserve">
+    <value>Barva ze zobrazí pod obrázkem</value>
+  </data>
 </root>
