@@ -92,6 +92,8 @@ public partial class SettingsViewModel : PageViewModel
 
 	public double BackgroundImageOpacity => BackgroundImageOpacityPercent / 100;
 
+	public bool IsBackgroundImageSet => BackgroundImageUri is not null;
+
 	public bool IsBackgroundColorSet => BackgroundColor != Colors.Transparent;
 
 	[RelayCommand]
@@ -104,6 +106,7 @@ public partial class SettingsViewModel : PageViewModel
 			if (await _imagePickerService.PickAsync() is { } imageUri)
 			{
 				BackgroundImageUri = imageUri;
+				OnPropertyChanged(nameof(IsBackgroundImageSet));
 			}
 
 			SaveChanges();
@@ -137,6 +140,7 @@ public partial class SettingsViewModel : PageViewModel
 	private void RemoveBackgroundImage()
 	{
 		BackgroundImageUri = null;
+		OnPropertyChanged(nameof(IsBackgroundImageSet));
 		SaveChanges();
 	}
 
