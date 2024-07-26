@@ -174,4 +174,16 @@
   <data name="BackgroundImageOpacity" xml:space="preserve">
     <value>Background image opacity</value>
   </data>
+  <data name="Pick" xml:space="preserve">
+    <value>Pick...</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="PickColor" xml:space="preserve">
+    <value>Pick color</value>
+  </data>
 </root>

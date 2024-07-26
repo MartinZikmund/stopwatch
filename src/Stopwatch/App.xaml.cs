@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using MZikmund.Services.Dialogs;
+using MZikmund.Toolkit.WinUI.Infrastructure;
 using MZikmund.Toolkit.WinUI.Services;
 using Stopwatch.Core.Services;
 using Stopwatch.Services;
@@ -93,5 +94,6 @@ public partial class App : Application
 		services.AddScoped<IThemeManager, ThemeManager>();
 		services.AddScoped<IPreferences, Preferences>();
 		services.AddScoped<IAppPreferences, AppPreferences>();
+		services.AddScoped<IXamlRootProvider, XamlRootProvider>();
 	}
 }

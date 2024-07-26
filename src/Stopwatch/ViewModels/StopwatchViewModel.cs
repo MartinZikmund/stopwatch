@@ -1,10 +1,11 @@
-using System.Collections.ObjectModel;
+using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Dispatching;
 using Stopwatch.Model;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Timer;
+using Windows.UI;
 
 namespace Stopwatch.ViewModels;
 
@@ -25,7 +26,7 @@ public class StopwatchViewModel : ObservableObject, IDisposable
 		_stopwatchService = new StopwatchService(stopwatch, dataSource, appPreferences, displayRequestManager);
 		_timer = timerProvider.Create();
 		_timer.Interval = TimeSpan.FromMilliseconds(50);
-		_timer.Tick += (sender, e) => OnPropertyChanged("");
+		_timer.Tick += (sender, e) => OnTimePropertiesChanged();
 		if (_stopwatchService.IsRunning)
 		{
 			_timer.Start();
@@ -36,15 +37,17 @@ public class StopwatchViewModel : ObservableObject, IDisposable
 	{
 		_stopwatchService.Start();
 		_timer.Start();
-		OnPropertyChanged("");
+		OnTimePropertiesChanged();
 	}
 
 	public void Stop()
 	{
 		_stopwatchService.Stop();
 		_timer.Stop();
-		OnPropertyChanged("");
+		OnTimePropertiesChanged();
 	}
+
+	public Color BackgroundColor => ColorHelper.ToColor(_stopwatch.BackgroundColor);
 
 	public Uri? BackgroundImageUri => _stopwatch.BackgroundImageUri is not null ? new(_stopwatch.BackgroundImageUri) : null;
 
@@ -66,7 +69,7 @@ public class StopwatchViewModel : ObservableObject, IDisposable
 	{
 		_stopwatchService.Reset();
 		Laps.Clear();
-		OnPropertyChanged("");
+		OnTimePropertiesChanged();
 	}
 
 	internal void Lap()
@@ -78,5 +81,14 @@ public class StopwatchViewModel : ObservableObject, IDisposable
 	public void Dispose()
 	{
 		_timer.Stop();
+	}
+
+	private void OnTimePropertiesChanged()
+	{
+		OnPropertyChanged(nameof(CurrentTime));
+		OnPropertyChanged(nameof(CurrentTimeFull));
+		OnPropertyChanged(nameof(CurrentTimeMilliseconds));
+		OnPropertyChanged(nameof(IsRunning));
+		OnPropertyChanged(nameof(IsZero));
 	}
 }

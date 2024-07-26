@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Uno.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>
-			net8.0-android;
 			net8.0-windows10.0.22621;
+			net8.0-android;
 			net8.0-ios;
 			net8.0-maccatalyst;
 			net8.0-desktop;
@@ -46,10 +46,16 @@
 		<UnoIconForegroundScale Condition="'$(IsAndroid)' == 'true'">0.65</UnoIconForegroundScale>
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="Dialogs\ColorPickerDialog.xaml" />
+	</ItemGroup>
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
 		<PackageReference Include="CommunityToolkit.WinUI.Converters" />
 		<PackageReference Include="LiteDB" />
 		<PackageReference Include="MZikmund.Toolkit.WinUI" />
 		<PackageReference Include="Plugin.InAppBilling" />
+	</ItemGroup>
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Dialogs\ColorPickerDialog.xaml" />
 	</ItemGroup>
 </Project>
