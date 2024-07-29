@@ -19,4 +19,6 @@ public class StopwatchModel
 	public double BackgroundImageOpacity { get; set; } = 0.8;
 
 	public string BackgroundColor { get; set; } = ColorHelper.ToHex(Colors.Transparent);
+
+	public string ForegroundColor { get; set; } = ColorHelper.ToHex(Colors.Transparent);
 }

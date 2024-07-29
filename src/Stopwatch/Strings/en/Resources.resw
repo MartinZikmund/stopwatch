@@ -192,4 +192,7 @@
   <data name="BackgroundColorSettingDescription" xml:space="preserve">
     <value>Color will be displayed under the image</value>
   </data>
+  <data name="TextColor" xml:space="preserve">
+    <value>Text color</value>
+  </data>
 </root>

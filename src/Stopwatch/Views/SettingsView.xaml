@@ -10,125 +10,145 @@
     xmlns:ui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d">
 
-	<local:SettingsViewBase.Resources>
-		<Style
+    <local:SettingsViewBase.Resources>
+        <Style
             x:Key="SettingsSectionHeaderTextBlockStyle"
             BasedOn="{StaticResource BodyStrongTextBlockStyle}"
             TargetType="TextBlock">
-			<Style.Setters>
-				<Setter Property="Margin" Value="1,30,0,6" />
-			</Style.Setters>
-		</Style>
-	</local:SettingsViewBase.Resources>
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,30,0,6" />
+            </Style.Setters>
+        </Style>
+    </local:SettingsViewBase.Resources>
 
-	<Grid Padding="20" RowSpacing="8">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-		<Grid ColumnSpacing="8">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
-			<Button Command="{x:Bind ViewModel.GoBackCommand}" Style="{ThemeResource NavigationBackButtonStyle}" />
-			<TextBlock
+    <Grid Padding="20" RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Command="{x:Bind ViewModel.GoBackCommand}" Style="{ThemeResource NavigationBackButtonStyle}" />
+            <TextBlock
                 Grid.Column="1"
                 Style="{ThemeResource TitleTextBlockStyle}"
                 Text="{ex:Localize Key=Settings}" />
-		</Grid>
-		<ScrollViewer Grid.Row="1">
-			<StackPanel Orientation="Vertical" Spacing="8">
-				<toolkit:SettingsCard Header="{ex:Localize Key=Theme}" HeaderIcon="{ui:FontIcon Glyph=&#xE793;, FontFamily='Segoe Fluent Icons'}">
-					<ComboBox
+        </Grid>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Orientation="Vertical" Spacing="8">
+                <toolkit:SettingsCard Header="{ex:Localize Key=Theme}" HeaderIcon="{ui:FontIcon Glyph=&#xE793;, FontFamily='Segoe Fluent Icons'}">
+                    <ComboBox
                         ItemsSource="{x:Bind ViewModel.ThemeOptions}"
                         SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}"
                         Style="{StaticResource DefaultComboBoxStyle}">
-						<ComboBox.ItemTemplate>
-							<DataTemplate x:DataType="ElementTheme">
-								<TextBlock Text="{x:Bind Converter={StaticResource EnumLocalizationConverter}}" />
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
-				</toolkit:SettingsCard>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="ElementTheme">
+                                <TextBlock Text="{x:Bind Converter={StaticResource EnumLocalizationConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </toolkit:SettingsCard>
 
-				<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Localize Key=Customization}" />
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Localize Key=Customization}" />
 
-				<toolkit:SettingsCard Header="{ex:Localize Key=BackgroundImage}" HeaderIcon="{ui:FontIcon Glyph=&#xE91B;, FontFamily='Segoe Fluent Icons'}">
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<Button Command="{x:Bind ViewModel.PickBackgroundImageCommand}" Content="{ex:Localize Key=Browse}" />
-						<Button
+                <toolkit:SettingsCard Header="{ex:Localize Key=BackgroundImage}" HeaderIcon="{ui:FontIcon Glyph=&#xE91B;, FontFamily='Segoe Fluent Icons'}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Command="{x:Bind ViewModel.PickBackgroundImageCommand}" Content="{ex:Localize Key=Browse}" />
+                        <Button
                             VerticalAlignment="Stretch"
                             Command="{x:Bind ViewModel.RemoveBackgroundImageCommand}"
                             ToolTipService.ToolTip="{ex:Localize Key=Clear}"
                             Visibility="{x:Bind ViewModel.IsBackgroundImageSet, Mode=OneWay}">
-							<FontIcon FontSize="{ThemeResource InfoBarIconFontSize}" Glyph="&#xE7A7;" />
-						</Button>
-					</StackPanel>
-				</toolkit:SettingsCard>
+                            <FontIcon FontSize="{ThemeResource InfoBarIconFontSize}" Glyph="&#xE7A7;" />
+                        </Button>
+                    </StackPanel>
+                </toolkit:SettingsCard>
 
-				<toolkit:SettingsCard IsEnabled="{x:Bind ViewModel.IsBackgroundImageSet, Mode=OneWay}" Header="{ex:Localize Key=BackgroundImageOpacity}" HeaderIcon="{ui:FontIcon Glyph=&#xE7B3;, FontFamily='Segoe Fluent Icons'}">
-					<StackPanel>
-						<Slider
+                <toolkit:SettingsCard
+                    Header="{ex:Localize Key=BackgroundImageOpacity}"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE7B3;,
+                                             FontFamily='Segoe Fluent Icons'}"
+                    IsEnabled="{x:Bind ViewModel.IsBackgroundImageSet, Mode=OneWay}">
+                    <StackPanel>
+                        <Slider
                             Width="120"
                             Maximum="100"
                             Minimum="0"
                             Value="{x:Bind ViewModel.BackgroundImageOpacityPercent, Mode=TwoWay}" />
-					</StackPanel>
-				</toolkit:SettingsCard>
+                    </StackPanel>
+                </toolkit:SettingsCard>
 
-				<toolkit:SettingsCard
+                <toolkit:SettingsCard
                     Description="{ex:Localize Key=BackgroundColorSettingDescription}"
                     Header="{ex:Localize Key=BackgroundColor}"
                     HeaderIcon="{ui:FontIcon Glyph=&#xE790;,
                                              FontFamily='Segoe Fluent Icons'}">
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<Button Command="{x:Bind ViewModel.PickBackgroundColorCommand}" Content="{ex:Localize Key=Pick}" />
-						<Button
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Command="{x:Bind ViewModel.PickBackgroundColorCommand}" Content="{ex:Localize Key=Pick}" />
+                        <Button
                             VerticalAlignment="Stretch"
                             Command="{x:Bind ViewModel.RemoveBackgroundColorCommand}"
                             ToolTipService.ToolTip="{ex:Localize Key=Clear}"
                             Visibility="{x:Bind ViewModel.IsBackgroundColorSet, Mode=OneWay}">
-							<FontIcon FontSize="{ThemeResource InfoBarIconFontSize}" Glyph="&#xE7A7;" />
-						</Button>
-					</StackPanel>
-				</toolkit:SettingsCard>
+                            <FontIcon FontSize="{ThemeResource InfoBarIconFontSize}" Glyph="&#xE7A7;" />
+                        </Button>
+                    </StackPanel>
+                </toolkit:SettingsCard>
 
-				<Grid
+                <toolkit:SettingsCard Header="{ex:Localize Key=TextColor}" HeaderIcon="{ui:FontIcon Glyph=&#xE97E;, FontFamily='Segoe Fluent Icons'}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Command="{x:Bind ViewModel.PickForegroundColorCommand}" Content="{ex:Localize Key=Pick}" />
+                        <Button
+                            VerticalAlignment="Stretch"
+                            Command="{x:Bind ViewModel.RemoveForegroundColorCommand}"
+                            ToolTipService.ToolTip="{ex:Localize Key=Clear}"
+                            Visibility="{x:Bind ViewModel.IsForegroundColorSet, Mode=OneWay}">
+                            <FontIcon FontSize="{ThemeResource InfoBarIconFontSize}" Glyph="&#xE7A7;" />
+                        </Button>
+                    </StackPanel>
+                </toolkit:SettingsCard>
+
+                <Grid
                     Width="320"
                     Height="240"
                     HorizontalAlignment="Center"
                     BorderBrush="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     BorderThickness="4"
                     CornerRadius="8">
-					<Grid.Background>
-						<SolidColorBrush Color="{x:Bind ViewModel.BackgroundColor, Mode=OneWay}" />
-					</Grid.Background>
-					<Image
+                    <Grid.Background>
+                        <SolidColorBrush Color="{x:Bind ViewModel.BackgroundColor, Mode=OneWay}" />
+                    </Grid.Background>
+                    <Image
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Opacity="{x:Bind ViewModel.BackgroundImageOpacity, Mode=OneWay}"
                         Stretch="UniformToFill">
-						<Image.Source>
-							<BitmapImage UriSource="{x:Bind ViewModel.BackgroundImageUri, Mode=OneWay}" />
-						</Image.Source>
-					</Image>
+                        <Image.Source>
+                            <BitmapImage UriSource="{x:Bind ViewModel.BackgroundImageUri, Mode=OneWay}" />
+                        </Image.Source>
+                    </Image>
 
-					<Viewbox Margin="20">
-						<TextBlock>
-						<Run FontSize="120" Text="01:23:45." />
-						<Run FontSize="80" Text="67" />
-						</TextBlock>
-					</Viewbox>
-					
-					<TextBlock
+                    <Viewbox Margin="20">
+                        <TextBlock>
+							<TextBlock.Foreground>
+								<SolidColorBrush Color="{x:Bind ViewModel.ActualForegroundColor, Mode=OneWay}" />
+							</TextBlock.Foreground>
+                            <Run FontSize="120" Text="01:23:45." />
+                            <Run FontSize="80" Text="67" />
+                        </TextBlock>
+                    </Viewbox>
+
+                    <TextBlock
                         Margin="4"
                         VerticalAlignment="Bottom"
                         Opacity="0.5"
                         Style="{ThemeResource CaptionTextBlockStyle}"
                         Text="{ex:Localize Key=Preview}" />
-				</Grid>
-			</StackPanel>
-		</ScrollViewer>
-	</Grid>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </local:SettingsViewBase>

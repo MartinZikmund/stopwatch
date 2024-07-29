@@ -192,4 +192,7 @@
   <data name="BackgroundColorSettingDescription" xml:space="preserve">
     <value>Barva ze zobrazí pod obrázkem</value>
   </data>
+  <data name="TextColor" xml:space="preserve">
+    <value>Barva textu</value>
+  </data>
 </root>

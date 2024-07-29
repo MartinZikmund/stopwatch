@@ -12,8 +12,6 @@
     xmlns:wctc="using:CommunityToolkit.WinUI.Converters"
     mc:Ignorable="d android">
 
-	<local:MainViewBase.Resources />
-
 	<Grid>
 
 		<!-- Background color -->

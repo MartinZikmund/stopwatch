@@ -1,4 +1,3 @@
-using CommunityToolkit.WinUI.Converters;
 using Microsoft.UI;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using Stopwatch.Core.Services;
@@ -33,6 +32,12 @@ public partial class SettingsViewModel : PageViewModel
 	[ObservableProperty]
 	private Color _backgroundColor;
 
+	[ObservableProperty]
+	private Color _foregroundColor;
+
+	[ObservableProperty]
+	private Color _actualForegroundColor;
+
 	public SettingsViewModel(
 		INavigationService navigationService,
 		IAppPreferences appSettings,
@@ -51,6 +56,7 @@ public partial class SettingsViewModel : PageViewModel
 		BackgroundImageUri = stopwatch.BackgroundImageUri is not null ? new(stopwatch.BackgroundImageUri) : null;
 		BackgroundImageOpacityPercent = stopwatch.BackgroundImageOpacity * 100;
 		BackgroundColor = ColorHelper.ToColor(stopwatch.BackgroundColor);
+		ForegroundColor = ColorHelper.ToColor(stopwatch.ForegroundColor);
 	}
 
 	public override void GoBack()
@@ -59,6 +65,8 @@ public partial class SettingsViewModel : PageViewModel
 
 		base.GoBack();
 	}
+
+	partial void OnForegroundColorChanged(Color value) => UpdateActualForegroundColor();
 
 	public ElementTheme[] ThemeOptions { get; } = [ElementTheme.Default, ElementTheme.Light, ElementTheme.Dark];
 
@@ -71,6 +79,7 @@ public partial class SettingsViewModel : PageViewModel
 			{
 				_appSettings.Theme = value;
 				_themeManager.SetTheme(SelectedTheme);
+				UpdateActualForegroundColor();
 				OnPropertyChanged();
 			}
 		}
@@ -95,6 +104,8 @@ public partial class SettingsViewModel : PageViewModel
 	public bool IsBackgroundImageSet => BackgroundImageUri is not null;
 
 	public bool IsBackgroundColorSet => BackgroundColor != Colors.Transparent;
+
+	public bool IsForegroundColorSet => ForegroundColor != Colors.Transparent;
 
 	[RelayCommand]
 	private async Task PickBackgroundImageAsync()
@@ -137,6 +148,25 @@ public partial class SettingsViewModel : PageViewModel
 	}
 
 	[RelayCommand]
+	public async Task PickForegroundColor()
+	{
+		IsWorking = true;
+		var pickerDialog = new ColorPickerDialog
+		{
+			XamlRoot = _xamlRootProvider.XamlRoot,
+			SelectedColor = ActualForegroundColor,
+		};
+
+		if (await pickerDialog.ShowAsync() == ContentDialogResult.Primary)
+		{
+			ForegroundColor = pickerDialog.SelectedColor;
+			OnPropertyChanged(nameof(IsForegroundColorSet));
+			SaveChanges();
+		}
+		IsWorking = false;
+	}
+
+	[RelayCommand]
 	private void RemoveBackgroundImage()
 	{
 		BackgroundImageUri = null;
@@ -152,12 +182,34 @@ public partial class SettingsViewModel : PageViewModel
 		SaveChanges();
 	}
 
+	[RelayCommand]
+	private void RemoveForegroundColor()
+	{
+		ForegroundColor = Colors.Transparent;
+		OnPropertyChanged(nameof(IsForegroundColorSet));
+		SaveChanges();
+	}
+
 	private void SaveChanges()
 	{
 		var stopwatch = _dataSource.GetOrCreateFirst();
 		stopwatch.BackgroundImageUri = BackgroundImageUri?.ToString();
 		stopwatch.BackgroundImageOpacity = BackgroundImageOpacityPercent / 100;
 		stopwatch.BackgroundColor = ColorHelper.ToHex(BackgroundColor);
+		stopwatch.ForegroundColor = ColorHelper.ToHex(ForegroundColor);
 		_dataSource.Update(stopwatch);
+	}
+
+	private void UpdateActualForegroundColor()
+	{
+		ActualForegroundColor = IsForegroundColorSet ?
+			ForegroundColor :
+			SelectedTheme switch
+			{
+				ElementTheme.Light => Colors.Black,
+				ElementTheme.Dark => Colors.White,
+				_ => _uiSettings.GetColorValue(UIColorType.Foreground)
+			};
+		OnPropertyChanged(nameof(ActualForegroundColor));
 	}
 }
