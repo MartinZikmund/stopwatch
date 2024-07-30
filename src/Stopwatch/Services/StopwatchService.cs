@@ -5,7 +5,7 @@ using Uno.Disposables;
 
 namespace Stopwatch.Services;
 
-public class StopwatchService
+public class StopwatchService : IDisposable
 {
 	private readonly StopwatchModel _stopwatch;
 	private readonly IDataSource _dataSource;
@@ -70,5 +70,10 @@ public class StopwatchService
 		_stopwatch.Laps = _stopwatch.Laps.Append(lap).ToArray();
 		_dataSource.Update(_stopwatch);
 		return lap;
+	}
+
+	public void Dispose()
+	{
+		_displayRequestDisposable.Disposable = null;
 	}
 }
