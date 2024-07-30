@@ -81,6 +81,7 @@ public class StopwatchViewModel : ObservableObject, IDisposable
 	public void Dispose()
 	{
 		_timer.Stop();
+		_stopwatchService.Dispose();
 	}
 
 	private void OnTimePropertiesChanged()

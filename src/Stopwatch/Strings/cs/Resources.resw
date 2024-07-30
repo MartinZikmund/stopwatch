@@ -192,4 +192,10 @@
   <data name="BackgroundColorSettingDescription" xml:space="preserve">
     <value>Barva ze zobrazí pod obrázkem</value>
   </data>
+  <data name="KeepScreenOn" xml:space="preserve">
+    <value>Nezhasínat obrazovku</value>
+  </data>
+  <data name="KeepScreenOnSettingDescription" xml:space="preserve">
+    <value>Obrazovka zařízení zůstane rozsvícena, když stopky poběží</value>
+  </data>
 </root>

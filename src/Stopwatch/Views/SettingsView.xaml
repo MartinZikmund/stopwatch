@@ -39,6 +39,10 @@
 		</Grid>
 		<ScrollViewer Grid.Row="1">
 			<StackPanel Orientation="Vertical" Spacing="8">
+				<toolkit:SettingsCard Header="{ex:Localize Key=KeepScreenOn}" Description="{ex:Localize Key=KeepScreenOnSettingDescription}" HeaderIcon="{ui:FontIcon Glyph=&#xF182;, FontFamily='Segoe Fluent Icons'}">
+					<ToggleSwitch IsOn="{x:Bind ViewModel.KeepScreenOn, Mode=TwoWay}" />
+				</toolkit:SettingsCard>
+
 				<toolkit:SettingsCard Header="{ex:Localize Key=Theme}" HeaderIcon="{ui:FontIcon Glyph=&#xE793;, FontFamily='Segoe Fluent Icons'}">
 					<ComboBox
                         ItemsSource="{x:Bind ViewModel.ThemeOptions}"

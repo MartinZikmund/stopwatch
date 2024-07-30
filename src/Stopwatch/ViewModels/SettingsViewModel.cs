@@ -76,6 +76,19 @@ public partial class SettingsViewModel : PageViewModel
 		}
 	}
 
+	public bool KeepScreenOn
+	{
+		get => _appSettings.KeepScreenOn;
+		set
+		{
+			if (_appSettings.KeepScreenOn != value)
+			{
+				_appSettings.KeepScreenOn = value;
+				OnPropertyChanged();
+			}
+		}
+	}
+
 	public double BackgroundImageOpacityPercent
 	{
 		get => _backgroundImageOpacityPercent;

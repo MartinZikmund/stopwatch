@@ -192,4 +192,10 @@
   <data name="BackgroundColorSettingDescription" xml:space="preserve">
     <value>Color will be displayed under the image</value>
   </data>
+  <data name="KeepScreenOn" xml:space="preserve">
+    <value>Keep screen on</value>
+  </data>
+  <data name="KeepScreenOnSettingDescription" xml:space="preserve">
+    <value>Turn this setting on to keep the device screen on while the stopwatch is running</value>
+  </data>
 </root>
