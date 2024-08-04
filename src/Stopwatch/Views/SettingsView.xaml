@@ -21,7 +21,7 @@
 		</Style>
 	</local:SettingsViewBase.Resources>
 
-	<Grid Padding="20" RowSpacing="8">
+	<Grid Padding="36,60,36,36" RowSpacing="8">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />

@@ -15,7 +15,10 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid
+
+		<Frame x:Name="InnerFrame" Grid.Row="0" Grid.RowSpan="2" />
+
+		<Grid
             x:Name="TitleBarGrid"
             Height="48"
             Padding="16,0"
@@ -37,6 +40,5 @@
                 Style="{ThemeResource CaptionTextBlockStyle}"
                 Text="{x:Bind ViewModel.Title}" />
         </Grid>
-        <Frame x:Name="InnerFrame" Grid.Row="1" />
     </Grid>
 </Page>
