@@ -1,11 +1,8 @@
-name: WinUI 3 MSIX app
+name: Build Windows Packages
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - main
-      - release/**
+  workflow_dispatch:
+    branches: [ main ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
