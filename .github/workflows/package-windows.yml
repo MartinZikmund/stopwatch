@@ -13,12 +13,12 @@ concurrency:
 
 jobs:
 
-  build:
+  create_package:
 
     strategy:
       matrix:
         configuration: [Release]
-        platform: [x64]
+        platform: [x86,x64,ARM64]
 
     runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
@@ -72,5 +72,15 @@ jobs:
     - name: Upload MSIX package
       uses: actions/upload-artifact@v2
       with:
-        name: MSIX Package
-        path: ${{ env.Solution_Path }}\Packages
+        name: MSIX_Package_${{ matrix.platform }}
+        path: ${{ env.Solution_Path }}\\Packages
+
+    merge:
+      runs-on: ubuntu-latest
+      needs: create_package
+      steps:
+        - name: Merge Artifacts
+          uses: actions/upload-artifact/merge@v4
+          with:
+            delete-merged: true
+            retention-days: 10
