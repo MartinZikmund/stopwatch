@@ -37,7 +37,7 @@
 		</Border>
 
 		<Grid
-            Padding="20"
+            Padding="36,60,36,36"
             Background="Transparent"
             PointerMoved="RootGridPointerEvent"
             PointerPressed="RootGridPointerEvent"
@@ -60,14 +60,14 @@
                     Visibility="{x:Bind ViewModel.ShowFullScreenButton, Mode=OneWay}">
 					<FontIcon Glyph="{x:Bind ViewModel.IsFullScreen, Mode=OneWay, Converter={StaticResource IsFullScreenToSymbolConverter}}" />
 				</Button>
-				<Button
+				<!--<Button
                     Command="{x:Bind ViewModel.ToggleCompactOverlayCommand}"
                     Style="{ThemeResource SubtleButtonStyle}"
                     Visibility="{x:Bind ViewModel.ShowCompactOverlayButton, Mode=OneWay}">
 					<Grid>
 						<FontIcon Glyph="{x:Bind ViewModel.IsCompactOverlay, Mode=OneWay, Converter={StaticResource IsCompactOverlayToSymbolConverter}}" />
 					</Grid>
-				</Button>
+				</Button>-->
 				<Button Command="{x:Bind ViewModel.GoToSettingsCommand}" Style="{ThemeResource SubtleButtonStyle}">
 					<Grid>
 						<SymbolIcon Symbol="Setting" />

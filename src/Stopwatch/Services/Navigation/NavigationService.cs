@@ -65,5 +65,6 @@ public class NavigationService : INavigationService
 		SystemNavigationManager.GetForCurrentView().BackRequested += NavigationManagerBackRequested;
 
 	private void NavigationManagerBackRequested(object? sender, BackRequestedEventArgs? e) => GoBack();
+
 	public void ClearBackStack() => Frame.BackStack.Clear();
 }

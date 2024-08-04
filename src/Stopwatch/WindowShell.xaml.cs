@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.UI;
-using MZikmund.Services.Dialogs;
+﻿using MZikmund.Services.Dialogs;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using Stopwatch.Infrastructure;
 using Stopwatch.Services.Navigation;
@@ -8,7 +6,6 @@ using Stopwatch.Services.Settings;
 using Stopwatch.Services.Theming;
 using Stopwatch.ViewModels;
 using Windows.Foundation.Metadata;
-using Windows.UI;
 
 namespace Stopwatch;
 
