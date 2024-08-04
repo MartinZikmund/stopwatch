@@ -76,11 +76,13 @@ jobs:
         path: ${{ env.Solution_Path }}\\Packages
 
   merge:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: create_package
     steps:
       - name: Merge Artifacts
         uses: actions/upload-artifact/merge@v4
         with:
+          name: MSIX
           delete-merged: true
+          pattern: MSIX_Package_*
           retention-days: 10
