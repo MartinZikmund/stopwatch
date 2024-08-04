@@ -24,8 +24,8 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Solution_Name: Stopwatch
-      Solution_Path: src/Stopwatch.sln
+      Solution_Fullname: src/Stopwatch.sln
+      Solution_Path: src/Stopwatch
       STEP_TIMEOUT_MINUTES: 60
 
     steps:
@@ -43,7 +43,7 @@ jobs:
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
-      run: msbuild $env:Solution_Path /t:Restore /p:Configuration=$env:Configuration /p:TargetFramework=net8.0-windows10.0.22621
+      run: msbuild $env:Solution_Fullname /t:Restore /p:Configuration=$env:Configuration /p:TargetFramework=net8.0-windows10.0.22621
       env:
         Configuration: ${{ matrix.configuration }}
 
@@ -56,7 +56,7 @@ jobs:
 
     # Create the app package by building and packaging the project
     - name: Create the app package
-      run: msbuild $env:Solution_Path /p:TargetFramework=net8.0-windows10.0.22621 /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
+      run: msbuild $env:Solution_Fullname /p:TargetFramework=net8.0-windows10.0.22621 /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
       env:
         Appx_Bundle: Never
         Appx_Package_Build_Mode: SideloadOnly
@@ -73,4 +73,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: MSIX Package
-        path: ${{ env.Solution_Name }}\\Packages
+        path: ${{ env.Solution_Path }}\Packages
