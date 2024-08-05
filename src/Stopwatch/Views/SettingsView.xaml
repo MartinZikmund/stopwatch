@@ -132,6 +132,13 @@
                         Style="{ThemeResource CaptionTextBlockStyle}"
                         Text="{ex:Localize Key=Preview}" />
 				</Grid>
+
+				<toolkit:SettingsCard Header="{ex:Localize Key=ApplicationName}" Description="{ex:Localize Key=AboutAppDescription}">
+					<toolkit:SettingsCard.HeaderIcon>
+						<BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/Icons/icon_foreground.png" />
+					</toolkit:SettingsCard.HeaderIcon>
+					<TextBlock Text="{x:Bind ViewModel.PackageVersion, Mode=OneWay}" />
+				</toolkit:SettingsCard>
 			</StackPanel>
 		</ScrollViewer>
 	</Grid>

@@ -198,4 +198,10 @@
   <data name="KeepScreenOnSettingDescription" xml:space="preserve">
     <value>Obrazovka zařízení zůstane rozsvícena, když stopky poběží</value>
   </data>
+  <data name="About" xml:space="preserve">
+    <value>O aplikaci</value>
+  </data>
+  <data name="AboutAppDescription" xml:space="preserve">
+    <value>© 2024 Martin Zikmund</value>
+  </data>
 </root>

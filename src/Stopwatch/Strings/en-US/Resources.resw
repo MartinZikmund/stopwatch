@@ -198,4 +198,10 @@
   <data name="KeepScreenOnSettingDescription" xml:space="preserve">
     <value>Turn this setting on to keep the device screen on while the stopwatch is running</value>
   </data>
+  <data name="AboutAppDescription" xml:space="preserve">
+    <value>© 2024 Martin Zikmund</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
 </root>
