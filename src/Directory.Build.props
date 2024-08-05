@@ -1,5 +1,10 @@
 <Project>
 	<PropertyGroup>
+		<Copyright>Martin Zikmund 2024</Copyright>
+		<Author>Martin Zikmund</Author>
+
+		<DefaultLanguage>en-US</DefaultLanguage>
+
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
