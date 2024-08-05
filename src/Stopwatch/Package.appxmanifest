@@ -9,7 +9,7 @@
 
   <Identity
     Name="5143MartinZikmund.12487707CCE79"
-    Publisher="CN=Martin Zikmund"
+    Publisher="CN=5EDFBB6C-AD5D-4B76-B479-1C5F44017714"
     Version="0.1.2.0" />
 
   <Properties>
@@ -43,5 +43,5 @@
     <rescap:Capability Name="runFullTrust" />
   </Capabilities>
 
-  <mp:PhoneIdentity PhoneProductId="5a7f66dc-f02c-4492-9d90-61944500e7a3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="dd022524-04d6-489a-8a33-c5cc7339fa85" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 </Package>
