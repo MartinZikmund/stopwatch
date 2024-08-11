@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.Toolkit.Uwp.Helpers;
 using MZikmund.Services.Dialogs;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using MZikmund.Toolkit.WinUI.Services;
@@ -50,6 +51,7 @@ public partial class App : Application
 		Host = builder.Build();
 		Ioc.Default.ConfigureServices(Host.Services);
 		await (Host.Services.GetRequiredService<IDataSource>()).InitializeAsync();
+		Host.Services.GetRequiredService<SystemInformation>().TrackAppUse(args.UWPLaunchActivatedEventArgs);
 
 		// Do not repeat app initialization when the Window already has content,
 		// just ensure that the window is active
@@ -78,6 +80,9 @@ public partial class App : Application
 	{
 		services.AddSingleton<IDataSource, LiteDbDataSource>();
 		services.AddSingleton<IDisplayRequestManager, DisplayRequestManager>();
+		services.AddSingleton<IPreferences, Preferences>();
+		services.AddSingleton<IAppPreferences, AppPreferences>();
+		services.AddSingleton<SystemInformation>();
 
 		services.AddScoped<WindowShellViewModel>();
 		services.AddScoped<SettingsViewModel>();
@@ -92,8 +97,7 @@ public partial class App : Application
 		services.AddScoped<IWindowShellProvider, WindowShellProvider>();
 		services.AddScoped<ITimerFactory, TimerFactory>();
 		services.AddScoped<IThemeManager, ThemeManager>();
-		services.AddScoped<IPreferences, Preferences>();
-		services.AddScoped<IAppPreferences, AppPreferences>();
+
 		services.AddScoped<IXamlRootProvider, XamlRootProvider>();
 	}
 }

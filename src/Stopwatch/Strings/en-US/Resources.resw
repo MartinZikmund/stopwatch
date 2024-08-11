@@ -207,4 +207,13 @@
   <data name="General" xml:space="preserve">
     <value>General</value>
   </data>
+  <data name="ReviewApp" xml:space="preserve">
+    <value>Review app</value>
+  </data>
+  <data name="ReviewAppDescription" xml:space="preserve">
+    <value>Review app on store</value>
+  </data>
+  <data name="ReviewAction" xml:space="preserve">
+    <value>Review...</value>
+  </data>
 </root>

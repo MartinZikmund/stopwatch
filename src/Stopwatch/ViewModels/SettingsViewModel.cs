@@ -1,4 +1,5 @@
 using CommunityToolkit.WinUI.Helpers;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.UI;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using Stopwatch.Core.Services;
@@ -110,6 +111,9 @@ public partial class SettingsViewModel : PageViewModel
 	public bool IsBackgroundColorSet => BackgroundColor != Colors.Transparent;
 
 	public string PackageVersionString => Package.Current.Id.Version.ToFormattedString();
+
+	[RelayCommand]
+	private async Task ReviewAppAsync() => await SystemInformation.LaunchStoreForReviewAsync();
 
 	[RelayCommand]
 	private async Task PickBackgroundImageAsync()
