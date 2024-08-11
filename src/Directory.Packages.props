@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageVersion Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240606-rc" />
     <PackageVersion Include="CommunityToolkit.WinUI.Converters" Version="8.1.240606-rc" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Helpers" Version="8.1.240606-rc" />
     <PackageVersion Include="LiteDB" Version="5.0.20" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     <PackageVersion Include="MZikmund.Toolkit.WinUI" Version="0.1.12-dev.41" />
