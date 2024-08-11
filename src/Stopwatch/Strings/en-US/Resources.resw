@@ -204,4 +204,7 @@
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
 </root>

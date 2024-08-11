@@ -204,4 +204,7 @@
   <data name="AboutAppDescription" xml:space="preserve">
     <value>© 2024 Martin Zikmund</value>
   </data>
+  <data name="General" xml:space="preserve">
+    <value>Obecné</value>
+  </data>
 </root>
