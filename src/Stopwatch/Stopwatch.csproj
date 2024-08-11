@@ -13,7 +13,7 @@
 		<UnoSingleProject>true</UnoSingleProject>
 
 		<!-- Display name -->
-		<ApplicationTitle>Stopwatch</ApplicationTitle>
+		<ApplicationTitle>Fluent Stopwatch</ApplicationTitle>
 		<!-- App Identifier -->
 		<ApplicationId>dev.mzikmund.stopwatch</ApplicationId>
 		<!-- Versions -->
