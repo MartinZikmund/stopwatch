@@ -21,12 +21,12 @@
 		</Style>
 	</local:SettingsViewBase.Resources>
 
-	<Grid Padding="36,60,36,36" RowSpacing="8">
+	<Grid RowSpacing="8">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<Grid ColumnSpacing="8">
+		<Grid ColumnSpacing="8" Margin="36,60,36,36">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
@@ -38,7 +38,10 @@
                 Text="{ex:Localize Key=Settings}" />
 		</Grid>
 		<ScrollViewer Grid.Row="1">
-			<StackPanel Orientation="Vertical" Spacing="8">
+			<StackPanel Orientation="Vertical" Spacing="8" Margin="36,0,36,36">
+				<!-- General -->
+				<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Localize Key=General}" />
+
 				<toolkit:SettingsCard Header="{ex:Localize Key=KeepScreenOn}" Description="{ex:Localize Key=KeepScreenOnSettingDescription}" HeaderIcon="{ui:FontIcon Glyph=&#xF182;, FontFamily='Segoe Fluent Icons'}">
 					<ToggleSwitch IsOn="{x:Bind ViewModel.KeepScreenOn, Mode=TwoWay}" />
 				</toolkit:SettingsCard>
@@ -56,6 +59,7 @@
 					</ComboBox>
 				</toolkit:SettingsCard>
 
+				<!-- Customization -->
 				<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Localize Key=Customization}" />
 
 				<toolkit:SettingsCard Header="{ex:Localize Key=BackgroundImage}" HeaderIcon="{ui:FontIcon Glyph=&#xE91B;, FontFamily='Segoe Fluent Icons'}">
@@ -132,6 +136,16 @@
                         Style="{ThemeResource CaptionTextBlockStyle}"
                         Text="{ex:Localize Key=Preview}" />
 				</Grid>
+				
+				<!-- About -->
+				<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Localize Key=About}" />
+
+				<toolkit:SettingsCard Header="{ex:Localize Key=ApplicationName}" Description="{ex:Localize Key=AboutAppDescription}">
+					<toolkit:SettingsCard.HeaderIcon>
+						<BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/Icons/icon_foreground.png" />
+					</toolkit:SettingsCard.HeaderIcon>
+					<TextBlock Text="{x:Bind ViewModel.PackageVersionString, Mode=OneWay}" />
+				</toolkit:SettingsCard>
 			</StackPanel>
 		</ScrollViewer>
 	</Grid>

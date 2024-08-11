@@ -1,4 +1,3 @@
-using CommunityToolkit.WinUI.Converters;
 using Microsoft.UI;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using Stopwatch.Core.Services;
@@ -108,6 +107,15 @@ public partial class SettingsViewModel : PageViewModel
 	public bool IsBackgroundImageSet => BackgroundImageUri is not null;
 
 	public bool IsBackgroundColorSet => BackgroundColor != Colors.Transparent;
+
+	public string PackageVersionString
+	{
+		get
+		{
+			var version = Package.Current.Id.Version;
+			return $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+		}
+	}
 
 	[RelayCommand]
 	private async Task PickBackgroundImageAsync()

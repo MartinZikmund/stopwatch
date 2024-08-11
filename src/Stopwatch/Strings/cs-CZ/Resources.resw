@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApplicationName" xml:space="preserve">
-    <value>Stopky</value>
+    <value>Moderní stopky</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>Start</value>
@@ -197,5 +197,14 @@
   </data>
   <data name="KeepScreenOnSettingDescription" xml:space="preserve">
     <value>Obrazovka zařízení zůstane rozsvícena, když stopky poběží</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>O aplikaci</value>
+  </data>
+  <data name="AboutAppDescription" xml:space="preserve">
+    <value>© 2024 Martin Zikmund</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Obecné</value>
   </data>
 </root>
