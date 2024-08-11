@@ -207,4 +207,13 @@
   <data name="General" xml:space="preserve">
     <value>Obecné</value>
   </data>
+  <data name="ReviewApp" xml:space="preserve">
+    <value>Ohodnotit aplikaci</value>
+  </data>
+  <data name="ReviewAppDescription" xml:space="preserve">
+    <value>Ohodnotit aplikaci na Store</value>
+  </data>
+  <data name="ReviewAction" xml:space="preserve">
+    <value>Ohodnotit...</value>
+  </data>
 </root>
