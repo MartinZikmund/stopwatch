@@ -1,17 +1,19 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.UI;
+﻿using Microsoft.UI;
 using Stopwatch.Services.Navigation;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 
 namespace Stopwatch.Services.Theming;
 
 public class ThemeManager : IThemeManager
 {
 	private readonly IWindowShellProvider _windowShellProvider;
+	private readonly UISettings _uiSettings = new();
 
 	public ThemeManager(IWindowShellProvider windowShellProvider)
 	{
 		_windowShellProvider = windowShellProvider;
+		_uiSettings.ColorValuesChanged += OnColorValuesChanged;
 	}
 
 	public void SetTheme(ElementTheme theme)
@@ -69,5 +71,13 @@ public class ThemeManager : IThemeManager
 		}
 #pragma warning restore Uno0001
 #pragma warning restore CS8618
+	}
+
+	private void OnColorValuesChanged(UISettings sender, object args)
+	{
+		_windowShellProvider.DispatcherQueue.TryEnqueue(() =>
+		{
+			UpdateTitleBarTheming();
+		});
 	}
 }
