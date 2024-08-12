@@ -19,8 +19,9 @@
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
-
-		<SelfContained>true</SelfContained>
+		
+		<!-- Workaround for https://github.com/unoplatform/uno/issues/17922 -->
+		<PublishProfile Condition="'$(IsWinAppSDK)' == 'true' and '$(Configuration)' != 'Debug'">win-$(Platform).pubxml</PublishProfile>
 		<!--
       If you encounter this error message:
 
