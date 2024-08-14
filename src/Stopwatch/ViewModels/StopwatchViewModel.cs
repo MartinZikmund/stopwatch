@@ -9,7 +9,7 @@ using Windows.UI;
 
 namespace Stopwatch.ViewModels;
 
-public class StopwatchViewModel : ObservableObject, IDisposable
+public partial class StopwatchViewModel : ObservableObject, IDisposable
 {
 	private readonly StopwatchModel _stopwatch;
 	private readonly IDataSource _dataSource;
@@ -33,19 +33,7 @@ public class StopwatchViewModel : ObservableObject, IDisposable
 		}
 	}
 
-	public void Start()
-	{
-		_stopwatchService.Start();
-		_timer.Start();
-		OnTimePropertiesChanged();
-	}
-
-	public void Stop()
-	{
-		_stopwatchService.Stop();
-		_timer.Stop();
-		OnTimePropertiesChanged();
-	}
+	public LapsObservableCollection Laps { get; }
 
 	public Color BackgroundColor => ColorHelper.ToColor(_stopwatch.BackgroundColor);
 
@@ -63,19 +51,38 @@ public class StopwatchViewModel : ObservableObject, IDisposable
 
 	public bool IsZero => _stopwatchService.CurrentTime == TimeSpan.Zero;
 
-	public LapsObservableCollection Laps { get; }
+	[RelayCommand]
+	public void StartStop()
+	{
+		if (IsRunning)
+		{
+			Stop();
+		}
+		else
+		{
+			Start();
+		}
 
+		LapCommand?.NotifyCanExecuteChanged();
+		ResetCommand?.NotifyCanExecuteChanged();
+	}
+
+	[RelayCommand(CanExecute = nameof(CanLap))]
+	public void Lap()
+	{
+		var lapTime = _stopwatchService.AddLap();
+		Laps.AddLap(lapTime);
+	}
+
+	[RelayCommand(CanExecute = nameof(CanReset))]
 	public void Reset()
 	{
 		_stopwatchService.Reset();
 		Laps.Clear();
 		OnTimePropertiesChanged();
-	}
 
-	internal void Lap()
-	{
-		var lapTime = _stopwatchService.AddLap();
-		Laps.AddLap(lapTime);
+		LapCommand?.NotifyCanExecuteChanged();
+		ResetCommand?.NotifyCanExecuteChanged();
 	}
 
 	public void Dispose()
@@ -91,5 +98,23 @@ public class StopwatchViewModel : ObservableObject, IDisposable
 		OnPropertyChanged(nameof(CurrentTimeMilliseconds));
 		OnPropertyChanged(nameof(IsRunning));
 		OnPropertyChanged(nameof(IsZero));
+	}
+
+	private bool CanLap() => IsRunning;
+
+	private bool CanReset() => !IsZero || IsRunning;
+
+	private void Start()
+	{
+		_stopwatchService.Start();
+		_timer.Start();
+		OnTimePropertiesChanged();
+	}
+
+	private void Stop()
+	{
+		_stopwatchService.Stop();
+		_timer.Stop();
+		OnTimePropertiesChanged();
 	}
 }

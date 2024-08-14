@@ -18,7 +18,7 @@ public partial class MainViewModel : PageViewModel
 	private readonly IDisplayRequestManager _displayRequestManager;
 
 	[ObservableProperty]
-	private StopwatchViewModel? _stopwatch;
+	private StopwatchViewModel? _selectedStopwatch;
 
 	public MainViewModel(
 		INavigationService navigationService,
@@ -43,64 +43,16 @@ public partial class MainViewModel : PageViewModel
 
 	public override void ViewUnloaded()
 	{
-		Stopwatch?.Dispose();
-		Stopwatch = null!;
+		SelectedStopwatch?.Dispose();
+		SelectedStopwatch = null!;
 	}
 
 	[MemberNotNull(nameof(Stopwatch))]
 	private void ReloadStopwatch()
 	{
 		var stopwatch = _dataSource.GetOrCreateFirst();
-		Stopwatch = new(stopwatch, _dataSource, _timerFactory, _appPreferences, _displayRequestManager);
+		SelectedStopwatch = new(stopwatch, _dataSource, _timerFactory, _appPreferences, _displayRequestManager);
 	}
-
-	[RelayCommand]
-	public void StartStop()
-	{
-		if (Stopwatch is null)
-		{
-			throw new InvalidOperationException("Stopwatch is was already unset");
-		}
-
-		if (Stopwatch.IsRunning)
-		{
-			Stopwatch.Stop();
-		}
-		else
-		{
-			Stopwatch.Start();
-		}
-		LapCommand?.NotifyCanExecuteChanged();
-		ResetCommand?.NotifyCanExecuteChanged();
-	}
-
-	[RelayCommand(CanExecute = nameof(CanLap))]
-	public void Lap()
-	{
-		if (Stopwatch is null)
-		{
-			throw new InvalidOperationException("Stopwatch is was already unset");
-		}
-
-		Stopwatch.Lap();
-	}
-
-	private bool CanLap() => Stopwatch?.IsRunning ?? false;
-
-	[RelayCommand(CanExecute = nameof(CanReset))]
-	public void Reset()
-	{
-		if (Stopwatch is null)
-		{
-			throw new InvalidOperationException("Stopwatch is was already unset");
-		}
-
-		Stopwatch.Reset();
-		LapCommand?.NotifyCanExecuteChanged();
-		ResetCommand?.NotifyCanExecuteChanged();
-	}
-
-	private bool CanReset() => Stopwatch is not null ? !Stopwatch.IsZero || Stopwatch.IsRunning : false;
 
 	[RelayCommand]
 	public void GoToSettings() => NavigationService.Navigate<SettingsViewModel>();
