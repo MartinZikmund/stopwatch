@@ -27,6 +27,26 @@ public class StopwatchService : IDisposable
 
 	public bool IsRunning => _stopwatch.LastStartTime is not null;
 
+	public string Name
+	{
+		get => _stopwatch.Name;
+		set
+		{
+			_stopwatch.Name = value;
+			_dataSource.Update(_stopwatch);
+		}
+	}
+
+	public string Icon
+	{
+		get => _stopwatch.Icon;
+		set
+		{
+			_stopwatch.Icon = value;
+			_dataSource.Update(_stopwatch);
+		}
+	}
+
 	public void Start()
 	{
 		if (IsRunning)

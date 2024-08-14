@@ -51,6 +51,26 @@ public partial class StopwatchViewModel : ObservableObject, IDisposable
 
 	public bool IsZero => _stopwatchService.CurrentTime == TimeSpan.Zero;
 
+	public string Icon
+	{
+		get => _stopwatchService.Icon;
+		set
+		{
+			_stopwatchService.Icon = value;
+			OnPropertyChanged();
+		}
+	}
+
+	public string Name
+	{
+		get => _stopwatchService.Name;
+		set
+		{
+			_stopwatchService.Name = value;
+			OnPropertyChanged();
+		}
+	}
+
 	[RelayCommand]
 	public void StartStop()
 	{
