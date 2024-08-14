@@ -39,23 +39,22 @@
             RowSpacing="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="1.5*" />
-            </Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
 
-            <StackPanel
+			<StackPanel
                 x:Name="ControlButtonsPanel"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal"
                 Spacing="8">
-                <Button
+				<Button
                     Command="{x:Bind ViewModel.ToggleFullScreenCommand}"
                     Style="{ThemeResource SubtleButtonStyle}"
                     ToolTipService.ToolTip="{ex:Localize Key=FullScreen}"
                     Visibility="{x:Bind ViewModel.ShowFullScreenButton, Mode=OneWay}">
-                    <FontIcon Glyph="{x:Bind ViewModel.IsFullScreen, Mode=OneWay, Converter={StaticResource IsFullScreenToSymbolConverter}}" />
-                </Button>
-                <!--<Button
+					<FontIcon Glyph="{x:Bind ViewModel.IsFullScreen, Mode=OneWay, Converter={StaticResource IsFullScreenToSymbolConverter}}" />
+				</Button>
+				<!--<Button
                     Command="{x:Bind ViewModel.ToggleCompactOverlayCommand}"
                     Style="{ThemeResource SubtleButtonStyle}"
                     Visibility="{x:Bind ViewModel.ShowCompactOverlayButton, Mode=OneWay}">
@@ -63,14 +62,14 @@
 						<FontIcon Glyph="{x:Bind ViewModel.IsCompactOverlay, Mode=OneWay, Converter={StaticResource IsCompactOverlayToSymbolConverter}}" />
 					</Grid>
 				</Button>-->
-                <Button Command="{x:Bind ViewModel.GoToSettingsCommand}" Style="{ThemeResource SubtleButtonStyle}">
-                    <Grid>
-                        <SymbolIcon Symbol="Setting" />
-                    </Grid>
-                </Button>
-            </StackPanel>
+				<Button Command="{x:Bind ViewModel.GoToSettingsCommand}" Style="{ThemeResource SubtleButtonStyle}">
+					<Grid>
+						<SymbolIcon Symbol="Setting" />
+					</Grid>
+				</Button>
+			</StackPanel>
 
-            <controls:StopwatchDisplayControl Stopwatch="{x:Bind ViewModel.CurrentStopwatch, Mode=OneWay}" />
+			<controls:StopwatchDisplayControl Grid.Row="1" Stopwatch="{x:Bind ViewModel.Stopwatch, Mode=OneWay}" />
 
             <TextBlock
                 Margin="8"

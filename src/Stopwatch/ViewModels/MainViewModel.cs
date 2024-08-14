@@ -18,7 +18,7 @@ public partial class MainViewModel : PageViewModel
 	private readonly IDisplayRequestManager _displayRequestManager;
 
 	[ObservableProperty]
-	private StopwatchViewModel? _selectedStopwatch;
+	private StopwatchViewModel? _stopwatch;
 
 	public MainViewModel(
 		INavigationService navigationService,
@@ -43,15 +43,15 @@ public partial class MainViewModel : PageViewModel
 
 	public override void ViewUnloaded()
 	{
-		SelectedStopwatch?.Dispose();
-		SelectedStopwatch = null!;
+		Stopwatch?.Dispose();
+		Stopwatch = null!;
 	}
 
 	[MemberNotNull(nameof(Stopwatch))]
 	private void ReloadStopwatch()
 	{
 		var stopwatch = _dataSource.GetOrCreateFirst();
-		SelectedStopwatch = new(stopwatch, _dataSource, _timerFactory, _appPreferences, _displayRequestManager);
+		Stopwatch = new(stopwatch, _dataSource, _timerFactory, _appPreferences, _displayRequestManager);
 	}
 
 	[RelayCommand]

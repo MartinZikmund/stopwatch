@@ -13,13 +13,13 @@
     d:DesignWidth="400"
     mc:Ignorable="d android">
 
-    <Grid>
+    <Grid RowSpacing="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Viewbox Grid.Row="0" Stretch="Uniform">
+			<RowDefinition Height="*" />
+			<RowDefinition Height="300" />
+		</Grid.RowDefinitions>
+        <Viewbox Grid.Row="1" Stretch="Uniform">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
