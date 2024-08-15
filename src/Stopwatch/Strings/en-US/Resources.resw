@@ -216,4 +216,7 @@
   <data name="ReviewAction" xml:space="preserve">
     <value>Review...</value>
   </data>
+  <data name="Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
 </root>

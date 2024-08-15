@@ -1,4 +1,4 @@
-using Stopwatch.Model;
+using Stopwatch.Models;
 
 namespace Stopwatch.Services.Settings;
 

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using LiteDB;
-using Stopwatch.Model;
+using Stopwatch.Models;
 
 namespace Stopwatch.Services.Data;
 internal class LiteDbDataSource : IDataSource

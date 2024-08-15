@@ -216,4 +216,7 @@
   <data name="ReviewAction" xml:space="preserve">
     <value>Ohodnotit...</value>
   </data>
+  <data name="Note" xml:space="preserve">
+    <value>Poznámka</value>
+  </data>
 </root>

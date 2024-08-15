@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using Stopwatch.Model;
+using Stopwatch.Models;
 
 namespace Stopwatch.Services.Data;
 

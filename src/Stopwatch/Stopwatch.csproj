@@ -49,17 +49,11 @@
 		<UnoIconForegroundScale Condition="'$(IsAndroid)' == 'true'">0.65</UnoIconForegroundScale>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Remove="Dialogs\ColorPickerDialog.xaml" />
-	</ItemGroup>
-	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
 		<PackageReference Include="CommunityToolkit.WinUI.Converters" />
 		<PackageReference Include="CommunityToolkit.WinUI.Helpers" />
 		<PackageReference Include="LiteDB" />
 		<PackageReference Include="MZikmund.Toolkit.WinUI" />
 		<PackageReference Include="Plugin.InAppBilling" />
-	</ItemGroup>
-	<ItemGroup>
-		<UpToDateCheckInput Remove="Dialogs\ColorPickerDialog.xaml" />
 	</ItemGroup>
 </Project>

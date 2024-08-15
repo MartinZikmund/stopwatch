@@ -1,5 +1,5 @@
 using MZikmund.Toolkit.WinUI.Services;
-using Stopwatch.Model;
+using Stopwatch.Models;
 
 namespace Stopwatch.Services.Settings;
 

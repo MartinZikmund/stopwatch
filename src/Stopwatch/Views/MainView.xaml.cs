@@ -34,7 +34,6 @@ public sealed partial class MainView : MainViewBase
 	{
 		StartAutoHide();
 
-		StartStopButton.Focus(FocusState.Programmatic);
 	}
 
 	private void RootGridPointerEvent(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)

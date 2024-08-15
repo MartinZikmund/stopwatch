@@ -1,4 +1,4 @@
-﻿using Stopwatch.Model;
+﻿using Stopwatch.Models;
 using Stopwatch.Services.Data;
 using Stopwatch.Services.Settings;
 using Uno.Disposables;
@@ -26,6 +26,26 @@ public class StopwatchService : IDisposable
 		_stopwatch.PausedElapsedTime;
 
 	public bool IsRunning => _stopwatch.LastStartTime is not null;
+
+	public string Name
+	{
+		get => _stopwatch.Name;
+		set
+		{
+			_stopwatch.Name = value;
+			_dataSource.Update(_stopwatch);
+		}
+	}
+
+	public string Icon
+	{
+		get => _stopwatch.Icon;
+		set
+		{
+			_stopwatch.Icon = value;
+			_dataSource.Update(_stopwatch);
+		}
+	}
 
 	public void Start()
 	{
@@ -59,14 +79,14 @@ public class StopwatchService : IDisposable
 	public void Reset()
 	{
 		_stopwatch.LastStartTime = null;
-		_stopwatch.Laps = Array.Empty<TimeSpan>();
+		_stopwatch.Laps = Array.Empty<LapModel>();
 		_stopwatch.PausedElapsedTime = TimeSpan.Zero;
 		_dataSource.Update(_stopwatch);
 	}
 
-	internal TimeSpan AddLap()
+	internal LapModel AddLap()
 	{
-		var lap = CurrentTime;
+		var lap = new LapModel(CurrentTime);
 		_stopwatch.Laps = _stopwatch.Laps.Append(lap).ToArray();
 		_dataSource.Update(_stopwatch);
 		return lap;
