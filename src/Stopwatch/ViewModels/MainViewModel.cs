@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.UI.Windowing;
-using Stopwatch.Model;
+using Stopwatch.Models;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
 using Stopwatch.Services.Navigation;

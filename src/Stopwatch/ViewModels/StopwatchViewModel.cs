@@ -1,6 +1,6 @@
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Dispatching;
-using Stopwatch.Model;
+using Stopwatch.Models;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
 using Stopwatch.Services.Settings;
@@ -21,7 +21,7 @@ public partial class StopwatchViewModel : ObservableObject, IDisposable
 	{
 		_stopwatch = stopwatch;
 		_dataSource = dataSource;
-		Laps = new(_stopwatch.Laps);
+		Laps = new(this, stopwatch);
 		_timerProvider = timerProvider;
 		_stopwatchService = new StopwatchService(stopwatch, dataSource, appPreferences, displayRequestManager);
 		_timer = timerProvider.Create();
@@ -137,4 +137,6 @@ public partial class StopwatchViewModel : ObservableObject, IDisposable
 		_timer.Stop();
 		OnTimePropertiesChanged();
 	}
+
+	internal void OnLapUpdated() => _dataSource.Update(_stopwatch);
 }

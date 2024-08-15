@@ -1,16 +1,18 @@
-﻿using System.Collections.ObjectModel;
+﻿#nullable enable
+
+using System.Collections.ObjectModel;
+using Stopwatch.Models;
 
 namespace Stopwatch.ViewModels;
 
 public class LapsObservableCollection : ObservableCollection<LapViewModel>
 {
-	public LapsObservableCollection()
-	{
-	}
+	private readonly StopwatchViewModel _owner;
 
-	public LapsObservableCollection(IEnumerable<TimeSpan> laps)
+	public LapsObservableCollection(StopwatchViewModel owner, StopwatchModel stopwatch)
 	{
-		foreach (var lap in laps)
+		_owner = owner;
+		foreach (var lap in stopwatch.Laps)
 		{
 			AddLapInner(lap);
 		}
@@ -18,17 +20,17 @@ public class LapsObservableCollection : ObservableCollection<LapViewModel>
 		UpdateExtremes();
 	}
 
-	public void AddLap(TimeSpan lapTime)
+	public void AddLap(LapModel lap)
 	{
-		AddLapInner(lapTime);
+		AddLapInner(lap);
 		UpdateExtremes();
 	}
 
-	private void AddLapInner(TimeSpan lapTime)
+	private void AddLapInner(LapModel lap)
 	{
 		var lastTotalTime = Count == 0 ? TimeSpan.Zero : this[0].TotalTime;
-		var diff = lapTime - lastTotalTime;
-		Insert(0, new LapViewModel(Count + 1, diff, lapTime));
+		var diff = lap.Time - lastTotalTime;
+		Insert(0, new LapViewModel(_owner, lap, Count + 1, diff));
 	}
 
 	private void UpdateExtremes()

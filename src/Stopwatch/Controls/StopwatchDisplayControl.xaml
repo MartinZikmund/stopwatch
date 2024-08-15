@@ -85,10 +85,12 @@
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				<TextBlock Text="{ex:Localize Key=Laps}" />
 				<TextBlock Grid.Column="1" Text="{ex:Localize Key=LapTime}" />
 				<TextBlock Grid.Column="2" Text="{ex:Localize Key=TotalTime}" />
+				<TextBlock Grid.Column="3" Text="{ex:Localize Key=Note}" />
 			</Grid>
 			<ListView
                 Grid.Row="1"
@@ -103,7 +105,18 @@
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="lapVM:LapViewModel">
 						<Grid ColumnSpacing="16">
+							<Grid.Resources>
+								<Style TargetType="TextBlock">
+									<Setter Property="VerticalAlignment" Value="Center" />
+								</Style>
+								<Style TargetType="TextBox" BasedOn="{StaticResource DefaultTextBoxStyle}">
+									<Setter Property="VerticalAlignment" Value="Center" />
+									<Setter Property="Background" Value="Transparent" />
+									<Setter Property="BorderThickness" Value="0,0,0,2" />
+								</Style>
+							</Grid.Resources>
 							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="*" />
@@ -114,6 +127,7 @@
                                     x:Name="FastestBlock"
                                     Grid.Column="2"
                                     x:Load="True"
+									VerticalAlignment="Center"
                                     Style="{ThemeResource CaptionTextBlockStyle}"
                                     Text="{ex:Localize Key=Fastest}"
                                     Visibility="{x:Bind IsFastest, Mode=OneWay}" />
@@ -121,12 +135,14 @@
                                     x:Name="SlowestBlock"
                                     Grid.Column="2"
                                     x:Load="True"
+									VerticalAlignment="Center"
                                     Style="{ThemeResource CaptionTextBlockStyle}"
                                     Text="{ex:Localize Key=Slowest}"
                                     Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
 							</StackPanel>
 							<TextBlock Grid.Column="1" Text="{x:Bind TimeString}" />
 							<TextBlock Grid.Column="2" Text="{x:Bind TotalTimeString}" />
+							<TextBox Background="Transparent" Grid.Column="3" Text="{x:Bind Note, Mode=TwoWay}" />
 						</Grid>
 					</DataTemplate>
 				</ListView.ItemTemplate>

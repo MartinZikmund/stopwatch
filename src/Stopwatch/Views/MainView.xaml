@@ -72,6 +72,7 @@
 			<controls:StopwatchDisplayControl Grid.Row="1" Stopwatch="{x:Bind ViewModel.Stopwatch, Mode=OneWay}" />
 
             <TextBlock
+				Grid.Row="1"
                 Margin="8"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
