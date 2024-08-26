@@ -12,6 +12,4 @@ internal class HistoryViewModel : PageViewModel
 	public HistoryViewModel(INavigationService navigationService) : base(navigationService)
 	{
 	}
-
-
 }

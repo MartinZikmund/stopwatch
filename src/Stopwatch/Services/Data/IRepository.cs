@@ -13,7 +13,9 @@ public interface IRepository<T> where T : class, IId
 
 	T? Get(int id);
 
-	void Add(T stopwatch);
+	void Add(T item);
 
-	void Update(T stopwatch);
+	void Update(T item);
+
+	void Delete(T item);
 }

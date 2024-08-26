@@ -14,15 +14,23 @@ public partial class StopwatchViewModel : ObservableObject, IDisposable
 	private readonly StopwatchModel _stopwatch;
 	private readonly IDataSource _dataSource;
 	private readonly ITimerFactory _timerProvider;
+	private readonly IHistoryService _historyService;
 	private readonly StopwatchService _stopwatchService;
 	private readonly DispatcherQueueTimer _timer;
 
-	public StopwatchViewModel(StopwatchModel stopwatch, IDataSource dataSource, ITimerFactory timerProvider, IAppPreferences appPreferences, IDisplayRequestManager displayRequestManager)
+	public StopwatchViewModel(
+		StopwatchModel stopwatch,
+		IDataSource dataSource,
+		ITimerFactory timerProvider,
+		IAppPreferences appPreferences,
+		IHistoryService historyService,
+		IDisplayRequestManager displayRequestManager)
 	{
 		_stopwatch = stopwatch;
 		_dataSource = dataSource;
 		Laps = new(this, stopwatch);
 		_timerProvider = timerProvider;
+		_historyService = historyService;
 		_stopwatchService = new StopwatchService(stopwatch, dataSource, appPreferences, displayRequestManager);
 		_timer = timerProvider.Create();
 		_timer.Interval = TimeSpan.FromMilliseconds(50);
@@ -97,6 +105,12 @@ public partial class StopwatchViewModel : ObservableObject, IDisposable
 	[RelayCommand(CanExecute = nameof(CanReset))]
 	public void Reset()
 	{
+		if (_stopwatch.InitialStartTime is not null &&
+			(_stopwatch.Laps.Any() || !IsRunning))
+		{
+			_historyService.Save(_stopwatch);
+		}
+
 		_stopwatchService.Reset();
 		Laps.Clear();
 		OnTimePropertiesChanged();

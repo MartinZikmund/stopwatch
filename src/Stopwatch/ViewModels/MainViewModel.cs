@@ -13,6 +13,7 @@ public partial class MainViewModel : PageViewModel
 {
 	private readonly ITimerFactory _timerFactory;
 	private readonly IDataSource _dataSource;
+	private readonly IHistoryService _historyService;
 	private readonly IWindowShellProvider _windowShellProvider;
 	private readonly IAppPreferences _appPreferences;
 	private readonly IDisplayRequestManager _displayRequestManager;
@@ -24,12 +25,14 @@ public partial class MainViewModel : PageViewModel
 		INavigationService navigationService,
 		ITimerFactory timerFactory,
 		IDataSource dataSource,
+		IHistoryService historyService,
 		IWindowShellProvider windowShellProvider,
 		IAppPreferences appPreferences,
 		IDisplayRequestManager displayRequestManager) : base(navigationService)
 	{
 		_timerFactory = timerFactory;
 		_dataSource = dataSource;
+		_historyService = historyService;
 		_windowShellProvider = windowShellProvider;
 		_appPreferences = appPreferences;
 		_displayRequestManager = displayRequestManager;
@@ -51,7 +54,7 @@ public partial class MainViewModel : PageViewModel
 	private void ReloadStopwatch()
 	{
 		var stopwatch = _dataSource.Stopwatches.GetOrCreateFirst();
-		Stopwatch = new(stopwatch, _dataSource, _timerFactory, _appPreferences, _displayRequestManager);
+		Stopwatch = new(stopwatch, _dataSource, _timerFactory, _appPreferences, _historyService, _displayRequestManager);
 	}
 
 	[RelayCommand]
