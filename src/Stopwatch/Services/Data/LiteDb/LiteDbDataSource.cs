@@ -1,8 +1,7 @@
 ﻿using LiteDB;
 using Stopwatch.Models;
-using Stopwatch.Services.Data.LiteDb;
 
-namespace Stopwatch.Services.Data;
+namespace Stopwatch.Services.Data.LiteDb;
 internal class LiteDbDataSource : IDataSource
 {
 	private LiteDatabase? _liteDatabase;
@@ -23,5 +22,5 @@ internal class LiteDbDataSource : IDataSource
 
 		Stopwatches = new StopwatchLiteDbRepository(_liteDatabase);
 		HistoryStopwatches = new LiteDbRepository<HistoryStopwatchModel>(_liteDatabase);
-	}	
+	}
 }
