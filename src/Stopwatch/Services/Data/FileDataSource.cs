@@ -9,6 +9,10 @@ public class FileDataSource : IDataSource
 	private StorageFile _dataFile;
 	private string _filePath;
 
+	public IStopwatchRepository Stopwatches => throw new NotImplementedException();
+
+	public IRepository<HistoryStopwatchModel> HistoryStopwatches => throw new NotImplementedException();
+
 	public FileDataSource()
 	{
 	}

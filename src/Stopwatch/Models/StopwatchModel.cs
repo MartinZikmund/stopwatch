@@ -4,13 +4,15 @@ using Windows.UI;
 
 namespace Stopwatch.Models;
 
-public class StopwatchModel
+public class StopwatchModel : IId
 {
 	public int Id { get; set; }
 
 	public string Icon { get; set; }
 
 	public string Name { get; set; }
+
+	public DateTimeOffset? InitialStartTime { get; set; }
 
     public DateTimeOffset? LastStartTime { get; set; }
 
