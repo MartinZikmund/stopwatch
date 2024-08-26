@@ -48,7 +48,7 @@ public partial class SettingsViewModel : PageViewModel
 		_xamlRootProvider = xamlRootProvider;
 		_dataSource = dataSource;
 
-		var stopwatch = _dataSource.GetOrCreateFirst();
+		var stopwatch = _dataSource.Stopwatches.GetOrCreateFirst();
 		BackgroundImageUri = stopwatch.BackgroundImageUri is not null ? new(stopwatch.BackgroundImageUri) : null;
 		BackgroundImageOpacityPercent = stopwatch.BackgroundImageOpacity * 100;
 		BackgroundColor = ColorHelper.ToColor(stopwatch.BackgroundColor);
@@ -173,10 +173,10 @@ public partial class SettingsViewModel : PageViewModel
 
 	private void SaveChanges()
 	{
-		var stopwatch = _dataSource.GetOrCreateFirst();
+		var stopwatch = _dataSource.Stopwatches.GetOrCreateFirst();
 		stopwatch.BackgroundImageUri = BackgroundImageUri?.ToString();
 		stopwatch.BackgroundImageOpacity = BackgroundImageOpacityPercent / 100;
 		stopwatch.BackgroundColor = ColorHelper.ToHex(BackgroundColor);
-		_dataSource.Update(stopwatch);
+		_dataSource.Stopwatches.Update(stopwatch);
 	}
 }

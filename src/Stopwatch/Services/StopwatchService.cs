@@ -33,7 +33,7 @@ public class StopwatchService : IDisposable
 		set
 		{
 			_stopwatch.Name = value;
-			_dataSource.Update(_stopwatch);
+			_dataSource.Stopwatches.Update(_stopwatch);
 		}
 	}
 
@@ -43,7 +43,7 @@ public class StopwatchService : IDisposable
 		set
 		{
 			_stopwatch.Icon = value;
-			_dataSource.Update(_stopwatch);
+			_dataSource.Stopwatches.Update(_stopwatch);
 		}
 	}
 
@@ -54,8 +54,9 @@ public class StopwatchService : IDisposable
 			return;
 		}
 
+		_stopwatch.InitialStartTime = _stopwatch.InitialStartTime ?? DateTimeOffset.Now;
 		_stopwatch.LastStartTime = DateTimeOffset.Now;
-		_dataSource.Update(_stopwatch);
+		_dataSource.Stopwatches.Update(_stopwatch);
 
 		if (_appPreferences.KeepScreenOn)
 		{
@@ -72,7 +73,7 @@ public class StopwatchService : IDisposable
 
 		_stopwatch.PausedElapsedTime = _stopwatch.PausedElapsedTime + (DateTimeOffset.UtcNow - _stopwatch.LastStartTime!.Value);
 		_stopwatch.LastStartTime = null;
-		_dataSource.Update(_stopwatch);
+		_dataSource.Stopwatches.Update(_stopwatch);
 		_displayRequestDisposable.Disposable = null;
 	}
 
@@ -81,14 +82,14 @@ public class StopwatchService : IDisposable
 		_stopwatch.LastStartTime = null;
 		_stopwatch.Laps = Array.Empty<LapModel>();
 		_stopwatch.PausedElapsedTime = TimeSpan.Zero;
-		_dataSource.Update(_stopwatch);
+		_dataSource.Stopwatches.Update(_stopwatch);
 	}
 
 	internal LapModel AddLap()
 	{
 		var lap = new LapModel(CurrentTime);
 		_stopwatch.Laps = _stopwatch.Laps.Append(lap).ToArray();
-		_dataSource.Update(_stopwatch);
+		_dataSource.Stopwatches.Update(_stopwatch);
 		return lap;
 	}
 

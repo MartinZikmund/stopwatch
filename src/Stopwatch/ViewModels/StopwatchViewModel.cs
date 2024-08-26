@@ -138,5 +138,5 @@ public partial class StopwatchViewModel : ObservableObject, IDisposable
 		OnTimePropertiesChanged();
 	}
 
-	internal void OnLapUpdated() => _dataSource.Update(_stopwatch);
+	internal void OnLapUpdated() => _dataSource.Stopwatches.Update(_stopwatch);
 }

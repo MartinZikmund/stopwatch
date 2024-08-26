@@ -50,7 +50,7 @@ public partial class MainViewModel : PageViewModel
 	[MemberNotNull(nameof(Stopwatch))]
 	private void ReloadStopwatch()
 	{
-		var stopwatch = _dataSource.GetOrCreateFirst();
+		var stopwatch = _dataSource.Stopwatches.GetOrCreateFirst();
 		Stopwatch = new(stopwatch, _dataSource, _timerFactory, _appPreferences, _displayRequestManager);
 	}
 
