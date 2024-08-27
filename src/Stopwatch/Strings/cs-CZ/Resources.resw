@@ -219,4 +219,28 @@
   <data name="Note" xml:space="preserve">
     <value>Poznámka</value>
   </data>
+  <data name="History" xml:space="preserve">
+    <value>Historie</value>
+  </data>
+  <data name="DeleteHistoryEntryDialogTitle" xml:space="preserve">
+    <value>Odstranit záznam z historie</value>
+  </data>
+  <data name="DeleteHistoryEntryDialogText" xml:space="preserve">
+    <value>Chcete opravdu odstranit tento záznam z historie?</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Odstranit</value>
+  </data>
+  <data name="ClearHistoryDialogTitle" xml:space="preserve">
+    <value>Vyčistit historii</value>
+  </data>
+  <data name="ClearHistoryDialogText" xml:space="preserve">
+    <value>Chcete opravdu odstranit všechny záznamy z historie?</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ano</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Ne</value>
+  </data>
 </root>

@@ -45,4 +45,10 @@ internal class LiteDbRepository<T> : IRepository<T> where T : class, IId
 		var collection = _database.GetCollection<T>();
 		collection.Update(item);
 	}
+
+	public void DeleteAll()
+	{
+		var collection = _database.GetCollection<T>();
+		collection.DeleteAll();
+	}
 }

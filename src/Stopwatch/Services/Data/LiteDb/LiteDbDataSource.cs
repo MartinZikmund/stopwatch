@@ -12,7 +12,7 @@ internal class LiteDbDataSource : IDataSource
 
 	public IStopwatchRepository Stopwatches { get; private set; } = null!;
 
-	public IRepository<HistoryStopwatchModel> HistoryStopwatches { get; private set; } = null!;
+	public IRepository<HistoryEntryModel> HistoryStopwatches { get; private set; } = null!;
 
 	public async Task InitializeAsync()
 	{
@@ -21,6 +21,6 @@ internal class LiteDbDataSource : IDataSource
 		_liteDatabase = new LiteDatabase(dbPath);
 
 		Stopwatches = new StopwatchLiteDbRepository(_liteDatabase);
-		HistoryStopwatches = new LiteDbRepository<HistoryStopwatchModel>(_liteDatabase);
+		HistoryStopwatches = new LiteDbRepository<HistoryEntryModel>(_liteDatabase);
 	}
 }

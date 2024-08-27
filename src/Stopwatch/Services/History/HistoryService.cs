@@ -16,15 +16,20 @@ internal class HistoryService : IHistoryService
 		_dataSource = dataSource;
 	}
 
-	public HistoryStopwatchModel[] GetAll() =>
+	public HistoryEntryModel[] GetAll() =>
 		_dataSource.HistoryStopwatches
 			.GetAll()
 			.OrderByDescending(s => s.InitialStartTime)
 			.ToArray();
 
-	public void Delete(HistoryStopwatchModel historyStopwatch)
+	public void Delete(HistoryEntryModel historyStopwatch)
 	{
 		_dataSource.HistoryStopwatches.Delete(historyStopwatch);
+	}
+
+	public void Clear()
+	{
+		_dataSource.HistoryStopwatches.DeleteAll();
 	}
 
 	public void Save(StopwatchModel stopwatch)
@@ -36,7 +41,7 @@ internal class HistoryService : IHistoryService
 
 		var lapsCopy = stopwatch.Laps.Select(lap => new LapModel() { TotalTime = lap.TotalTime, Note = lap.Note }).ToArray();
 
-		var historyModel = new HistoryStopwatchModel(
+		var historyModel = new HistoryEntryModel(
 			stopwatch.Icon,
 			stopwatch.Name,
 			startTime,

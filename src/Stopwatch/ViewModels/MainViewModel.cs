@@ -61,6 +61,9 @@ public partial class MainViewModel : PageViewModel
 	public void GoToSettings() => NavigationService.Navigate<SettingsViewModel>();
 
 	[RelayCommand]
+	public void GoToHistory() => NavigationService.Navigate<HistoryViewModel>();
+
+	[RelayCommand]
 	public void ToggleCompactOverlay()
 	{
 		var newPresenterKind = IsCompactOverlay ? Microsoft.UI.Windowing.AppWindowPresenterKind.Default : Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay;

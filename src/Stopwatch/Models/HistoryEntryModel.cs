@@ -2,13 +2,13 @@
 
 namespace Stopwatch.Models;
 
-public class HistoryStopwatchModel : IId
+public class HistoryEntryModel : IId
 {
-	public HistoryStopwatchModel()
+	public HistoryEntryModel()
 	{
 	}
 
-	public HistoryStopwatchModel(
+	public HistoryEntryModel(
 		string icon,
 		string name,
 		DateTimeOffset initialStartTime,

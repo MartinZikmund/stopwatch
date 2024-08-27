@@ -8,5 +8,5 @@ public interface IDataSource
 
 	IStopwatchRepository Stopwatches { get; }
 
-	IRepository<HistoryStopwatchModel> HistoryStopwatches { get; }
+	IRepository<HistoryEntryModel> HistoryStopwatches { get; }
 }

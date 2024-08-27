@@ -11,7 +11,7 @@ public class FileDataSource : IDataSource
 
 	public IStopwatchRepository Stopwatches => throw new NotImplementedException();
 
-	public IRepository<HistoryStopwatchModel> HistoryStopwatches => throw new NotImplementedException();
+	public IRepository<HistoryEntryModel> HistoryStopwatches => throw new NotImplementedException();
 
 	public FileDataSource()
 	{

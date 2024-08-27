@@ -9,36 +9,36 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wctc="using:CommunityToolkit.WinUI.Converters">
 
-    <Grid>
+	<Grid>
 
-        <!--  Background color  -->
-        <Border>
-            <Border.Background>
-                <SolidColorBrush Color="{x:Bind ViewModel.Stopwatch.BackgroundColor, Mode=OneWay}" />
-            </Border.Background>
-        </Border>
+		<!--  Background color  -->
+		<Border>
+			<Border.Background>
+				<SolidColorBrush Color="{x:Bind ViewModel.Stopwatch.BackgroundColor, Mode=OneWay}" />
+			</Border.Background>
+		</Border>
 
-        <!--  Background image  -->
-        <Border Visibility="{x:Bind ViewModel.Stopwatch.BackgroundImageUri, Converter={StaticResource NonNullToVisibilityConverter}, FallbackValue=Collapsed, Mode=OneWay}">
-            <Image
+		<!--  Background image  -->
+		<Border Visibility="{x:Bind ViewModel.Stopwatch.BackgroundImageUri, Converter={StaticResource NonNullToVisibilityConverter}, FallbackValue=Collapsed, Mode=OneWay}">
+			<Image
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Opacity="{x:Bind ViewModel.Stopwatch.BackgroundImageOpacity, Mode=OneWay}"
                 Stretch="UniformToFill">
-                <Image.Source>
-                    <BitmapImage UriSource="{x:Bind ViewModel.Stopwatch.BackgroundImageUri, Mode=OneWay}" />
-                </Image.Source>
-            </Image>
-        </Border>
+				<Image.Source>
+					<BitmapImage UriSource="{x:Bind ViewModel.Stopwatch.BackgroundImageUri, Mode=OneWay}" />
+				</Image.Source>
+			</Image>
+		</Border>
 
-        <Grid
+		<Grid
             Padding="36,60,36,36"
             Background="Transparent"
             PointerMoved="RootGridPointerEvent"
             PointerPressed="RootGridPointerEvent"
             RowSpacing="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
@@ -62,22 +62,23 @@
 						<FontIcon Glyph="{x:Bind ViewModel.IsCompactOverlay, Mode=OneWay, Converter={StaticResource IsCompactOverlayToSymbolConverter}}" />
 					</Grid>
 				</Button>-->
+				<Button Command="{x:Bind ViewModel.GoToHistoryCommand}" Style="{ThemeResource SubtleButtonStyle}">
+					<FontIcon Glyph="&#xE81C;" />
+				</Button>
 				<Button Command="{x:Bind ViewModel.GoToSettingsCommand}" Style="{ThemeResource SubtleButtonStyle}">
-					<Grid>
-						<SymbolIcon Symbol="Setting" />
-					</Grid>
+					<SymbolIcon Symbol="Setting" />
 				</Button>
 			</StackPanel>
 
 			<controls:StopwatchDisplayControl Grid.Row="1" Stopwatch="{x:Bind ViewModel.Stopwatch, Mode=OneWay}" />
 
-            <TextBlock
+			<TextBlock
 				Grid.Row="1"
                 Margin="8"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
                 Style="{ThemeResource CaptionTextBlockStyle}"
                 Text="Beta" />
-        </Grid>
-    </Grid>
+		</Grid>
+	</Grid>
 </local:MainViewBase>

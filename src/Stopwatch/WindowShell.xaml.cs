@@ -1,4 +1,4 @@
-﻿using MZikmund.Services.Dialogs;
+﻿using Stopwatch.Services;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using Stopwatch.Infrastructure;
 using Stopwatch.Services.Navigation;

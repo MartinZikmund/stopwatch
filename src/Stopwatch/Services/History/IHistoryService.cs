@@ -3,9 +3,11 @@
 namespace Stopwatch.Services;
 public interface IHistoryService
 {
-	HistoryStopwatchModel[] GetAll();
+	HistoryEntryModel[] GetAll();
 
-	void Delete(HistoryStopwatchModel historyStopwatch);
+	void Delete(HistoryEntryModel historyStopwatch);
 
 	void Save(StopwatchModel stopwatch);
+
+	void Clear();
 }

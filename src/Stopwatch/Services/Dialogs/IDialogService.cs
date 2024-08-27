@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace MZikmund.Services.Dialogs;
+namespace Stopwatch.Services;
 
 public interface IDialogService
 {
