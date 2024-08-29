@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:Stopwatch.Extensions.Xaml"
     xmlns:local="using:Stopwatch.Views"
+	xmlns:models="using:Stopwatch.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wctc="using:CommunityToolkit.WinUI.Converters">
 
@@ -14,19 +15,19 @@
 		<!--  Background color  -->
 		<Border>
 			<Border.Background>
-				<SolidColorBrush Color="{x:Bind ViewModel.Stopwatch.BackgroundColor, Mode=OneWay}" />
+				<SolidColorBrush Color="{x:Bind ViewModel.DisplayedStopwatch.BackgroundColor, Mode=OneWay}" />
 			</Border.Background>
 		</Border>
 
 		<!--  Background image  -->
-		<Border Visibility="{x:Bind ViewModel.Stopwatch.BackgroundImageUri, Converter={StaticResource NonNullToVisibilityConverter}, FallbackValue=Collapsed, Mode=OneWay}">
+		<Border Visibility="{x:Bind ViewModel.DisplayedStopwatch.BackgroundImageUri, Converter={StaticResource NonNullToVisibilityConverter}, FallbackValue=Collapsed, Mode=OneWay}">
 			<Image
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Opacity="{x:Bind ViewModel.Stopwatch.BackgroundImageOpacity, Mode=OneWay}"
+                Opacity="{x:Bind ViewModel.DisplayedStopwatch.BackgroundImageOpacity, Mode=OneWay}"
                 Stretch="UniformToFill">
 				<Image.Source>
-					<BitmapImage UriSource="{x:Bind ViewModel.Stopwatch.BackgroundImageUri, Mode=OneWay}" />
+					<BitmapImage UriSource="{x:Bind ViewModel.DisplayedStopwatch.BackgroundImageUri, Mode=OneWay}" />
 				</Image.Source>
 			</Image>
 		</Border>
@@ -39,8 +40,17 @@
             RowSpacing="20">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
+
+			<TabView TabItemsSource="{x:Bind ViewModel.Stopwatches}">
+				<TabView.TabItemTemplate>
+					<DataTemplate x:DataType="models:StopwatchModel">
+						<TabViewItem Header="{x:Bind DataHeader}" IconSource="{x:Bind DataIconSource}" Content="{x:Bind DataContent}" />
+					</DataTemplate>
+				</TabView.TabItemTemplate>
+			</TabView>
 
 			<StackPanel
                 x:Name="ControlButtonsPanel"
@@ -70,7 +80,7 @@
 				</Button>
 			</StackPanel>
 
-			<controls:StopwatchDisplayControl Grid.Row="1" Stopwatch="{x:Bind ViewModel.Stopwatch, Mode=OneWay}" />
+			<controls:StopwatchDisplayControl Grid.Row="1" Stopwatch="{x:Bind ViewModel.DisplayedStopwatch, Mode=OneWay}" />
 
 			<TextBlock
 				Grid.Row="1"

@@ -243,4 +243,10 @@
   <data name="No" xml:space="preserve">
     <value>Ne</value>
   </data>
+  <data name="StopwatchLabelDefault" xml:space="preserve">
+    <value>Stopky</value>
+  </data>
+  <data name="StopwatchLabelNumbered" xml:space="preserve">
+    <value>Stopky {0}</value>
+  </data>
 </root>

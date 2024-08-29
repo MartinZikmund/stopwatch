@@ -1,4 +1,7 @@
+using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Stopwatch.Models;
 using Stopwatch.Services;
@@ -17,9 +20,13 @@ public partial class MainViewModel : PageViewModel
 	private readonly IWindowShellProvider _windowShellProvider;
 	private readonly IAppPreferences _appPreferences;
 	private readonly IDisplayRequestManager _displayRequestManager;
+	private readonly DispatcherQueueTimer _timer;
 
 	[ObservableProperty]
-	private StopwatchViewModel? _stopwatch;
+	private StopwatchModel? _selectedStopwatch;
+
+	[ObservableProperty]
+	private StopwatchViewModel? _displayedStopwatch;
 
 	public MainViewModel(
 		INavigationService navigationService,
@@ -36,25 +43,69 @@ public partial class MainViewModel : PageViewModel
 		_windowShellProvider = windowShellProvider;
 		_appPreferences = appPreferences;
 		_displayRequestManager = displayRequestManager;
-		ReloadStopwatch();
+
+		_timer = timerFactory.Create();
+		_timer.Interval = TimeSpan.FromMilliseconds(50);
+		_timer.Tick += (sender, e) => OnTick();
+		_timer.Start();
 	}
 
-	public override void ViewLoaded()
+	private void OnTick()
 	{
-		ReloadStopwatch();
+		DisplayedStopwatch?.OnTick();
+	}
+
+	private void OnStart()
+	{
+		if (_appPreferences.KeepScreenOn)
+		{
+			_displayRequestDisposable.Disposable = _displayRequestManager.RequestActive();
+		}
+	}
+
+	private void OnStop()
+	{
+		_displayRequestDisposable.Disposable = null;
+	}
+
+	public ObservableCollection<StopwatchModel> Stopwatches { get; } = new();
+
+	public override void ViewNavigatedTo(object? parameter)
+	{
+		ReloadStopwatches();
 	}
 
 	public override void ViewUnloaded()
 	{
-		Stopwatch?.Dispose();
-		Stopwatch = null!;
+		DisplayedStopwatch?.Dispose();
+		DisplayedStopwatch = null;
 	}
 
-	[MemberNotNull(nameof(Stopwatch))]
-	private void ReloadStopwatch()
+	[MemberNotNull(nameof(DisplayedStopwatch))]
+	private void ReloadStopwatches()
 	{
-		var stopwatch = _dataSource.Stopwatches.GetOrCreateFirst();
-		Stopwatch = new(stopwatch, _dataSource, _timerFactory, _appPreferences, _historyService, _displayRequestManager);
+		var stopwatches = _dataSource.Stopwatches.GetAll();
+		
+		// Merge with Stopwatches collection
+		foreach (var stopwatch in stopwatches)
+		{
+			if (!Stopwatches.Any(s => s.Id == stopwatch.Id))
+			{
+				Stopwatches.Add(stopwatch);
+			}
+		}
+
+		// Remove deleted stopwatches
+		foreach (var stopwatch in Stopwatches.ToArray())
+		{
+			if (!stopwatches.Any(s => s.Id == stopwatch.Id))
+			{
+				Stopwatches.Remove(stopwatch);
+			}
+		}
+
+		SelectedStopwatch ??= Stopwatches.FirstOrDefault();
+		DisplayedStopwatch = new StopwatchViewModel(SelectedStopwatch!, _dataSource, _timerFactory, _appPreferences, _historyService, _displayRequestManager);
 	}
 
 	[RelayCommand]

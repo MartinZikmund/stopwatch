@@ -13,7 +13,6 @@ public partial class StopwatchViewModel : ObservableObject, IDisposable
 {
 	private readonly StopwatchModel _stopwatch;
 	private readonly IDataSource _dataSource;
-	private readonly ITimerFactory _timerProvider;
 	private readonly IHistoryService _historyService;
 	private readonly StopwatchService _stopwatchService;
 	private readonly DispatcherQueueTimer _timer;
@@ -21,24 +20,14 @@ public partial class StopwatchViewModel : ObservableObject, IDisposable
 	public StopwatchViewModel(
 		StopwatchModel stopwatch,
 		IDataSource dataSource,
-		ITimerFactory timerProvider,
 		IAppPreferences appPreferences,
-		IHistoryService historyService,
-		IDisplayRequestManager displayRequestManager)
+		IHistoryService historyService)
 	{
 		_stopwatch = stopwatch;
 		_dataSource = dataSource;
 		Laps = new(this, stopwatch);
-		_timerProvider = timerProvider;
 		_historyService = historyService;
-		_stopwatchService = new StopwatchService(stopwatch, dataSource, appPreferences, displayRequestManager);
-		_timer = timerProvider.Create();
-		_timer.Interval = TimeSpan.FromMilliseconds(50);
-		_timer.Tick += (sender, e) => OnTimePropertiesChanged();
-		if (_stopwatchService.IsRunning)
-		{
-			_timer.Start();
-		}
+		_stopwatchService = new StopwatchService(stopwatch, dataSource, appPreferences);
 	}
 
 	public LapsObservableCollection Laps { get; }
@@ -121,11 +110,10 @@ public partial class StopwatchViewModel : ObservableObject, IDisposable
 
 	public void Dispose()
 	{
-		_timer.Stop();
 		_stopwatchService.Dispose();
 	}
 
-	private void OnTimePropertiesChanged()
+	public void OnTick()
 	{
 		OnPropertyChanged(nameof(CurrentTime));
 		OnPropertyChanged(nameof(CurrentTimeFull));
@@ -142,14 +130,14 @@ public partial class StopwatchViewModel : ObservableObject, IDisposable
 	{
 		_stopwatchService.Start();
 		_timer.Start();
-		OnTimePropertiesChanged();
+		OnTick();
 	}
 
 	private void Stop()
 	{
 		_stopwatchService.Stop();
 		_timer.Stop();
-		OnTimePropertiesChanged();
+		OnTick();
 	}
 
 	internal void OnLapUpdated() => _dataSource.Stopwatches.Update(_stopwatch);
