@@ -249,4 +249,10 @@
   <data name="StopwatchLabelNumbered" xml:space="preserve">
     <value>Stopwatch {0}</value>
   </data>
+  <data name="CloseStopwatchDialogTitle" xml:space="preserve">
+    <value>Close "{0}"</value>
+  </data>
+  <data name="CloseStopwatchDialogText" xml:space="preserve">
+    <value>Are you sure you want to close stopwatch "{0}"?</value>
+  </data>
 </root>

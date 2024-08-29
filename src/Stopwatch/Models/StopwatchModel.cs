@@ -8,6 +8,15 @@ namespace Stopwatch.Models;
 
 public class StopwatchModel : IId
 {
+	public StopwatchModel()
+	{		
+	}
+
+	public StopwatchModel(string name)
+	{
+		Name = name;	
+	}
+
 	public int Id { get; set; }
 
 	public string Icon { get; set; }

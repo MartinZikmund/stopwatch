@@ -48,7 +48,7 @@ public partial class SettingsViewModel : PageViewModel
 		_xamlRootProvider = xamlRootProvider;
 		_dataSource = dataSource;
 
-		var stopwatch = _dataSource.Stopwatches.GetOrCreateFirst();
+		var stopwatch = _dataSource.Stopwatches.GetOrCreateFirst(); // TODO: Edit the right stopwatch
 		BackgroundImageUri = stopwatch.BackgroundImageUri is not null ? new(stopwatch.BackgroundImageUri) : null;
 		BackgroundImageOpacityPercent = stopwatch.BackgroundImageOpacity * 100;
 		BackgroundColor = ColorHelper.ToColor(stopwatch.BackgroundColor);

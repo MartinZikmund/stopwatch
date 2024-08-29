@@ -47,16 +47,17 @@
 			<TabView TabItemsSource="{x:Bind ViewModel.Stopwatches}" TabCloseRequested="TabView_TabCloseRequested" AddTabButtonCommand="{x:Bind ViewModel.AddStopwatchCommand}" SelectedItem="{x:Bind ViewModel.SelectedStopwatch, Mode=TwoWay}">
 				<TabView.TabItemTemplate>
 					<DataTemplate x:DataType="vm:StopwatchViewModel">
-						<TabViewItem Header="{x:Bind Name}" />
+						<TabViewItem Header="{x:Bind Name, Mode=OneWay}" IsClosable="True" />
 					</DataTemplate>
 				</TabView.TabItemTemplate>
 			</TabView>
 
 			<StackPanel
+				Grid.Row="1"
                 x:Name="ControlButtonsPanel"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal"
-				Margin="0,48,0,0"
+				Margin="0,8,0,0"
                 Spacing="8">
 				<Button
                     Command="{x:Bind ViewModel.ToggleFullScreenCommand}"
@@ -81,10 +82,10 @@
 				</Button>
 			</StackPanel>
 
-			<controls:StopwatchDisplayControl Grid.Row="1" Stopwatch="{x:Bind ViewModel.SelectedStopwatch, Mode=OneWay}" />
+			<controls:StopwatchDisplayControl Grid.Row="2" Stopwatch="{x:Bind ViewModel.SelectedStopwatch, Mode=OneWay}" />
 
 			<TextBlock
-				Grid.Row="1"
+				Grid.Row="2"
                 Margin="8"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"

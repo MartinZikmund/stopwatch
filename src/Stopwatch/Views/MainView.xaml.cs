@@ -58,11 +58,11 @@ public sealed partial class MainView : MainViewBase
 		}
 	}
 
-	private void TabView_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
+	private async void TabView_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
 	{
-		if (args.Item is StopwatchViewModel stopwatchViewModel)
+		if (args.Item is StopwatchViewModel stopwatchViewModel && ViewModel is not null)
 		{
-			ViewModel?.CloseStopwatch(stopwatchViewModel);
+			await ViewModel.CloseStopwatchAsync(stopwatchViewModel);
 		}
 	}
 }

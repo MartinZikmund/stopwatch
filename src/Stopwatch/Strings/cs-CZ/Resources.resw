@@ -249,4 +249,10 @@
   <data name="StopwatchLabelNumbered" xml:space="preserve">
     <value>Stopky {0}</value>
   </data>
+  <data name="CloseStopwatchDialogTitle" xml:space="preserve">
+    <value>Zavřít "{0}"</value>
+  </data>
+  <data name="CloseStopwatchDialogText" xml:space="preserve">
+    <value>Chcete opravdu zavřít stopky "{0}"?</value>
+  </data>
 </root>
