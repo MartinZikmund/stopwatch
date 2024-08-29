@@ -7,6 +7,8 @@ public interface IHistoryService
 
 	void Delete(HistoryEntryModel historyStopwatch);
 
+	bool CanSave(StopwatchModel stopwatch);
+
 	void Save(StopwatchModel stopwatch);
 
 	void Clear();

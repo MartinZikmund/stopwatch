@@ -9,13 +9,12 @@ using Windows.UI;
 
 namespace Stopwatch.ViewModels;
 
-public partial class StopwatchViewModel : ObservableObject, IDisposable
+public partial class StopwatchViewModel : ObservableObject
 {
 	private readonly StopwatchModel _stopwatch;
 	private readonly IDataSource _dataSource;
 	private readonly IHistoryService _historyService;
 	private readonly StopwatchService _stopwatchService;
-	private readonly DispatcherQueueTimer _timer;
 
 	public StopwatchViewModel(
 		StopwatchModel stopwatch,
@@ -29,6 +28,10 @@ public partial class StopwatchViewModel : ObservableObject, IDisposable
 		_historyService = historyService;
 		_stopwatchService = new StopwatchService(stopwatch, dataSource, appPreferences);
 	}
+
+	public int Id => _stopwatch.Id;
+
+	public StopwatchModel Stopwatch => _stopwatch;
 
 	public LapsObservableCollection Laps { get; }
 
@@ -102,15 +105,10 @@ public partial class StopwatchViewModel : ObservableObject, IDisposable
 
 		_stopwatchService.Reset();
 		Laps.Clear();
-		OnTimePropertiesChanged();
+		OnTick();
 
 		LapCommand?.NotifyCanExecuteChanged();
 		ResetCommand?.NotifyCanExecuteChanged();
-	}
-
-	public void Dispose()
-	{
-		_stopwatchService.Dispose();
 	}
 
 	public void OnTick()
@@ -129,14 +127,12 @@ public partial class StopwatchViewModel : ObservableObject, IDisposable
 	private void Start()
 	{
 		_stopwatchService.Start();
-		_timer.Start();
 		OnTick();
 	}
 
 	private void Stop()
 	{
 		_stopwatchService.Stop();
-		_timer.Stop();
 		OnTick();
 	}
 

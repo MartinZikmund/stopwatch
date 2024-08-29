@@ -57,6 +57,14 @@ public sealed partial class MainView : MainViewBase
 			_fadeOutTimer.Start();
 		}
 	}
+
+	private void TabView_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
+	{
+		if (args.Item is StopwatchViewModel stopwatchViewModel)
+		{
+			ViewModel?.CloseStopwatch(stopwatchViewModel);
+		}
+	}
 }
 
 public partial class MainViewBase : PageBase<MainViewModel>

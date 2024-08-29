@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:Stopwatch.Extensions.Xaml"
     xmlns:local="using:Stopwatch.Views"
-	xmlns:models="using:Stopwatch.Models"
+	xmlns:vm="using:Stopwatch.ViewModels"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wctc="using:CommunityToolkit.WinUI.Converters">
 
@@ -15,25 +15,25 @@
 		<!--  Background color  -->
 		<Border>
 			<Border.Background>
-				<SolidColorBrush Color="{x:Bind ViewModel.DisplayedStopwatch.BackgroundColor, Mode=OneWay}" />
+				<SolidColorBrush Color="{x:Bind ViewModel.SelectedStopwatch.BackgroundColor, Mode=OneWay}" />
 			</Border.Background>
 		</Border>
 
 		<!--  Background image  -->
-		<Border Visibility="{x:Bind ViewModel.DisplayedStopwatch.BackgroundImageUri, Converter={StaticResource NonNullToVisibilityConverter}, FallbackValue=Collapsed, Mode=OneWay}">
+		<Border Visibility="{x:Bind ViewModel.SelectedStopwatch.BackgroundImageUri, Converter={StaticResource NonNullToVisibilityConverter}, FallbackValue=Collapsed, Mode=OneWay}">
 			<Image
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Opacity="{x:Bind ViewModel.DisplayedStopwatch.BackgroundImageOpacity, Mode=OneWay}"
+                Opacity="{x:Bind ViewModel.SelectedStopwatch.BackgroundImageOpacity, Mode=OneWay}"
                 Stretch="UniformToFill">
 				<Image.Source>
-					<BitmapImage UriSource="{x:Bind ViewModel.DisplayedStopwatch.BackgroundImageUri, Mode=OneWay}" />
+					<BitmapImage UriSource="{x:Bind ViewModel.SelectedStopwatch.BackgroundImageUri, Mode=OneWay}" />
 				</Image.Source>
 			</Image>
 		</Border>
 
 		<Grid
-            Padding="36,60,36,36"
+            Padding="36,0,36,36"
             Background="Transparent"
             PointerMoved="RootGridPointerEvent"
             PointerPressed="RootGridPointerEvent"
@@ -44,10 +44,10 @@
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
-			<TabView TabItemsSource="{x:Bind ViewModel.Stopwatches}">
+			<TabView TabItemsSource="{x:Bind ViewModel.Stopwatches}" TabCloseRequested="TabView_TabCloseRequested" AddTabButtonCommand="{x:Bind ViewModel.AddStopwatchCommand}" SelectedItem="{x:Bind ViewModel.SelectedStopwatch, Mode=TwoWay}">
 				<TabView.TabItemTemplate>
-					<DataTemplate x:DataType="models:StopwatchModel">
-						<TabViewItem Header="{x:Bind DataHeader}" IconSource="{x:Bind DataIconSource}" Content="{x:Bind DataContent}" />
+					<DataTemplate x:DataType="vm:StopwatchViewModel">
+						<TabViewItem Header="{x:Bind Name}" />
 					</DataTemplate>
 				</TabView.TabItemTemplate>
 			</TabView>
@@ -56,6 +56,7 @@
                 x:Name="ControlButtonsPanel"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal"
+				Margin="0,48,0,0"
                 Spacing="8">
 				<Button
                     Command="{x:Bind ViewModel.ToggleFullScreenCommand}"
@@ -80,7 +81,7 @@
 				</Button>
 			</StackPanel>
 
-			<controls:StopwatchDisplayControl Grid.Row="1" Stopwatch="{x:Bind ViewModel.DisplayedStopwatch, Mode=OneWay}" />
+			<controls:StopwatchDisplayControl Grid.Row="1" Stopwatch="{x:Bind ViewModel.SelectedStopwatch, Mode=OneWay}" />
 
 			<TextBlock
 				Grid.Row="1"

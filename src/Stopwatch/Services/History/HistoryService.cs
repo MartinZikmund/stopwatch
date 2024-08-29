@@ -24,13 +24,16 @@ internal class HistoryService : IHistoryService
 
 	public void Delete(HistoryEntryModel historyStopwatch)
 	{
-		_dataSource.HistoryStopwatches.Delete(historyStopwatch);
+		_dataSource.HistoryStopwatches.Delete(historyStopwatch.Id);
 	}
 
 	public void Clear()
 	{
 		_dataSource.HistoryStopwatches.DeleteAll();
 	}
+
+	public bool CanSave(StopwatchModel stopwatch) =>
+		stopwatch.InitialStartTime is not null;
 
 	public void Save(StopwatchModel stopwatch)
 	{

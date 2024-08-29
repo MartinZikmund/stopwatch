@@ -1,4 +1,3 @@
-using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.UI.Dispatching;
@@ -9,6 +8,7 @@ using Stopwatch.Services.Data;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Timer;
+using Uno.Disposables;
 
 namespace Stopwatch.ViewModels;
 
@@ -21,12 +21,10 @@ public partial class MainViewModel : PageViewModel
 	private readonly IAppPreferences _appPreferences;
 	private readonly IDisplayRequestManager _displayRequestManager;
 	private readonly DispatcherQueueTimer _timer;
+	private readonly SerialDisposable _displayRequestDisposable = new();
 
 	[ObservableProperty]
-	private StopwatchModel? _selectedStopwatch;
-
-	[ObservableProperty]
-	private StopwatchViewModel? _displayedStopwatch;
+	private StopwatchViewModel? _selectedStopwatch;
 
 	public MainViewModel(
 		INavigationService navigationService,
@@ -52,7 +50,7 @@ public partial class MainViewModel : PageViewModel
 
 	private void OnTick()
 	{
-		DisplayedStopwatch?.OnTick();
+		SelectedStopwatch?.OnTick();
 	}
 
 	private void OnStart()
@@ -68,7 +66,7 @@ public partial class MainViewModel : PageViewModel
 		_displayRequestDisposable.Disposable = null;
 	}
 
-	public ObservableCollection<StopwatchModel> Stopwatches { get; } = new();
+	public ObservableCollection<StopwatchViewModel> Stopwatches { get; } = new();
 
 	public override void ViewNavigatedTo(object? parameter)
 	{
@@ -77,35 +75,30 @@ public partial class MainViewModel : PageViewModel
 
 	public override void ViewUnloaded()
 	{
-		DisplayedStopwatch?.Dispose();
-		DisplayedStopwatch = null;
+		// TODO dispose display request, timer
 	}
 
-	[MemberNotNull(nameof(DisplayedStopwatch))]
+	[MemberNotNull(nameof(SelectedStopwatch))]
 	private void ReloadStopwatches()
 	{
 		var stopwatches = _dataSource.Stopwatches.GetAll();
-		
-		// Merge with Stopwatches collection
+
+		if (stopwatches.Length == 0)
+		{
+			_dataSource.Stopwatches.GetOrCreateFirst();
+			stopwatches = _dataSource.Stopwatches.GetAll();
+		}
+
+		// Add missing stopwatches
 		foreach (var stopwatch in stopwatches)
 		{
-			if (!Stopwatches.Any(s => s.Id == stopwatch.Id))
+			if (Stopwatches.All(s => s.Id != stopwatch.Id))
 			{
-				Stopwatches.Add(stopwatch);
+				Stopwatches.Add(new StopwatchViewModel(stopwatch, _dataSource, _appPreferences, _historyService));
 			}
 		}
 
-		// Remove deleted stopwatches
-		foreach (var stopwatch in Stopwatches.ToArray())
-		{
-			if (!stopwatches.Any(s => s.Id == stopwatch.Id))
-			{
-				Stopwatches.Remove(stopwatch);
-			}
-		}
-
-		SelectedStopwatch ??= Stopwatches.FirstOrDefault();
-		DisplayedStopwatch = new StopwatchViewModel(SelectedStopwatch!, _dataSource, _timerFactory, _appPreferences, _historyService, _displayRequestManager);
+		SelectedStopwatch ??= Stopwatches.First();
 	}
 
 	[RelayCommand]
@@ -130,6 +123,44 @@ public partial class MainViewModel : PageViewModel
 		_windowShellProvider.Window.AppWindow.SetPresenter(newPresenterKind);
 
 		UpdatePresenterButtons();
+	}
+
+	[RelayCommand]
+	public void AddStopwatch()
+	{
+		var newStopwatch = new StopwatchModel();
+		_dataSource.Stopwatches.Add(newStopwatch);
+		Stopwatches.Add(new StopwatchViewModel(newStopwatch, _dataSource, _appPreferences, _historyService));
+		SelectedStopwatch = Stopwatches.Last();
+	}
+
+	[RelayCommand]
+	public void CloseStopwatch(StopwatchViewModel viewModel)
+	{
+		if (Stopwatches.Count == 1)
+		{
+			return;
+		}
+
+		if (_historyService.CanSave(viewModel.Stopwatch))
+		{
+			_historyService.Save(viewModel.Stopwatch);
+		}
+		_dataSource.Stopwatches.Delete(viewModel.Id);
+		var index = Stopwatches.IndexOf(viewModel);
+		Stopwatches.Remove(viewModel);
+
+		if (SelectedStopwatch == viewModel)
+		{
+			if (index < Stopwatches.Count)
+			{
+				SelectedStopwatch = Stopwatches[index];
+			}
+			else
+			{
+				SelectedStopwatch = Stopwatches.Last();
+			}
+		}
 	}
 
 	private void UpdatePresenterButtons()

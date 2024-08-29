@@ -23,10 +23,10 @@ internal class LiteDbRepository<T> : IRepository<T> where T : class, IId
 		item.Id = id.AsInt32;
 	}
 
-	public void Delete(T item)
+	public void Delete(int id)
 	{
 		var collection = _database.GetCollection<T>();
-		collection.Delete(item.Id);
+		collection.Delete(id);
 	}
 
 	public T Get(int id)

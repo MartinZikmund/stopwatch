@@ -17,7 +17,7 @@ public interface IRepository<T> where T : class, IId
 
 	void Update(T item);
 
-	void Delete(T item);
+	void Delete(int id);
 
 	void DeleteAll();
 }
