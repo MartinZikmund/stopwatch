@@ -1,10 +1,15 @@
+using Microsoft.UI.Dispatching;
 using Stopwatch.Infrastructure;
 
 namespace Stopwatch.Services.Navigation;
 
-public interface IWindowShellProvider : IWindowShell
+public interface IWindowShellProvider
 {
 	Window Window { get; }
 
-	FrameworkElement Shell { get; }
+	WindowShell Shell { get; }
+
+	DispatcherQueue DispatcherQueue { get; }
+
+	Frame RootFrame { get; }
 }

@@ -7,7 +7,7 @@ namespace Stopwatch.Services.Navigation;
 
 public sealed class WindowShellProvider : IWindowShellProvider
 {
-	private IWindowShell? _shell;
+	private WindowShell? _shell;
 	private Window? _window;
 	private DispatcherQueue? _dispatcherQueue;
 
@@ -15,7 +15,7 @@ public sealed class WindowShellProvider : IWindowShellProvider
 	{
 	}
 
-	public void SetShell(IWindowShell shell, Window window)
+	public void SetShell(WindowShell shell, Window window)
 	{
 		if (shell is null)
 		{
@@ -27,12 +27,12 @@ public sealed class WindowShellProvider : IWindowShellProvider
 		_dispatcherQueue = shell.DispatcherQueue;
 	}
 
-	public FrameworkElement Shell
+	public WindowShell Shell
 	{
 		get
 		{
 			EnsureInitialized();
-			return (FrameworkElement)_shell;
+			return _shell;
 		}
 	}
 

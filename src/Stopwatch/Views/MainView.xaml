@@ -44,13 +44,15 @@
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
-			<TabView TabItemsSource="{x:Bind ViewModel.Stopwatches}" TabCloseRequested="TabView_TabCloseRequested" AddTabButtonCommand="{x:Bind ViewModel.AddStopwatchCommand}" SelectedItem="{x:Bind ViewModel.SelectedStopwatch, Mode=TwoWay}">
+			<TabView x:Name="StopwatchTabView" TabItemsSource="{x:Bind ViewModel.Stopwatches}" TabCloseRequested="TabView_TabCloseRequested" AddTabButtonCommand="{x:Bind ViewModel.AddStopwatchCommand}" SelectedItem="{x:Bind ViewModel.SelectedStopwatch, Mode=TwoWay}">
 				<TabView.TabItemTemplate>
 					<DataTemplate x:DataType="vm:StopwatchViewModel">
 						<TabViewItem Header="{x:Bind Name, Mode=OneWay}" IsClosable="True" />
 					</DataTemplate>
 				</TabView.TabItemTemplate>
 			</TabView>
+
+			<Border Background="Transparent" VerticalAlignment="Stretch" x:Name="DraggableArea" />
 
 			<StackPanel
 				Grid.Row="1"
@@ -77,20 +79,15 @@
 				<Button Command="{x:Bind ViewModel.GoToHistoryCommand}" Style="{ThemeResource SubtleButtonStyle}">
 					<FontIcon Glyph="&#xE81C;" />
 				</Button>
+				<!--<Button Visibility="{x:Bind ViewModel.IsPremium}" Command="{x:Bind ViewModel.GetPremiumCommand}" Style="{ThemeResource SubtleButtonStyle}">
+					<FontIcon Glyph="&#xF133;" />
+				</Button>-->
 				<Button Command="{x:Bind ViewModel.GoToSettingsCommand}" Style="{ThemeResource SubtleButtonStyle}">
 					<SymbolIcon Symbol="Setting" />
 				</Button>
 			</StackPanel>
 
 			<controls:StopwatchDisplayControl Grid.Row="2" Stopwatch="{x:Bind ViewModel.SelectedStopwatch, Mode=OneWay}" />
-
-			<TextBlock
-				Grid.Row="2"
-                Margin="8"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Style="{ThemeResource CaptionTextBlockStyle}"
-                Text="Beta" />
 		</Grid>
 	</Grid>
 </local:MainViewBase>
