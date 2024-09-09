@@ -1,4 +1,4 @@
-﻿using MZikmund.Services.Dialogs;
+﻿using Stopwatch.Services;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using Stopwatch.Infrastructure;
 using Stopwatch.Services.Navigation;
@@ -13,6 +13,7 @@ public sealed partial class WindowShell : Page, IWindowShell
 {
 	private readonly IServiceScope _windowScope;
 	private readonly Window _associatedWindow;
+	private bool _isWindowClosed;
 
 	public WindowShell(IServiceProvider serviceProvider, Window associatedWindow)
 	{
@@ -32,10 +33,13 @@ public sealed partial class WindowShell : Page, IWindowShell
 
 		//_uiSettings.ColorValuesChanged += ColorValuesChanged;
 		_associatedWindow = associatedWindow;
+		_associatedWindow.Closed += OnWindowClosed;
 		CustomizeWindow();
 
 		Loading += WindowShell_Loading;
 	}
+
+	private void OnWindowClosed(object sender, WindowEventArgs args) => _isWindowClosed = true;
 
 	private void WindowShell_Loading(FrameworkElement sender, object args)
 	{
@@ -56,6 +60,7 @@ public sealed partial class WindowShell : Page, IWindowShell
 		{
 #if !HAS_UNO
 			_associatedWindow.ExtendsContentIntoTitleBar = true;
+			// TODO: The title bar grid will need to be resized along with TabBar
 			_associatedWindow.SetTitleBar(TitleBarGrid);
 			HasCustomTitleBar = true;
 #endif
@@ -64,6 +69,14 @@ public sealed partial class WindowShell : Page, IWindowShell
 		{
 			_associatedWindow.SystemBackdrop = new MicaBackdrop();
 			Background = null;
+		}
+	}
+
+	public void SetTitleBar(UIElement? titleBar)
+	{
+		if (!_isWindowClosed)
+		{
+			_associatedWindow.SetTitleBar(titleBar ?? TitleBarGrid);
 		}
 	}
 }

@@ -1,6 +1,8 @@
-﻿namespace Stopwatch.Services.ConfirmationDialog;
+﻿using Stopwatch.Services;
+
+namespace Stopwatch.Services;
 
 public interface IConfirmationDialogService
 {
-	Task ShowAsync(string title, string text, Action yesAction, Action noAction);
+	Task<ConfirmationResult> ShowAsync(string title, string text);
 }

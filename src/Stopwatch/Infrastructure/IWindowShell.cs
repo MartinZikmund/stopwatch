@@ -14,4 +14,6 @@ public interface IWindowShell
 	DispatcherQueue DispatcherQueue { get; }
 
 	Frame RootFrame { get; }
+
+	void SetTitleBar(UIElement? titleBar);
 }

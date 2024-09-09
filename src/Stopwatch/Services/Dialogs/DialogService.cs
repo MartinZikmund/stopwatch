@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using MZikmund.Toolkit.WinUI.Services;
 
-namespace MZikmund.Services.Dialogs;
+namespace Stopwatch.Services;
 
 public class DialogService : IDialogService
 {

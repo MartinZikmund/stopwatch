@@ -13,19 +13,19 @@ public partial class LapViewModel : ObservableObject
 	[ObservableProperty]
 	private bool _isSlowest;
 
-	public LapViewModel(StopwatchViewModel owner, LapModel lap, int order, TimeSpan time)
+	public LapViewModel(StopwatchViewModel owner, LapModel lap, int order, TimeSpan lapTime)
 	{
 		_owner = owner;
 		_lap = lap;
 		Order = order;
-		Time = time;
+		LapTime = lapTime;
 	}
 
 	public int Order { get; }
 
-	public TimeSpan Time { get; }
+	public TimeSpan LapTime { get; }
 
-	public TimeSpan TotalTime => _lap.Time;
+	public TimeSpan TotalTime => _lap.TotalTime;
 
 	public string Note
 	{
@@ -38,7 +38,7 @@ public partial class LapViewModel : ObservableObject
 		}
 	}
 
-	public string TimeString => Time.ToString(@"hh\:mm\:ss\.ff");
+	public string TimeString => LapTime.ToString(@"hh\:mm\:ss\.ff");
 
 	public string TotalTimeString => TotalTime.ToString(@"hh\:mm\:ss\.ff");
 }

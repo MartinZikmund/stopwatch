@@ -16,8 +16,6 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-		<Frame x:Name="InnerFrame" Grid.Row="0" Grid.RowSpan="2" />
-
 		<Grid
             x:Name="TitleBarGrid"
             Height="48"
@@ -25,20 +23,22 @@
             Background="Transparent"
             ColumnSpacing="16"
             Visibility="{x:Bind HasCustomTitleBar}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Image
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Image
                 Width="16"
                 Height="16"
                 Source="ms-appx:///Assets/Icons/icon_foreground.png" />
-            <TextBlock
+			<!--<TextBlock
                 Grid.Column="1"
                 VerticalAlignment="Center"
                 Style="{ThemeResource CaptionTextBlockStyle}"
-                Text="{x:Bind ViewModel.Title}" />
-        </Grid>
-    </Grid>
+                Text="{x:Bind ViewModel.Title}" />-->
+		</Grid>
+
+		<Frame x:Name="InnerFrame" Grid.Row="0" Grid.RowSpan="2" />
+	</Grid>
 </Page>

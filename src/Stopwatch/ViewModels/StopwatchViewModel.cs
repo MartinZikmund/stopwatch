@@ -9,29 +9,29 @@ using Windows.UI;
 
 namespace Stopwatch.ViewModels;
 
-public partial class StopwatchViewModel : ObservableObject, IDisposable
+public partial class StopwatchViewModel : ObservableObject
 {
 	private readonly StopwatchModel _stopwatch;
 	private readonly IDataSource _dataSource;
-	private readonly ITimerFactory _timerProvider;
+	private readonly IHistoryService _historyService;
 	private readonly StopwatchService _stopwatchService;
-	private readonly DispatcherQueueTimer _timer;
 
-	public StopwatchViewModel(StopwatchModel stopwatch, IDataSource dataSource, ITimerFactory timerProvider, IAppPreferences appPreferences, IDisplayRequestManager displayRequestManager)
+	public StopwatchViewModel(
+		StopwatchModel stopwatch,
+		IDataSource dataSource,
+		IAppPreferences appPreferences,
+		IHistoryService historyService)
 	{
 		_stopwatch = stopwatch;
 		_dataSource = dataSource;
 		Laps = new(this, stopwatch);
-		_timerProvider = timerProvider;
-		_stopwatchService = new StopwatchService(stopwatch, dataSource, appPreferences, displayRequestManager);
-		_timer = timerProvider.Create();
-		_timer.Interval = TimeSpan.FromMilliseconds(50);
-		_timer.Tick += (sender, e) => OnTimePropertiesChanged();
-		if (_stopwatchService.IsRunning)
-		{
-			_timer.Start();
-		}
+		_historyService = historyService;
+		_stopwatchService = new StopwatchService(stopwatch, dataSource, appPreferences);
 	}
+
+	public int Id => _stopwatch.Id;
+
+	public StopwatchModel Stopwatch => _stopwatch;
 
 	public LapsObservableCollection Laps { get; }
 
@@ -97,21 +97,21 @@ public partial class StopwatchViewModel : ObservableObject, IDisposable
 	[RelayCommand(CanExecute = nameof(CanReset))]
 	public void Reset()
 	{
+		if (_stopwatch.InitialStartTime is not null &&
+			(_stopwatch.Laps.Any() || !IsRunning))
+		{
+			_historyService.Save(_stopwatch);
+		}
+
 		_stopwatchService.Reset();
 		Laps.Clear();
-		OnTimePropertiesChanged();
+		OnTick();
 
 		LapCommand?.NotifyCanExecuteChanged();
 		ResetCommand?.NotifyCanExecuteChanged();
 	}
 
-	public void Dispose()
-	{
-		_timer.Stop();
-		_stopwatchService.Dispose();
-	}
-
-	private void OnTimePropertiesChanged()
+	public void OnTick()
 	{
 		OnPropertyChanged(nameof(CurrentTime));
 		OnPropertyChanged(nameof(CurrentTimeFull));
@@ -127,16 +127,14 @@ public partial class StopwatchViewModel : ObservableObject, IDisposable
 	private void Start()
 	{
 		_stopwatchService.Start();
-		_timer.Start();
-		OnTimePropertiesChanged();
+		OnTick();
 	}
 
 	private void Stop()
 	{
 		_stopwatchService.Stop();
-		_timer.Stop();
-		OnTimePropertiesChanged();
+		OnTick();
 	}
 
-	internal void OnLapUpdated() => _dataSource.Update(_stopwatch);
+	internal void OnLapUpdated() => _dataSource.Stopwatches.Update(_stopwatch);
 }

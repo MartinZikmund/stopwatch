@@ -8,10 +8,10 @@ public class LapModel
 
 	public LapModel(TimeSpan time)
 	{
-		Time = time;
+		TotalTime = time;
 	}
 
-	public TimeSpan Time { get; set; }
+	public TimeSpan TotalTime { get; set; }
 
 	public string Note { get; set; } = "";
 }

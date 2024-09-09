@@ -1,11 +1,11 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp.Helpers;
-using MZikmund.Services.Dialogs;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using MZikmund.Toolkit.WinUI.Services;
 using Stopwatch.Core.Services;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
+using Stopwatch.Services.Data.LiteDb;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Theming;
@@ -79,6 +79,7 @@ public partial class App : Application
 	private void ConfigureServices(IServiceCollection services)
 	{
 		services.AddSingleton<IDataSource, LiteDbDataSource>();
+		services.AddSingleton<IHistoryService, HistoryService>();
 		services.AddSingleton<IDisplayRequestManager, DisplayRequestManager>();
 		services.AddSingleton<IPreferences, Preferences>();
 		services.AddSingleton<IAppPreferences, AppPreferences>();
@@ -88,8 +89,10 @@ public partial class App : Application
 		services.AddScoped<SettingsViewModel>();
 		services.AddScoped<MainViewModel>();
 		services.AddScoped<OnboardingViewModel>();
+		services.AddScoped<HistoryViewModel>();
 
 		services.AddScoped<IDialogCoordinator, DialogCoordinator>();
+		services.AddScoped<IConfirmationDialogService, ConfirmationDialogService>();
 		services.AddScoped<IFrameProvider, FrameProvider>();
 		services.AddScoped<IImagePickerService, ImagePickerService>();
 		services.AddScoped<INavigationService, NavigationService>();

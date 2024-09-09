@@ -1,4 +1,4 @@
-﻿namespace MZikmund.Services.Dialogs;
+﻿namespace Stopwatch.Services;
 
 public class QueuedDialog
 {
