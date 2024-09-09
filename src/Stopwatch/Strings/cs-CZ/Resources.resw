@@ -255,4 +255,7 @@
   <data name="CloseStopwatchDialogText" xml:space="preserve">
     <value>Chcete opravdu zavřít stopky "{0}"?</value>
   </data>
+  <data name="FluentStopwatchPro" xml:space="preserve">
+    <value>Moderní Stopky Pro</value>
+  </data>
 </root>

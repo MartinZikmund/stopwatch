@@ -255,4 +255,7 @@
   <data name="CloseStopwatchDialogText" xml:space="preserve">
     <value>Are you sure you want to close stopwatch "{0}"?</value>
   </data>
+  <data name="FluentStopwatchPro" xml:space="preserve">
+    <value>Fluent Stopwatch Pro</value>
+  </data>
 </root>
