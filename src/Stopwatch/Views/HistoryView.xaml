@@ -33,15 +33,19 @@
 			<ListView ItemsSource="{x:Bind ViewModel.HistoryEntries}">
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="vm:HistoryEntryViewModel">
-						<Grid>
+						<Grid Padding="8">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
-							<TextBlock Text="{x:Bind Stopwatch.Name}" />
-							<Grid>
+							<TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" Text="{x:Bind Stopwatch.Name}" />
+							<Grid Grid.Row="1">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
 								<TextBlock Text="{x:Bind Stopwatch.PausedElapsedTime}" />
-								<TextBlock Text="{x:Bind Stopwatch.InitialStartTime}" />
+								<TextBlock Grid.Column="1" Text="{x:Bind Stopwatch.InitialStartTime}" />
 							</Grid>
 						</Grid>
 					</DataTemplate>
