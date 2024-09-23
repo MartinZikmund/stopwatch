@@ -258,4 +258,16 @@
   <data name="FluentStopwatchPro" xml:space="preserve">
     <value>Moderní Stopky Pro</value>
   </data>
+  <data name="PurchaseNetworkError" xml:space="preserve">
+    <value>Při pokusu o zakoupení došlo k chybě sítě. Zkuste to prosím znovu.</value>
+  </data>
+  <data name="PurchaseError" xml:space="preserve">
+    <value>Chyba při pokusu o zakoupení</value>
+  </data>
+  <data name="PurchaseServerError" xml:space="preserve">
+    <value>Při pokusu o zakoupení došlo k chybě serveru. Zkuste to prosím znovu.</value>
+  </data>
+  <data name="PurchaseUnknownError" xml:space="preserve">
+    <value>Při pokusu o zakoupení došlo k neznámé chybě. Zkuste to prosím znovu. Detaily chyby: {0}</value>
+  </data>
 </root>

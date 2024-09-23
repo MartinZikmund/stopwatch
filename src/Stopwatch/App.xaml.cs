@@ -8,6 +8,7 @@ using Stopwatch.Services.Data;
 using Stopwatch.Services.Data.LiteDb;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
+using Stopwatch.Services.Store;
 using Stopwatch.Services.Theming;
 using Stopwatch.Services.Timer;
 using Stopwatch.ViewModels;
@@ -100,6 +101,7 @@ public partial class App : Application
 		services.AddScoped<IWindowShellProvider, WindowShellProvider>();
 		services.AddScoped<ITimerFactory, TimerFactory>();
 		services.AddScoped<IThemeManager, ThemeManager>();
+		services.AddScoped<IStoreService, StoreService>();
 
 		services.AddScoped<IXamlRootProvider, XamlRootProvider>();
 	}

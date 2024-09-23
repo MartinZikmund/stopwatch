@@ -258,4 +258,16 @@
   <data name="FluentStopwatchPro" xml:space="preserve">
     <value>Fluent Stopwatch Pro</value>
   </data>
+  <data name="PurchaseNetworkError" xml:space="preserve">
+    <value>A network error occurred while trying to purchase. Try again please.</value>
+  </data>
+  <data name="PurchaseError" xml:space="preserve">
+    <value>Purchase error</value>
+  </data>
+  <data name="PurchaseUnknownError" xml:space="preserve">
+    <value>An unknown error occurred while trying to purchase. Try again, please. Error details: {0}</value>
+  </data>
+  <data name="PurchaseServerError" xml:space="preserve">
+    <value>A server error occurred while trying to purchase. Try again please.</value>
+  </data>
 </root>
