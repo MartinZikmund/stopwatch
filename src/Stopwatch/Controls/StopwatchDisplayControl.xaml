@@ -36,7 +36,7 @@
 					<TextBox Padding="4" FontSize="40" Text="{x:Bind Stopwatch.Name, Mode=TwoWay}" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0,0,0,0" />
 				</StackPanel>
 				<Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-					<not_android:TextBlock>
+					<not_android:TextBlock FontFamily="Segoe UI">
 						<Run FontSize="120" Text="{x:Bind Stopwatch.CurrentTime, Mode=OneWay}" />
 						<Run FontSize="80" Text="{x:Bind Stopwatch.CurrentTimeMilliseconds, Mode=OneWay}" />
 					</not_android:TextBlock>
