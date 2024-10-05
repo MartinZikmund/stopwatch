@@ -1,9 +1,11 @@
+using System.Diagnostics;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.UI;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using Stopwatch.Core.Services;
 using Stopwatch.Dialogs;
+using Stopwatch.Models;
 using Stopwatch.Services.Data;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
@@ -24,6 +26,11 @@ public partial class SettingsViewModel : PageViewModel
 	private readonly UISettings _uiSettings = new();
 
 	private double _backgroundImageOpacityPercent;
+
+	private StopwatchModel _stopwatch;
+
+	[ObservableProperty]
+	private ElementTheme _theme;
 
 	[ObservableProperty]
 	private Uri? _lastBackgroundImageUri;
@@ -47,11 +54,25 @@ public partial class SettingsViewModel : PageViewModel
 		_imagePickerService = imagePickerService;
 		_xamlRootProvider = xamlRootProvider;
 		_dataSource = dataSource;
+	}
 
-		var stopwatch = _dataSource.Stopwatches.GetOrCreateFirst(); // TODO: Edit the right stopwatch
-		BackgroundImageUri = stopwatch.BackgroundImageUri is not null ? new(stopwatch.BackgroundImageUri) : null;
-		BackgroundImageOpacityPercent = stopwatch.BackgroundImageOpacity * 100;
-		BackgroundColor = ColorHelper.ToColor(stopwatch.BackgroundColor);
+	public override void ViewNavigatedTo(object? parameter)
+	{
+		base.ViewNavigatedTo(parameter);
+
+		if (parameter is int stopwatchId)
+		{
+			if (_dataSource.Stopwatches.Get(stopwatchId) is not { } stopwatch)
+			{
+				throw new InvalidOperationException("Stopwatch with ID " + stopwatchId + " does not exist.");
+			}
+
+			_stopwatch = stopwatch;
+			Theme = _stopwatch.Theme;
+			BackgroundImageUri = _stopwatch.BackgroundImageUri is not null ? new(_stopwatch.BackgroundImageUri) : null;
+			BackgroundImageOpacityPercent = _stopwatch.BackgroundImageOpacity * 100;
+			BackgroundColor = ColorHelper.ToColor(_stopwatch.BackgroundColor);
+		}
 	}
 
 	public override void GoBack()
@@ -63,18 +84,10 @@ public partial class SettingsViewModel : PageViewModel
 
 	public ElementTheme[] ThemeOptions { get; } = [ElementTheme.Default, ElementTheme.Light, ElementTheme.Dark];
 
-	public ElementTheme SelectedTheme
+	partial void OnThemeChanged(ElementTheme value)
 	{
-		get => _appSettings.Theme;
-		set
-		{
-			if (_appSettings.Theme != value)
-			{
-				_appSettings.Theme = value;
-				_themeManager.SetTheme(SelectedTheme);
-				OnPropertyChanged();
-			}
-		}
+		_themeManager.SetTheme(Theme);
+		SaveChanges();
 	}
 
 	public bool KeepScreenOn
@@ -173,10 +186,10 @@ public partial class SettingsViewModel : PageViewModel
 
 	private void SaveChanges()
 	{
-		var stopwatch = _dataSource.Stopwatches.GetOrCreateFirst();
-		stopwatch.BackgroundImageUri = BackgroundImageUri?.ToString();
-		stopwatch.BackgroundImageOpacity = BackgroundImageOpacityPercent / 100;
-		stopwatch.BackgroundColor = ColorHelper.ToHex(BackgroundColor);
-		_dataSource.Stopwatches.Update(stopwatch);
+		_stopwatch.Theme = Theme;
+		_stopwatch.BackgroundImageUri = BackgroundImageUri?.ToString();
+		_stopwatch.BackgroundImageOpacity = BackgroundImageOpacityPercent / 100;
+		_stopwatch.BackgroundColor = ColorHelper.ToHex(BackgroundColor);
+		_dataSource.Stopwatches.Update(_stopwatch);
 	}
 }

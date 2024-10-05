@@ -31,6 +31,8 @@ public class StopwatchModel : IId
 
 	public LapModel[] Laps { get; set; } = Array.Empty<LapModel>();
 
+	public ElementTheme Theme { get; set; }
+
 	public string? BackgroundImageUri { get; set; }
 
 	public double BackgroundImageOpacity { get; set; } = 0.8;

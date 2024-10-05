@@ -8,8 +8,10 @@ using Stopwatch.Services.Data;
 using Stopwatch.Services.Localization;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
+using Stopwatch.Services.Theming;
 using Stopwatch.Services.Timer;
 using Uno.Disposables;
+using Uno.Extensions;
 
 namespace Stopwatch.ViewModels;
 
@@ -20,6 +22,7 @@ public partial class MainViewModel : PageViewModel
 	private readonly IHistoryService _historyService;
 	private readonly IWindowShellProvider _windowShellProvider;
 	private readonly IAppPreferences _appPreferences;
+	private readonly IThemeManager _themeManager;
 	private readonly IConfirmationDialogService _confirmationDialogService;
 	private readonly IDisplayRequestManager _displayRequestManager;
 	private readonly DispatcherQueueTimer _timer;
@@ -35,6 +38,7 @@ public partial class MainViewModel : PageViewModel
 		IHistoryService historyService,
 		IWindowShellProvider windowShellProvider,
 		IAppPreferences appPreferences,
+		IThemeManager themeManager,
 		IConfirmationDialogService confirmationDialogService,
 		IDisplayRequestManager displayRequestManager) : base(navigationService)
 	{
@@ -43,31 +47,18 @@ public partial class MainViewModel : PageViewModel
 		_historyService = historyService;
 		_windowShellProvider = windowShellProvider;
 		_appPreferences = appPreferences;
+		_themeManager = themeManager;
 		_confirmationDialogService = confirmationDialogService;
 		_displayRequestManager = displayRequestManager;
 
 		_timer = timerFactory.Create();
 		_timer.Interval = TimeSpan.FromMilliseconds(50);
 		_timer.Tick += (sender, e) => OnTick();
-		_timer.Start();
 	}
 
 	private void OnTick()
 	{
 		SelectedStopwatch?.OnTick();
-	}
-
-	private void OnStart()
-	{
-		if (_appPreferences.KeepScreenOn)
-		{
-			_displayRequestDisposable.Disposable = _displayRequestManager.RequestActive();
-		}
-	}
-
-	private void OnStop()
-	{
-		_displayRequestDisposable.Disposable = null;
 	}
 
 	public ObservableCollection<StopwatchViewModel> Stopwatches { get; } = new();
@@ -77,9 +68,14 @@ public partial class MainViewModel : PageViewModel
 		ReloadStopwatches();
 	}
 
+	public override void ViewLoaded()
+	{
+		_timer.Start();
+	}
+
 	public override void ViewUnloaded()
 	{
-		// TODO dispose display request, timer
+		_timer.Stop();
 	}
 
 	[MemberNotNull(nameof(SelectedStopwatch))]
@@ -91,6 +87,25 @@ public partial class MainViewModel : PageViewModel
 		{
 			_dataSource.Stopwatches.Add(new StopwatchModel(GetNextStopwatchName()));
 			stopwatches = _dataSource.Stopwatches.GetAll();
+		}
+
+		for (int i = Stopwatches.Count - 1; i >= 0; i--)
+		{
+			var existingStopwatch = Stopwatches[i];
+			if (_dataSource.Stopwatches.Get(existingStopwatch.Id) is not { } updatedStopwatch)
+			{
+				Stopwatches.RemoveAt(i);
+			}
+			else
+			{
+				bool wasSelected = Stopwatches[i] == SelectedStopwatch;
+				var replacementStopwatch = new StopwatchViewModel(updatedStopwatch, _dataSource, _appPreferences, _historyService);
+				Stopwatches[i] = replacementStopwatch;
+				if (wasSelected)
+				{
+					SelectedStopwatch = replacementStopwatch;
+				}
+			}
 		}
 
 		// Add missing stopwatches
@@ -105,8 +120,24 @@ public partial class MainViewModel : PageViewModel
 		SelectedStopwatch ??= Stopwatches.First();
 	}
 
+	partial void OnSelectedStopwatchChanged(StopwatchViewModel? value)
+	{
+		if (value is not null)
+		{
+			_themeManager.SetTheme(value.Stopwatch.Theme);
+		}
+	}
+
 	[RelayCommand]
-	public void GoToSettings() => NavigationService.Navigate<SettingsViewModel>();
+	public void GoToSettings()
+	{
+		if (SelectedStopwatch is null)
+		{
+			throw new InvalidOperationException("A stopwatch needs to be selected");
+		}
+
+		NavigationService.Navigate<SettingsViewModel>(SelectedStopwatch.Id);
+	}
 
 	[RelayCommand]
 	public void GoToHistory() => NavigationService.Navigate<HistoryViewModel>();

@@ -2,14 +2,14 @@
 
 namespace Stopwatch.Views;
 
-public sealed partial class GetPremiumView : GetPremiumViewBase
+public sealed partial class GetProView : GetProViewBase
 {
-	public GetPremiumView()
+	public GetProView()
 	{
 		this.InitializeComponent();
 	}
 }
 
-public partial class GetPremiumViewBase : PageBase<GetProViewModel>
+public partial class GetProViewBase : PageBase<GetProViewModel>
 {
 }
