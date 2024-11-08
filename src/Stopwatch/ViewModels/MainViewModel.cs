@@ -175,14 +175,17 @@ public partial class MainViewModel : PageViewModel
 	[RelayCommand]
 	public async Task CloseStopwatchAsync(StopwatchViewModel viewModel)
 	{
-		// Confirm closing
-		var result = await _confirmationDialogService.ShowAsync(
-			string.Format(Localizer.Instance.GetString("CloseStopwatchDialogTitle"), viewModel.Name),
-			string.Format(Localizer.Instance.GetString("CloseStopwatchDialogText"), viewModel.Name));
-
-		if (result != ConfirmationResult.Confirmed)
+		if (viewModel.IsRunning)
 		{
-			return;
+			// Confirm closing
+			var result = await _confirmationDialogService.ShowAsync(
+				string.Format(Localizer.Instance.GetString("CloseStopwatchDialogTitle"), viewModel.Name),
+				string.Format(Localizer.Instance.GetString("CloseStopwatchDialogText"), viewModel.Name));
+
+			if (result != ConfirmationResult.Confirmed)
+			{
+				return;
+			}
 		}
 
 		var wasSelected = SelectedStopwatch == viewModel;
