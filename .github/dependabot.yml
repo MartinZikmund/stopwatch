@@ -3,14 +3,6 @@ updates:
 - package-ecosystem: nuget
   directory: "/"
   schedule:
-    interval: weekly
-    time: "04:00"
+    interval: daily
+    time: "01:00"
   open-pull-requests-limit: 10
-  target-branch: main
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: weekly
-    time: "04:00"
-  open-pull-requests-limit: 10
-  target-branch: main
