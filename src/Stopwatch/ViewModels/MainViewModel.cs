@@ -25,6 +25,7 @@ public partial class MainViewModel : PageViewModel
 	private readonly IAppPreferences _appPreferences;
 	private readonly IThemeManager _themeManager;
 	private readonly IStoreService _storeService;
+	private readonly IDialogService _dialogService;
 	private readonly IConfirmationDialogService _confirmationDialogService;
 	private readonly IDisplayRequestManager _displayRequestManager;
 	private readonly DispatcherQueueTimer _timer;
@@ -45,6 +46,7 @@ public partial class MainViewModel : PageViewModel
 		IAppPreferences appPreferences,
 		IThemeManager themeManager,
 		IStoreService storeService,
+		IDialogService dialogService,
 		IConfirmationDialogService confirmationDialogService,
 		IDisplayRequestManager displayRequestManager) : base(navigationService)
 	{
@@ -55,6 +57,7 @@ public partial class MainViewModel : PageViewModel
 		_appPreferences = appPreferences;
 		_themeManager = themeManager;
 		_storeService = storeService;
+		_dialogService = dialogService;
 		_confirmationDialogService = confirmationDialogService;
 		_displayRequestManager = displayRequestManager;
 
@@ -174,6 +177,11 @@ public partial class MainViewModel : PageViewModel
 	[RelayCommand]
 	public void AddStopwatch()
 	{
+		if (!HasProLicense)
+		{
+			_dialogService.ShowAsync("Get Pro", "This feature is only available in the Pro version.");
+			return;
+		}
 		var newStopwatch = new StopwatchModel(GetNextStopwatchName());
 		_dataSource.Stopwatches.Add(newStopwatch);
 		Stopwatches.Add(new StopwatchViewModel(newStopwatch, _dataSource, _appPreferences, _historyService));

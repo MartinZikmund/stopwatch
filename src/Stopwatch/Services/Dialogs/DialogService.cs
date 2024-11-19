@@ -64,4 +64,13 @@ public class DialogService : IDialogService
 
 		return await _dialogCoordinator.ShowAsync(dialog);
 	}
+
+	public async Task<ContentDialogResult> ShowAsync(ContentDialog contentDialog)
+	{
+		if (contentDialog.XamlRoot is null)
+		{
+			contentDialog.XamlRoot = _xamlRootProvider.XamlRoot;
+		}
+		return await _dialogCoordinator.ShowAsync(contentDialog);
+	}
 }

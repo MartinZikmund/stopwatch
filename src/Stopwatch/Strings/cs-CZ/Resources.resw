@@ -273,4 +273,7 @@
   <data name="Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
+  <data name="LearnMore" xml:space="preserve">
+    <value>Více informací</value>
+  </data>
 </root>

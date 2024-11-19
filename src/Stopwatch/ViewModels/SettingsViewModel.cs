@@ -9,6 +9,7 @@ using Stopwatch.Models;
 using Stopwatch.Services.Data;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
+using Stopwatch.Services.Store;
 using Stopwatch.Services.Theming;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -21,6 +22,7 @@ public partial class SettingsViewModel : PageViewModel
 	private readonly IThemeManager _themeManager;
 	private readonly IImagePickerService _imagePickerService;
 	private readonly IXamlRootProvider _xamlRootProvider;
+	private readonly IStoreService _storeService;
 	private readonly IDataSource _dataSource;
 
 	private readonly UISettings _uiSettings = new();
@@ -41,24 +43,31 @@ public partial class SettingsViewModel : PageViewModel
 	[ObservableProperty]
 	private Color _backgroundColor;
 
+	[ObservableProperty]
+	private bool _hasProLicense;
+
 	public SettingsViewModel(
 		INavigationService navigationService,
 		IAppPreferences appSettings,
 		IThemeManager themeManager,
 		IImagePickerService imagePickerService,
 		IXamlRootProvider xamlRootProvider,
+		IStoreService storeService,
 		IDataSource dataSource) : base(navigationService)
 	{
 		_appSettings = appSettings;
 		_themeManager = themeManager;
 		_imagePickerService = imagePickerService;
 		_xamlRootProvider = xamlRootProvider;
+		_storeService = storeService;
 		_dataSource = dataSource;
 	}
 
-	public override void ViewNavigatedTo(object? parameter)
+	public override async void ViewNavigatedTo(object? parameter)
 	{
 		base.ViewNavigatedTo(parameter);
+
+		HasProLicense = await _storeService.HasProAsync();
 
 		if (parameter is int stopwatchId)
 		{
