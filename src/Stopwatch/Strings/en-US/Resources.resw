@@ -276,4 +276,31 @@
   <data name="LearnMore" xml:space="preserve">
     <value>Learn more</value>
   </data>
+  <data name="MultipleStopwatches" xml:space="preserve">
+    <value>Multiple stopwatches</value>
+  </data>
+  <data name="MultipleStopwatchesDescription" xml:space="preserve">
+    <value>Have multiple stopwatches running simultaneously as tabs</value>
+  </data>
+  <data name="NoAds" xml:space="preserve">
+    <value>No ads</value>
+  </data>
+  <data name="EndlessCustomization" xml:space="preserve">
+    <value>Endless customization</value>
+  </data>
+  <data name="EndlessCustomizationDescription" xml:space="preserve">
+    <value>Make it beautiful with endless customization options</value>
+  </data>
+  <data name="NoAdsDescription" xml:space="preserve">
+    <value>Say goodbye to ads forever</value>
+  </data>
+  <data name="FutureProFeatures" xml:space="preserve">
+    <value>...and more features coming soon!</value>
+  </data>
+  <data name="InAppPriceOnly" xml:space="preserve">
+    <value>Only for</value>
+  </data>
+  <data name="GetProNow" xml:space="preserve">
+    <value>Get Pro now</value>
+  </data>
 </root>
