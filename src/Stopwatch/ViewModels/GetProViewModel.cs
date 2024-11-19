@@ -3,7 +3,7 @@ using Stopwatch.Services.Store;
 
 namespace Stopwatch.ViewModels;
 
-public class GetProViewModel : PageViewModel
+public partial class GetProViewModel : PageViewModel
 {
 	private readonly IStoreService _storeService;
 

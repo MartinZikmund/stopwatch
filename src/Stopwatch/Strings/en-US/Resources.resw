@@ -265,9 +265,12 @@
     <value>Store error</value>
   </data>
   <data name="PurchaseUnknownError" xml:space="preserve">
-    <value>An unknown error occurred while trying to purchase. Try again, please. Error details: {0}</value>
+    <value>An unknown error occurred while trying to purchase. Try again, please.</value>
   </data>
   <data name="PurchaseServerError" xml:space="preserve">
     <value>A server error occurred while trying to purchase. Try again please.</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
   </data>
 </root>

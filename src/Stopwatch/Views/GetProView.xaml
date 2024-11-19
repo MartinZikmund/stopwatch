@@ -13,6 +13,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid Margin="36,60,36,36" ColumnSpacing="8">
 			<Grid.ColumnDefinitions>
@@ -66,12 +67,12 @@
 			</StackPanel>
 		</Grid>
 
-		<StackPanel Grid.Row="2" Spacing="8">
+		<StackPanel Grid.Row="2" Spacing="8" Margin="20">
 			<StackPanel Visibility="{x:Bind ViewModel.CurrentPrice, Mode=OneWay, Converter={StaticResource NonNullToVisibilityConverter}}">
 				<TextBlock FontSize="20" Text="Only" HorizontalAlignment="Center" />
 				<TextBlock FontSize="20" Text="{x:Bind ViewModel.CurrentPrice, Mode=OneWay}" HorizontalAlignment="Center" />
 			</StackPanel>
-			<Button Style="{StaticResource AccentButtonStyle}" Command="{x:Bind ViewModel.GetProCommand}" Content="Get pro now" />
+			<Button FontSize="30" Padding="30" HorizontalAlignment="Center" Style="{StaticResource AccentButtonStyle}" Command="{x:Bind ViewModel.GetProCommand}" Content="Get pro now" />
 		</StackPanel>
 	</Grid>
 </local:GetProViewBase>

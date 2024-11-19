@@ -30,8 +30,7 @@ public class StoreService : IStoreService
 	public async Task<string?> GetPriceAsync()
 	{
 		var context = GetStoreContext();
-		string[] productKinds = { ProductType.Durable.ToString("g") };
-		var listingsQueryResult = await context.GetStoreProductsAsync(productKinds, new[] { StopwatchProId });
+		var listingsQueryResult = await context.GetStoreProductsAsync([ProductType.Durable.ToString("g")], [StopwatchProId]);
 
 		if (listingsQueryResult.ExtendedError != null)
 		{
@@ -39,8 +38,13 @@ public class StoreService : IStoreService
 			return null;
 		}
 
-		var product = listingsQueryResult.Products.First();
-		var price = product.Value.Price.FormattedPrice;
+		var product = listingsQueryResult.Products.Values.FirstOrDefault();
+		if (product is null)
+		{
+			return null;
+		}
+
+		var price = product.Price.FormattedPrice;
 		return price;
 	}
 
@@ -99,7 +103,7 @@ public class StoreService : IStoreService
 		var content = Localizer.Instance.GetString(errorResourceId);
 		if (!string.IsNullOrEmpty(additionalInformation))
 		{
-			content = string.Format(content, additionalInformation);
+			content += $"{Environment.NewLine}{additionalInformation}";
 		}
 
 		await _dialogService.ShowAsync(Localizer.Instance.GetString("StoreError"), content);
