@@ -303,4 +303,7 @@
   <data name="GetProNow" xml:space="preserve">
     <value>Get Pro now</value>
   </data>
+  <data name="ProOnlyFeatureDescription" xml:space="preserve">
+    <value>This feature is only available in Fluent Stopwatch Pro</value>
+  </data>
 </root>

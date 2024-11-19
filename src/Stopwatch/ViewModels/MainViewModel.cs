@@ -5,6 +5,7 @@ using Microsoft.UI.Windowing;
 using Stopwatch.Models;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
+using Stopwatch.Services.Dialogs;
 using Stopwatch.Services.Localization;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
@@ -177,11 +178,13 @@ public partial class MainViewModel : PageViewModel
 	[RelayCommand]
 	public void AddStopwatch()
 	{
-		if (!HasProLicense)
+		if (!HasProLicense && Stopwatches.Count > 0)
 		{
-			_dialogService.ShowAsync("Get Pro", "This feature is only available in the Pro version.");
+			var proOnlyFeatureDialog = new ProOnlyFeatureDialog();
+			_dialogService.ShowAsync(proOnlyFeatureDialog);
 			return;
 		}
+
 		var newStopwatch = new StopwatchModel(GetNextStopwatchName());
 		_dataSource.Stopwatches.Add(newStopwatch);
 		Stopwatches.Add(new StopwatchViewModel(newStopwatch, _dataSource, _appPreferences, _historyService));
@@ -216,9 +219,7 @@ public partial class MainViewModel : PageViewModel
 
 		if (Stopwatches.Count == 0)
 		{
-			var stopwatch = new StopwatchModel(GetNextStopwatchName());
-			_dataSource.Stopwatches.Add(stopwatch);
-			Stopwatches.Add(new StopwatchViewModel(stopwatch, _dataSource, _appPreferences, _historyService));
+			AddStopwatch();
 		}
 
 		if (wasSelected)

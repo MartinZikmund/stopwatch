@@ -9,76 +9,83 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-	<Grid RowSpacing="8">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
-		<Grid Margin="36,60,36,36" ColumnSpacing="8">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
-			<Button Command="{x:Bind ViewModel.GoBackCommand}" Style="{ThemeResource NavigationBackButtonStyle}" />
-			<TextBlock
-               Grid.Column="1"
-               Style="{ThemeResource TitleTextBlockStyle}"
-               Text="{ex:Localize Key=FluentStopwatchPro}" />
-		</Grid>
-		<Grid MaxWidth="1200" Grid.Row="1" Margin="36,0,36,36">
-			<Grid.Resources>
-				<Style x:Key="HeaderStyle" TargetType="TextBlock">
-					<Setter Property="FontWeight" Value="Bold" />
-					<Setter Property="FontSize" Value="20" />
-					<Setter Property="HorizontalAlignment" Value="Center" />
-					<Setter Property="Margin" Value="8" />
-				</Style>
-				<Style x:Key="CaptionStyle" TargetType="TextBlock">
-					<Setter Property="FontSize" Value="14" />
-					<Setter Property="HorizontalAlignment" Value="Center" />
-					<Setter Property="TextAlignment" Value="Center" />
-					<Setter Property="TextWrapping" Value="WrapWholeWords" />
-				</Style>
-			</Grid.Resources>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
+	<ScrollViewer>
+		<Grid RowSpacing="8">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
+			<Grid Margin="36,60,36,36" ColumnSpacing="8">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<Button Command="{x:Bind ViewModel.GoBackCommand}" Style="{ThemeResource NavigationBackButtonStyle}" />
+				<TextBlock
+               Grid.Column="1"
+               Style="{ThemeResource TitleTextBlockStyle}"
+               Text="{ex:Localize Key=FluentStopwatchPro}" />
+			</Grid>
+			<Grid MaxWidth="1200" RowSpacing="8" ColumnSpacing="8" Grid.Row="1" Margin="36,0,36,8">
+				<Grid.Resources>
+					<Style x:Key="HeaderStyle" TargetType="TextBlock">
+						<Setter Property="FontWeight" Value="Bold" />
+						<Setter Property="FontSize" Value="20" />
+						<Setter Property="HorizontalAlignment" Value="Center" />
+						<Setter Property="Margin" Value="8" />
+					</Style>
+					<Style x:Key="CaptionStyle" TargetType="TextBlock">
+						<Setter Property="FontSize" Value="14" />
+						<Setter Property="HorizontalAlignment" Value="Center" />
+						<Setter Property="TextAlignment" Value="Center" />
+						<Setter Property="TextWrapping" Value="WrapWholeWords" />
+					</Style>
+				</Grid.Resources>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
 
-			<StackPanel>
-				<Image Source="ms-appx:///Assets/Pro/tab.png" />
-				<TextBlock Grid.Row="1" Style="{StaticResource HeaderStyle}" Text="{ex:Localize Key=MultipleStopwatches}" />
-				<TextBlock Grid.Row="1" Style="{StaticResource CaptionStyle}" Text="{ex:Localize Key=MultipleStopwatchesDescription}" />
+				<StackPanel>
+					<Image Source="ms-appx:///Assets/Pro/tab.png" />
+					<TextBlock Grid.Row="1" Style="{StaticResource HeaderStyle}" Text="{ex:Localize Key=MultipleStopwatches}" />
+					<TextBlock Grid.Row="1" Style="{StaticResource CaptionStyle}" Text="{ex:Localize Key=MultipleStopwatchesDescription}" />
+				</StackPanel>
+
+				<StackPanel Grid.Column="1">
+					<Image Source="ms-appx:///Assets/Pro/removeads.png" />
+					<TextBlock Grid.Row="1" Style="{StaticResource HeaderStyle}" Text="{ex:Localize Key=NoAds}" />
+					<TextBlock Grid.Row="1" Style="{StaticResource CaptionStyle}" Text="{ex:Localize Key=NoAdsDescription}" />
+				</StackPanel>
+
+				<StackPanel Grid.Column="2">
+					<Image Source="ms-appx:///Assets/Pro/customize.png" />
+					<TextBlock Grid.Row="1" Style="{StaticResource HeaderStyle}" Text="{ex:Localize Key=EndlessCustomization}" />
+					<TextBlock Grid.Row="1" Style="{StaticResource CaptionStyle}" Text="{ex:Localize Key=EndlessCustomizationDescription}" />
+				</StackPanel>
+
+				<TextBlock TextAlignment="Center" Margin="8,8,8,0" Grid.Row="1" TextWrapping="WrapWholeWords" Text="{ex:Localize Key=FutureProFeatures}" FontSize="30" HorizontalAlignment="Center" Grid.ColumnSpan="3" />
+			</Grid>
+
+			<StackPanel Grid.Row="2" Spacing="8" Margin="8,8,8,36">
+				<StackPanel Visibility="{x:Bind ViewModel.CurrentPrice, Mode=OneWay, Converter={StaticResource NonNullToVisibilityConverter}}">
+					<TextBlock FontSize="20" Text="{ex:Localize Key=InAppPriceOnly}" HorizontalAlignment="Center" />
+					<TextBlock FontSize="20" Text="{x:Bind ViewModel.CurrentPrice, Mode=OneWay}" HorizontalAlignment="Center" />
+				</StackPanel>
+				<Button FontSize="30" Padding="30" HorizontalAlignment="Center" Style="{StaticResource AccentButtonStyle}" Command="{x:Bind ViewModel.GetProCommand}">
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<FontIcon Glyph="&#xE7BF;" FontSize="30" />
+						<TextBlock Text="{ex:Localize Key=GetProNow}" />
+					</StackPanel>					
+				</Button>
 			</StackPanel>
-
-			<StackPanel Grid.Column="1">
-				<Image Source="ms-appx:///Assets/Pro/removeads.png" />
-				<TextBlock Grid.Row="1" Style="{StaticResource HeaderStyle}" Text="{ex:Localize Key=NoAds}" />
-				<TextBlock Grid.Row="1" Style="{StaticResource CaptionStyle}" Text="{ex:Localize Key=NoAdsDescription}" />
-			</StackPanel>
-
-			<StackPanel Grid.Column="2">
-				<Image Source="ms-appx:///Assets/Pro/customize.png" />
-				<TextBlock Grid.Row="1" Style="{StaticResource HeaderStyle}" Text="{ex:Localize Key=EndlessCustomization}" />
-				<TextBlock Grid.Row="1" Style="{StaticResource CaptionStyle}" Text="{ex:Localize Key=EndlessCustomizationDescription}" />
-			</StackPanel>
-
-			<TextBlock Grid.Row="1" TextWrapping="WrapWholeWords" Text="{ex:Localize Key=FutureProFeatures}" FontSize="30" HorizontalAlignment="Center" Grid.ColumnSpan="3" />
 		</Grid>
-
-		<StackPanel Grid.Row="2" Spacing="8" Margin="20">
-			<StackPanel Visibility="{x:Bind ViewModel.CurrentPrice, Mode=OneWay, Converter={StaticResource NonNullToVisibilityConverter}}">
-				<TextBlock FontSize="20" Text="{ex:Localize Key=InAppPriceOnly}" HorizontalAlignment="Center" />
-				<TextBlock FontSize="20" Text="{x:Bind ViewModel.CurrentPrice, Mode=OneWay}" HorizontalAlignment="Center" />
-			</StackPanel>
-			<Button FontSize="30" Padding="30" HorizontalAlignment="Center" Style="{StaticResource AccentButtonStyle}" Command="{x:Bind ViewModel.GetProCommand}" Content="{ex:Localize Key=GetProNow}" />
-		</StackPanel>
-	</Grid>
+	</ScrollViewer>
 </local:GetProViewBase>

@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.UI;
@@ -6,7 +5,9 @@ using MZikmund.Toolkit.WinUI.Infrastructure;
 using Stopwatch.Core.Services;
 using Stopwatch.Dialogs;
 using Stopwatch.Models;
+using Stopwatch.Services;
 using Stopwatch.Services.Data;
+using Stopwatch.Services.Dialogs;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Store;
@@ -23,6 +24,7 @@ public partial class SettingsViewModel : PageViewModel
 	private readonly IImagePickerService _imagePickerService;
 	private readonly IXamlRootProvider _xamlRootProvider;
 	private readonly IStoreService _storeService;
+	private readonly IDialogService _dialogService;
 	private readonly IDataSource _dataSource;
 
 	private readonly UISettings _uiSettings = new();
@@ -53,6 +55,7 @@ public partial class SettingsViewModel : PageViewModel
 		IImagePickerService imagePickerService,
 		IXamlRootProvider xamlRootProvider,
 		IStoreService storeService,
+		IDialogService dialogService,
 		IDataSource dataSource) : base(navigationService)
 	{
 		_appSettings = appSettings;
@@ -60,6 +63,7 @@ public partial class SettingsViewModel : PageViewModel
 		_imagePickerService = imagePickerService;
 		_xamlRootProvider = xamlRootProvider;
 		_storeService = storeService;
+		_dialogService = dialogService;
 		_dataSource = dataSource;
 	}
 
@@ -140,6 +144,13 @@ public partial class SettingsViewModel : PageViewModel
 	[RelayCommand]
 	private async Task PickBackgroundImageAsync()
 	{
+		if (!HasProLicense)
+		{
+			var proOnlyFeatureDialog = new ProOnlyFeatureDialog();
+			await _dialogService.ShowAsync(proOnlyFeatureDialog);
+			return;
+		}
+
 		IsWorking = true;
 		try
 		{
@@ -161,6 +172,13 @@ public partial class SettingsViewModel : PageViewModel
 	[RelayCommand]
 	private async Task PickBackgroundColor()
 	{
+		if (!HasProLicense)
+		{
+			var proOnlyFeatureDialog = new ProOnlyFeatureDialog();
+			await _dialogService.ShowAsync(proOnlyFeatureDialog);
+			return;
+		}
+
 		IsWorking = true;
 		var pickerDialog = new ColorPickerDialog
 		{

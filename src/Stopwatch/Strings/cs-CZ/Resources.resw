@@ -303,4 +303,7 @@
   <data name="GetProNow" xml:space="preserve">
     <value>Koupit Pro nyní</value>
   </data>
+  <data name="ProOnlyFeatureDescription" xml:space="preserve">
+    <value>Tato funkce je dostupná pouze ve verzi Pro</value>
+  </data>
 </root>

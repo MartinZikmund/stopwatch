@@ -4,13 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Stopwatch.Services.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Fluent Stopwatch Pro"
+	xmlns:ex="using:Stopwatch.Extensions.Xaml"
+    Title="{ex:Localize Key=FluentStopwatchPro}"
     Style="{ThemeResource DefaultContentDialogStyle}"
-    PrimaryButtonText="Learn more"
-    SecondaryButtonText="Cancel"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    PrimaryButtonText="{ex:Localize Key=LearnMore}"
+    SecondaryButtonText="{ex:Localize Key=Cancel}"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
 	<Grid>
-		<TextBlock Text="This feature is only available in Fluent Stopwatch Pro" />
+		<TextBlock TextWrapping="WrapWholeWords" Text="{ex:Localize Key=ProOnlyFeatureDescription}" />
 	</Grid>
 </ContentDialog>

@@ -17,9 +17,9 @@ public class DialogService : IDialogService
 		_xamlRootProvider = xamlRootProvider ?? throw new ArgumentNullException(nameof(xamlRootProvider));
 	}
 
-	public async Task<ContentDialogResult> ShowAsync<TViewModel>(TViewModel viewModel)
+	public async Task<ContentDialogResult> ShowAsync(object viewModel)
 	{
-		var viewModelType = typeof(TViewModel);
+		var viewModelType = viewModel.GetType();
 		if (!viewModelType.Name.EndsWith("ViewModel", StringComparison.OrdinalIgnoreCase))
 		{
 			throw new InvalidOperationException("ViewModel name must end with 'ViewModel' by convention.");
