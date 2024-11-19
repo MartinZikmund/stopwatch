@@ -2,5 +2,5 @@
 
 public interface IFrameProvider
 {
-	Frame GetForCurrentView();
+	Frame GetForCurrentScope();
 }

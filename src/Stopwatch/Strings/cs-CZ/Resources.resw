@@ -261,8 +261,8 @@
   <data name="PurchaseNetworkError" xml:space="preserve">
     <value>Při pokusu o zakoupení došlo k chybě sítě. Zkuste to prosím znovu.</value>
   </data>
-  <data name="PurchaseError" xml:space="preserve">
-    <value>Chyba při pokusu o zakoupení</value>
+  <data name="StoreError" xml:space="preserve">
+    <value>Chyba obchodu</value>
   </data>
   <data name="PurchaseServerError" xml:space="preserve">
     <value>Při pokusu o zakoupení došlo k chybě serveru. Zkuste to prosím znovu.</value>

@@ -8,6 +8,7 @@ using Stopwatch.Services.Data;
 using Stopwatch.Services.Localization;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
+using Stopwatch.Services.Store;
 using Stopwatch.Services.Theming;
 using Stopwatch.Services.Timer;
 using Uno.Disposables;
@@ -23,6 +24,7 @@ public partial class MainViewModel : PageViewModel
 	private readonly IWindowShellProvider _windowShellProvider;
 	private readonly IAppPreferences _appPreferences;
 	private readonly IThemeManager _themeManager;
+	private readonly IStoreService _storeService;
 	private readonly IConfirmationDialogService _confirmationDialogService;
 	private readonly IDisplayRequestManager _displayRequestManager;
 	private readonly DispatcherQueueTimer _timer;
@@ -30,6 +32,9 @@ public partial class MainViewModel : PageViewModel
 
 	[ObservableProperty]
 	private StopwatchViewModel? _selectedStopwatch;
+
+	[ObservableProperty]
+	private bool _hasProLicense = true;
 
 	public MainViewModel(
 		INavigationService navigationService,
@@ -39,6 +44,7 @@ public partial class MainViewModel : PageViewModel
 		IWindowShellProvider windowShellProvider,
 		IAppPreferences appPreferences,
 		IThemeManager themeManager,
+		IStoreService storeService,
 		IConfirmationDialogService confirmationDialogService,
 		IDisplayRequestManager displayRequestManager) : base(navigationService)
 	{
@@ -48,6 +54,7 @@ public partial class MainViewModel : PageViewModel
 		_windowShellProvider = windowShellProvider;
 		_appPreferences = appPreferences;
 		_themeManager = themeManager;
+		_storeService = storeService;
 		_confirmationDialogService = confirmationDialogService;
 		_displayRequestManager = displayRequestManager;
 
@@ -63,9 +70,10 @@ public partial class MainViewModel : PageViewModel
 
 	public ObservableCollection<StopwatchViewModel> Stopwatches { get; } = new();
 
-	public override void ViewNavigatedTo(object? parameter)
+	public override async void ViewNavigatedTo(object? parameter)
 	{
 		ReloadStopwatches();
+		HasProLicense = await _storeService.HasProAsync();
 	}
 
 	public override void ViewLoaded()

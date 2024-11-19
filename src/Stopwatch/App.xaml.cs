@@ -45,9 +45,9 @@ public partial class App : Application
 				.ConfigureServices((context, services) => ConfigureServices(services))
 			);
 		MainWindow = builder.Window;
-//#if DEBUG
-//		MainWindow.EnableHotReload();
-//#endif
+#if DEBUG
+		MainWindow.EnableHotReload();
+#endif
 
 		Host = builder.Build();
 		Ioc.Default.ConfigureServices(Host.Services);
@@ -91,6 +91,7 @@ public partial class App : Application
 		services.AddScoped<MainViewModel>();
 		services.AddScoped<OnboardingViewModel>();
 		services.AddScoped<HistoryViewModel>();
+		services.AddScoped<GetProViewModel>();
 
 		services.AddScoped<IDialogCoordinator, DialogCoordinator>();
 		services.AddScoped<IConfirmationDialogService, ConfirmationDialogService>();

@@ -1,7 +1,10 @@
 ﻿#pragma warning disable Uno0001
 
+using System.Globalization;
+using Microsoft.UI.Xaml.Controls;
 using Stopwatch.Services.Localization;
 using Stopwatch.Services.Navigation;
+using Windows.ApplicationModel.Store;
 using Windows.Services.Store;
 using WinRT.Interop;
 
@@ -15,6 +18,8 @@ public class StoreService : IStoreService
 	private readonly IDialogService _dialogService;
 	private readonly StoreContext _storeContext;
 
+	private bool? _hasPro = null;
+
 	public StoreService(IWindowShellProvider shellProvider, IDialogService dialogService)
 	{
 		_shellProvider = shellProvider ?? throw new ArgumentNullException(nameof(shellProvider));
@@ -22,51 +27,74 @@ public class StoreService : IStoreService
 		_storeContext = StoreContext.GetDefault();
 	}
 
-	public async Task<bool> HasProAsync()
+	public async Task<string?> GetPriceAsync()
 	{
 		var context = GetStoreContext();
-		var result = await context.GetAppLicenseAsync();
-		return result.AddOnLicenses.Any(license => license.Value.SkuStoreId == StopwatchProId);
+		string[] productKinds = { ProductType.Durable.ToString("g") };
+		var listingsQueryResult = await context.GetStoreProductsAsync(productKinds, new[] { StopwatchProId });
+
+		if (listingsQueryResult.ExtendedError != null)
+		{
+			// The user may be offline or there might be some other server failure.
+			return null;
+		}
+
+		var product = listingsQueryResult.Products.First();
+		var price = product.Value.Price.FormattedPrice;
+		return price;
+	}
+
+	public async Task<bool> HasProAsync()
+	{
+		if (_hasPro is null)
+		{
+			var context = GetStoreContext();
+			var result = await context.GetAppLicenseAsync();
+			_hasPro = result.AddOnLicenses.Any(license => license.Value.SkuStoreId == StopwatchProId);
+		}
+
+		return _hasPro.Value;
 	}
 
 	public async Task<bool> TryPurchaseProAsync()
 	{
 		var context = GetStoreContext();
-		var result = await context.RequestPurchaseAsync(StopwatchProId);
+		var purchaseResult = await context.RequestPurchaseAsync(StopwatchProId);
 
 		// Capture the error message for the operation, if any.
 		string extendedError = string.Empty;
-		if (result.ExtendedError != null)
+		if (purchaseResult.ExtendedError != null)
 		{
-			extendedError = result.ExtendedError.Message;
+			extendedError = purchaseResult.ExtendedError.Message;
 		}
 
-		switch (result.Status)
+		var result = false;
+		switch (purchaseResult.Status)
 		{
 			case StorePurchaseStatus.AlreadyPurchased:
-				return true;
-
 			case StorePurchaseStatus.Succeeded:
-				return true;
-
-			case StorePurchaseStatus.NotPurchased:
-				return false;
-
+				result = true;
+				break;
 			case StorePurchaseStatus.NetworkError:
-				await ShowPurchaseErrorAsync("PurchaseNetworkError");
-				return false;
-
+				await ShowError("PurchaseNetworkError");
+				break;
 			case StorePurchaseStatus.ServerError:
-				await ShowPurchaseErrorAsync("PurchaseServerError");
-				return false;
-
+				await ShowError("PurchaseServerError");
+				break;
 			default:
-				await ShowPurchaseErrorAsync("PurchaseUnknownError", extendedError);
-				return false;
+				await ShowError("PurchaseUnknownError", extendedError);
+				break;
 		}
+
+		if (result)
+		{
+			_hasPro = true;
+		}
+
+		return result;
 	}
 
-	private async Task ShowPurchaseErrorAsync(string errorResourceId, string additionalInformation = "")
+	private async Task ShowError(string errorResourceId, string additionalInformation = "")
 	{
 		var content = Localizer.Instance.GetString(errorResourceId);
 		if (!string.IsNullOrEmpty(additionalInformation))
@@ -74,7 +102,7 @@ public class StoreService : IStoreService
 			content = string.Format(content, additionalInformation);
 		}
 
-		await _dialogService.ShowAsync(Localizer.Instance.GetString("PurchaseError"), content);
+		await _dialogService.ShowAsync(Localizer.Instance.GetString("StoreError"), content);
 	}
 
 	private StoreContext GetStoreContext()

@@ -79,9 +79,9 @@
 				<Button Command="{x:Bind ViewModel.GoToHistoryCommand}" Style="{ThemeResource SubtleButtonStyle}">
 					<FontIcon Glyph="&#xE81C;" />
 				</Button>
-				<!--<Button Visibility="{x:Bind ViewModel.IsPremium}" Command="{x:Bind ViewModel.GoToGetProCommand}" Style="{ThemeResource SubtleButtonStyle}">
+				<Button Visibility="{x:Bind ViewModel.HasProLicense, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Command="{x:Bind ViewModel.GoToGetProCommand}" Style="{ThemeResource SubtleButtonStyle}">
 					<FontIcon Glyph="&#xF133;" />
-				</Button>-->
+				</Button>
 				<Button Command="{x:Bind ViewModel.GoToSettingsCommand}" Style="{ThemeResource SubtleButtonStyle}">
 					<SymbolIcon Symbol="Setting" />
 				</Button>

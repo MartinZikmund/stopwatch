@@ -261,8 +261,8 @@
   <data name="PurchaseNetworkError" xml:space="preserve">
     <value>A network error occurred while trying to purchase. Try again please.</value>
   </data>
-  <data name="PurchaseError" xml:space="preserve">
-    <value>Purchase error</value>
+  <data name="StoreError" xml:space="preserve">
+    <value>Store error</value>
   </data>
   <data name="PurchaseUnknownError" xml:space="preserve">
     <value>An unknown error occurred while trying to purchase. Try again, please. Error details: {0}</value>
