@@ -54,10 +54,6 @@
 	  <CodesignProvision>VS: WildCard Development</CodesignProvision>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Content Remove="Assets\Pro\icons8-tab (1).svg" />
-	  <Content Remove="Assets\Pro\tab.svg" />
-	</ItemGroup>
-	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
 		<PackageReference Include="CommunityToolkit.WinUI.Converters" />
 		<PackageReference Include="CommunityToolkit.WinUI.Helpers" />
