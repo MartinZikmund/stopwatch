@@ -20,7 +20,7 @@ public partial class GetProViewModel : PageViewModel
 		var price = await _storeService.GetPriceAsync();
 		if (price is not null)
 		{
-			CurrentPrice = $"Get Pro for {price}";
+			CurrentPrice = price;
 		}
 	}
 

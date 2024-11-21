@@ -29,6 +29,8 @@ public partial class SettingsViewModel : PageViewModel
 
 	private readonly UISettings _uiSettings = new();
 
+	[ObservableProperty]
+	[NotifyPropertyChangedFor(nameof(BackgroundImageOpacity))]
 	private double _backgroundImageOpacityPercent;
 
 	private StopwatchModel _stopwatch;
@@ -40,9 +42,11 @@ public partial class SettingsViewModel : PageViewModel
 	private Uri? _lastBackgroundImageUri;
 
 	[ObservableProperty]
+	[NotifyPropertyChangedFor(nameof(IsBackgroundImageSet))]
 	private Uri? _backgroundImageUri;
 
 	[ObservableProperty]
+	[NotifyPropertyChangedFor(nameof(IsBackgroundColorSet))]
 	private Color _backgroundColor;
 
 	[ObservableProperty]
@@ -116,19 +120,7 @@ public partial class SettingsViewModel : PageViewModel
 		}
 	}
 
-	public double BackgroundImageOpacityPercent
-	{
-		get => _backgroundImageOpacityPercent;
-		set
-		{
-			if (_backgroundImageOpacityPercent != value)
-			{
-				_backgroundImageOpacityPercent = value;
-				SaveChanges();
-				OnPropertyChanged(nameof(BackgroundImageOpacity));
-			}
-		}
-	}
+	partial void OnBackgroundImageOpacityPercentChanged(double value) => SaveChanges();
 
 	public double BackgroundImageOpacity => BackgroundImageOpacityPercent / 100;
 
