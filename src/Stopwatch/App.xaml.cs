@@ -102,7 +102,11 @@ public partial class App : Application
 		services.AddScoped<IWindowShellProvider, WindowShellProvider>();
 		services.AddScoped<ITimerFactory, TimerFactory>();
 		services.AddScoped<IThemeManager, ThemeManager>();
+#if DEBUG
+		services.AddScoped<IStoreService, FakeStoreService>();
+#else
 		services.AddScoped<IStoreService, StoreService>();
+#endif
 
 		services.AddScoped<IXamlRootProvider, XamlRootProvider>();
 	}
