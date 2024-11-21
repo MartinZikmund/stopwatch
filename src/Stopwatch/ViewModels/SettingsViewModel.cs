@@ -4,9 +4,13 @@ using Microsoft.UI;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using Stopwatch.Core.Services;
 using Stopwatch.Dialogs;
+using Stopwatch.Models;
+using Stopwatch.Services;
 using Stopwatch.Services.Data;
+using Stopwatch.Services.Dialogs;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
+using Stopwatch.Services.Store;
 using Stopwatch.Services.Theming;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -19,20 +23,34 @@ public partial class SettingsViewModel : PageViewModel
 	private readonly IThemeManager _themeManager;
 	private readonly IImagePickerService _imagePickerService;
 	private readonly IXamlRootProvider _xamlRootProvider;
+	private readonly IStoreService _storeService;
+	private readonly IDialogService _dialogService;
 	private readonly IDataSource _dataSource;
 
 	private readonly UISettings _uiSettings = new();
 
+	[ObservableProperty]
+	[NotifyPropertyChangedFor(nameof(BackgroundImageOpacity))]
 	private double _backgroundImageOpacityPercent;
+
+	private StopwatchModel _stopwatch;
+
+	[ObservableProperty]
+	private ElementTheme _theme;
 
 	[ObservableProperty]
 	private Uri? _lastBackgroundImageUri;
 
 	[ObservableProperty]
+	[NotifyPropertyChangedFor(nameof(IsBackgroundImageSet))]
 	private Uri? _backgroundImageUri;
 
 	[ObservableProperty]
+	[NotifyPropertyChangedFor(nameof(IsBackgroundColorSet))]
 	private Color _backgroundColor;
+
+	[ObservableProperty]
+	private bool _hasProLicense;
 
 	public SettingsViewModel(
 		INavigationService navigationService,
@@ -40,18 +58,38 @@ public partial class SettingsViewModel : PageViewModel
 		IThemeManager themeManager,
 		IImagePickerService imagePickerService,
 		IXamlRootProvider xamlRootProvider,
+		IStoreService storeService,
+		IDialogService dialogService,
 		IDataSource dataSource) : base(navigationService)
 	{
 		_appSettings = appSettings;
 		_themeManager = themeManager;
 		_imagePickerService = imagePickerService;
 		_xamlRootProvider = xamlRootProvider;
+		_storeService = storeService;
+		_dialogService = dialogService;
 		_dataSource = dataSource;
+	}
 
-		var stopwatch = _dataSource.Stopwatches.GetOrCreateFirst(); // TODO: Edit the right stopwatch
-		BackgroundImageUri = stopwatch.BackgroundImageUri is not null ? new(stopwatch.BackgroundImageUri) : null;
-		BackgroundImageOpacityPercent = stopwatch.BackgroundImageOpacity * 100;
-		BackgroundColor = ColorHelper.ToColor(stopwatch.BackgroundColor);
+	public override async void ViewNavigatedTo(object? parameter)
+	{
+		base.ViewNavigatedTo(parameter);
+
+		HasProLicense = await _storeService.HasProAsync();
+
+		if (parameter is int stopwatchId)
+		{
+			if (_dataSource.Stopwatches.Get(stopwatchId) is not { } stopwatch)
+			{
+				throw new InvalidOperationException("Stopwatch with ID " + stopwatchId + " does not exist.");
+			}
+
+			_stopwatch = stopwatch;
+			Theme = _stopwatch.Theme;
+			BackgroundImageUri = _stopwatch.BackgroundImageUri is not null ? new(_stopwatch.BackgroundImageUri) : null;
+			BackgroundImageOpacityPercent = _stopwatch.BackgroundImageOpacity * 100;
+			BackgroundColor = ColorHelper.ToColor(_stopwatch.BackgroundColor);
+		}
 	}
 
 	public override void GoBack()
@@ -63,18 +101,10 @@ public partial class SettingsViewModel : PageViewModel
 
 	public ElementTheme[] ThemeOptions { get; } = [ElementTheme.Default, ElementTheme.Light, ElementTheme.Dark];
 
-	public ElementTheme SelectedTheme
+	partial void OnThemeChanged(ElementTheme value)
 	{
-		get => _appSettings.Theme;
-		set
-		{
-			if (_appSettings.Theme != value)
-			{
-				_appSettings.Theme = value;
-				_themeManager.SetTheme(SelectedTheme);
-				OnPropertyChanged();
-			}
-		}
+		_themeManager.SetTheme(Theme);
+		SaveChanges();
 	}
 
 	public bool KeepScreenOn
@@ -90,19 +120,7 @@ public partial class SettingsViewModel : PageViewModel
 		}
 	}
 
-	public double BackgroundImageOpacityPercent
-	{
-		get => _backgroundImageOpacityPercent;
-		set
-		{
-			if (_backgroundImageOpacityPercent != value)
-			{
-				_backgroundImageOpacityPercent = value;
-				SaveChanges();
-				OnPropertyChanged(nameof(BackgroundImageOpacity));
-			}
-		}
-	}
+	partial void OnBackgroundImageOpacityPercentChanged(double value) => SaveChanges();
 
 	public double BackgroundImageOpacity => BackgroundImageOpacityPercent / 100;
 
@@ -118,6 +136,13 @@ public partial class SettingsViewModel : PageViewModel
 	[RelayCommand]
 	private async Task PickBackgroundImageAsync()
 	{
+		if (!HasProLicense)
+		{
+			var proOnlyFeatureDialog = new ProOnlyFeatureDialog();
+			await _dialogService.ShowAsync(proOnlyFeatureDialog);
+			return;
+		}
+
 		IsWorking = true;
 		try
 		{
@@ -139,6 +164,13 @@ public partial class SettingsViewModel : PageViewModel
 	[RelayCommand]
 	private async Task PickBackgroundColor()
 	{
+		if (!HasProLicense)
+		{
+			var proOnlyFeatureDialog = new ProOnlyFeatureDialog();
+			await _dialogService.ShowAsync(proOnlyFeatureDialog);
+			return;
+		}
+
 		IsWorking = true;
 		var pickerDialog = new ColorPickerDialog
 		{
@@ -173,10 +205,10 @@ public partial class SettingsViewModel : PageViewModel
 
 	private void SaveChanges()
 	{
-		var stopwatch = _dataSource.Stopwatches.GetOrCreateFirst();
-		stopwatch.BackgroundImageUri = BackgroundImageUri?.ToString();
-		stopwatch.BackgroundImageOpacity = BackgroundImageOpacityPercent / 100;
-		stopwatch.BackgroundColor = ColorHelper.ToHex(BackgroundColor);
-		_dataSource.Stopwatches.Update(stopwatch);
+		_stopwatch.Theme = Theme;
+		_stopwatch.BackgroundImageUri = BackgroundImageUri?.ToString();
+		_stopwatch.BackgroundImageOpacity = BackgroundImageOpacityPercent / 100;
+		_stopwatch.BackgroundColor = ColorHelper.ToHex(BackgroundColor);
+		_dataSource.Stopwatches.Update(_stopwatch);
 	}
 }

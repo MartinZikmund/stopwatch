@@ -255,4 +255,55 @@
   <data name="CloseStopwatchDialogText" xml:space="preserve">
     <value>Are you sure you want to close stopwatch "{0}"?</value>
   </data>
+  <data name="FluentStopwatchPro" xml:space="preserve">
+    <value>Fluent Stopwatch Pro</value>
+  </data>
+  <data name="PurchaseNetworkError" xml:space="preserve">
+    <value>A network error occurred while trying to purchase. Try again please.</value>
+  </data>
+  <data name="StoreError" xml:space="preserve">
+    <value>Store error</value>
+  </data>
+  <data name="PurchaseUnknownError" xml:space="preserve">
+    <value>An unknown error occurred while trying to purchase. Try again, please.</value>
+  </data>
+  <data name="PurchaseServerError" xml:space="preserve">
+    <value>A server error occurred while trying to purchase. Try again please.</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="LearnMore" xml:space="preserve">
+    <value>Learn more</value>
+  </data>
+  <data name="MultipleStopwatches" xml:space="preserve">
+    <value>Multiple stopwatches</value>
+  </data>
+  <data name="MultipleStopwatchesDescription" xml:space="preserve">
+    <value>Have multiple stopwatches running simultaneously as tabs</value>
+  </data>
+  <data name="NoAds" xml:space="preserve">
+    <value>No ads</value>
+  </data>
+  <data name="EndlessCustomization" xml:space="preserve">
+    <value>Endless customization</value>
+  </data>
+  <data name="EndlessCustomizationDescription" xml:space="preserve">
+    <value>Make it beautiful with endless customization options</value>
+  </data>
+  <data name="NoAdsDescription" xml:space="preserve">
+    <value>Say goodbye to ads forever</value>
+  </data>
+  <data name="FutureProFeatures" xml:space="preserve">
+    <value>...and more features coming soon!</value>
+  </data>
+  <data name="InAppPriceOnly" xml:space="preserve">
+    <value>Only for</value>
+  </data>
+  <data name="GetProNow" xml:space="preserve">
+    <value>Get Pro now</value>
+  </data>
+  <data name="ProOnlyFeatureDescription" xml:space="preserve">
+    <value>This feature is only available in Fluent Stopwatch Pro</value>
+  </data>
 </root>

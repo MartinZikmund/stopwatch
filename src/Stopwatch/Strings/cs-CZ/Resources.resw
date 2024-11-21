@@ -255,4 +255,55 @@
   <data name="CloseStopwatchDialogText" xml:space="preserve">
     <value>Chcete opravdu zavřít stopky "{0}"?</value>
   </data>
+  <data name="FluentStopwatchPro" xml:space="preserve">
+    <value>Moderní Stopky Pro</value>
+  </data>
+  <data name="PurchaseNetworkError" xml:space="preserve">
+    <value>Při pokusu o zakoupení došlo k chybě sítě. Zkuste to prosím znovu.</value>
+  </data>
+  <data name="StoreError" xml:space="preserve">
+    <value>Chyba obchodu</value>
+  </data>
+  <data name="PurchaseServerError" xml:space="preserve">
+    <value>Při pokusu o zakoupení došlo k chybě serveru. Zkuste to prosím znovu.</value>
+  </data>
+  <data name="PurchaseUnknownError" xml:space="preserve">
+    <value>Při pokusu o zakoupení došlo k neznámé chybě. Zkuste to prosím znovu.</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="LearnMore" xml:space="preserve">
+    <value>Více informací</value>
+  </data>
+  <data name="MultipleStopwatches" xml:space="preserve">
+    <value>Víc stopek současně</value>
+  </data>
+  <data name="MultipleStopwatchesDescription" xml:space="preserve">
+    <value>Spusťte více stopek současně v separátnich záložkách</value>
+  </data>
+  <data name="NoAds" xml:space="preserve">
+    <value>Bez reklam</value>
+  </data>
+  <data name="NoAdsDescription" xml:space="preserve">
+    <value>Rozlučte se s reklamami v aplikaci</value>
+  </data>
+  <data name="EndlessCustomization" xml:space="preserve">
+    <value>Přizpůsobení</value>
+  </data>
+  <data name="EndlessCustomizationDescription" xml:space="preserve">
+    <value>Přizpůsobte si stopky tak, aby vypadaly dle vašeho gusta s pokročilými úpravami vzhledu</value>
+  </data>
+  <data name="FutureProFeatures" xml:space="preserve">
+    <value>... a další funkce již brzy!</value>
+  </data>
+  <data name="InAppPriceOnly" xml:space="preserve">
+    <value>Pouze za</value>
+  </data>
+  <data name="GetProNow" xml:space="preserve">
+    <value>Koupit Pro nyní</value>
+  </data>
+  <data name="ProOnlyFeatureDescription" xml:space="preserve">
+    <value>Tato funkce je dostupná pouze ve verzi Pro</value>
+  </data>
 </root>

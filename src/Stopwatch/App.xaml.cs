@@ -8,6 +8,7 @@ using Stopwatch.Services.Data;
 using Stopwatch.Services.Data.LiteDb;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
+using Stopwatch.Services.Store;
 using Stopwatch.Services.Theming;
 using Stopwatch.Services.Timer;
 using Stopwatch.ViewModels;
@@ -44,9 +45,9 @@ public partial class App : Application
 				.ConfigureServices((context, services) => ConfigureServices(services))
 			);
 		MainWindow = builder.Window;
-//#if DEBUG
-//		MainWindow.EnableHotReload();
-//#endif
+#if DEBUG
+		MainWindow.EnableHotReload();
+#endif
 
 		Host = builder.Build();
 		Ioc.Default.ConfigureServices(Host.Services);
@@ -90,6 +91,7 @@ public partial class App : Application
 		services.AddScoped<MainViewModel>();
 		services.AddScoped<OnboardingViewModel>();
 		services.AddScoped<HistoryViewModel>();
+		services.AddScoped<GetProViewModel>();
 
 		services.AddScoped<IDialogCoordinator, DialogCoordinator>();
 		services.AddScoped<IConfirmationDialogService, ConfirmationDialogService>();
@@ -100,6 +102,11 @@ public partial class App : Application
 		services.AddScoped<IWindowShellProvider, WindowShellProvider>();
 		services.AddScoped<ITimerFactory, TimerFactory>();
 		services.AddScoped<IThemeManager, ThemeManager>();
+#if DEBUG
+		services.AddScoped<IStoreService, FakeStoreService>();
+#else
+		services.AddScoped<IStoreService, StoreService>();
+#endif
 
 		services.AddScoped<IXamlRootProvider, XamlRootProvider>();
 	}

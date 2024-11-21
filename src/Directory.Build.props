@@ -26,5 +26,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All"/>
+		
+		<!-- Temporary workaround for NuGet marking these as vulnerable -->
+		<PackageReference Include="System.Private.Uri" />
+		<PackageReference Include="System.Text.Json" />
 	</ItemGroup>
 </Project>

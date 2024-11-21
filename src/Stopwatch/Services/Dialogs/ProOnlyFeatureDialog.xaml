@@ -1,0 +1,16 @@
+﻿<ContentDialog
+    x:Class="Stopwatch.Services.Dialogs.ProOnlyFeatureDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Stopwatch.Services.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:ex="using:Stopwatch.Extensions.Xaml"
+    Title="{ex:Localize Key=FluentStopwatchPro}"
+    Style="{ThemeResource DefaultContentDialogStyle}"
+    PrimaryButtonText="{ex:Localize Key=LearnMore}"
+    SecondaryButtonText="{ex:Localize Key=Cancel}"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
+	<Grid>
+		<TextBlock TextWrapping="WrapWholeWords" Text="{ex:Localize Key=ProOnlyFeatureDescription}" />
+	</Grid>
+</ContentDialog>

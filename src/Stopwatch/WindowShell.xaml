@@ -10,11 +10,11 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid toolkit:VisibleBoundsPadding.PaddingMask="All">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+	<Grid toolkit:VisibleBoundsPadding.PaddingMask="All">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
 
 		<Grid
             x:Name="TitleBarGrid"
@@ -28,10 +28,7 @@
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<Image
-                Width="16"
-                Height="16"
-                Source="ms-appx:///Assets/Icons/icon_foreground.png" />
+
 			<!--<TextBlock
                 Grid.Column="1"
                 VerticalAlignment="Center"
@@ -40,5 +37,15 @@
 		</Grid>
 
 		<Frame x:Name="InnerFrame" Grid.Row="0" Grid.RowSpan="2" />
+
+		<Grid Height="48"
+			  HorizontalAlignment="Left"
+			Padding="16,0"
+			ColumnSpacing="16">
+			<Image
+                Width="16"
+                Height="16"
+                Source="ms-appx:///Assets/Icons/icon_foreground.png" />
+		</Grid>
 	</Grid>
 </Page>

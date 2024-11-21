@@ -13,7 +13,7 @@ public class NavigationService : INavigationService
 		_frameProvider = frameProvider ?? throw new ArgumentNullException(nameof(frameProvider));
 	}
 
-	private Frame Frame => _frameProvider.GetForCurrentView();
+	private Frame Frame => _frameProvider.GetForCurrentScope();
 
 	public bool CanGoBack => Frame.CanGoBack;
 

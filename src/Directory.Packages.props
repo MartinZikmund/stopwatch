@@ -1,18 +1,15 @@
 <Project ToolsVersion="15.0">
-  <!--
-    To update the version of Uno, you should instead update the Sdk version in the global.json file.
+	<ItemGroup>
+		<PackageVersion Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240606-rc" />
+		<PackageVersion Include="CommunityToolkit.WinUI.Converters" Version="8.1.240606-rc" />
+		<PackageVersion Include="CommunityToolkit.WinUI.Helpers" Version="8.1.240606-rc" />
+		<PackageVersion Include="LiteDB" Version="5.0.20" />
+		<PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+		<PackageVersion Include="MZikmund.Toolkit.WinUI" Version="0.1.12-dev.41" />
+		<PackageVersion Include="Plugin.InAppBilling" Version="7.1.0" />
 
-    See https://aka.platform.uno/using-uno-sdk for more information.
-  -->
-  <ItemGroup>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240606-rc" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Converters" Version="8.1.240606-rc" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Helpers" Version="8.1.240606-rc" />
-    <PackageVersion Include="LiteDB" Version="5.0.20" />
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
-    <PackageVersion Include="MZikmund.Toolkit.WinUI" Version="0.1.12-dev.41" />
-    <PackageVersion Include="Plugin.InAppBilling" Version="7.1.0" />
-  </ItemGroup>
+		<!-- Workaround for NuGet vulnerability reports -->
+		<PackageVersion Include="System.Private.Uri" Version="4.3.2" />
+		<PackageVersion Include="System.Text.Json" Version="9.0.0" />
+	</ItemGroup>
 </Project>

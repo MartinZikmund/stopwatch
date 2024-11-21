@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
+using MZikmund.Toolkit.WinUI.Infrastructure;
 using MZikmund.Toolkit.WinUI.Services;
+using Stopwatch.Services.Localization;
 
 namespace Stopwatch.Services;
 
@@ -7,15 +9,17 @@ public class DialogService : IDialogService
 {
 	private readonly Dictionary<string, Type> _dialogs = new();
 	private readonly IDialogCoordinator _dialogCoordinator;
+	private readonly IXamlRootProvider _xamlRootProvider;
 
-	public DialogService(IDialogCoordinator dialogCoordinator)
+	public DialogService(IDialogCoordinator dialogCoordinator, IXamlRootProvider xamlRootProvider)
 	{
 		_dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
+		_xamlRootProvider = xamlRootProvider ?? throw new ArgumentNullException(nameof(xamlRootProvider));
 	}
 
-	public async Task<ContentDialogResult> ShowAsync<TViewModel>(TViewModel viewModel)
+	public async Task<ContentDialogResult> ShowAsync(object viewModel)
 	{
-		var viewModelType = typeof(TViewModel);
+		var viewModelType = viewModel.GetType();
 		if (!viewModelType.Name.EndsWith("ViewModel", StringComparison.OrdinalIgnoreCase))
 		{
 			throw new InvalidOperationException("ViewModel name must end with 'ViewModel' by convention.");
@@ -33,6 +37,7 @@ public class DialogService : IDialogService
 			throw new InvalidOperationException($"Instance of {dialogType} could not be created");
 		}
 		dialog.DataContext = viewModel;
+		dialog.XamlRoot = _xamlRootProvider.XamlRoot;
 		return await _dialogCoordinator.ShowAsync(dialog);
 	}
 
@@ -53,8 +58,19 @@ public class DialogService : IDialogService
 		{
 			Title = title,
 			Content = content,
+			PrimaryButtonText = Localizer.Instance.GetString("Ok"),
+			XamlRoot = _xamlRootProvider.XamlRoot
 		};
 
 		return await _dialogCoordinator.ShowAsync(dialog);
+	}
+
+	public async Task<ContentDialogResult> ShowAsync(ContentDialog contentDialog)
+	{
+		if (contentDialog.XamlRoot is null)
+		{
+			contentDialog.XamlRoot = _xamlRootProvider.XamlRoot;
+		}
+		return await _dialogCoordinator.ShowAsync(contentDialog);
 	}
 }

@@ -45,31 +45,32 @@
                 <!--  General  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Localize Key=General}" />
 
-                <toolkit:SettingsCard
+				<toolkit:SettingsCard
                     Description="{ex:Localize Key=KeepScreenOnSettingDescription}"
                     Header="{ex:Localize Key=KeepScreenOn}"
                     HeaderIcon="{ui:FontIcon Glyph=&#xF182;,
                                              FontFamily='Segoe Fluent Icons'}">
-                    <ToggleSwitch IsOn="{x:Bind ViewModel.KeepScreenOn, Mode=TwoWay}" />
-                </toolkit:SettingsCard>
+					<ToggleSwitch IsOn="{x:Bind ViewModel.KeepScreenOn, Mode=TwoWay}" />
+				</toolkit:SettingsCard>
 
-                <toolkit:SettingsCard Header="{ex:Localize Key=Theme}" HeaderIcon="{ui:FontIcon Glyph=&#xE793;, FontFamily='Segoe Fluent Icons'}">
-                    <ComboBox
-                        ItemsSource="{x:Bind ViewModel.ThemeOptions}"
-                        SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}"
-                        Style="{StaticResource DefaultComboBoxStyle}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate x:DataType="ElementTheme">
-                                <TextBlock Text="{x:Bind Converter={StaticResource EnumLocalizationConverter}}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </toolkit:SettingsCard>
-
-                <!--  Customization  -->
+				<!--  Customization  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Localize Key=Customization}" />
 
-                <toolkit:SettingsCard Header="{ex:Localize Key=BackgroundImage}" HeaderIcon="{ui:FontIcon Glyph=&#xE91B;, FontFamily='Segoe Fluent Icons'}">
+				<toolkit:SettingsCard Header="{ex:Localize Key=Theme}" HeaderIcon="{ui:FontIcon Glyph=&#xE793;, FontFamily='Segoe Fluent Icons'}">
+					<ComboBox
+						IsTextSearchEnabled="True"
+                        ItemsSource="{x:Bind ViewModel.ThemeOptions}"
+                        SelectedItem="{x:Bind ViewModel.Theme, Mode=TwoWay}"
+                        Style="{StaticResource DefaultComboBoxStyle}">
+						<ComboBox.ItemTemplate>
+							<DataTemplate x:DataType="ElementTheme">
+								<TextBlock Text="{x:Bind Converter={StaticResource EnumLocalizationConverter}}" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+				</toolkit:SettingsCard>
+
+				<toolkit:SettingsCard Header="{ex:Localize Key=BackgroundImage}" HeaderIcon="{ui:FontIcon Glyph=&#xE91B;, FontFamily='Segoe Fluent Icons'}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <Button Command="{x:Bind ViewModel.PickBackgroundImageCommand}" Content="{ex:Localize Key=Browse}" />
                         <Button
