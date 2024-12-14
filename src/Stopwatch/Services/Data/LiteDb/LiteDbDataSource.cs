@@ -2,8 +2,10 @@
 using Stopwatch.Models;
 
 namespace Stopwatch.Services.Data.LiteDb;
+
 internal class LiteDbDataSource : IDataSource
 {
+	private bool _isInitialized;
 	private LiteDatabase? _liteDatabase;
 
 	public LiteDbDataSource()
@@ -16,6 +18,12 @@ internal class LiteDbDataSource : IDataSource
 
 	public async Task InitializeAsync()
 	{
+		if (_isInitialized)
+		{
+			return;
+		}
+
+		_isInitialized = true;
 		var dataFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Data", CreationCollisionOption.OpenIfExists);
 		var dbPath = Path.Combine(dataFolder.Path, "stopwatch.db");
 		_liteDatabase = new LiteDatabase(dbPath);

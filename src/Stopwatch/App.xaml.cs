@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI;
 using Microsoft.Toolkit.Uwp.Helpers;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using MZikmund.Toolkit.WinUI.Services;
@@ -26,10 +27,34 @@ public partial class App : Application
 	}
 
 	protected Window? MainWindow { get; private set; }
+
 	internal static IHost? Host { get; private set; }
+
+#if !HAS_UNO
+	private Microsoft.Windows.AppLifecycle.AppInstance _currentInstance;
+#endif
 
 	protected override async void OnLaunched(LaunchActivatedEventArgs args)
 	{
+#if !HAS_UNO
+		// If this is the first instance launched, then register it as the "main" instance.
+		// If this isn't the first instance launched, then "main" will already be registered,
+		// so retrieve it.
+		_currentInstance = Microsoft.Windows.AppLifecycle.AppInstance.FindOrRegisterForKey("fluentstopwatch");
+		_currentInstance.Activated += OnInstanceActivated;
+
+		// If the instance that's executing the OnLaunched handler right now
+		// isn't the "main" instance.
+		if (!_currentInstance.IsCurrent)
+		{
+			// Redirect the activation (and args) to the "main" instance, and exit.
+			var activationArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+			await _currentInstance.RedirectActivationToAsync(activationArgs);
+			this.Exit();
+			return;
+		}
+#endif
+
 		var builder = this.CreateBuilder(args)
 			.Configure(host => host
 #if DEBUG
@@ -76,6 +101,16 @@ public partial class App : Application
 		// Ensure the current window is active
 		MainWindow.Activate();
 	}
+
+#if !HAS_UNO
+	private async void OnInstanceActivated(object? sender, Microsoft.Windows.AppLifecycle.AppActivationArguments e)
+	{
+		await MainWindow.DispatcherQueue.EnqueueAsync(() =>
+		{
+			MainWindow.Activate();
+		});
+	}
+#endif
 
 	private void ConfigureServices(IServiceCollection services)
 	{
