@@ -47,7 +47,11 @@ public sealed partial class MainView : MainViewBase
 
 		StopwatchTabView.Visibility = _appWindow.Presenter is OverlappedPresenter ? Visibility.Visible : Visibility.Collapsed;
 
+#if !HAS_UNO
 		StopwatchTabView.Margin = new Thickness(0, 0, _appWindow.TitleBar.RightInset + 16, 0);
+#else
+		StopwatchTabView.Margin = new Thickness(0, 0, 0, 0);
+#endif
 
 		DraggableArea.Margin = new Thickness(StopwatchTabView.ActualWidth, 0, 0, 0);
 	}
