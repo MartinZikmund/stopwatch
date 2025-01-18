@@ -7,6 +7,7 @@
     xmlns:ex="using:Stopwatch.Extensions.Xaml"
     xmlns:local="using:Stopwatch.Views"
 	xmlns:vm="using:Stopwatch.ViewModels"
+	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wctc="using:CommunityToolkit.WinUI.Converters">
 
@@ -83,7 +84,14 @@
 					<FontIcon Glyph="&#xF133;" Foreground="Gold" />
 				</Button>
 				<Button Command="{x:Bind ViewModel.GoToSettingsCommand}" Style="{ThemeResource SubtleButtonStyle}">
-					<SymbolIcon Symbol="Setting" />
+					<AnimatedIcon Width="20">
+						<AnimatedIcon.Source>
+							<animatedvisuals:AnimatedSettingsVisualSource />
+						</AnimatedIcon.Source>
+						<AnimatedIcon.FallbackIconSource>
+							<SymbolIconSource Symbol="Setting" />
+						</AnimatedIcon.FallbackIconSource>
+					</AnimatedIcon>
 				</Button>
 			</StackPanel>
 
