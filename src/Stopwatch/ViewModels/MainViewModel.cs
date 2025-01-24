@@ -178,7 +178,7 @@ public partial class MainViewModel : PageViewModel
 	[RelayCommand]
 	public void AddStopwatch()
 	{
-		if (!HasProLicense && Stopwatches.Count > 0)
+		if (!HasProLicense && Stopwatches.Count > 1)
 		{
 			var proOnlyFeatureDialog = new ProOnlyFeatureDialog();
 			_dialogService.ShowAsync(proOnlyFeatureDialog);

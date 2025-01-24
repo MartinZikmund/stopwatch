@@ -2,7 +2,7 @@
   "background_color": "#ffffff",
   "description": "Stopwatch",
   "display": "standalone",
-  "name": "Stopwatch",
+  "name": "Fluent Stopwatch",
   "short_name": "Stopwatch",
   "start_url": "/index.html",
   "theme_color": "#ffffff",
