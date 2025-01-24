@@ -25,7 +25,8 @@ jobs:
           dotnet-version: 9.x
       - run: |
           cd src/Stopwatch
-          dotnet build -c Release -f net9.0-browserwasm
+          dotnet restore -c Release -f net9.0-browserwasm
+          dotnet build -c Release -f net9.0-browserwasm --no-restore
       - name: Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
