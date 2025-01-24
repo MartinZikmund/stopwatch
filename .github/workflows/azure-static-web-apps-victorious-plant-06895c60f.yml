@@ -21,6 +21,8 @@ jobs:
           lfs: false
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v4.2.0
+        with:
+          dotnet-version: 9.x
       - run: |
           cd src/Stopwatch
           dotnet build -c Release -f net9.0-browserwasm
