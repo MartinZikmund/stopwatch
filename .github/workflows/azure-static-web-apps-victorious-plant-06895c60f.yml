@@ -12,21 +12,20 @@ on:
 jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: true
           lfs: false
-      - name: Install Dependencies
-        uses: "./.github/steps/install_dependencies"
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v4.2.0
         with:
           dotnet-version: 9.x
       - run: |
           cd src/Stopwatch
+          dotnet workload restore
           dotnet build -c Release -f net9.0-browserwasm
       - name: Deploy
         id: builddeploy
