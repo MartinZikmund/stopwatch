@@ -11,6 +11,6 @@
     SecondaryButtonText="{ex:Localize Key=Cancel}"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
 	<Grid>
-		<TextBlock TextWrapping="WrapWholeWords" Text="{ex:Localize Key=ProOnlyFeatureDescription}" />
+		<TextBlock x:Name="DescriptionTextBlock" TextWrapping="WrapWholeWords" />
 	</Grid>
 </ContentDialog>
