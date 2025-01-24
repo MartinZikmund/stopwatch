@@ -22,7 +22,7 @@ jobs:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v4.2.0
       - run: |
-          src/Stopwatch
+          cd src/Stopwatch
           dotnet build -c Release -f net9.0-browserwasm
       - name: Deploy
         id: builddeploy
