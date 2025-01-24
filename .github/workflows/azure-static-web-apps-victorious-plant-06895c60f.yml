@@ -20,7 +20,6 @@ jobs:
           submodules: true
           lfs: false
       - name: Install Dependencies
-        timeout-minutes: ${{ fromJSON(env.STEP_TIMEOUT_MINUTES) }}
         uses: "./.github/steps/install_dependencies"
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v4.2.0
