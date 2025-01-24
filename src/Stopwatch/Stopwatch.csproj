@@ -35,8 +35,11 @@
 
 	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-browserwasm'">
 		<WasmShellEnableIDBFS>true</WasmShellEnableIDBFS>
-		
-		
+		<!-- Temporary workaround for Uno.Wasm.Bootstrap -->
+		<UnoGenerateAssetsManifestDependsOn>
+			$(UnoGenerateAssetsManifestDependsOn);
+			GenerateUnoWasmAssets;
+		</UnoGenerateAssetsManifestDependsOn>
 	</PropertyGroup>
 	
 	<ItemGroup>
