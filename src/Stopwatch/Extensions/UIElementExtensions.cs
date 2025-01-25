@@ -1,14 +1,16 @@
-﻿namespace Stopwatch.Extensions;
+﻿using CommunityToolkit.WinUI;
+
+namespace Stopwatch.Extensions;
 
 public static class UIElementExtensions
 {
 	public static IServiceProvider? GetServiceProvider(this UIElement element)
 	{
-		if (element.XamlRoot?.Content is WindowShell windowShell)
+		if (element.XamlRoot?.Content?.FindDescendantOrSelf<WindowShell>() is not { } windowShell)
 		{
-			return windowShell.ServiceProvider;
+			return null;
 		}
 
-		return null;
+		return windowShell.ServiceProvider;
 	}
 }

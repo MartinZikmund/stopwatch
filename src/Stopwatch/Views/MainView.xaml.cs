@@ -62,15 +62,20 @@ public sealed partial class MainView : MainViewBase
 	{
 		StartAutoHide();
 
-		_appWindow = this.GetServiceProvider().GetRequiredService<IWindowShellProvider>().Window.AppWindow;
+		if (this.GetServiceProvider() is not { } serviceProvider)
+		{
+			throw new InvalidOperationException("Service provider is not available");
+		}
+
+		_appWindow = serviceProvider.GetRequiredService<IWindowShellProvider>().Window.AppWindow;
 		_appWindow.Changed += OnAppWindowChanged;
 
-		_shell = this.GetServiceProvider().GetRequiredService<IWindowShellProvider>().Shell;
+		_shell = serviceProvider.GetRequiredService<IWindowShellProvider>().Shell;
 		_shell.SetTitleBar(DraggableArea);
 
 		UpdateTitleBarMetrics();
 	}
-	
+
 	private void MainView_Unloaded(object sender, RoutedEventArgs e)
 	{
 		_appWindow.Changed -= OnAppWindowChanged;
