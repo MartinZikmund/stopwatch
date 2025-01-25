@@ -70,8 +70,9 @@ public partial class App : Application
 				.ConfigureServices((context, services) => ConfigureServices(services))
 			);
 		MainWindow = builder.Window;
+
 #if DEBUG
-		MainWindow.EnableHotReload();
+		MainWindow.UseStudio();
 #endif
 
 		Host = builder.Build();
