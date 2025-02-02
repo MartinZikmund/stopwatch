@@ -25,6 +25,7 @@ public partial class StopwatchViewModel : ObservableObject
 		_stopwatch = stopwatch;
 		_dataSource = dataSource;
 		Laps = new(this, stopwatch);
+		IsLapsListExpanded = Laps.Count > 0;
 		_historyService = historyService;
 		_stopwatchService = new StopwatchService(stopwatch, dataSource, appPreferences);
 	}
@@ -34,6 +35,9 @@ public partial class StopwatchViewModel : ObservableObject
 	public StopwatchModel Stopwatch => _stopwatch;
 
 	public LapsObservableCollection Laps { get; }
+
+	[ObservableProperty]
+	public partial bool IsLapsListExpanded { get; set; }
 
 	public Color BackgroundColor => ColorHelper.ToColor(_stopwatch.BackgroundColor);
 
@@ -92,6 +96,7 @@ public partial class StopwatchViewModel : ObservableObject
 	{
 		var lapTime = _stopwatchService.AddLap();
 		Laps.AddLap(lapTime);
+		IsLapsListExpanded = true;
 	}
 
 	[RelayCommand(CanExecute = nameof(CanReset))]
@@ -104,6 +109,7 @@ public partial class StopwatchViewModel : ObservableObject
 		}
 
 		_stopwatchService.Reset();
+		IsLapsListExpanded = false;
 		Laps.Clear();
 		OnTick();
 

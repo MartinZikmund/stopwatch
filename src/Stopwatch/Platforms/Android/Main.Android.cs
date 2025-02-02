@@ -21,7 +21,12 @@ namespace Stopwatch.Droid;
 )]
 public class Application : Microsoft.UI.Xaml.NativeApplication
 {
-    public Application(IntPtr javaReference, JniHandleOwnership transfer)
+	static Application()
+	{
+		App.InitializeLogging();
+	}
+
+	public Application(IntPtr javaReference, JniHandleOwnership transfer)
         : base(() => new App(), javaReference, transfer)
     {
         ConfigureUniversalImageLoader();

@@ -306,4 +306,7 @@
   <data name="ProOnlyFeatureDescription" xml:space="preserve">
     <value>Tato funkce je dostupná pouze ve verzi Pro</value>
   </data>
+  <data name="Lap" xml:space="preserve">
+    <value>Kolo</value>
+  </data>
 </root>
