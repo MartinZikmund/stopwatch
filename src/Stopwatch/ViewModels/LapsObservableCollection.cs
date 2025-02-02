@@ -20,10 +20,30 @@ public class LapsObservableCollection : ObservableCollection<LapViewModel>
 		UpdateExtremes();
 	}
 
+	private void ResetOrders()
+	{
+		for (var i = Count - 1; i >= 0; i--)
+		{
+			this[i].Order = Count - i;
+		}
+	}
+
 	public void AddLap(LapModel lap)
 	{
 		AddLapInner(lap);
 		UpdateExtremes();
+	}
+
+	public void RemoveLap(LapModel lap)
+	{
+		var lapViewModel = this.FirstOrDefault(l => l.Lap == lap);
+		if (lapViewModel is null)
+		{
+			return;
+		}
+		Remove(lapViewModel);
+		UpdateExtremes();
+		ResetOrders();
 	}
 
 	private void AddLapInner(LapModel lap)
