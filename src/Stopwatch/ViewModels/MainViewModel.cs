@@ -111,7 +111,7 @@ public partial class MainViewModel : PageViewModel
 			else
 			{
 				bool wasSelected = Stopwatches[i] == SelectedStopwatch;
-				var replacementStopwatch = new StopwatchViewModel(updatedStopwatch, _dataSource, _appPreferences, _historyService);
+				var replacementStopwatch = new StopwatchViewModel(updatedStopwatch, _dataSource, _appPreferences, _historyService, _confirmationDialogService);
 				Stopwatches[i] = replacementStopwatch;
 				if (wasSelected)
 				{
@@ -125,7 +125,7 @@ public partial class MainViewModel : PageViewModel
 		{
 			if (Stopwatches.All(s => s.Id != stopwatch.Id))
 			{
-				Stopwatches.Add(new StopwatchViewModel(stopwatch, _dataSource, _appPreferences, _historyService));
+				Stopwatches.Add(new StopwatchViewModel(stopwatch, _dataSource, _appPreferences, _historyService, _confirmationDialogService));
 			}
 		}
 
@@ -187,7 +187,7 @@ public partial class MainViewModel : PageViewModel
 
 		var newStopwatch = new StopwatchModel(GetNextStopwatchName());
 		_dataSource.Stopwatches.Add(newStopwatch);
-		Stopwatches.Add(new StopwatchViewModel(newStopwatch, _dataSource, _appPreferences, _historyService));
+		Stopwatches.Add(new StopwatchViewModel(newStopwatch, _dataSource, _appPreferences, _historyService, _confirmationDialogService));
 		SelectedStopwatch = Stopwatches.Last();
 	}
 

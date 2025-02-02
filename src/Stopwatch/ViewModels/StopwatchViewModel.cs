@@ -1,8 +1,10 @@
+using System.Diagnostics;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Dispatching;
 using Stopwatch.Models;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
+using Stopwatch.Services.Localization;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Timer;
 using Windows.UI;
@@ -12,6 +14,7 @@ namespace Stopwatch.ViewModels;
 public partial class StopwatchViewModel : ObservableObject
 {
 	private readonly StopwatchModel _stopwatch;
+	private readonly IConfirmationDialogService _confirmationDialogService;
 	private readonly IDataSource _dataSource;
 	private readonly IHistoryService _historyService;
 	private readonly StopwatchService _stopwatchService;
@@ -20,9 +23,11 @@ public partial class StopwatchViewModel : ObservableObject
 		StopwatchModel stopwatch,
 		IDataSource dataSource,
 		IAppPreferences appPreferences,
-		IHistoryService historyService)
+		IHistoryService historyService,
+		IConfirmationDialogService confirmationDialogService)
 	{
 		_stopwatch = stopwatch;
+		_confirmationDialogService = confirmationDialogService;
 		_dataSource = dataSource;
 		Laps = new(this, stopwatch);
 		IsLapsListExpanded = Laps.Count > 0;
@@ -34,7 +39,8 @@ public partial class StopwatchViewModel : ObservableObject
 
 	public StopwatchModel Stopwatch => _stopwatch;
 
-	public LapsObservableCollection Laps { get; }
+	[ObservableProperty]
+	public partial LapsObservableCollection Laps { get; private set; }
 
 	[ObservableProperty]
 	public partial bool IsLapsListExpanded { get; set; }
@@ -143,4 +149,16 @@ public partial class StopwatchViewModel : ObservableObject
 	}
 
 	internal void OnLapUpdated() => _dataSource.Stopwatches.Update(_stopwatch);
+
+	internal async Task RequestDeleteLapAsync(LapViewModel lapViewModel)
+	{
+		var result = await _confirmationDialogService.ShowAsync(Localizer.Instance.GetString("DeleteLapDialogTitle"), Localizer.Instance.GetString("DeleteLapDialogText"));
+		if (result != ConfirmationResult.Confirmed)
+		{
+			return;
+		}
+
+		_stopwatchService.RemoveLap(lapViewModel.Lap);
+		Laps = new(this, _stopwatch);
+	}
 }

@@ -5,34 +5,36 @@ namespace Stopwatch.ViewModels;
 public partial class LapViewModel : ObservableObject
 {
 	private readonly StopwatchViewModel _owner;
-	private readonly LapModel _lap;
-
-	[ObservableProperty]
-	private bool _isFastest;
-
-	[ObservableProperty]
-	private bool _isSlowest;
 
 	public LapViewModel(StopwatchViewModel owner, LapModel lap, int order, TimeSpan lapTime)
 	{
 		_owner = owner;
-		_lap = lap;
+		Lap = lap;
 		Order = order;
 		LapTime = lapTime;
 	}
 
-	public int Order { get; }
+	public LapModel Lap { get; }
 
 	public TimeSpan LapTime { get; }
 
-	public TimeSpan TotalTime => _lap.TotalTime;
+	[ObservableProperty]
+	public partial int Order { get; set; }
+
+	[ObservableProperty]
+	public partial bool IsFastest { get; set; }
+
+	[ObservableProperty]
+	public partial bool IsSlowest { get; set; }
+
+	public TimeSpan TotalTime => Lap.TotalTime;
 
 	public string Note
 	{
-		get => _lap.Note;
+		get => Lap.Note;
 		set
 		{
-			_lap.Note = value;
+			Lap.Note = value;
 			OnPropertyChanged();
 			_owner.OnLapUpdated();
 		}
@@ -41,4 +43,7 @@ public partial class LapViewModel : ObservableObject
 	public string TimeString => LapTime.ToString(@"hh\:mm\:ss\.ff");
 
 	public string TotalTimeString => TotalTime.ToString(@"hh\:mm\:ss\.ff");
+
+	[RelayCommand]
+	public async Task RequestDeleteAsync() => await _owner.RequestDeleteLapAsync(this);
 }

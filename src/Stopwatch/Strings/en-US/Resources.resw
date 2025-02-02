@@ -309,4 +309,10 @@
   <data name="Lap" xml:space="preserve">
     <value>Lap</value>
   </data>
+  <data name="DeleteLapDialogText" xml:space="preserve">
+    <value>Are you sure you want to delete this lap?</value>
+  </data>
+  <data name="DeleteLapDialogTitle" xml:space="preserve">
+    <value>Delete lap</value>
+  </data>
 </root>

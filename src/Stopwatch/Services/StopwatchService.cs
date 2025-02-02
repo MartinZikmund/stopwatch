@@ -83,4 +83,10 @@ public class StopwatchService
 		_dataSource.Stopwatches.Update(_stopwatch);
 		return lap;
 	}
+
+	internal void RemoveLap(LapModel lap)
+	{
+		_stopwatch.Laps = _stopwatch.Laps.Where(l => l != lap).ToArray();
+		_dataSource.Stopwatches.Update(_stopwatch);
+	}
 }
