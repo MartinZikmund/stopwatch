@@ -72,7 +72,7 @@
                 </StackPanel>
             </Grid>
         </Viewbox>
-		<Expander ExpandDirection="Up" Header="Laps" Grid.Row="2" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+		<Expander ExpandDirection="Up" IsExpanded="{x:Bind Stopwatch.IsLapsListExpanded, Mode=TwoWay}" Header="{ex:Localize Key=Laps}" Grid.Row="2" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
 			<Grid
                 Grid.Row="2"
                 MaxWidth="600"
@@ -100,7 +100,7 @@
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="*" />
 					</Grid.ColumnDefinitions>
-					<TextBlock Text="{ex:Localize Key=Laps}" />
+					<TextBlock Text="{ex:Localize Key=Lap}" />
 					<TextBlock Grid.Column="1" Text="{ex:Localize Key=LapTime}" />
 					<TextBlock Grid.Column="2" Text="{ex:Localize Key=TotalTime}" />
 					<TextBlock Grid.Column="3" Text="{ex:Localize Key=Note}" />
