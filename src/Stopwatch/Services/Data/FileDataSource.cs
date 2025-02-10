@@ -31,11 +31,11 @@ public class FileDataSource : IDataSource
 	{
 		var data = ReadData();
 		data.Stopwatches.Add(stopwatch);
-		stopwatch.Id = data.Stopwatches.Count == 0 ? 1 : data.Stopwatches.Max(s => s.Id) + 1;
+		stopwatch.Id = data.Stopwatches.Count == 0 ? Guid.NewGuid().ToString() : data.Stopwatches.Max(s => s.Id) + 1;
 		SaveData(data);
 	}
 
-	public StopwatchModel? Get(int id)
+	public StopwatchModel? Get(string id)
 	{
 		var data = ReadData();
 		return data.Stopwatches.FirstOrDefault(s => s.Id == id);

@@ -28,7 +28,7 @@ public class HistoryEntryModel : IId
 		BackgroundColor = backgroundColor;
 	}
 
-	public int Id { get; set; }
+	public string Id { get; set; }
 
 	public string Icon { get; set; }
 
