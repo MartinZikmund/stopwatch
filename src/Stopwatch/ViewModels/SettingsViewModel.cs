@@ -77,7 +77,7 @@ public partial class SettingsViewModel : PageViewModel
 
 		HasProLicense = await _storeService.HasProAsync();
 
-		if (parameter is int stopwatchId)
+		if (parameter is string stopwatchId)
 		{
 			if (_dataSource.Stopwatches.Get(stopwatchId) is not { } stopwatch)
 			{
