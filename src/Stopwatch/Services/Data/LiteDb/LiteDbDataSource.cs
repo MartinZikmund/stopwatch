@@ -28,14 +28,21 @@ internal class LiteDbDataSource : IDataSource
 		_isInitialized = true;
 		var dataFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Data", CreationCollisionOption.OpenIfExists);
 		var dbPath = Path.Combine(dataFolder.Path, "stopwatch.db");
+		var isNewDatabase = !File.Exists(dbPath);
 		_liteDatabase = new LiteDatabase(dbPath);
-		Migrate(_liteDatabase);
+		Migrate(_liteDatabase, isNewDatabase);
 		Stopwatches = new StopwatchLiteDbRepository(_liteDatabase);
 		HistoryStopwatches = new LiteDbRepository<HistoryEntryModel>(_liteDatabase, "HistoryStopwatches");
 	}
 
-	private void Migrate(LiteDatabase db)
+	private void Migrate(LiteDatabase db, bool isNewDatabase)
 	{
+		if (isNewDatabase)
+		{
+			db.UserVersion = 1;
+			return;
+		}
+
 		if (db.UserVersion == 0)
 		{
 			try
