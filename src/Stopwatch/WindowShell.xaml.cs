@@ -9,7 +9,7 @@ using Windows.Foundation.Metadata;
 
 namespace Stopwatch;
 
-public sealed partial class WindowShell : Page, IWindowShell
+public sealed partial class WindowShell : UserControl, IWindowShell
 {
 	private readonly IServiceScope _windowScope;
 	private readonly Window _associatedWindow;
