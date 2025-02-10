@@ -29,7 +29,7 @@ internal class LiteDbDataSource : IDataSource
 		_liteDatabase = new LiteDatabase(dbPath);
 		Migrate(_liteDatabase);
 		Stopwatches = new StopwatchLiteDbRepository(_liteDatabase);
-		HistoryStopwatches = new LiteDbRepository<HistoryEntryModel>(_liteDatabase, "History");
+		HistoryStopwatches = new LiteDbRepository<HistoryEntryModel>(_liteDatabase, "HistoryStopwatches");
 	}
 
 	private void Migrate(LiteDatabase db)
@@ -61,6 +61,8 @@ internal class LiteDbDataSource : IDataSource
 
 					newCollection.Insert(stopwatchModel);
 				}
+
+				db.DropCollection("StopwatchModel");
 			}
 
 			db.UserVersion = 1;
