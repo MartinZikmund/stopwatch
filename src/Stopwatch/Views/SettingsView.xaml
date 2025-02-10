@@ -97,7 +97,7 @@
                             <FontIcon
                                 Foreground="Gold"
                                 Glyph="&#xF133;"
-                                Visibility="{x:Bind ViewModel.HasProLicense, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
+                                Visibility="{x:Bind ViewModel.HasProLicense, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
 
                             <Button
                                 MinWidth="{StaticResource SettingsControlMinWidth}"
