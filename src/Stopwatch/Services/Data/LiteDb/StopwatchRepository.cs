@@ -5,7 +5,7 @@ namespace Stopwatch.Services.Data.LiteDb;
 
 internal class StopwatchLiteDbRepository : LiteDbRepository<StopwatchModel>, IStopwatchRepository
 {
-	public StopwatchLiteDbRepository(LiteDatabase database) : base(database, "Stopwatches")
+	public StopwatchLiteDbRepository(LiteDatabase database) : base(database)
 	{
 	}
 

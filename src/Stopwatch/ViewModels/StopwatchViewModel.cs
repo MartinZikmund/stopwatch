@@ -35,7 +35,7 @@ public partial class StopwatchViewModel : ObservableObject
 		_stopwatchService = new StopwatchService(stopwatch, dataSource, appPreferences);
 	}
 
-	public string Id => _stopwatch.Id;
+	public int Id => _stopwatch.Id;
 
 	public StopwatchModel Stopwatch => _stopwatch;
 
