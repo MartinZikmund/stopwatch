@@ -10,49 +10,45 @@ namespace Stopwatch.Services.Data.LiteDb;
 internal class LiteDbRepository<T> : IRepository<T> where T : class, IId
 {
 	private readonly LiteDatabase _database;
-	private readonly string _name;
 
-	public LiteDbRepository(LiteDatabase database, string name)
+	public LiteDbRepository(LiteDatabase database)
 	{
 		_database = database;
-		_name = name;
 	}
 
 	public void Add(T item)
 	{
-		var collection = GetCollection();
+		var collection = _database.GetCollection<T>();
 		var id = collection.Insert(item);
-		item.Id = id.AsString;
+		item.Id = id.AsInt32;
 	}
 
-	public void Delete(string id)
+	public void Delete(int id)
 	{
-		var collection = GetCollection();
+		var collection = _database.GetCollection<T>();
 		collection.Delete(id);
 	}
 
-	public T Get(string id)
+	public T Get(int id)
 	{
-		var collection = GetCollection();
+		var collection = _database.GetCollection<T>();
 		return collection.FindById(id);
 	}
 	public T[] GetAll()
 	{
-		var collection = GetCollection();
+		var collection = _database.GetCollection<T>();
 		return collection.FindAll().ToArray();
 	}
 
 	public void Update(T item)
 	{
-		var collection = GetCollection();
+		var collection = _database.GetCollection<T>();
 		collection.Update(item);
 	}
 
 	public void DeleteAll()
 	{
-		var collection = GetCollection();
+		var collection = _database.GetCollection<T>();
 		collection.DeleteAll();
 	}
-	
-	private ILiteCollection<T> GetCollection() => _database.GetCollection<T>(_name);
 }

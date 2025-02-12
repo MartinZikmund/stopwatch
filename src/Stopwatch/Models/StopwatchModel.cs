@@ -17,7 +17,7 @@ public class StopwatchModel : IId
 		Name = name;	
 	}
 
-	public string Id { get; set; }
+	public int Id { get; set; }
 
 	public string Icon { get; set; }
 

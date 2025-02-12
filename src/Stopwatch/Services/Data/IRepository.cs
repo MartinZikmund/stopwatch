@@ -11,13 +11,13 @@ public interface IRepository<T> where T : class, IId
 {
 	T[] GetAll();
 
-	T? Get(string id);
+	T? Get(int id);
 
 	void Add(T item);
 
 	void Update(T item);
 
-	void Delete(string id);
+	void Delete(int id);
 
 	void DeleteAll();
 }
