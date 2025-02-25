@@ -11,8 +11,8 @@ namespace Stopwatch.Views;
 public sealed partial class MainView : MainViewBase
 {
 	private DispatcherQueueTimer _fadeOutTimer;
-	private AppWindow _appWindow;
 	private WindowShell _shell;
+	private Window _window;
 
 	public MainView()
 	{
@@ -30,33 +30,32 @@ public sealed partial class MainView : MainViewBase
 		{
 			ControlButtonsPanel.OpacityTransition = new ScalarTransition() { Duration = TimeSpan.FromMilliseconds(200) };
 		}
-
+		StopwatchTabView.SizeChanged += StopwatchTabView_SizeChanged;
 		this.Loaded += MainView_Loaded;
 		this.Unloaded += MainView_Unloaded;
-		StopwatchTabView.SizeChanged += OnTabViewSizeChanged;
 	}
 
-	private void OnTabViewSizeChanged(object sender, SizeChangedEventArgs e) => UpdateTitleBarMetrics();
-
-	private void UpdateTitleBarMetrics()
+	private void StopwatchTabView_SizeChanged(object sender, SizeChangedEventArgs e)
 	{
-		if (_appWindow is null)
+		if (_window is null)
 		{
 			return;
 		}
 
-		StopwatchTabView.Visibility = _appWindow.Presenter is OverlappedPresenter ? Visibility.Visible : Visibility.Collapsed;
-
-#if !HAS_UNO
-		StopwatchTabView.Margin = new Thickness(0, 0, _appWindow.TitleBar.RightInset + 16, 0);
-#else
-		StopwatchTabView.Margin = new Thickness(0, 0, 0, 0);
-#endif
-
-		DraggableArea.Margin = new Thickness(StopwatchTabView.ActualWidth, 0, 0, 0);
+		DraggableArea.Width = _window.Bounds.Width - TabViewContainer.Padding.Left - StopwatchTabView.ActualWidth + FooterArea.ActualWidth;
 	}
 
-	private void OnAppWindowChanged(AppWindow sender, AppWindowChangedEventArgs args) => UpdateTitleBarMetrics();
+	private void UpdateTitleBarMetrics()
+	{
+		if (_window is null)
+		{
+			return;
+		}
+
+		var rightInset = _window.AppWindow.TitleBar.RightInset / XamlRoot.RasterizationScale;
+
+		TabViewContainer.Width = _window.Bounds.Width - Math.Max(rightInset, 0);
+	}
 
 	private void MainView_Loaded(object sender, RoutedEventArgs e)
 	{
@@ -67,8 +66,8 @@ public sealed partial class MainView : MainViewBase
 			throw new InvalidOperationException("Service provider is not available");
 		}
 
-		_appWindow = serviceProvider.GetRequiredService<IWindowShellProvider>().Window.AppWindow;
-		_appWindow.Changed += OnAppWindowChanged;
+		_window = serviceProvider.GetRequiredService<IWindowShellProvider>().Window;
+		_window.SizeChanged += OnWindowSizeChanged;
 
 		_shell = serviceProvider.GetRequiredService<IWindowShellProvider>().Shell;
 		_shell.SetTitleBar(DraggableArea);
@@ -76,10 +75,11 @@ public sealed partial class MainView : MainViewBase
 		UpdateTitleBarMetrics();
 	}
 
+	private void OnWindowSizeChanged(object sender, WindowSizeChangedEventArgs args) => UpdateTitleBarMetrics();
+
 	private void MainView_Unloaded(object sender, RoutedEventArgs e)
 	{
-		_appWindow.Changed -= OnAppWindowChanged;
-		_appWindow = null;
+		_window.SizeChanged -= OnWindowSizeChanged;
 
 		_shell.SetTitleBar(null);
 		_shell = null;

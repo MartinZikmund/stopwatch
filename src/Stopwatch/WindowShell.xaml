@@ -6,46 +6,53 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mux="using:Microsoft.UI.Xaml.Controls"
     xmlns:toolkit="using:Uno.UI.Toolkit"
-    d:RequestedTheme="Light"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-	<Grid toolkit:VisibleBoundsPadding.PaddingMask="All">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
+    <Grid toolkit:VisibleBoundsPadding.PaddingMask="All">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-		<Grid
+        <Grid
             x:Name="TitleBarGrid"
-            Height="48"
-            Padding="16,0"
-            Background="Transparent"
+            Height="40"
+            Padding="0,0"
+            VerticalAlignment="Top"
+            Background="#11000000"
             ColumnSpacing="16"
             Visibility="{x:Bind HasCustomTitleBar}">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-			<!--<TextBlock
+            <!--<TextBlock
                 Grid.Column="1"
                 VerticalAlignment="Center"
                 Style="{ThemeResource CaptionTextBlockStyle}"
                 Text="{x:Bind ViewModel.Title}" />-->
-		</Grid>
+        </Grid>
 
-		<Frame x:Name="InnerFrame" Grid.Row="0" Grid.RowSpan="2" />
+        <Frame
+            x:Name="InnerFrame"
+            Grid.Row="0"
+            Grid.RowSpan="2" />
 
-		<Grid Height="48"
-			  HorizontalAlignment="Left"
-			Padding="16,0"
-			ColumnSpacing="16">
-			<Image
-                Width="16"
-                Height="16"
+        <Grid
+            Width="44"
+            Height="40"
+            Padding="0,8,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center">
+            <Image
+                Width="20"
+                Height="20"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 Source="ms-appx:///Assets/Icons/icon_foreground.png" />
-		</Grid>
-	</Grid>
+        </Grid>
+    </Grid>
 </Page>
