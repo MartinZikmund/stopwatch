@@ -52,6 +52,8 @@ public partial class SettingsViewModel : PageViewModel
 	[ObservableProperty]
 	private bool _hasProLicense;
 
+	private bool _isInitializing = false;
+
 	public SettingsViewModel(
 		INavigationService navigationService,
 		IAppPreferences appSettings,
@@ -74,21 +76,29 @@ public partial class SettingsViewModel : PageViewModel
 	public override async void ViewNavigatedTo(object? parameter)
 	{
 		base.ViewNavigatedTo(parameter);
-
-		HasProLicense = await _storeService.HasProAsync();
-
-		if (parameter is int stopwatchId)
+		try
 		{
-			if (_dataSource.Stopwatches.Get(stopwatchId) is not { } stopwatch)
-			{
-				throw new InvalidOperationException("Stopwatch with ID " + stopwatchId + " does not exist.");
-			}
+			_isInitializing = true;
+			HasProLicense = await _storeService.HasProAsync();
 
-			_stopwatch = stopwatch;
-			Theme = _stopwatch.Theme;
-			BackgroundImageUri = _stopwatch.BackgroundImageUri is not null ? new(_stopwatch.BackgroundImageUri) : null;
-			BackgroundImageOpacityPercent = _stopwatch.BackgroundImageOpacity * 100;
-			BackgroundColor = ColorHelper.ToColor(_stopwatch.BackgroundColor);
+			if (parameter is int stopwatchId)
+			{
+				if (_dataSource.Stopwatches.Get(stopwatchId) is not { } stopwatch)
+				{
+					throw new InvalidOperationException("Stopwatch with ID " + stopwatchId + " does not exist.");
+				}
+
+				_stopwatch = stopwatch;
+				Theme = _stopwatch.Theme;
+
+				BackgroundImageUri = _stopwatch.BackgroundImageUri is not null ? new(_stopwatch.BackgroundImageUri) : null;
+				BackgroundImageOpacityPercent = _stopwatch.BackgroundImageOpacity * 100;
+				BackgroundColor = ColorHelper.ToColor(_stopwatch.BackgroundColor);
+			}
+		}
+		finally
+		{
+			_isInitializing = false;
 		}
 	}
 
@@ -164,13 +174,6 @@ public partial class SettingsViewModel : PageViewModel
 	[RelayCommand]
 	private async Task PickBackgroundColor()
 	{
-		if (!HasProLicense)
-		{
-			var proOnlyFeatureDialog = new ProOnlyFeatureDialog();
-			await _dialogService.ShowAsync(proOnlyFeatureDialog);
-			return;
-		}
-
 		IsWorking = true;
 		var pickerDialog = new ColorPickerDialog
 		{
@@ -205,6 +208,11 @@ public partial class SettingsViewModel : PageViewModel
 
 	private void SaveChanges()
 	{
+		if (_isInitializing)
+		{
+			return;
+		}
+
 		_stopwatch.Theme = Theme;
 		_stopwatch.BackgroundImageUri = BackgroundImageUri?.ToString();
 		_stopwatch.BackgroundImageOpacity = BackgroundImageOpacityPercent / 100;
