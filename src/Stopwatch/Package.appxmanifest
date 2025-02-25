@@ -10,7 +10,7 @@
   <Identity
     Name="5143MartinZikmund.12487707CCE79"
     Publisher="CN=5EDFBB6C-AD5D-4B76-B479-1C5F44017714"
-    Version="0.3.1.0" />
+    Version="0.3.2.0" />
 
   <Properties>
     <DisplayName>Fluent Stopwatch</DisplayName>
