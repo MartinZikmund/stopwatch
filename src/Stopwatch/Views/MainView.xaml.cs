@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Stopwatch.Extensions;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
@@ -11,8 +12,8 @@ namespace Stopwatch.Views;
 public sealed partial class MainView : MainViewBase
 {
 	private DispatcherQueueTimer _fadeOutTimer;
+	private AppWindow _appWindow;
 	private WindowShell _shell;
-	private Window _window;
 
 	public MainView()
 	{
@@ -37,28 +38,28 @@ public sealed partial class MainView : MainViewBase
 
 	private void StopwatchTabView_SizeChanged(object sender, SizeChangedEventArgs e)
 	{
-		if (_window is null)
+		if (XamlRoot is null)
 		{
 			return;
 		}
 
-		DraggableArea.Width = _window.Bounds.Width - TabViewContainer.Padding.Left - StopwatchTabView.ActualWidth + FooterArea.ActualWidth;
+		DraggableArea.Width = XamlRoot.Size.Width - TabViewContainer.Padding.Left - StopwatchTabView.ActualWidth + FooterArea.ActualWidth;
 	}
 
 	private void UpdateTitleBarMetrics()
 	{
-#if HAS_UNO
-		TabViewContainer.Width = _window.Bounds.Width;
-		DraggableArea.Visibility = Visibility.Collapsed;
-#else
-		if (_window is null)
+		if (XamlRoot is null || _appWindow is null)
 		{
 			return;
 		}
 
-		var rightInset = _window.AppWindow.TitleBar.RightInset / XamlRoot.RasterizationScale;
+#if HAS_UNO
+		TabViewContainer.Width = XamlRoot.Size.Width;
+		DraggableArea.Visibility = Visibility.Collapsed;
+#else
+		var rightInset = _appWindow.TitleBar.RightInset / XamlRoot.RasterizationScale;
 
-		TabViewContainer.Width = _window.Bounds.Width - Math.Max(rightInset, 0);
+		TabViewContainer.Width = XamlRoot.Size.Width - Math.Max(rightInset, 0);
 #endif
 	}
 
@@ -71,8 +72,8 @@ public sealed partial class MainView : MainViewBase
 			throw new InvalidOperationException("Service provider is not available");
 		}
 
-		_window = serviceProvider.GetRequiredService<IWindowShellProvider>().Window;
-		_window.SizeChanged += OnWindowSizeChanged;
+		XamlRoot.Changed += XamlRoot_Changed;
+		_appWindow = serviceProvider.GetRequiredService<IWindowShellProvider>().Window.AppWindow;
 
 		_shell = serviceProvider.GetRequiredService<IWindowShellProvider>().Shell;
 		_shell.SetTitleBar(DraggableArea);
@@ -80,11 +81,11 @@ public sealed partial class MainView : MainViewBase
 		UpdateTitleBarMetrics();
 	}
 
-	private void OnWindowSizeChanged(object sender, WindowSizeChangedEventArgs args) => UpdateTitleBarMetrics();
+	private void XamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args) => UpdateTitleBarMetrics();
 
 	private void MainView_Unloaded(object sender, RoutedEventArgs e)
 	{
-		_window.SizeChanged -= OnWindowSizeChanged;
+		XamlRoot.Changed -= XamlRoot_Changed;
 
 		_shell.SetTitleBar(null);
 		_shell = null;
