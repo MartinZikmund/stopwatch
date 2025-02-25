@@ -34,7 +34,7 @@ jobs:
           cd src/Stopwatch
           dotnet workload restore
           dotnet workload install wasm-tools
-          dotnet build -c Release -f net9.0-browserwasm
+          dotnet publish -c Release -f net9.0-browserwasm
       - name: Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
