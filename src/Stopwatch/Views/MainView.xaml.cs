@@ -49,6 +49,7 @@ public sealed partial class MainView : MainViewBase
 	{
 #if HAS_UNO
 		TabViewContainer.Width = _window.Bounds.Width;
+		DraggableArea.Visibility = Visibility.Collapsed;
 #else
 		if (_window is null)
 		{
