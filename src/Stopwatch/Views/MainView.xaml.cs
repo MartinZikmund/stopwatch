@@ -47,6 +47,9 @@ public sealed partial class MainView : MainViewBase
 
 	private void UpdateTitleBarMetrics()
 	{
+#if HAS_UNO
+		TabViewContainer.Width = _window.Bounds.Width;
+#else
 		if (_window is null)
 		{
 			return;
@@ -55,6 +58,7 @@ public sealed partial class MainView : MainViewBase
 		var rightInset = _window.AppWindow.TitleBar.RightInset / XamlRoot.RasterizationScale;
 
 		TabViewContainer.Width = _window.Bounds.Width - Math.Max(rightInset, 0);
+#endif
 	}
 
 	private void MainView_Loaded(object sender, RoutedEventArgs e)
