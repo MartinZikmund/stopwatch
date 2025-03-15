@@ -4,11 +4,14 @@
     <PackageVersion Include="CommunityToolkit.WinUI.Converters" Version="8.1.240916" />
     <PackageVersion Include="CommunityToolkit.WinUI.Helpers" Version="8.1.240916" />
     <PackageVersion Include="LiteDB" Version="5.0.21" />
+    <PackageVersion Include="Microsoft.Data.Sqlite" Version="9.0.3" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.3" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     <PackageVersion Include="MZikmund.Toolkit.WinUI" Version="0.1.13-dev.43" />
     <PackageVersion Include="Plugin.InAppBilling" Version="8.0.5" />
     <!-- Workaround for NuGet vulnerability reports -->
     <PackageVersion Include="System.Private.Uri" Version="4.3.2" />
-    <PackageVersion Include="System.Text.Json" Version="9.0.2" />
+    <PackageVersion Include="System.Text.Json" Version="9.0.3" />
   </ItemGroup>
 </Project>
