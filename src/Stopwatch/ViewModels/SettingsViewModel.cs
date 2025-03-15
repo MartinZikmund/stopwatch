@@ -171,6 +171,14 @@ public partial class SettingsViewModel : PageViewModel
 		}
 	}
 
+#if DEBUG
+	[RelayCommand]
+	public void AddTestData()
+	{
+		_dataSource.Stopwatches.Add(new StopwatchModel() { Name = "Many hours", PausedElapsedTime = TimeSpan.FromHours(234.32) });
+	}
+#endif
+
 	[RelayCommand]
 	private async Task PickBackgroundColor()
 	{

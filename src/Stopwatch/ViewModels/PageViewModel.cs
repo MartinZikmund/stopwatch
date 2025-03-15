@@ -11,6 +11,13 @@ public abstract partial class PageViewModel : ObservableRecipient
 		NavigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
 	}
 
+	public bool IsDebug =>
+#if DEBUG
+		true;
+#else
+		false;
+#endif
+
 	public INavigationService NavigationService { get; }
 
 	public bool CanGoBack => NavigationService.CanGoBack;
