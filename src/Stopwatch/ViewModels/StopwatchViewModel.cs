@@ -51,9 +51,17 @@ public partial class StopwatchViewModel : ObservableObject
 
 	public double BackgroundImageOpacity => _stopwatch.BackgroundImageOpacity;
 
-	public string CurrentTime => _stopwatchService.CurrentTime.ToString(@"hh\:mm\:ss\.");
+	public string CurrentTime
+	{
+		get
+		{
+			var time = _stopwatchService.CurrentTime;
+			var totalWholeHours = (int)time.TotalHours;
+			return $"{totalWholeHours}:{time.Minutes:D2}:{time.Seconds:D2}";
+		}
+	}
 
-	public string CurrentTimeFull => _stopwatchService.CurrentTime.ToString(@"hh\:mm\:ss\.ff");
+	public string CurrentTimeFull => $"{CurrentTime}.{CurrentTimeMilliseconds}";
 
 	public string CurrentTimeMilliseconds => (_stopwatchService.CurrentTime.Milliseconds / 10).ToString("D2");
 

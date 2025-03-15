@@ -48,6 +48,10 @@
                     <!--  General  -->
                     <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Localize Key=General}" />
 
+                    <toolkit:SettingsCard Header="Test data" Visibility="{x:Bind ViewModel.IsDebug}">
+                        <Button Command="{Binding AddTestDataCommand}" Content="Add test data" />
+                    </toolkit:SettingsCard>
+
                     <toolkit:SettingsCard
                         Description="{ex:Localize Key=KeepScreenOnSettingDescription}"
                         Header="{ex:Localize Key=KeepScreenOn}"
