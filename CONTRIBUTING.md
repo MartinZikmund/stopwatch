@@ -8,7 +8,7 @@ We welcome contributions to the Stopwatch project! By contributing, you help imp
 
 2. **Clone the Repository**: Clone your forked repository to your local machine using the following command:
    ```sh
-   git clone https://github.com/yourusername/stopwatch.git
+   git clone https://github.com/MartinZikmund/stopwatch.git
    ```
 
 3. **Create a Branch**: Create a new branch for your feature or bugfix. Use a descriptive name for your branch.
@@ -36,7 +36,7 @@ Please note that this project is released with a [Contributor Code of Conduct](.
 
 ## Reporting Issues
 
-If you find a bug or have a feature request, please create an issue in the [Issue Tracker](https://github.com/yourusername/stopwatch/issues). Provide as much detail as possible to help us understand and address the issue.
+If you find a bug or have a feature request, please create an issue in the [Issue Tracker](https://github.com/MartinZikmund/stopwatch/issues). Provide as much detail as possible to help us understand and address the issue.
 
 ## Acknowledgements
 
