@@ -1,6 +1,6 @@
-# Contributing to Stopwatch
+# Contributing to Fluent Stopwatch
 
-We welcome contributions to the Stopwatch project! By contributing, you help improve the project and make it more useful for everyone. Here are some guidelines to help you get started.
+We welcome contributions to the Fluent Stopwatch project! By contributing, you help improve the project and make it more useful for everyone. Here are some guidelines to help you get started.
 
 ## How to Contribute
 
@@ -40,4 +40,4 @@ If you find a bug or have a feature request, please create an issue in the [Issu
 
 ## Acknowledgements
 
-Thank you for considering contributing to the Stopwatch project! Your contributions are greatly appreciated.
+Thank you for considering contributing to the Fluent Stopwatch project! Your contributions are greatly appreciated.
