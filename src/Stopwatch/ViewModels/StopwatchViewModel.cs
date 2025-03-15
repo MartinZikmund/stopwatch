@@ -57,7 +57,7 @@ public partial class StopwatchViewModel : ObservableObject
 		{
 			var time = _stopwatchService.CurrentTime;
 			var totalWholeHours = (int)time.TotalHours;
-			return $"{totalWholeHours}:{time.Minutes:D2}:{time.Seconds:D2}";
+			return $"{totalWholeHours:D2}:{time.Minutes:D2}:{time.Seconds:D2}";
 		}
 	}
 
