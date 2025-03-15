@@ -44,8 +44,9 @@
                     Grid.Row="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-					<not_android:TextBlock win:FontFamily="Segoe UI">
+                    <not_android:TextBlock win:FontFamily="Segoe UI">
                         <Run FontSize="120" Text="{x:Bind Stopwatch.CurrentTime, Mode=OneWay}" />
+                        <Run FontSize="80" Text="." />
                         <Run FontSize="80" Text="{x:Bind Stopwatch.CurrentTimeMilliseconds, Mode=OneWay}" />
                     </not_android:TextBlock>
                     <!--  Workaround for https://github.com/unoplatform/uno/issues/17282  -->
@@ -106,8 +107,8 @@
                         <ColumnDefinition Width="0.8*" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
                     <TextBlock Text="{ex:Localize Key=Lap}" />
                     <TextBlock Grid.Column="1" Text="{ex:Localize Key=LapTime}" />
                     <TextBlock Grid.Column="2" Text="{ex:Localize Key=TotalTime}" />
@@ -127,12 +128,15 @@
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="lapVM:LapViewModel">
-                            <Grid ColumnSpacing="16" Background="Transparent">
-								<Grid.ContextFlyout>
-									<MenuFlyout>
-										<MenuFlyoutItem Icon="Delete" Text="Delete" Command="{x:Bind RequestDeleteCommand}" />
-									</MenuFlyout>
-								</Grid.ContextFlyout>
+                            <Grid Background="Transparent" ColumnSpacing="16">
+                                <Grid.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem
+                                            Command="{x:Bind RequestDeleteCommand}"
+                                            Icon="Delete"
+                                            Text="Delete" />
+                                    </MenuFlyout>
+                                </Grid.ContextFlyout>
                                 <Grid.Resources>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="VerticalAlignment" Value="Center" />
@@ -146,11 +150,11 @@
                                         x:Key="LapHighlightTextBlockStyle"
                                         BasedOn="{StaticResource CaptionTextBlockStyle}"
                                         TargetType="TextBlock">
-										<Setter Property="VerticalAlignment" Value="Center" />
-										<Setter Property="FontWeight" Value="Bold" />
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                        <Setter Property="FontWeight" Value="Bold" />
                                         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
-										<Setter Property="TextWrapping" Value="NoWrap" />
-									</Style>
+                                        <Setter Property="TextWrapping" Value="NoWrap" />
+                                    </Style>
                                     <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
                                         <Setter Property="Background" Value="Transparent" />
                                         <Setter Property="BorderBrush" Value="Transparent" />
@@ -164,20 +168,23 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid ColumnSpacing="8">
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="16" />
-										<ColumnDefinition Width="*" />
-									</Grid.ColumnDefinitions>
-                                    <TextBlock FontWeight="Bold" HorizontalAlignment="Center" Text="{x:Bind Order}" />
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="16" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontWeight="Bold"
+                                        Text="{x:Bind Order}" />
                                     <TextBlock
                                         x:Name="FastestBlock"
                                         Grid.Column="1"
                                         VerticalAlignment="Center"
                                         x:Load="True"
-										TextTrimming="CharacterEllipsis"
-										TextWrapping="NoWrap"
                                         Style="{ThemeResource LapHighlightTextBlockStyle}"
                                         Text="{ex:Localize Key=Fastest}"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="NoWrap"
                                         Visibility="{x:Bind IsFastest, Mode=OneWay}" />
                                     <TextBlock
                                         x:Name="SlowestBlock"
