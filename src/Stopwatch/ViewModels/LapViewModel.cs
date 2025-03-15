@@ -1,4 +1,5 @@
-﻿using Stopwatch.Models;
+﻿using Stopwatch.Extensions;
+using Stopwatch.Models;
 
 namespace Stopwatch.ViewModels;
 
@@ -40,9 +41,9 @@ public partial class LapViewModel : ObservableObject
 		}
 	}
 
-	public string TimeString => LapTime.ToString(@"hh\:mm\:ss\.ff");
+	public string TimeString => LapTime.ToStopwatchString(true);
 
-	public string TotalTimeString => TotalTime.ToString(@"hh\:mm\:ss\.ff");
+	public string TotalTimeString => TotalTime.ToStopwatchString(true);
 
 	[RelayCommand]
 	public async Task RequestDeleteAsync() => await _owner.RequestDeleteLapAsync(this);

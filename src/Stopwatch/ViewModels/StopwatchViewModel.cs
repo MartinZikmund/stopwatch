@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Dispatching;
+using Stopwatch.Extensions;
 using Stopwatch.Models;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
@@ -51,19 +52,11 @@ public partial class StopwatchViewModel : ObservableObject
 
 	public double BackgroundImageOpacity => _stopwatch.BackgroundImageOpacity;
 
-	public string CurrentTime
-	{
-		get
-		{
-			var time = _stopwatchService.CurrentTime;
-			var totalWholeHours = (int)time.TotalHours;
-			return $"{totalWholeHours:D2}:{time.Minutes:D2}:{time.Seconds:D2}";
-		}
-	}
+	public string CurrentTime => _stopwatchService.CurrentTime.ToStopwatchString(false);
 
-	public string CurrentTimeFull => $"{CurrentTime}.{CurrentTimeMilliseconds}";
+	public string CurrentTimeFull => _stopwatchService.CurrentTime.ToStopwatchString(true);
 
-	public string CurrentTimeMilliseconds => (_stopwatchService.CurrentTime.Milliseconds / 10).ToString("D2");
+	public string CurrentTimeMilliseconds => _stopwatchService.CurrentTime.ToFractionsOfSecondsString();
 
 	public bool IsRunning => _stopwatchService.IsRunning;
 
