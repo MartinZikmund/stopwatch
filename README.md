@@ -1,6 +1,6 @@
 # Fluent Stopwatch ⏱️
 
-Stopwatch is a versatile and user-friendly application designed to help you track time with precision and ease. Whether you need to time your workouts, cooking, or any other activities, Stopwatch has got you covered. This project is built using the Uno Platform, enabling it to run on multiple platforms including Android, iOS, Desktop, WebAssembly, and WinUI.
+Fluent Stopwatch is a versatile and user-friendly application designed to help you track time with precision and ease. Whether you need to time your workouts, cooking, or any other activities, Fluent Stopwatch has got you covered. This project is built using the Uno Platform, enabling it to run on multiple platforms including Android, iOS, Desktop, WebAssembly, and WinUI.
 
 ## Features ✨
 
@@ -12,11 +12,11 @@ Stopwatch is a versatile and user-friendly application designed to help you trac
 
 ## Installation 🛠️
 
-To install and run the Stopwatch application, follow these steps:
+To install and run the Fluent Stopwatch application, follow these steps:
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/stopwatch.git
+   git clone https://github.com/MartinZikmund/stopwatch.git
    ```
 2. Navigate to the project directory:
    ```sh

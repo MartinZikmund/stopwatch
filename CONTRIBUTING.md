@@ -1,6 +1,6 @@
-# Contributing to Stopwatch
+# Contributing to Fluent Stopwatch
 
-We welcome contributions to the Stopwatch project! By contributing, you help improve the project and make it more useful for everyone. Here are some guidelines to help you get started.
+We welcome contributions to the Fluent Stopwatch project! By contributing, you help improve the project and make it more useful for everyone. Here are some guidelines to help you get started.
 
 ## How to Contribute
 
@@ -8,7 +8,7 @@ We welcome contributions to the Stopwatch project! By contributing, you help imp
 
 2. **Clone the Repository**: Clone your forked repository to your local machine using the following command:
    ```sh
-   git clone https://github.com/yourusername/stopwatch.git
+   git clone https://github.com/MartinZikmund/stopwatch.git
    ```
 
 3. **Create a Branch**: Create a new branch for your feature or bugfix. Use a descriptive name for your branch.
@@ -36,8 +36,8 @@ Please note that this project is released with a [Contributor Code of Conduct](.
 
 ## Reporting Issues
 
-If you find a bug or have a feature request, please create an issue in the [Issue Tracker](https://github.com/yourusername/stopwatch/issues). Provide as much detail as possible to help us understand and address the issue.
+If you find a bug or have a feature request, please create an issue in the [Issue Tracker](https://github.com/MartinZikmund/stopwatch/issues). Provide as much detail as possible to help us understand and address the issue.
 
 ## Acknowledgements
 
-Thank you for considering contributing to the Stopwatch project! Your contributions are greatly appreciated.
+Thank you for considering contributing to the Fluent Stopwatch project! Your contributions are greatly appreciated.
