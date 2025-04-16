@@ -16,8 +16,8 @@ namespace Stopwatch.Droid;
     Label = "@string/ApplicationName",
     Icon = "@mipmap/icon",
     LargeHeap = true,
-    HardwareAccelerated = true,
-    Theme = "@style/AppTheme"
+	HardwareAccelerated = true,
+	Theme = "@style/Theme.App.Starting"
 )]
 public class Application : Microsoft.UI.Xaml.NativeApplication
 {
