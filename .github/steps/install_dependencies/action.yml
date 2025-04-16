@@ -31,15 +31,8 @@ runs:
       run: .\.github\Install-WindowsSdkISO.ps1 ${{ inputs.sdkVersion }}
 
     # Run Uno.Check
-    - name: Install ${{ inputs.target-platform }} Workloads
+    - name: Install .NET Workloads
       shell: pwsh
       run: |
-        dotnet tool install -g uno.check
-        ("${{ inputs.target-platform }} ".Split(' ') | ForEach-Object {
-          $target = $_.Replace("_win", "").Replace("_macos", "")
-          if (![string]::IsNullOrEmpty($target)) {
-            echo "target: $target"
-            uno-check -v --ci --non-interactive --fix --target $target --skip vswin --skip vsmac --skip xcode --skip vswinworkloads --skip androidemulator --skip dotnetnewunotemplates
-            echo "uno-check finished for target: $target "
-          }
-        })
+        & dotnet tool install --global --version 1.28.3 uno.check
+        & ~/.dotnet/tools/uno-check --ci --fix --non-interactive --verbose --skip openjdk 

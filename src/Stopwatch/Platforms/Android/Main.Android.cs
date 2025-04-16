@@ -8,7 +8,6 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Com.Nostra13.Universalimageloader.Core;
 using Microsoft.UI.Xaml.Media;
 
 namespace Stopwatch.Droid;
@@ -16,8 +15,8 @@ namespace Stopwatch.Droid;
     Label = "@string/ApplicationName",
     Icon = "@mipmap/icon",
     LargeHeap = true,
-    HardwareAccelerated = true,
-    Theme = "@style/AppTheme"
+	HardwareAccelerated = true,
+	Theme = "@style/Theme.App.Starting"
 )]
 public class Application : Microsoft.UI.Xaml.NativeApplication
 {
@@ -29,23 +28,6 @@ public class Application : Microsoft.UI.Xaml.NativeApplication
 	public Application(IntPtr javaReference, JniHandleOwnership transfer)
         : base(() => new App(), javaReference, transfer)
     {
-        ConfigureUniversalImageLoader();
-    }
-
-    private static void ConfigureUniversalImageLoader()
-    {
-        // Create global configuration and initialize ImageLoader with this config
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration
-            .Builder(Context)
-            .Build();
-
-        ImageLoader.Instance.Init(config);
-		var displayImageOptions = new DisplayImageOptions.Builder()
-			.CacheInMemory(false)
-			.CacheOnDisk(false)
-			.Build();
-
-		ImageSource.DefaultImageLoader = (ct, uri, imageView, size) => ImageLoader.Instance.LoadImageAsync(ct, uri, imageView, size, displayImageOptions);
     }
 }
 

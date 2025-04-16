@@ -26,6 +26,7 @@
 			Mvvm;
 			Localization;
 			ThemeService;
+			SkiaRenderer;
 		</UnoFeatures>
 
 		<UnoIconForegroundScale>1</UnoIconForegroundScale>

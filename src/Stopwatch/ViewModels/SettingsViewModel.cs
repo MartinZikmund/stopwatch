@@ -223,7 +223,7 @@ public partial class SettingsViewModel : PageViewModel
 
 		_stopwatch.Theme = Theme;
 		_stopwatch.BackgroundImageUri = BackgroundImageUri?.ToString();
-		_stopwatch.BackgroundImageOpacity = BackgroundImageOpacityPercent / 100;
+		_stopwatch.BackgroundImageOpacity = BackgroundImageOpacity;
 		_stopwatch.BackgroundColor = ColorHelper.ToHex(BackgroundColor);
 		_dataSource.Stopwatches.Update(_stopwatch);
 	}
