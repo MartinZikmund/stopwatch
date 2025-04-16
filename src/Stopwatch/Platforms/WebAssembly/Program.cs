@@ -1,13 +1,14 @@
+using Uno.UI.Runtime.Skia.WebAssembly.Browser;
+
 namespace Stopwatch;
 
 public class Program
 {
-    private static App? _app;
+	public static async Task Main(string[] args)
+	{
+		App.InitializeLogging();
 
-    public static int Main(string[] args)
-    {
-        Microsoft.UI.Xaml.Application.Start(_ => _app = new App());
-
-        return 0;
-    }
+		var host = new WebAssemblyBrowserHost(() => new App());
+		await host.Run();
+	}
 }
