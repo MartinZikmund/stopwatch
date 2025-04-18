@@ -11,7 +11,7 @@ public partial class HistoryViewModel : PageViewModel
 	private readonly IHistoryService _historyService;
 	private readonly IConfirmationDialogService _confirmationDialogService;
 	[ObservableProperty]
-	private ObservableCollection<HistoryEntryViewModel> _historyEntries = new();
+	public partial ObservableCollection<HistoryEntryViewModel> HistoryEntries { get; set; } = new();
 
 	public HistoryViewModel(INavigationService navigationService, IHistoryService historyService, IConfirmationDialogService confirmationDialogService) : base(navigationService)
 	{

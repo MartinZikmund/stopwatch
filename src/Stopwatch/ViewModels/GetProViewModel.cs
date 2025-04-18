@@ -8,8 +8,8 @@ public partial class GetProViewModel : PageViewModel
 	private readonly IStoreService _storeService;
 
 	[ObservableProperty]
-	private string? _currentPrice;
-	
+	public partial string? CurrentPrice { get; set; }
+
 	public GetProViewModel(INavigationService navigationService, IStoreService storeService) : base(navigationService)
 	{
 		_storeService = storeService;

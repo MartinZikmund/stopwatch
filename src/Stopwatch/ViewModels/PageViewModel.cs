@@ -26,10 +26,10 @@ public abstract partial class PageViewModel : ObservableRecipient
 	public virtual void GoBack() => NavigationService.GoBack();
 
 	[ObservableProperty]
-	private string _title = "";
+	public partial string Title { get; set; } = "";
 
 	[ObservableProperty]
-	private bool _isWorking;
+	public partial bool IsWorking { get; set; }
 
 	public virtual void ViewCreated() { }
 
