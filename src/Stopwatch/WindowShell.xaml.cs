@@ -29,14 +29,33 @@ public sealed partial class WindowShell : Page, IWindowShell
 		var themeService = ServiceProvider.GetRequiredService<IThemeManager>();
 		themeService.SetTheme(settings.Theme);
 
-		ViewModel = ServiceProvider.GetRequiredService<WindowShellViewModel>();
-
 		//_uiSettings.ColorValuesChanged += ColorValuesChanged;
 		_associatedWindow = associatedWindow;
 		_associatedWindow.Closed += OnWindowClosed;
 		CustomizeWindow();
 
+		ViewModel = ServiceProvider.GetRequiredService<WindowShellViewModel>();
+		ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+
 		Loading += WindowShell_Loading;
+
+		UpdateWindowTitle();
+	}
+
+	private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+	{
+		if (e.PropertyName == nameof(WindowShellViewModel.Title))
+		{
+			UpdateWindowTitle();
+		}
+	}
+
+	private void UpdateWindowTitle()
+	{
+		if (ViewModel.Title != null && !_isWindowClosed)
+		{
+			_associatedWindow.Title = ViewModel.Title;
+		}
 	}
 
 	private void OnWindowClosed(object sender, WindowEventArgs args) => _isWindowClosed = true;
