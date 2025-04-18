@@ -9,10 +9,10 @@ public partial class WindowShellViewModel : ObservableObject
 	private readonly INavigationService _navigationService;
 
 	[ObservableProperty]
-	private bool _isLoading;
+	public partial bool IsLoading { get; set; }
 
 	[ObservableProperty]
-	private string _loadingStatusMessage = "";
+	public partial string LoadingStatusMessage { get; set; } = "";
 
 	public WindowShellViewModel(IWindowShellProvider provider, INavigationService navigationService)
 	{

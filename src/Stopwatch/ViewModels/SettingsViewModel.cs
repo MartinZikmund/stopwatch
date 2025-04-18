@@ -31,26 +31,26 @@ public partial class SettingsViewModel : PageViewModel
 
 	[ObservableProperty]
 	[NotifyPropertyChangedFor(nameof(BackgroundImageOpacity))]
-	private double _backgroundImageOpacityPercent;
+	public partial double BackgroundImageOpacityPercent { get; set; }
 
 	private StopwatchModel _stopwatch;
 
 	[ObservableProperty]
-	private ElementTheme _theme;
+	public partial ElementTheme Theme { get; set; }
 
 	[ObservableProperty]
-	private Uri? _lastBackgroundImageUri;
+	public partial Uri? LastBackgroundImageUri { get; set; }
 
 	[ObservableProperty]
 	[NotifyPropertyChangedFor(nameof(IsBackgroundImageSet))]
-	private Uri? _backgroundImageUri;
+	public partial Uri? BackgroundImageUri { get; set; }
 
 	[ObservableProperty]
 	[NotifyPropertyChangedFor(nameof(IsBackgroundColorSet))]
-	private Color _backgroundColor;
+	public partial Color BackgroundColor { get; set; }
 
 	[ObservableProperty]
-	private bool _hasProLicense;
+	public partial bool HasProLicense { get; set; }
 
 	private bool _isInitializing = false;
 

@@ -33,10 +33,10 @@ public partial class MainViewModel : PageViewModel
 	private readonly SerialDisposable _displayRequestDisposable = new();
 
 	[ObservableProperty]
-	private StopwatchViewModel? _selectedStopwatch;
+	public partial StopwatchViewModel? SelectedStopwatch { get; set; }
 
 	[ObservableProperty]
-	private bool _hasProLicense = true;
+	public partial bool HasProLicense { get; set; } = true;
 
 	public MainViewModel(
 		INavigationService navigationService,
