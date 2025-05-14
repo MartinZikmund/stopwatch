@@ -426,6 +426,7 @@
         <Setter Property="Height" Value="64" />
         <Setter Property="CornerRadius" Value="32" />
         <Setter Property="BorderBrush" Value="{ThemeResource SubtleFillColorTransparent}" />
+        <Setter Property="BorderThickness" Value="0" />
     </Style>
 
     <Style
@@ -436,5 +437,6 @@
         <Setter Property="Height" Value="64" />
         <Setter Property="CornerRadius" Value="32" />
         <Setter Property="BorderBrush" Value="{ThemeResource SubtleFillColorTransparent}" />
+        <Setter Property="BorderThickness" Value="0" />
     </Style>
 </ResourceDictionary>
