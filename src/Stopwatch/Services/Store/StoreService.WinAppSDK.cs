@@ -27,6 +27,10 @@ public class StoreService : IStoreService
 		_storeContext = StoreContext.GetDefault();
 	}
 
+	public StoreService()
+	{
+	}
+
 	public async Task<string?> GetPriceAsync()
 	{
 		var context = GetStoreContext();
