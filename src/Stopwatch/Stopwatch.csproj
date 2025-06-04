@@ -27,6 +27,7 @@
 			Localization;
 			ThemeService;
 			SkiaRenderer;
+			Skia;
 		</UnoFeatures>
 
 		<UnoIconForegroundScale>1</UnoIconForegroundScale>
