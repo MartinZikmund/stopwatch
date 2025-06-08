@@ -47,7 +47,7 @@
             Padding="0,8,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
-            Visibility="{Binding Source={x:Null}, Converter={StaticResource MobileDeviceToVisibilityConverter}}">
+            Visibility="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Page}, Converter={StaticResource MobileDeviceToVisibilityConverter}}">
             <Image
                 Width="20"
                 Height="20"
