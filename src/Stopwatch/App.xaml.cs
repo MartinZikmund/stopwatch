@@ -91,6 +91,9 @@ public partial class App : Application
 			MainWindow.Content = windowShell;
 		}
 
+		// Initialize the navigation service to handle system back button events
+		windowShell.ServiceProvider.GetRequiredService<INavigationService>().Initialize();
+
 		if (windowShell.RootFrame.Content is null)
 		{
 			// When the navigation stack isn't restored navigate to the first page,
