@@ -30,8 +30,8 @@
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HeaderGrid.Margin" Value="36,60,36,8" />
-                        <Setter Target="ContentStackPanel.Margin" Value="36,0,36,36" />
+                        <Setter Target="HeaderGrid.Margin" Value="{StaticResource WideHeaderMargin}" />
+                        <Setter Target="ContentStackPanel.Margin" Value="{StaticResource WideContentMarginLarge}" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="NarrowState">
@@ -39,8 +39,8 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HeaderGrid.Margin" Value="16,60,16,8" />
-                        <Setter Target="ContentStackPanel.Margin" Value="16,0,16,36" />
+                        <Setter Target="HeaderGrid.Margin" Value="{StaticResource NarrowHeaderMargin}" />
+                        <Setter Target="ContentStackPanel.Margin" Value="{StaticResource NarrowContentMarginLarge}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -49,7 +49,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid x:Name="HeaderGrid" Margin="36,60,36,8" ColumnSpacing="8">
+        <Grid x:Name="HeaderGrid" Margin="{StaticResource WideHeaderMargin}" ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -65,7 +65,7 @@
                 <!--  Workaround for https://github.com/unoplatform/uno/issues/7000  -->
                 <StackPanel
                     x:Name="ContentStackPanel"
-                    Margin="36,0,36,36"
+                    Margin="{StaticResource WideContentMarginLarge}"
                     Orientation="Vertical"
                     Spacing="8">
                     <!--  General  -->

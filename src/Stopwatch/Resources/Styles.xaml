@@ -60,6 +60,16 @@
 
     </ResourceDictionary.ThemeDictionaries>
 
+    <!-- Responsive Margin Resources -->
+    <Thickness x:Key="WideHeaderMargin">36,60,36,8</Thickness>
+    <Thickness x:Key="WideHeaderMarginLarge">36,60,36,36</Thickness>
+    <Thickness x:Key="NarrowHeaderMargin">16,60,16,8</Thickness>
+    <Thickness x:Key="NarrowHeaderMarginLarge">16,60,16,36</Thickness>
+    <Thickness x:Key="WideContentMargin">36,0,36,8</Thickness>
+    <Thickness x:Key="WideContentMarginLarge">36,0,36,36</Thickness>
+    <Thickness x:Key="NarrowContentMargin">16,0,16,8</Thickness>
+    <Thickness x:Key="NarrowContentMarginLarge">16,0,16,36</Thickness>
+
     <Style x:Key="SubtleButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="{ThemeResource SubtleButtonBackground}" />
         <Setter Property="BackgroundSizing" Value="InnerBorderEdge" />

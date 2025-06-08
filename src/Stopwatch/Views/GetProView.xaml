@@ -17,8 +17,8 @@
 						<AdaptiveTrigger MinWindowWidth="720" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="HeaderGrid.Margin" Value="36,60,36,36" />
-						<Setter Target="ContentGrid.Margin" Value="36,0,36,8" />
+						<Setter Target="HeaderGrid.Margin" Value="{StaticResource WideHeaderMarginLarge}" />
+						<Setter Target="ContentGrid.Margin" Value="{StaticResource WideContentMargin}" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="NarrowState">
@@ -26,8 +26,8 @@
 						<AdaptiveTrigger MinWindowWidth="0" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="HeaderGrid.Margin" Value="16,60,16,36" />
-						<Setter Target="ContentGrid.Margin" Value="16,0,16,8" />
+						<Setter Target="HeaderGrid.Margin" Value="{StaticResource NarrowHeaderMarginLarge}" />
+						<Setter Target="ContentGrid.Margin" Value="{StaticResource NarrowContentMargin}" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
@@ -37,7 +37,7 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<Grid x:Name="HeaderGrid" Margin="36,60,36,36" ColumnSpacing="8">
+		<Grid x:Name="HeaderGrid" Margin="{StaticResource WideHeaderMarginLarge}" ColumnSpacing="8">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
@@ -57,7 +57,7 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<Grid x:Name="ContentGrid" MaxWidth="800" RowSpacing="8" ColumnSpacing="8" Grid.Row="1" Margin="36,0,36,8">
+				<Grid x:Name="ContentGrid" MaxWidth="800" RowSpacing="8" ColumnSpacing="8" Grid.Row="1" Margin="{StaticResource WideContentMargin}">
 					<Grid.Resources>
 						<Style x:Key="HeaderStyle" TargetType="TextBlock">
 							<Setter Property="FontWeight" Value="Bold" />
