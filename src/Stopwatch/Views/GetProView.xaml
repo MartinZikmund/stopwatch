@@ -10,12 +10,34 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 	<Grid>
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="WindowStates">
+				<VisualState x:Name="WideState">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="720" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="HeaderGrid.Margin" Value="36,60,36,36" />
+						<Setter Target="ContentGrid.Margin" Value="36,0,36,8" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="NarrowState">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="0" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="HeaderGrid.Margin" Value="16,60,16,36" />
+						<Setter Target="ContentGrid.Margin" Value="16,0,16,8" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<Grid Margin="36,60,36,36" ColumnSpacing="8">
+		<Grid x:Name="HeaderGrid" Margin="36,60,36,36" ColumnSpacing="8">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
@@ -35,7 +57,7 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<Grid MaxWidth="800" RowSpacing="8" ColumnSpacing="8" Grid.Row="1" Margin="36,0,36,8">
+				<Grid x:Name="ContentGrid" MaxWidth="800" RowSpacing="8" ColumnSpacing="8" Grid.Row="1" Margin="36,0,36,8">
 					<Grid.Resources>
 						<Style x:Key="HeaderStyle" TargetType="TextBlock">
 							<Setter Property="FontWeight" Value="Bold" />

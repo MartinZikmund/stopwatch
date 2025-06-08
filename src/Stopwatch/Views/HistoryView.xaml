@@ -10,11 +10,33 @@
     mc:Ignorable="d">
 
 	<Grid RowSpacing="8">
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="WindowStates">
+				<VisualState x:Name="WideState">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="720" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="HeaderGrid.Margin" Value="36,60,36,36" />
+						<Setter Target="ContentGrid.Margin" Value="36,0,36,36" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="NarrowState">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="0" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="HeaderGrid.Margin" Value="16,60,16,36" />
+						<Setter Target="ContentGrid.Margin" Value="16,0,16,36" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<Grid Margin="36,60,36,36" ColumnSpacing="8">
+		<Grid x:Name="HeaderGrid" Margin="36,60,36,36" ColumnSpacing="8">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
@@ -29,7 +51,7 @@
 				<SymbolIcon Symbol="Delete" />
 			</Button>
 		</Grid>
-		<Grid Grid.Row="1" Margin="36,0,36,36">
+		<Grid x:Name="ContentGrid" Grid.Row="1" Margin="36,0,36,36">
 			<ListView ItemsSource="{x:Bind ViewModel.HistoryEntries}">
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="vm:HistoryEntryViewModel">

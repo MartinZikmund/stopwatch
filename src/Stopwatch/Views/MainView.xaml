@@ -13,6 +13,26 @@
 
     <Grid>
         <Grid PointerMoved="RootGridPointerEvent" PointerPressed="RootGridPointerEvent">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="WindowStates">
+                    <VisualState x:Name="WideState">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="720" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="MainContentGrid.Padding" Value="36,0,36,36" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="NarrowState">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="MainContentGrid.Padding" Value="16,0,16,36" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -92,6 +112,7 @@
 
             <!--  Content  -->
             <Grid
+                x:Name="MainContentGrid"
                 Grid.Row="1"
                 Padding="36,0,36,36"
                 RowSpacing="20">

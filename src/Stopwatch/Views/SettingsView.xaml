@@ -23,11 +23,33 @@
     </local:SettingsViewBase.Resources>
 
     <Grid RowSpacing="8">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderGrid.Margin" Value="36,60,36,8" />
+                        <Setter Target="ContentStackPanel.Margin" Value="36,0,36,36" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderGrid.Margin" Value="16,60,16,8" />
+                        <Setter Target="ContentStackPanel.Margin" Value="16,0,16,36" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Margin="36,60,36,8" ColumnSpacing="8">
+        <Grid x:Name="HeaderGrid" Margin="36,60,36,8" ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -42,6 +64,7 @@
             <Border>
                 <!--  Workaround for https://github.com/unoplatform/uno/issues/7000  -->
                 <StackPanel
+                    x:Name="ContentStackPanel"
                     Margin="36,0,36,36"
                     Orientation="Vertical"
                     Spacing="8">
