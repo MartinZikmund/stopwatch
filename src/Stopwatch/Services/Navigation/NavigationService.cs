@@ -7,6 +7,7 @@ public class NavigationService : INavigationService
 {
 	private readonly Dictionary<string, Type> _views = new();
 	private readonly IFrameProvider _frameProvider;
+	private bool _isInitialized = false;
 
 	public NavigationService(IFrameProvider frameProvider)
 	{
@@ -61,10 +62,22 @@ public class NavigationService : INavigationService
 		}
 	}
 
-	public void Initialize() =>
-		SystemNavigationManager.GetForCurrentView().BackRequested += NavigationManagerBackRequested;
+	public void Initialize()
+	{
+		if (_isInitialized)
+			return;
 
-	private void NavigationManagerBackRequested(object? sender, BackRequestedEventArgs? e) => GoBack();
+		SystemNavigationManager.GetForCurrentView().BackRequested += NavigationManagerBackRequested;
+		_isInitialized = true;
+	}
+
+	private void NavigationManagerBackRequested(object? sender, BackRequestedEventArgs? e)
+	{
+		if (e != null && GoBack())
+		{
+			e.Handled = true;
+		}
+	}
 
 	public void ClearBackStack() => Frame.BackStack.Clear();
 }

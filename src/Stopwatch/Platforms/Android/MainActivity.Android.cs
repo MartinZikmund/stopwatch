@@ -26,7 +26,16 @@ public class MainActivity : Microsoft.UI.Xaml.ApplicationActivity
 		// Try to handle back navigation through the app's navigation system
 		if (App.Host?.Services?.GetService<INavigationService>() is { } navigationService && navigationService.CanGoBack)
 		{
-			navigationService.GoBack();
+			// Ensure navigation happens on the UI thread
+			if (Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread() is { } dispatcher)
+			{
+				dispatcher.TryEnqueue(() => navigationService.GoBack());
+			}
+			else
+			{
+				// Fallback if no dispatcher available
+				navigationService.GoBack();
+			}
 		}
 		// If there's nowhere to go back in the app, don't close the app - just ignore the back button
 		// This prevents the hardware back button from closing the app unexpectedly
