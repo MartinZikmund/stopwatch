@@ -4,7 +4,6 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Microsoft.Extensions.DependencyInjection;
-using Stopwatch.Services.Navigation;
 
 namespace Stopwatch.Droid;
 [Activity(
@@ -23,20 +22,16 @@ public class MainActivity : Microsoft.UI.Xaml.ApplicationActivity
 
 	public override void OnBackPressed()
 	{
-		// Try to handle back navigation through the app's navigation system
-		if (App.Host?.Services?.GetService<INavigationService>() is { } navigationService && navigationService.CanGoBack)
+		// Use Uno Platform's NavigationManagerPreview API for better integration
+		if (Microsoft.UI.Xaml.Navigation.NavigationManagerPreview.GetForCurrentView() is { } navigationManager)
 		{
-			// Ensure navigation happens on the UI thread
-			if (Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread() is { } dispatcher)
+			if (navigationManager.CanGoBack)
 			{
-				dispatcher.TryEnqueue(() => navigationService.GoBack());
-			}
-			else
-			{
-				// Fallback if no dispatcher available
-				navigationService.GoBack();
+				navigationManager.GoBack();
+				return;
 			}
 		}
+		
 		// If there's nowhere to go back in the app, don't close the app - just ignore the back button
 		// This prevents the hardware back button from closing the app unexpectedly
 	}
