@@ -13,7 +13,7 @@ inputs:
   sdkVersion:
     description: 'The version of the Windows Sdk'
     required: false
-    default: '22621'
+    default: '26100'
 
 runs:
   using: "composite"
