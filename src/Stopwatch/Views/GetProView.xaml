@@ -18,7 +18,7 @@
 						<AdaptiveTrigger MinWindowWidth="640" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="ContentRoot.Margin" Value="24,48,24,24" />
+						<Setter Target="ContentRoot.Margin" Value="24,60,24,24" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
@@ -28,7 +28,7 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<Grid x:Name="ContentRoot" Margin="12,36,12,12" ColumnSpacing="8">
+		<Grid x:Name="ContentRoot" Margin="12,48,12,12" ColumnSpacing="8">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
