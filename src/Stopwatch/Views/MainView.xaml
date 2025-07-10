@@ -12,6 +12,19 @@
     xmlns:wctc="using:CommunityToolkit.WinUI.Converters">
 
     <Grid>
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup>
+				<VisualState x:Name="Narrow" />
+				<VisualState x:Name="Wide">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="640" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="ContentRoot.Padding" Value="24,24,24,24" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
         <Grid PointerMoved="RootGridPointerEvent" PointerPressed="RootGridPointerEvent">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -92,9 +105,10 @@
 
             <!--  Content  -->
             <Grid
+				x:Name="ContentRoot"
                 Grid.Row="1"
-                Padding="36,0,36,36"
-                RowSpacing="20">
+                Padding="12,12,12,12"
+                RowSpacing="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -104,7 +118,7 @@
                 <StackPanel
                     x:Name="ControlButtonsPanel"
                     Grid.Row="1"
-                    Margin="0,8,0,0"
+                    Margin="0,0,0,0"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal"
                     Spacing="8">
