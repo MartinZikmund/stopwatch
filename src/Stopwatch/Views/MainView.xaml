@@ -202,7 +202,11 @@
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="ContentRoot.Padding" Value="12,12,12,12" />
                         <Setter Target="TabViewContainer.Visibility" Value="Collapsed" />
                         <Setter Target="TabListButton.Visibility" Value="Visible" />
                     </VisualState.Setters>
@@ -212,6 +216,7 @@
                         <AdaptiveTrigger MinWindowWidth="500" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="ContentRoot.Padding" Value="12,12,12,12" />
                         <Setter Target="TabViewContainer.Visibility" Value="Visible" />
                         <Setter Target="TabListButton.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
@@ -221,9 +226,9 @@
                         <AdaptiveTrigger MinWindowWidth="640" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="ContentRoot.Padding" Value="24,24,24,24" />
                         <Setter Target="TabViewContainer.Visibility" Value="Visible" />
                         <Setter Target="TabListButton.Visibility" Value="Collapsed" />
-                        <Setter Target="ContentRoot.Padding" Value="24,24,24,24" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
