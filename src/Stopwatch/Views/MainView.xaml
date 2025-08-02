@@ -139,29 +139,45 @@
                         <FontIcon Glyph="&#xE8B7;" />
                         <Button.Flyout>
                             <Flyout>
-                                <ListView
-                                    ItemsSource="{x:Bind ViewModel.Stopwatches}"
-                                    SelectedItem="{x:Bind ViewModel.SelectedStopwatch, Mode=TwoWay}"
-                                    SelectionMode="Single">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate x:DataType="vm:StopwatchViewModel">
-                                            <Grid ColumnSpacing="8">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock VerticalAlignment="Center" Text="{x:Bind Name, Mode=OneWay}" />
-                                                <Button
-                                                    Grid.Column="1"
-                                                    Click="CloseTabClick"
-                                                    CommandParameter="{x:Bind}"
-                                                    Style="{ThemeResource SubtleButtonStyle}">
-                                                    <FontIcon Glyph="&#xE711;" />
-                                                </Button>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <ListView
+                                        Grid.Row="0"
+                                        ItemsSource="{x:Bind ViewModel.Stopwatches}"
+                                        SelectedItem="{x:Bind ViewModel.SelectedStopwatch, Mode=TwoWay}"
+                                        SelectionMode="Single">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:StopwatchViewModel">
+                                                <Grid ColumnSpacing="8">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock VerticalAlignment="Center" Text="{x:Bind Name, Mode=OneWay}" />
+                                                    <Button
+                                                        Grid.Column="1"
+                                                        Click="CloseTabClick"
+                                                        CommandParameter="{x:Bind}"
+                                                        Style="{ThemeResource SubtleButtonStyle}">
+                                                        <FontIcon Glyph="&#xE711;" />
+                                                    </Button>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                    <Button
+                                        Grid.Row="1"
+                                        HorizontalAlignment="Stretch"
+                                        Command="{x:Bind ViewModel.AddStopwatchCommand}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <SymbolIcon Symbol="Add" />
+                                            <TextBlock Text="{ex:Localize Key=AddStopwatch}" />
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
                             </Flyout>
                         </Button.Flyout>
                     </Button>
@@ -182,7 +198,12 @@
         </Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
-                <VisualState x:Name="Narrow" />
+                <VisualState x:Name="Narrow">
+                    <VisualState.Setters>
+                        <Setter Target="TabViewContainer.Visibility" Value="Collapsed" />
+                        <Setter Target="TabListButton.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
                 <VisualState x:Name="Medium">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="500" />
