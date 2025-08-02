@@ -120,6 +120,15 @@ public sealed partial class MainView : MainViewBase
 			await ViewModel.CloseStopwatchAsync(stopwatchViewModel);
 		}
 	}
+
+	private async void CloseTabClick(object sender, RoutedEventArgs e)
+	{
+		var button = (Button)sender;
+		if (button.CommandParameter is StopwatchViewModel stopwatchViewModel && ViewModel is not null)
+		{
+			await ViewModel.CloseStopwatchAsync(stopwatchViewModel);
+		}
+	}
 }
 
 public partial class MainViewBase : PageBase<MainViewModel>

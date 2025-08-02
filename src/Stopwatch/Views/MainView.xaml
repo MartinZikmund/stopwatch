@@ -11,7 +11,7 @@
     xmlns:vm="using:Stopwatch.ViewModels"
     xmlns:wctc="using:CommunityToolkit.WinUI.Converters">
 
-    <Grid>
+    <Grid x:Name="RootGrid">
         <Grid PointerMoved="RootGridPointerEvent" PointerPressed="RootGridPointerEvent">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -145,7 +145,20 @@
                                     SelectionMode="Single">
                                     <ListView.ItemTemplate>
                                         <DataTemplate x:DataType="vm:StopwatchViewModel">
-                                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                                            <Grid ColumnSpacing="8">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock VerticalAlignment="Center" Text="{x:Bind Name, Mode=OneWay}" />
+                                                <Button
+                                                    Grid.Column="1"
+                                                    Click="CloseTabClick"
+                                                    CommandParameter="{x:Bind}"
+                                                    Style="{ThemeResource SubtleButtonStyle}">
+                                                    <FontIcon Glyph="&#xE711;" />
+                                                </Button>
+                                            </Grid>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
