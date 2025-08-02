@@ -315,4 +315,10 @@
   <data name="DeleteLapDialogTitle" xml:space="preserve">
     <value>Odstranit kolo</value>
   </data>
+  <data name="AddStopwatch" xml:space="preserve">
+    <value>Přidat stopky</value>
+  </data>
+  <data name="Stopwatches" xml:space="preserve">
+    <value>Stopky</value>
+  </data>
 </root>
