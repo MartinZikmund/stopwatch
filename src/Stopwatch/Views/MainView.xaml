@@ -135,7 +135,10 @@
                         Visibility="{x:Bind ViewModel.HasProLicense, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
                         <FontIcon Foreground="Gold" Glyph="&#xF133;" />
                     </Button>
-                    <Button x:Name="TabListButton" Style="{ThemeResource SubtleButtonStyle}">
+                    <Button
+                        x:Name="TabListButton"
+                        Style="{ThemeResource SubtleButtonStyle}"
+                        ToolTipService.ToolTip="{ex:Localize Key=Stopwatches}">
                         <FontIcon Glyph="&#xE8B7;" />
                         <Button.Flyout>
                             <Flyout>
