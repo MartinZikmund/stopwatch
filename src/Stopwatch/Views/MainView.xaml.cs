@@ -48,7 +48,7 @@ public sealed partial class MainView : MainViewBase
 
 	private void UpdateTitleBarMetrics()
 	{
-		if (XamlRoot is null || _appWindow is null)
+		if (XamlRoot is null || _appWindow is null || TabViewContainer.Visibility == Visibility.Collapsed)
 		{
 			return;
 		}
