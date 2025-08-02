@@ -156,15 +156,6 @@
   <data name="Slowest" xml:space="preserve">
     <value>Slowest</value>
   </data>
-  <data name="Browse" xml:space="preserve">
-    <value>Browse...</value>
-  </data>
-  <data name="Clear" xml:space="preserve">
-    <value>Clear</value>
-  </data>
-  <data name="Customization" xml:space="preserve">
-    <value>Customization</value>
-  </data>
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
   </data>
@@ -174,14 +165,23 @@
   <data name="BackgroundImageOpacity" xml:space="preserve">
     <value>Background image opacity</value>
   </data>
-  <data name="Pick" xml:space="preserve">
-    <value>Pick...</value>
+  <data name="Customization" xml:space="preserve">
+    <value>Customization</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Browse...</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="Pick" xml:space="preserve">
+    <value>Pick...</value>
   </data>
   <data name="PickColor" xml:space="preserve">
     <value>Pick color</value>
@@ -198,11 +198,11 @@
   <data name="KeepScreenOnSettingDescription" xml:space="preserve">
     <value>Turn this setting on to keep the device screen on while the stopwatch is running</value>
   </data>
-  <data name="AboutAppDescription" xml:space="preserve">
-    <value>© 2024 Martin Zikmund</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>About</value>
+  </data>
+  <data name="AboutAppDescription" xml:space="preserve">
+    <value>© 2024 Martin Zikmund</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>General</value>
@@ -222,11 +222,11 @@
   <data name="History" xml:space="preserve">
     <value>History</value>
   </data>
-  <data name="DeleteHistoryEntryDialogText" xml:space="preserve">
-    <value>Are you sure you want to delete this history entry?</value>
-  </data>
   <data name="DeleteHistoryEntryDialogTitle" xml:space="preserve">
     <value>Delete history entry</value>
+  </data>
+  <data name="DeleteHistoryEntryDialogText" xml:space="preserve">
+    <value>Are you sure you want to delete this history entry?</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
@@ -264,11 +264,11 @@
   <data name="StoreError" xml:space="preserve">
     <value>Store error</value>
   </data>
-  <data name="PurchaseUnknownError" xml:space="preserve">
-    <value>An unknown error occurred while trying to purchase. Try again, please.</value>
-  </data>
   <data name="PurchaseServerError" xml:space="preserve">
     <value>A server error occurred while trying to purchase. Try again please.</value>
+  </data>
+  <data name="PurchaseUnknownError" xml:space="preserve">
+    <value>An unknown error occurred while trying to purchase. Try again, please.</value>
   </data>
   <data name="Ok" xml:space="preserve">
     <value>Ok</value>
@@ -285,14 +285,14 @@
   <data name="NoAds" xml:space="preserve">
     <value>No ads</value>
   </data>
+  <data name="NoAdsDescription" xml:space="preserve">
+    <value>Say goodbye to ads forever</value>
+  </data>
   <data name="EndlessCustomization" xml:space="preserve">
     <value>Endless customization</value>
   </data>
   <data name="EndlessCustomizationDescription" xml:space="preserve">
     <value>Make it beautiful with endless customization options</value>
-  </data>
-  <data name="NoAdsDescription" xml:space="preserve">
-    <value>Say goodbye to ads forever</value>
   </data>
   <data name="FutureProFeatures" xml:space="preserve">
     <value>...and more features coming soon!</value>
@@ -314,5 +314,11 @@
   </data>
   <data name="DeleteLapDialogTitle" xml:space="preserve">
     <value>Delete lap</value>
+  </data>
+  <data name="AddStopwatch" xml:space="preserve">
+    <value>Add stopwatch</value>
+  </data>
+  <data name="Stopwatches" xml:space="preserve">
+    <value>Stopwatches</value>
   </data>
 </root>
