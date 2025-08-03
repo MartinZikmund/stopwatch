@@ -120,7 +120,8 @@
                     <Button
                         Command="{x:Bind ViewModel.OpenStopwatchInNewWindowCommand}"
                         Style="{ThemeResource SubtleButtonStyle}"
-                        ToolTipService.ToolTip="{ex:Localize Key=OpenInNewWindow}">
+                        ToolTipService.ToolTip="{ex:Localize Key=OpenInNewWindow}"
+                        Visibility="{x:Bind ViewModel.ShowNewWindowButton}">
                         <FontIcon Glyph="&#xE8A7;" />
                     </Button>
                     <!--<Button

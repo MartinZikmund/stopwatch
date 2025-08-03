@@ -14,6 +14,12 @@ public class WindowManager : IWindowManager
 
 	public async Task OpenStopwatchInNewWindowAsync(StopwatchViewModel stopwatchViewModel)
 	{
+		// Check if multiple windows are supported on this platform
+		if (!IsMultiWindowSupported())
+		{
+			return;
+		}
+
 		// Get the current window provider to access the dispatcher queue
 		var mainWindowProvider = _serviceProvider.GetRequiredService<IWindowShellProvider>();
 		
@@ -41,7 +47,20 @@ public class WindowManager : IWindowManager
 			{
 				// Log error (in a real app, you'd use proper logging)
 				System.Diagnostics.Debug.WriteLine($"Error opening new window: {ex.Message}");
+				
+				// TODO: Show user-friendly error message via dialog service
 			}
 		});
+	}
+
+	private static bool IsMultiWindowSupported()
+	{
+#if HAS_UNO && (__ANDROID__ || __IOS__ || __WASM__)
+		// Multiple windows are not supported on mobile platforms and WASM
+		return false;
+#else
+		// On Windows and other desktop platforms, multiple windows are supported
+		return true;
+#endif
 	}
 }

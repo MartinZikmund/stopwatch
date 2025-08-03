@@ -41,6 +41,19 @@ public partial class MainViewModel : PageViewModel
 	[ObservableProperty]
 	public partial bool HasProLicense { get; set; } = true;
 
+	public bool ShowNewWindowButton => IsMultiWindowSupported();
+
+	private static bool IsMultiWindowSupported()
+	{
+#if HAS_UNO && (__ANDROID__ || __IOS__ || __WASM__)
+		// Multiple windows are not supported on mobile platforms and WASM
+		return false;
+#else
+		// On Windows and other desktop platforms, multiple windows are supported
+		return true;
+#endif
+	}
+
 	public MainViewModel(
 		INavigationService navigationService,
 		ITimerFactory timerFactory,
