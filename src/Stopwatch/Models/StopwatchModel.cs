@@ -57,7 +57,15 @@ public class StopwatchModel : IId
 
 	public string ToJson()
 	{
-		return JsonSerializer.Serialize(this);
+		var exportData = new
+		{
+			Name,
+			InitialStartTime,
+			LastStartTime,
+			PausedElapsedTime,
+			Laps
+		};
+		return JsonSerializer.Serialize(exportData);
 	}
 
 	public string ToXml()
