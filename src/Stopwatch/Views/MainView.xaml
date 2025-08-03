@@ -199,7 +199,7 @@
                         <Button.Flyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem 
-                                    Command="{x:Bind ViewModel.SelectedStopwatch.ExportToJsonCommand}"
+                                    Command="{x:Bind ViewModel.ExportToJsonCommand}"
                                     Icon="Page" 
                                     Text="Export to JSON" />
                             </MenuFlyout>

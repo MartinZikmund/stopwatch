@@ -14,6 +14,8 @@ using Stopwatch.Services.Theming;
 using Stopwatch.Services.Timer;
 using Uno.Disposables;
 using Uno.Extensions;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 
 namespace Stopwatch.ViewModels;
 
@@ -232,6 +234,38 @@ public partial class MainViewModel : PageViewModel
 			{
 				SelectedStopwatch = Stopwatches.Last();
 			}
+		}
+	}
+
+	[RelayCommand]
+	public async Task ExportToJsonAsync()
+	{
+		if (SelectedStopwatch is null)
+		{
+			return;
+		}
+
+		try
+		{
+			var savePicker = new FileSavePicker();
+			savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+			savePicker.FileTypeChoices.Add("JSON files", new List<string> { ".json" });
+			savePicker.SuggestedFileName = $"{SelectedStopwatch.Name}_export_{DateTime.Now:yyyyMMdd_HHmmss}";
+
+			// Get the current window handle from the injected service
+			var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(_windowShellProvider.Window);
+			WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hwnd);
+
+			var file = await savePicker.PickSaveFileAsync();
+			if (file != null)
+			{
+				var jsonContent = SelectedStopwatch.Stopwatch.ToJson();
+				await FileIO.WriteTextAsync(file, jsonContent);
+			}
+		}
+		catch (Exception)
+		{
+			// Handle error silently for now - could show error dialog in future
 		}
 	}
 

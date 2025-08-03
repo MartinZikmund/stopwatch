@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Text;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Dispatching;
 using Stopwatch.Extensions;
@@ -11,9 +10,6 @@ using Stopwatch.Services.Localization;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Timer;
-using Windows.Storage;
-using Windows.Storage.Pickers;
-using Windows.Storage.Streams;
 using Windows.UI;
 
 namespace Stopwatch.ViewModels;
@@ -153,34 +149,6 @@ public partial class StopwatchViewModel : ObservableObject
 	{
 		_stopwatchService.Stop();
 		OnTick();
-	}
-
-	[RelayCommand]
-	public async Task ExportToJsonAsync()
-	{
-		try
-		{
-			var savePicker = new FileSavePicker();
-			savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-			savePicker.FileTypeChoices.Add("JSON files", new List<string> { ".json" });
-			savePicker.SuggestedFileName = $"{Name}_export_{DateTime.Now:yyyyMMdd_HHmmss}";
-
-			// Get the current window handle from the service
-			var windowShellProvider = Ioc.Default.GetRequiredService<IWindowShellProvider>();
-			var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(windowShellProvider.Window);
-			WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hwnd);
-
-			var file = await savePicker.PickSaveFileAsync();
-			if (file != null)
-			{
-				var jsonContent = _stopwatch.ToJson();
-				await FileIO.WriteTextAsync(file, jsonContent);
-			}
-		}
-		catch (Exception)
-		{
-			// Handle error silently for now - could show error dialog in future
-		}
 	}
 
 	internal void OnLapUpdated() => _dataSource.Stopwatches.Update(_stopwatch);
