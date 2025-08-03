@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Stopwatch.Extensions;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;

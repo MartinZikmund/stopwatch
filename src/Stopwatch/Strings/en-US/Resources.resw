@@ -372,10 +372,10 @@
     <value>Click the flag button to record lap times and expand the laps section to view them</value>
   </data>
   <data name="TeachingTip_Export_Title" xml:space="preserve">
-    <value>Export your data</value>
+    <value>Manage your laps</value>
   </data>
   <data name="TeachingTip_Export_Subtitle" xml:space="preserve">
-    <value>Right-click on lap entries to access export and sharing options</value>
+    <value>Right-click on lap entries to delete them or add notes to track your performance</value>
   </data>
   <data name="GotIt" xml:space="preserve">
     <value>Got it</value>
