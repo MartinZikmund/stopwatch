@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Microsoft.UI.Dispatching;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
@@ -53,7 +54,25 @@ public partial class StopwatchWindowViewModel : PageViewModel
 			if (stopwatchModel != null)
 			{
 				Stopwatch = new StopwatchViewModel(stopwatchModel, _dataSource, _appPreferences, _historyService, _confirmationDialogService);
+				Stopwatch.PropertyChanged += OnStopwatchPropertyChanged;
+				UpdateTitle();
 			}
+		}
+	}
+
+	private void OnStopwatchPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+	{
+		if (e.PropertyName == nameof(StopwatchViewModel.Name))
+		{
+			UpdateTitle();
+		}
+	}
+
+	private void UpdateTitle()
+	{
+		if (Stopwatch != null)
+		{
+			Title = $"Fluent Stopwatch - {Stopwatch.Name}";
 		}
 	}
 
@@ -65,5 +84,10 @@ public partial class StopwatchWindowViewModel : PageViewModel
 	public override void ViewUnloaded()
 	{
 		_timer.Stop();
+		
+		if (Stopwatch != null)
+		{
+			Stopwatch.PropertyChanged -= OnStopwatchPropertyChanged;
+		}
 	}
 }

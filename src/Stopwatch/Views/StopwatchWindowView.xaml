@@ -9,7 +9,7 @@
     xmlns:vm="using:Stopwatch.ViewModels"
     mc:Ignorable="d">
 
-    <Grid x:Name="RootGrid">
+    <Grid x:Name="RootGrid" Visibility="{x:Bind ViewModel.Stopwatch, Converter={StaticResource NonNullToVisibilityConverter}, Mode=OneWay}">
         <!--  Background color  -->
         <Border>
             <Border.Background>
