@@ -19,4 +19,12 @@ public interface IAppPreferences
 	bool AutoHideButtons { get; set; }
 
 	bool KeepScreenOn { get; set; }
+
+	bool HasSeenRenameTeachingTip { get; set; }
+
+	bool HasSeenTabsTeachingTip { get; set; }
+
+	bool HasSeenLapsTeachingTip { get; set; }
+
+	bool HasSeenExportTeachingTip { get; set; }
 }

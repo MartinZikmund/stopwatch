@@ -38,6 +38,15 @@ public sealed partial class MainView : MainViewBase
 			FrameworkElement.VisibilityProperty,
 			(s, e) => UpdateTitleBarMetrics()
 		);
+		this.DataContextChanged += MainView_DataContextChanged;
+	}
+
+	private void MainView_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+	{
+		if (ViewModel is not null)
+		{
+			ViewModel.ShowTabsTeachingTip = () => TabsTeachingTip.IsOpen = true;
+		}
 	}
 
 	private void StopwatchTabView_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -135,6 +144,21 @@ public sealed partial class MainView : MainViewBase
 		if (button.CommandParameter is StopwatchViewModel stopwatchViewModel && ViewModel is not null)
 		{
 			await ViewModel.CloseStopwatchAsync(stopwatchViewModel);
+		}
+	}
+
+	private void TabsTeachingTip_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+	{
+		if (this.GetServiceProvider() is { } serviceProvider)
+		{
+			var appPreferences = serviceProvider.GetRequiredService<IAppPreferences>();
+			appPreferences.HasSeenTabsTeachingTip = true;
+
+			// Show next teaching tip if this is first time
+			if (!appPreferences.HasSeenRenameTeachingTip)
+			{
+				ViewModel?.ShowRenameTeachingTip?.Invoke();
+			}
 		}
 	}
 }

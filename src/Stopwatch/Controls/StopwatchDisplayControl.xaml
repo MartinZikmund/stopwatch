@@ -33,6 +33,7 @@
                     Spacing="8">
                     <!--<FontIcon Glyph="{x:Bind Stopwatch.Icon, Mode=OneWay}" />-->
                     <TextBox
+                        x:Name="StopwatchNameTextBox"
                         Padding="4"
                         HorizontalAlignment="Center"
                         Background="Transparent"
@@ -65,7 +66,10 @@
                         Style="{StaticResource AccentControlButtonStyle}">
                         <FontIcon Glyph="{x:Bind Stopwatch.IsRunning, Mode=OneWay, Converter={StaticResource IsRunningToSymbolConverter}}" />
                     </Button>
-                    <Button Command="{x:Bind Stopwatch.LapCommand, Mode=OneWay}" Style="{StaticResource ControlButtonStyle}">
+                    <Button
+                        x:Name="LapButton"
+                        Command="{x:Bind Stopwatch.LapCommand, Mode=OneWay}"
+                        Style="{StaticResource ControlButtonStyle}">
                         <SymbolIcon Symbol="Flag" />
                     </Button>
                     <Button Command="{x:Bind Stopwatch.ResetCommand, Mode=OneWay}" Style="{StaticResource ControlButtonStyle}">
@@ -75,6 +79,7 @@
             </Grid>
         </Viewbox>
         <Expander
+            x:Name="LapsExpander"
             Grid.Row="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Bottom"
@@ -226,5 +231,39 @@
                 </StackPanel>
             </Grid>
         </Expander>
+
+        <!-- TeachingTips -->
+        <TeachingTip
+            x:Name="RenameTeachingTip"
+            Title="{ex:Localize Key=TeachingTip_RenameStopwatch_Title}"
+            Subtitle="{ex:Localize Key=TeachingTip_RenameStopwatch_Subtitle}"
+            Target="{x:Bind StopwatchNameTextBox}"
+            Closed="RenameTeachingTip_Closed">
+            <TeachingTip.ActionButtonContent>
+                <TextBlock Text="{ex:Localize Key=GotIt}" />
+            </TeachingTip.ActionButtonContent>
+        </TeachingTip>
+
+        <TeachingTip
+            x:Name="LapsTeachingTip"
+            Title="{ex:Localize Key=TeachingTip_Laps_Title}"
+            Subtitle="{ex:Localize Key=TeachingTip_Laps_Subtitle}"
+            Target="{x:Bind LapButton}"
+            Closed="LapsTeachingTip_Closed">
+            <TeachingTip.ActionButtonContent>
+                <TextBlock Text="{ex:Localize Key=GotIt}" />
+            </TeachingTip.ActionButtonContent>
+        </TeachingTip>
+
+        <TeachingTip
+            x:Name="ExportTeachingTip"
+            Title="{ex:Localize Key=TeachingTip_Export_Title}"
+            Subtitle="{ex:Localize Key=TeachingTip_Export_Subtitle}"
+            Target="{x:Bind LapsExpander}"
+            Closed="ExportTeachingTip_Closed">
+            <TeachingTip.ActionButtonContent>
+                <TextBlock Text="{ex:Localize Key=GotIt}" />
+            </TeachingTip.ActionButtonContent>
+        </TeachingTip>
     </Grid>
 </UserControl>

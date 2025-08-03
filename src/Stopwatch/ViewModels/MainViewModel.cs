@@ -80,6 +80,14 @@ public partial class MainViewModel : PageViewModel
 	{
 		ReloadStopwatches();
 		HasProLicense = await _storeService.HasProAsync();
+
+		// Show teaching tips for first-time users
+		if (_appPreferences.FirstStart && !_appPreferences.HasSeenTabsTeachingTip)
+		{
+			// Delay to ensure UI is loaded
+			await Task.Delay(1000);
+			ShowTabsTeachingTip?.Invoke();
+		}
 	}
 
 	public override void ViewLoaded()
@@ -236,6 +244,24 @@ public partial class MainViewModel : PageViewModel
 			}
 		}
 	}
+
+	[RelayCommand]
+	public void ShowTeachingTips()
+	{
+		// Reset all teaching tip preferences to false to show them again
+		_appPreferences.HasSeenRenameTeachingTip = false;
+		_appPreferences.HasSeenTabsTeachingTip = false;
+		_appPreferences.HasSeenLapsTeachingTip = false;
+		_appPreferences.HasSeenExportTeachingTip = false;
+
+		// Trigger showing the first teaching tip (tabs)
+		ShowTabsTeachingTip?.Invoke();
+	}
+
+	public Action? ShowTabsTeachingTip { get; set; }
+	public Action? ShowRenameTeachingTip { get; set; }
+	public Action? ShowLapsTeachingTip { get; set; }
+	public Action? ShowExportTeachingTip { get; set; }
 
 	[RelayCommand]
 	public async Task ExportToJsonAsync()

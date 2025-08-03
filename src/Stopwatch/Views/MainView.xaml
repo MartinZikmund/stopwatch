@@ -194,6 +194,13 @@
                             </AnimatedIcon.FallbackIconSource>
                         </AnimatedIcon>
                     </Button>
+                    <Button
+                        x:Name="ShowTipsButton"
+                        Command="{x:Bind ViewModel.ShowTeachingTipsCommand}"
+                        Style="{ThemeResource SubtleButtonStyle}"
+                        ToolTipService.ToolTip="{ex:Localize Key=ShowTips}">
+                        <FontIcon Glyph="&#xE9A9;" />
+                    </Button>
                 </StackPanel>
 
                 <controls:StopwatchDisplayControl
@@ -201,6 +208,18 @@
                     MainViewModel="{x:Bind ViewModel}"
                     Stopwatch="{x:Bind ViewModel.SelectedStopwatch, Mode=OneWay}" />
             </Grid>
+
+            <!-- TeachingTips -->
+            <TeachingTip
+                x:Name="TabsTeachingTip"
+                Title="{ex:Localize Key=TeachingTip_AddTabs_Title}"
+                Subtitle="{ex:Localize Key=TeachingTip_AddTabs_Subtitle}"
+                Target="{x:Bind TabListButton}"
+                Closed="TabsTeachingTip_Closed">
+                <TeachingTip.ActionButtonContent>
+                    <TextBlock Text="{ex:Localize Key=GotIt}" />
+                </TeachingTip.ActionButtonContent>
+            </TeachingTip>
         </Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
