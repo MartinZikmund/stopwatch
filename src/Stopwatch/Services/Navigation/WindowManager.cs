@@ -36,9 +36,9 @@ public class WindowManager : IWindowManager
 				var newWindowShell = new WindowShell(_serviceProvider, newWindow);
 				newWindow.Content = newWindowShell;
 
-				// Navigate to the main view with the specific stopwatch ID
+				// Navigate to the stopwatch window view with the specific stopwatch ID
 				var navigationService = newWindowShell.ServiceProvider.GetRequiredService<INavigationService>();
-				navigationService.Navigate<MainViewModel>(stopwatchViewModel.Id);
+				navigationService.Navigate<StopwatchWindowViewModel>(stopwatchViewModel.Id);
 
 				// Activate the new window
 				newWindow.Activate();
