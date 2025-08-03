@@ -28,4 +28,17 @@ public sealed partial class StopwatchDisplayControl : UserControl
 			typeof(StopwatchViewModel),
 			typeof(StopwatchDisplayControl),
 			new PropertyMetadata(null));
+
+	public MainViewModel MainViewModel
+	{
+		get => (MainViewModel)GetValue(MainViewModelProperty);
+		set => SetValue(MainViewModelProperty, value);
+	}
+
+	public static DependencyProperty MainViewModelProperty { get; } =
+		DependencyProperty.Register(
+			nameof(MainViewModel),
+			typeof(MainViewModel),
+			typeof(StopwatchDisplayControl),
+			new PropertyMetadata(null));
 }

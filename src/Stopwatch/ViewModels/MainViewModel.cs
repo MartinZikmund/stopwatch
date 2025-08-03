@@ -269,6 +269,38 @@ public partial class MainViewModel : PageViewModel
 		}
 	}
 
+	[RelayCommand]
+	public async Task ExportToCsvAsync()
+	{
+		if (SelectedStopwatch is null)
+		{
+			return;
+		}
+
+		try
+		{
+			var savePicker = new FileSavePicker();
+			savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+			savePicker.FileTypeChoices.Add("CSV files", new List<string> { ".csv" });
+			savePicker.SuggestedFileName = $"{SelectedStopwatch.Name}_laps_{DateTime.Now:yyyyMMdd_HHmmss}";
+
+			// Get the current window handle from the injected service
+			var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(_windowShellProvider.Window);
+			WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hwnd);
+
+			var file = await savePicker.PickSaveFileAsync();
+			if (file != null)
+			{
+				var csvContent = SelectedStopwatch.Stopwatch.LapsToCsv();
+				await FileIO.WriteTextAsync(file, csvContent);
+			}
+		}
+		catch (Exception)
+		{
+			// Handle error silently for now - could show error dialog in future
+		}
+	}
+
 	private void UpdatePresenterButtons()
 	{
 		OnPropertyChanged(nameof(IsFullScreen));
