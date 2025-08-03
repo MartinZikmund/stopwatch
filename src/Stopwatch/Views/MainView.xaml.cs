@@ -129,6 +129,20 @@ public sealed partial class MainView : MainViewBase
 			await ViewModel.CloseStopwatchAsync(stopwatchViewModel);
 		}
 	}
+
+	private async void OpenInNewWindowClick(object sender, RoutedEventArgs e)
+	{
+		var button = (Button)sender;
+		if (button.CommandParameter is StopwatchViewModel stopwatchViewModel && ViewModel is not null)
+		{
+			var serviceProvider = this.GetServiceProvider();
+			if (serviceProvider is not null)
+			{
+				var windowManager = serviceProvider.GetRequiredService<IWindowManager>();
+				await windowManager.OpenStopwatchInNewWindowAsync(stopwatchViewModel);
+			}
+		}
+	}
 }
 
 public partial class MainViewBase : PageBase<MainViewModel>

@@ -31,6 +31,7 @@ public partial class MainViewModel : PageViewModel
 	private readonly IDialogService _dialogService;
 	private readonly IConfirmationDialogService _confirmationDialogService;
 	private readonly IDisplayRequestManager _displayRequestManager;
+	private readonly IWindowManager _windowManager;
 	private readonly DispatcherQueueTimer _timer;
 	private readonly SerialDisposable _displayRequestDisposable = new();
 
@@ -51,7 +52,8 @@ public partial class MainViewModel : PageViewModel
 		IStoreService storeService,
 		IDialogService dialogService,
 		IConfirmationDialogService confirmationDialogService,
-		IDisplayRequestManager displayRequestManager) : base(navigationService)
+		IDisplayRequestManager displayRequestManager,
+		IWindowManager windowManager) : base(navigationService)
 	{
 		_timerFactory = timerFactory;
 		_dataSource = dataSource;
@@ -63,6 +65,7 @@ public partial class MainViewModel : PageViewModel
 		_dialogService = dialogService;
 		_confirmationDialogService = confirmationDialogService;
 		_displayRequestManager = displayRequestManager;
+		_windowManager = windowManager;
 
 		_timer = timerFactory.Create();
 		_timer.Interval = TimeSpan.FromMilliseconds(50);
@@ -80,6 +83,16 @@ public partial class MainViewModel : PageViewModel
 	{
 		ReloadStopwatches();
 		HasProLicense = await _storeService.HasProAsync();
+
+		// If a specific stopwatch ID is provided, select it
+		if (parameter is Guid stopwatchId)
+		{
+			var targetStopwatch = Stopwatches.FirstOrDefault(s => s.Id == stopwatchId);
+			if (targetStopwatch != null)
+			{
+				SelectedStopwatch = targetStopwatch;
+			}
+		}
 	}
 
 	public override void ViewLoaded()
@@ -316,6 +329,17 @@ public partial class MainViewModel : PageViewModel
 	public bool ShowCompactOverlayButton => !IsFullScreen;
 
 	public bool ShowFullScreenButton => !IsCompactOverlay;
+
+	[RelayCommand]
+	public async Task OpenStopwatchInNewWindowAsync()
+	{
+		if (SelectedStopwatch is null)
+		{
+			return;
+		}
+
+		await _windowManager.OpenStopwatchInNewWindowAsync(SelectedStopwatch);
+	}
 
 	private string GetNextStopwatchName()
 	{
