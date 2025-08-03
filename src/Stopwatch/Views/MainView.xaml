@@ -194,6 +194,17 @@
                             </AnimatedIcon.FallbackIconSource>
                         </AnimatedIcon>
                     </Button>
+                    <Button Style="{ThemeResource SubtleButtonStyle}" ToolTipService.ToolTip="Export">
+                        <FontIcon Glyph="&#xE72D;" />
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem 
+                                    Command="{x:Bind ViewModel.SelectedStopwatch.ExportToJsonCommand}"
+                                    Icon="Page" 
+                                    Text="Export to JSON" />
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
                 </StackPanel>
 
                 <controls:StopwatchDisplayControl Grid.Row="2" Stopwatch="{x:Bind ViewModel.SelectedStopwatch, Mode=OneWay}" />
