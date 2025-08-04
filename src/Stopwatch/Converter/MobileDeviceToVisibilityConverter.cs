@@ -5,23 +5,21 @@ using System;
 namespace Stopwatch.Converter;
 
 /// <summary>
-/// Converter that returns Collapsed visibility for narrow screen widths and Visible for wider screens.
-/// This is used to hide certain UI elements on smaller screens where they should not be shown.
+/// Converter that returns Collapsed visibility when HasCustomTitleBar is true and Visible when false.
+/// This is used to hide the app icon when a custom title bar is used to avoid visual clutter.
 /// </summary>
 public class MobileDeviceToVisibilityConverter : IValueConverter
 {
-	// Breakpoint width below which the icon will be hidden
-	private const double MobileBreakpoint = 768.0;
-
 	public object Convert(object value, Type targetType, object parameter, string language)
 	{
-		// The value should be the actual width of the container
-		if (value is double width && width > 0)
+		// The value should be the HasCustomTitleBar boolean property
+		if (value is bool hasCustomTitleBar)
 		{
-			return width < MobileBreakpoint ? Visibility.Collapsed : Visibility.Visible;
+			// Hide icon when there's a custom title bar, show it when there's not
+			return hasCustomTitleBar ? Visibility.Collapsed : Visibility.Visible;
 		}
 		
-		// If we can't get a valid width, default to showing the icon (desktop behavior)
+		// If we can't get a valid boolean, default to showing the icon
 		return Visibility.Visible;
 	}
 

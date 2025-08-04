@@ -47,7 +47,7 @@
             Padding="0,8,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
-            Visibility="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Page}, Converter={StaticResource MobileDeviceToVisibilityConverter}}">
+            Visibility="{x:Bind HasCustomTitleBar, Converter={StaticResource MobileDeviceToVisibilityConverter}}">
             <Image
                 Width="20"
                 Height="20"
