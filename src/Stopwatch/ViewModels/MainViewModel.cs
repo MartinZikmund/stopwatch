@@ -98,7 +98,7 @@ public partial class MainViewModel : PageViewModel
 		HasProLicense = await _storeService.HasProAsync();
 
 		// If a specific stopwatch ID is provided, select it
-		if (parameter is Guid stopwatchId)
+		if (parameter is int stopwatchId)
 		{
 			var targetStopwatch = Stopwatches.FirstOrDefault(s => s.Id == stopwatchId);
 			if (targetStopwatch != null)

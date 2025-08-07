@@ -48,7 +48,7 @@ public partial class StopwatchWindowViewModel : PageViewModel
 	public override void ViewNavigatedTo(object? parameter)
 	{
 		// Load the specific stopwatch by ID
-		if (parameter is Guid stopwatchId)
+		if (parameter is int stopwatchId)
 		{
 			var stopwatchModel = _dataSource.Stopwatches.Get(stopwatchId);
 			if (stopwatchModel != null)
