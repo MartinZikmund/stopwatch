@@ -123,16 +123,21 @@ public partial class MainViewModel : PageViewModel
 	{
 		var stopwatches = _dataSource.Stopwatches.GetAll();
 
+		// Exclude stopwatches opened in a secondary window
+		var openedInWindow = Stopwatch.Services.Navigation.WindowManager.GetOpenedInWindowIds();
+		stopwatches = stopwatches.Where(sw => !openedInWindow.Contains(sw.Id)).ToArray();
+
 		if (stopwatches.Length == 0)
 		{
 			_dataSource.Stopwatches.Add(new StopwatchModel(GetNextStopwatchName()));
 			stopwatches = _dataSource.Stopwatches.GetAll();
+			stopwatches = stopwatches.Where(sw => !openedInWindow.Contains(sw.Id)).ToArray();
 		}
 
 		for (int i = Stopwatches.Count - 1; i >= 0; i--)
 		{
 			var existingStopwatch = Stopwatches[i];
-			if (_dataSource.Stopwatches.Get(existingStopwatch.Id) is not { } updatedStopwatch)
+			if (_dataSource.Stopwatches.Get(existingStopwatch.Id) is not { } updatedStopwatch || openedInWindow.Contains(existingStopwatch.Id))
 			{
 				Stopwatches.RemoveAt(i);
 			}
@@ -157,7 +162,7 @@ public partial class MainViewModel : PageViewModel
 			}
 		}
 
-		SelectedStopwatch ??= Stopwatches.First();
+		SelectedStopwatch ??= Stopwatches.FirstOrDefault();
 	}
 
 	partial void OnSelectedStopwatchChanged(StopwatchViewModel? value)
