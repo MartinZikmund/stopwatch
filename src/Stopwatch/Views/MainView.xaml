@@ -196,7 +196,7 @@
                     </Button>
                 </StackPanel>
 
-                <controls:StopwatchDisplayControl Grid.Row="2" Stopwatch="{x:Bind ViewModel.SelectedStopwatch, Mode=OneWay}" />
+                <controls:StopwatchDisplayControl Grid.Row="2" MainViewModel="{x:Bind ViewModel}" Stopwatch="{x:Bind ViewModel.SelectedStopwatch, Mode=OneWay}" />
             </Grid>
         </Grid>
         <VisualStateManager.VisualStateGroups>

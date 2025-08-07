@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Dispatching;
 using Stopwatch.Extensions;
@@ -6,6 +7,7 @@ using Stopwatch.Models;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
 using Stopwatch.Services.Localization;
+using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Timer;
 using Windows.UI;
@@ -133,7 +135,7 @@ public partial class StopwatchViewModel : ObservableObject
 		OnPropertyChanged(nameof(IsZero));
 	}
 
-	private bool CanLap() => IsRunning;
+	private bool CanLap() => !IsZero;
 
 	private bool CanReset() => !IsZero || IsRunning;
 
