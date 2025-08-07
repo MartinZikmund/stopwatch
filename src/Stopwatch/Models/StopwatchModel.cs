@@ -57,15 +57,21 @@ public class StopwatchModel : IId
 
 	public string ToJson()
 	{
-		var exportData = new
-		{
-			Name,
-			InitialStartTime,
-			LastStartTime,
-			PausedElapsedTime,
-			Laps
-		};
-		return JsonSerializer.Serialize(exportData);
+        var lapExports = new LapExportModel[Laps.Length];
+        for (int i = 0; i < Laps.Length; i++)
+        {
+            var previousTotal = i > 0 ? Laps[i - 1].TotalTime : TimeSpan.Zero;
+            var lapTime = Laps[i].TotalTime - previousTotal;
+            lapExports[i] = new LapExportModel(lapTime, Laps[i].TotalTime, Laps[i].Note);
+        }
+        var exportData = new StopwatchExportModel(
+            Name,
+            InitialStartTime,
+            LastStartTime,
+            PausedElapsedTime,
+            lapExports
+        );
+        return System.Text.Json.JsonSerializer.Serialize(exportData, StopwatchJsonContext.Default.StopwatchExportModel);
 	}
 
 	public string ToXml()

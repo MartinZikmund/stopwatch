@@ -6,3 +6,4 @@ global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Logging;
 global using ApplicationExecutionState = Windows.ApplicationModel.Activation.ApplicationExecutionState;
 global using ColorHelper = CommunityToolkit.WinUI.Helpers.ColorHelper;
+global using System.Text.Json.Serialization;
