@@ -321,4 +321,12 @@
   <data name="Stopwatches" xml:space="preserve">
     <value>Stopwatches</value>
   </data>
+  <data name="ExportToJson" xml:space="preserve">
+    <value>Export to JSON</value>
+    <comment>Export to JSON</comment>
+  </data>
+  <data name="ExportToCsv" xml:space="preserve">
+    <value>Export to CSV</value>
+    <comment>Export to CSV</comment>
+  </data>
 </root>

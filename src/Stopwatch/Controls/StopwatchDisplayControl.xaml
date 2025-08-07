@@ -212,14 +212,14 @@
                         <FontIcon Glyph="&#xE72D;" />
                         <Button.Flyout>
                             <MenuFlyout>
-                                <MenuFlyoutItem 
+                                <MenuFlyoutItem
                                     Command="{x:Bind MainViewModel.ExportToJsonCommand}"
-                                    Icon="Page" 
-                                    Text="Export to JSON" />
-                                <MenuFlyoutItem 
+                                    Icon="Page"
+                                    Text="{ex:Localize Key=ExportToJson}" />
+                                <MenuFlyoutItem
                                     Command="{x:Bind MainViewModel.ExportToCsvCommand}"
-                                    Icon="Document" 
-                                    Text="Export to CSV" />
+                                    Icon="Document"
+                                    Text="{ex:Localize Key=ExportToCsv}" />
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
