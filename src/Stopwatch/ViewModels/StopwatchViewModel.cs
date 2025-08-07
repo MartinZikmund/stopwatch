@@ -135,7 +135,7 @@ public partial class StopwatchViewModel : ObservableObject
 		OnPropertyChanged(nameof(IsZero));
 	}
 
-	private bool CanLap() => IsRunning;
+	private bool CanLap() => !IsZero;
 
 	private bool CanReset() => !IsZero || IsRunning;
 

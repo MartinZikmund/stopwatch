@@ -213,13 +213,13 @@
                         <Button.Flyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem
-                                    Command="{x:Bind MainViewModel.ExportToJsonCommand}"
-                                    Icon="Page"
-                                    Text="{ex:Localize Key=ExportToJson}" />
-                                <MenuFlyoutItem
                                     Command="{x:Bind MainViewModel.ExportToCsvCommand}"
                                     Icon="Document"
                                     Text="{ex:Localize Key=ExportToCsv}" />
+                                <MenuFlyoutItem
+                                    Command="{x:Bind MainViewModel.ExportToJsonCommand}"
+                                    Icon="Page"
+                                    Text="{ex:Localize Key=ExportToJson}" />
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
