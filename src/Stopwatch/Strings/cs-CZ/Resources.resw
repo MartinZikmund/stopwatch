@@ -330,12 +330,12 @@
     <comment>Export to CSV</comment>
   </data>
   <data name="ContactMe" xml:space="preserve">
-    <value>Kontaktovat mě</value>
+    <value>Získat pomoc</value>
   </data>
   <data name="ContactMeDescription" xml:space="preserve">
-    <value>Odeslat e-mail vývojáři</value>
+    <value>Získat pomoc od vývojáře</value>
   </data>
   <data name="ContactAction" xml:space="preserve">
-    <value>Kontaktovat...</value>
+    <value>Získat pomoc...</value>
   </data>
 </root>

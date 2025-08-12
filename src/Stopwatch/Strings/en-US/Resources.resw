@@ -330,12 +330,12 @@
     <comment>Export to CSV</comment>
   </data>
   <data name="ContactMe" xml:space="preserve">
-    <value>Contact me</value>
+    <value>Get help</value>
   </data>
   <data name="ContactMeDescription" xml:space="preserve">
-    <value>Send an email to the developer</value>
+    <value>Get help from the developer</value>
   </data>
   <data name="ContactAction" xml:space="preserve">
-    <value>Contact...</value>
+    <value>Get help...</value>
   </data>
 </root>
