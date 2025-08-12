@@ -197,6 +197,16 @@
                             Command="{x:Bind ViewModel.ReviewAppCommand}"
                             Content="{ex:Localize Key=ReviewAction}" />
                     </toolkit:SettingsCard>
+
+                    <toolkit:SettingsCard
+                        Description="{ex:Localize Key=ContactMeDescription}"
+                        Header="{ex:Localize Key=ContactMe}"
+                        HeaderIcon="{ex:FontIcon Glyph=&#xE715;}">
+                        <Button
+                            MinWidth="{StaticResource SettingsControlMinWidth}"
+                            Command="{x:Bind ViewModel.ContactCommand}"
+                            Content="{ex:Localize Key=ContactAction}" />
+                    </toolkit:SettingsCard>
                 </StackPanel>
             </Border>
         </ScrollViewer>

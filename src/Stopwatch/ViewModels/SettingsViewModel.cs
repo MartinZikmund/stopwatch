@@ -14,6 +14,7 @@ using Stopwatch.Services.Store;
 using Stopwatch.Services.Theming;
 using Windows.UI;
 using Windows.UI.ViewManagement;
+using Windows.System;
 
 namespace Stopwatch.ViewModels;
 
@@ -142,6 +143,13 @@ public partial class SettingsViewModel : PageViewModel
 
 	[RelayCommand]
 	private async Task ReviewAppAsync() => await SystemInformation.LaunchStoreForReviewAsync();
+
+	[RelayCommand]
+	private async Task ContactAsync()
+	{
+		var uri = new Uri("mailto:mzikmund@outlook.com?subject=Fluent%20Stopwatch%20Feedback");
+		await Launcher.LaunchUriAsync(uri);
+	}
 
 	[RelayCommand]
 	private async Task PickBackgroundImageAsync()
