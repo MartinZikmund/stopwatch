@@ -70,8 +70,7 @@ jobs:
         with:
           name: Android_AAB
           path: |
-            **/bin/Release/net9.0-android/publish/*.aab
-            **/bin/Release/net9.0-android/*/*.aab
+            src/Stopwatch/bin/Release/net9.0-android/publish/*.aab
 
       # --- Optional: also build a signed APK for sideload/internal testing ---
       - name: (Optional) Publish APK (signed) - ARM64
@@ -92,8 +91,7 @@ jobs:
         with:
           name: Android_APK_arm64
           path: |
-            **/bin/Release/net9.0-android/android-arm64/publish/*.apk
-            **/bin/Release/net9.0-android/android-arm64/*/*.apk
+            src/Stopwatch/bin/Release/net9.0-android/android-arm64/publish/*.apk
 
       # Clean up keystore
       - name: Remove keystore
