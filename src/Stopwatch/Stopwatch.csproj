@@ -29,6 +29,8 @@
 			Skia;
 		</UnoFeatures>
 
+		<UnoIconBackgroundFile Condition="'$(IsIOS)' == 'true'">Assets/Icons/icon_opaque.svg</UnoIconBackgroundFile>
+		<UnoIconBackgroundFile Condition="'$(IsIOS)' != 'true'">Assets/Icons/icon_transparent.svg</UnoIconBackgroundFile>
 		<UnoIconForegroundScale>1</UnoIconForegroundScale>
 		<UnoIconForegroundScale Condition="'$(IsAndroid)' == 'true'">0.65</UnoIconForegroundScale>
 
