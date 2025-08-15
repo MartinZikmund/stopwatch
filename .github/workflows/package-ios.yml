@@ -14,7 +14,7 @@ concurrency:
 jobs:
   build_ios:
     # Apple Silicon runner with current Xcode
-    runs-on: macos-latest
+    runs-on: macos-15
 
     env:
       # Adjust these to your repo layout / head project
