@@ -19,7 +19,7 @@ jobs:
     env:
       # Adjust these to your repo layout / head project
       Solution_Fullname: src/Stopwatch.slnx
-      Android_Project: src/Stopwatch/Stopwatch.csproj
+      iOS_Project: src/Stopwatch/Stopwatch.csproj
       STEP_TIMEOUT_MINUTES: 60
 
       DOTNET_NOLOGO: 1
@@ -69,7 +69,7 @@ jobs:
       # Build an archive and produce a signed .ipa
       - name: Publish iOS (signed .ipa)
         run: |
-          dotnet publish "$IOS_PROJECT" -c Release -f net9.0-ios -r ios-arm64 \
+          dotnet publish "$iOS_Project" -c Release -f net9.0-ios -r ios-arm64 \
             -p:ArchiveOnBuild=true \
             -p:BuildIpa=true \
             -p:CodesignKey="${{ secrets.APPLE_CODESIGN_KEY }}" \
