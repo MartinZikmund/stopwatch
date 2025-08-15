@@ -16,8 +16,8 @@
 		<!-- App Identifier -->
 		<ApplicationId>dev.mzikmund.stopwatch</ApplicationId>
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.7</ApplicationDisplayVersion>
-		<ApplicationVersion>4</ApplicationVersion>
+		<ApplicationDisplayVersion>0.8</ApplicationDisplayVersion>
+		<ApplicationVersion>5</ApplicationVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 		<UnoFeatures>
@@ -50,5 +50,3 @@
 		<PackageReference Include="Plugin.InAppBilling" />
 	</ItemGroup>
 </Project>
-
-
