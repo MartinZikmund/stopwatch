@@ -52,14 +52,14 @@ jobs:
       # Create upload keystore file from a base64 secret
       - name: Decode Android upload keystore
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android-upload.keystore
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > "$GITHUB_WORKSPACE/android-upload.keystore"
 
       # --- Build Google Play bundle (AAB) ---
       - name: Publish AAB (signed with Upload Key)
         run: |
           dotnet publish "$Android_Project" -c Release -f net9.0-android \
             -p:AndroidKeyStore=true \
-            -p:AndroidSigningKeyStore=android-upload.keystore \
+            -p:AndroidSigningKeyStore="$GITHUB_WORKSPACE/android-upload.keystore" \
             -p:AndroidSigningKeyAlias='${{ secrets.ANDROID_KEY_ALIAS }}' \
             -p:AndroidSigningKeyPass='${{ secrets.ANDROID_KEY_PASSWORD }}' \
             -p:AndroidSigningStorePass='${{ secrets.ANDROID_STORE_PASSWORD }}' \
@@ -79,7 +79,7 @@ jobs:
         run: |
           dotnet publish "$Android_Project" -c Release -f net9.0-android -r android-arm64 \
             -p:AndroidKeyStore=true \
-            -p:AndroidSigningKeyStore=android-upload.keystore \
+            -p:AndroidSigningKeyStore="$GITHUB_WORKSPACE/android-upload.keystore" \
             -p:AndroidSigningKeyAlias='${{ secrets.ANDROID_KEY_ALIAS }}' \
             -p:AndroidSigningKeyPass='${{ secrets.ANDROID_KEY_PASSWORD }}' \
             -p:AndroidSigningStorePass='${{ secrets.ANDROID_STORE_PASSWORD }}' \
@@ -98,4 +98,4 @@ jobs:
       # Clean up keystore
       - name: Remove keystore
         if: ${{ always() }}
-        run: rm -f android-upload.keystore
+        run: rm -f "$GITHUB_WORKSPACE/android-upload.keystore"
