@@ -58,8 +58,7 @@ src/
 ### Target Frameworks
 - `net9.0-windows10.0.26100` - Windows (requires Windows SDK)
 - `net9.0-android` - Android (FAILS: network restrictions)
-- `net9.0-ios` - iOS 
-- `net9.0-maccatalyst` - macOS Catalyst
+- `net9.0-ios` - iOS
 - `net9.0-desktop` - Cross-platform desktop
 - `net9.0-browserwasm` - WebAssembly
 

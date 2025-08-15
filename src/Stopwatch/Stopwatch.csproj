@@ -4,7 +4,6 @@
 			net9.0-windows10.0.26100;
 			net9.0-android;
 			net9.0-ios;
-			net9.0-maccatalyst;
 			net9.0-desktop;
 			net9.0-browserwasm;
 		</TargetFrameworks>
