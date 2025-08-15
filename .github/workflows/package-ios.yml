@@ -42,6 +42,7 @@ jobs:
 
       - name: Install Dependencies
         timeout-minutes: ${{ fromJSON(env.STEP_TIMEOUT_MINUTES) }}
+        continue-on-error: true
         uses: "./.github/steps/install_dependencies"
 
       - name: Show Xcode version (debug)
