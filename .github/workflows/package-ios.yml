@@ -45,6 +45,11 @@ jobs:
         continue-on-error: true
         uses: "./.github/steps/install_dependencies"
 
+      - name: Select Xcode 16.4
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
       - name: Show Xcode version (debug)
         run: xcodebuild -version
 
