@@ -46,7 +46,8 @@
             Height="40"
             Padding="0,8,0,0"
             HorizontalAlignment="Left"
-            VerticalAlignment="Center">
+            VerticalAlignment="Center"
+            Visibility="{x:Bind HasCustomTitleBar}">
             <Image
                 Width="20"
                 Height="20"
