@@ -19,7 +19,7 @@
             </Grid.RowDefinitions>
 
             <!--  Title bar area  -->
-            <Grid Height="40">
+            <Grid x:Name="TitleBarArea" Height="40">
 
                 <Border
                     Height="1"
@@ -196,7 +196,10 @@
                     </Button>
                 </StackPanel>
 
-                <controls:StopwatchDisplayControl Grid.Row="2" MainViewModel="{x:Bind ViewModel}" Stopwatch="{x:Bind ViewModel.SelectedStopwatch, Mode=OneWay}" />
+                <controls:StopwatchDisplayControl
+                    Grid.Row="2"
+                    MainViewModel="{x:Bind ViewModel}"
+                    Stopwatch="{x:Bind ViewModel.SelectedStopwatch, Mode=OneWay}" />
             </Grid>
         </Grid>
         <VisualStateManager.VisualStateGroups>

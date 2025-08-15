@@ -34,6 +34,10 @@ public sealed partial class MainView : MainViewBase
 		StopwatchTabView.SizeChanged += StopwatchTabView_SizeChanged;
 		this.Loaded += MainView_Loaded;
 		this.Unloaded += MainView_Unloaded;
+		TabViewContainer.RegisterPropertyChangedCallback(
+			FrameworkElement.VisibilityProperty,
+			(s, e) => UpdateTitleBarMetrics()
+		);
 	}
 
 	private void StopwatchTabView_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -50,10 +54,14 @@ public sealed partial class MainView : MainViewBase
 	{
 		if (XamlRoot is null || _appWindow is null || TabViewContainer.Visibility == Visibility.Collapsed)
 		{
+#if HAS_UNO
+			TitleBarArea.Visibility = Visibility.Collapsed;
+#endif
 			return;
 		}
 
 #if HAS_UNO
+		TitleBarArea.Visibility = Visibility.Visible;
 		TabViewContainer.Width = XamlRoot.Size.Width;
 		DraggableArea.Visibility = Visibility.Collapsed;
 #else
