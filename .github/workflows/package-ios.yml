@@ -1,0 +1,85 @@
+name: Build iOS Packages
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_ios:
+    # Apple Silicon runner with current Xcode
+    runs-on: macos-15
+
+    env:
+      # Adjust these to your repo layout / head project
+      Solution_Fullname: src/Stopwatch.slnx
+      iOS_Project: src/Stopwatch/Stopwatch.csproj
+      STEP_TIMEOUT_MINUTES: 60
+
+      DOTNET_NOLOGO: 1
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      ContinuousIntegrationBuild: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.sln*', '**/*.csproj', '**/Directory.Packages.props', '**/global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Install Dependencies
+        timeout-minutes: ${{ fromJSON(env.STEP_TIMEOUT_MINUTES) }}
+        continue-on-error: true
+        uses: "./.github/steps/install_dependencies"
+
+      - name: Select Xcode 16.4
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Show Xcode version (debug)
+        run: xcodebuild -version
+
+      # --- Code signing: import Apple Distribution cert into a temp keychain ---
+      - name: Import signing certificate
+        uses: apple-actions/import-codesign-certs@v1
+        with:
+          p12-file-base64: ${{ secrets.APPLE_DISTRIBUTION_P12_BASE64 }}
+          p12-password: ${{ secrets.APPLE_P12_PASSWORD }}
+
+      # --- Provisioning profile install (App Store) ---
+      - name: Install provisioning profile
+        shell: bash
+        run: |
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          echo "${{ secrets.APPLE_PROVISIONING_PROFILE_BASE64 }}" | base64 --decode > "$HOME/Library/MobileDevice/Provisioning Profiles/AppStore.mobileprovision"
+          ls -l "$HOME/Library/MobileDevice/Provisioning Profiles"
+
+      - name: Restore solution
+        run: dotnet restore "$Solution_Fullname"
+
+      # Build an archive and produce a signed .ipa
+      - name: Publish iOS (signed .ipa)
+        run: |
+          dotnet publish "$iOS_Project" -c Release -f net9.0-ios -r ios-arm64 \
+            -p:ArchiveOnBuild=true \
+            -p:BuildIpa=true \
+            -p:CodesignKey="${{ secrets.APPLE_CODESIGN_KEY }}" \
+            -p:CodesignTeamId="${{ secrets.APPLE_TEAM_ID }}" \
+            -p:CodesignProvision="${{ secrets.APPLE_PROVISIONING_PROFILE_UUID }}"
+
+      - name: Upload .ipa
+        uses: actions/upload-artifact@v4
+        with:
+          name: iOS_IPA
+          path: |
+            src/Stopwatch/bin/Release/net9.0-ios/ios-arm64/publish/*.ipa

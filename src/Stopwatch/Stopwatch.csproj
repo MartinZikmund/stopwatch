@@ -16,10 +16,10 @@
 		<!-- App Identifier -->
 		<ApplicationId>dev.mzikmund.stopwatch</ApplicationId>
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.5</ApplicationDisplayVersion>
-		<ApplicationVersion>2</ApplicationVersion>
+		<ApplicationDisplayVersion>0.8</ApplicationDisplayVersion>
+		<ApplicationVersion>5</ApplicationVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-				
+
 		<UnoFeatures>
 			Hosting;
 			Mvvm;
@@ -29,6 +29,9 @@
 			Skia;
 		</UnoFeatures>
 
+		<UnoIconBackgroundFile>Assets/Icons/icon_transparent.svg</UnoIconBackgroundFile>
+		<UnoIconBackgroundFile Condition="'$(IsIOS)' == 'true' or '$(IsAndroid)' == 'true'">Assets/Icons/icon.svg</UnoIconBackgroundFile>
+
 		<UnoIconForegroundScale>1</UnoIconForegroundScale>
 		<UnoIconForegroundScale Condition="'$(IsAndroid)' == 'true'">0.65</UnoIconForegroundScale>
 
@@ -37,7 +40,7 @@
 	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-browserwasm'">
 		<WasmShellEnableIDBFS>true</WasmShellEnableIDBFS>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
 		<PackageReference Include="CommunityToolkit.WinUI.Converters" />
