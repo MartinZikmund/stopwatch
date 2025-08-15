@@ -333,9 +333,9 @@
     <value>Get help</value>
   </data>
   <data name="ContactMeDescription" xml:space="preserve">
-    <value>Get help from the developer</value>
+    <value>Email the developer for help</value>
   </data>
   <data name="ContactAction" xml:space="preserve">
-    <value>Get help...</value>
+    <value>Send email...</value>
   </data>
 </root>

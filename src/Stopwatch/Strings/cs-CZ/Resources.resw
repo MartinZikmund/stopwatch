@@ -333,9 +333,9 @@
     <value>Získat pomoc</value>
   </data>
   <data name="ContactMeDescription" xml:space="preserve">
-    <value>Získat pomoc od vývojáře</value>
+    <value>Napsat email vývojáři pro pomoc</value>
   </data>
   <data name="ContactAction" xml:space="preserve">
-    <value>Získat pomoc...</value>
+    <value>Napsat email...</value>
   </data>
 </root>
