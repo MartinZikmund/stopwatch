@@ -1,4 +1,5 @@
-﻿using LiteDB;
+﻿#if !HAS_UNO
+using LiteDB;
 using Stopwatch.Models;
 
 namespace Stopwatch.Services.Data.LiteDb;
@@ -25,3 +26,4 @@ internal class StopwatchLiteDbRepository : LiteDbRepository<StopwatchModel>, ISt
 		return stopwatch;
 	}
 }
+#endif

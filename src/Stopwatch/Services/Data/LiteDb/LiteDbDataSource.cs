@@ -1,4 +1,5 @@
-﻿using LiteDB;
+﻿#if !HAS_UNO
+using LiteDB;
 using Stopwatch.Models;
 
 namespace Stopwatch.Services.Data.LiteDb;
@@ -35,3 +36,4 @@ internal class LiteDbDataSource : IDataSource
 		HistoryStopwatches = new LiteDbRepository<HistoryEntryModel>(_liteDatabase);
 	}
 }
+#endif

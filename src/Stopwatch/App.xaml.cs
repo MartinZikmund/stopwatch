@@ -6,13 +6,18 @@ using MZikmund.Toolkit.WinUI.Services;
 using Stopwatch.Core.Services;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
-using Stopwatch.Services.Data.LiteDb;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Store;
 using Stopwatch.Services.Theming;
 using Stopwatch.Services.Timer;
 using Stopwatch.ViewModels;
+
+#if HAS_UNO
+using Stopwatch.Services.Data.Files;
+#else
+using Stopwatch.Services.Data.LiteDb;
+#endif
 
 namespace Stopwatch;
 public partial class App : Application
@@ -115,7 +120,11 @@ public partial class App : Application
 
 	private void ConfigureServices(IServiceCollection services)
 	{
+#if HAS_UNO
+		services.AddSingleton<IDataSource, FileDataSource>();
+#else
 		services.AddSingleton<IDataSource, LiteDbDataSource>();
+#endif
 		services.AddSingleton<IHistoryService, HistoryService>();
 		services.AddSingleton<IDisplayRequestManager, DisplayRequestManager>();
 		services.AddSingleton<IPreferences, Preferences>();
