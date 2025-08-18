@@ -85,7 +85,6 @@ public partial class App : Application
 		Host = builder.Build();
 		Ioc.Default.ConfigureServices(Host.Services);
 		await (Host.Services.GetRequiredService<IDataSource>()).InitializeAsync();
-		Host.Services.GetRequiredService<SystemInformation>().TrackAppUse(args.UWPLaunchActivatedEventArgs);
 
 		// Do not repeat app initialization when the Window already has content,
 		// just ensure that the window is active
@@ -229,3 +228,4 @@ public partial class App : Application
 #endif
 	}
 }
+
