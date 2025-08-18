@@ -16,8 +16,8 @@
 		<!-- App Identifier -->
 		<ApplicationId>dev.mzikmund.stopwatch</ApplicationId>
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.8.1</ApplicationDisplayVersion>
-		<ApplicationVersion>6</ApplicationVersion>
+		<ApplicationDisplayVersion>0.8.2</ApplicationDisplayVersion>
+		<ApplicationVersion>7</ApplicationVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 		<UnoFeatures>
@@ -45,7 +45,7 @@
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
 		<PackageReference Include="CommunityToolkit.WinUI.Converters" />
 		<PackageReference Include="CommunityToolkit.WinUI.Helpers" />
-		<PackageReference Include="LiteDB" />
+		<PackageReference Include="LiteDB" Condition="'!$(IsIOS)' and !'$(IsAndroid)'" />
 		<PackageReference Include="MZikmund.Toolkit.WinUI" />
 		<PackageReference Include="Plugin.InAppBilling" />
 	</ItemGroup>
