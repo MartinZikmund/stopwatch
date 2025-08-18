@@ -12,6 +12,8 @@ using Stopwatch.Services.Store;
 using Stopwatch.Services.Theming;
 using Stopwatch.Services.Timer;
 using Stopwatch.ViewModels;
+using Stopwatch.Views;
+
 
 #if __IOS__ || __ANDROID__
 using Stopwatch.Services.Data.Files;
@@ -95,6 +97,8 @@ public partial class App : Application
 			// Place the frame in the current Window
 			MainWindow.Content = windowShell;
 		}
+
+		var mainView = new MainView();
 
 		if (windowShell.RootFrame.Content is null)
 		{
