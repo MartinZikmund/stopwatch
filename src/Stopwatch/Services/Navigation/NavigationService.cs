@@ -52,13 +52,11 @@ public class NavigationService : INavigationService
 
 	public void RegisterViewsFromAssembly(Assembly sourceAssembly)
 	{
-		// TODO: Avoid reflection
-		var pageType = typeof(Page);
-		var pages = sourceAssembly.GetTypes().Where(t => pageType.IsAssignableFrom(t) && t.Name.EndsWith("View", StringComparison.OrdinalIgnoreCase)).ToArray();
-		foreach (var viewType in pages)
-		{
-			_views.Add(viewType.Name, viewType);
-		}
+		_views.Add(typeof(Stopwatch.Views.HistoryView).Name, typeof(Stopwatch.Views.HistoryView));
+		_views.Add(typeof(Stopwatch.Views.GetProView).Name, typeof(Stopwatch.Views.GetProView));
+		_views.Add(typeof(Stopwatch.Views.SettingsView).Name, typeof(Stopwatch.Views.SettingsView));
+		_views.Add(typeof(Stopwatch.Views.MainView).Name, typeof(Stopwatch.Views.MainView));
+		_views.Add(typeof(Stopwatch.Views.OnboardingView).Name, typeof(Stopwatch.Views.OnboardingView));
 	}
 
 	public void Initialize() =>
