@@ -45,7 +45,7 @@
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
 		<PackageReference Include="CommunityToolkit.WinUI.Converters" />
 		<PackageReference Include="CommunityToolkit.WinUI.Helpers" />
-		<PackageReference Include="LiteDB" Condition="'$(TargetFramework)'=='net9.0-windows10.0.26100'" />
+		<PackageReference Include="LiteDB" Condition="'!$(IsIOS)' and !'$(IsAndroid)'" />
 		<PackageReference Include="MZikmund.Toolkit.WinUI" />
 		<PackageReference Include="Plugin.InAppBilling" />
 	</ItemGroup>

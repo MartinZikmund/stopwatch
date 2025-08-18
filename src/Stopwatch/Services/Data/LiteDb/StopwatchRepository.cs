@@ -1,4 +1,4 @@
-﻿#if !HAS_UNO
+﻿#if !__IOS__ && !__ANDROID__
 using LiteDB;
 using Stopwatch.Models;
 

@@ -1,4 +1,4 @@
-﻿#if !HAS_UNO
+﻿#if !__IOS__ && !__ANDROID__
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -13,7 +13,7 @@ using Stopwatch.Services.Theming;
 using Stopwatch.Services.Timer;
 using Stopwatch.ViewModels;
 
-#if HAS_UNO
+#if __IOS__ || __ANDROID__
 using Stopwatch.Services.Data.Files;
 #else
 using Stopwatch.Services.Data.LiteDb;
@@ -120,7 +120,7 @@ public partial class App : Application
 
 	private void ConfigureServices(IServiceCollection services)
 	{
-#if HAS_UNO
+#if __IOS__ || __ANDROID__
 		services.AddSingleton<IDataSource, FileDataSource>();
 #else
 		services.AddSingleton<IDataSource, LiteDbDataSource>();
