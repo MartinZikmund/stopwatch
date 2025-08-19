@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
-using Microsoft.Toolkit.Uwp.Helpers;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using MZikmund.Toolkit.WinUI.Services;
 using Stopwatch.Core.Services;
@@ -97,8 +96,6 @@ public partial class App : Application
 			MainWindow.Content = windowShell;
 		}
 
-		var mainView = new MainView();
-
 		if (windowShell.RootFrame.Content is null)
 		{
 			// When the navigation stack isn't restored navigate to the first page,
@@ -132,7 +129,6 @@ public partial class App : Application
 		services.AddSingleton<IDisplayRequestManager, DisplayRequestManager>();
 		services.AddSingleton<IPreferences, Preferences>();
 		services.AddSingleton<IAppPreferences, AppPreferences>();
-		services.AddSingleton<SystemInformation>();
 
 		services.AddScoped<WindowShellViewModel>();
 		services.AddScoped<SettingsViewModel>();

@@ -16,8 +16,8 @@
 		<!-- App Identifier -->
 		<ApplicationId>dev.mzikmund.stopwatch</ApplicationId>
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.8.5</ApplicationDisplayVersion>
-		<ApplicationVersion>10</ApplicationVersion>
+		<ApplicationDisplayVersion>0.9.0</ApplicationDisplayVersion>
+		<ApplicationVersion>19</ApplicationVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 		<UnoFeatures>
@@ -39,6 +39,11 @@
 
 	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-browserwasm'">
 		<WasmShellEnableIDBFS>true</WasmShellEnableIDBFS>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-ios'">
+		<MtouchUseLlvm>false</MtouchUseLlvm>
+		<MtouchLink>SdkOnly</MtouchLink>
 	</PropertyGroup>
 
 	<ItemGroup>
