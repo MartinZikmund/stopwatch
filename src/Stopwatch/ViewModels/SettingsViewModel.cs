@@ -1,5 +1,4 @@
 using CommunityToolkit.WinUI.Helpers;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.UI;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using Stopwatch.Core.Services;
@@ -12,6 +11,8 @@ using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Store;
 using Stopwatch.Services.Theming;
+using Windows.Services.Store;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 
@@ -141,7 +142,7 @@ public partial class SettingsViewModel : PageViewModel
 	public string PackageVersionString => Package.Current.Id.Version.ToFormattedString();
 
 	[RelayCommand]
-	private async Task ReviewAppAsync() => await SystemInformation.LaunchStoreForReviewAsync();
+	private async Task ReviewAppAsync() => await StoreContext.GetDefault().RequestRateAndReviewAppAsync();
 
 	[RelayCommand]
 	private async Task PickBackgroundImageAsync()
