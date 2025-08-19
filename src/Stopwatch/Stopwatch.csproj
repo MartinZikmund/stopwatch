@@ -35,8 +35,8 @@
 		<UnoIconForegroundScale>1</UnoIconForegroundScale>
 		<UnoIconForegroundScale Condition="'$(IsAndroid)' == 'true'">0.65</UnoIconForegroundScale>
 
-		<PublishTrimmed>false</PublishTrimmed>
 		<MtouchUseLlvm>false</MtouchUseLlvm>
+		<MtouchLink>None</MtouchLink>
 		
 	</PropertyGroup>
 
