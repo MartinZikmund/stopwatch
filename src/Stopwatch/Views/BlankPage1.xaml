@@ -8,10 +8,11 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid Background="Blue">
+    <Grid Background="Yellow">
         <TextBlock
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            FontSize="64"
             Foreground="Red"
             Text="Hello world" />
     </Grid>

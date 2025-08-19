@@ -62,31 +62,32 @@ public partial class App : Application
 		}
 #endif
 
-		var builder = this.CreateBuilder(args)
-			.Configure(host => host
-#if DEBUG
-				// Switch to Development environment when running in DEBUG
-				.UseEnvironment(Environments.Development)
-#endif
-				.UseLocalization()
-				.UseDefaultServiceProvider((context, options) =>
-				{
-					options.ValidateScopes = true;
-					options.ValidateOnBuild = true;
-				})
-				.ConfigureServices((context, services) => ConfigureServices(services))
-			);
-		MainWindow = builder.Window;
+		//		var builder = this.CreateBuilder(args)
+		//			.Configure(host => host
+		//#if DEBUG
+		//				// Switch to Development environment when running in DEBUG
+		//				.UseEnvironment(Environments.Development)
+		//#endif
+		//				.UseLocalization()
+		//				.UseDefaultServiceProvider((context, options) =>
+		//				{
+		//					options.ValidateScopes = true;
+		//					options.ValidateOnBuild = true;
+		//				})
+		//				.ConfigureServices((context, services) => ConfigureServices(services))
+		//			);
+		//		MainWindow = builder.Window;
 
-#if DEBUG
-		MainWindow.UseStudio();
-#endif
+		//#if DEBUG
+		//		MainWindow.UseStudio();
+		//#endif
 
-		Host = builder.Build();
-		Ioc.Default.ConfigureServices(Host.Services);
-		await (Host.Services.GetRequiredService<IDataSource>()).InitializeAsync();
+		//Host = builder.Build();
+		//Ioc.Default.ConfigureServices(Host.Services);
+		//await (Host.Services.GetRequiredService<IDataSource>()).InitializeAsync();
 
-		MainWindow.Content = new BlankPage1();
+		var window = new Window();
+		window.Content = new BlankPage1();
 
 		//// Do not repeat app initialization when the Window already has content,
 		//// just ensure that the window is active
@@ -110,7 +111,7 @@ public partial class App : Application
 		//}
 
 		// Ensure the current window is active
-		MainWindow.Activate();
+		window.Activate();
 	}
 
 #if !HAS_UNO
