@@ -16,8 +16,8 @@
 		<!-- App Identifier -->
 		<ApplicationId>dev.mzikmund.stopwatch</ApplicationId>
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.8.11</ApplicationDisplayVersion>
-		<ApplicationVersion>16</ApplicationVersion>
+		<ApplicationDisplayVersion>0.8.12</ApplicationDisplayVersion>
+		<ApplicationVersion>17</ApplicationVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 		<UnoFeatures>
@@ -36,7 +36,7 @@
 		<UnoIconForegroundScale Condition="'$(IsAndroid)' == 'true'">0.65</UnoIconForegroundScale>
 
 		<MtouchUseLlvm>false</MtouchUseLlvm>
-		<MtouchLink>None</MtouchLink>
+		<MtouchLink>SdkOnly</MtouchLink>
 		
 	</PropertyGroup>
 
