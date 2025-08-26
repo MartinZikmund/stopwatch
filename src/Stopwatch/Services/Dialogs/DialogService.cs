@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using MZikmund.Toolkit.WinUI.Services;
+using Stopwatch.Dialogs;
+using Stopwatch.Services.Dialogs;
 using Stopwatch.Services.Localization;
 
 namespace Stopwatch.Services;
@@ -43,13 +45,8 @@ public class DialogService : IDialogService
 
 	public void RegisterDialogsFromAssembly(Assembly sourceAssembly)
 	{
-		// TODO: Avoid reflection
-		var dialogType = typeof(ContentDialog);
-		var pages = sourceAssembly.GetTypes().Where(t => dialogType.IsAssignableFrom(t) && t.Name.EndsWith("Dialog", StringComparison.OrdinalIgnoreCase)).ToArray();
-		foreach (var viewType in pages)
-		{
-			_dialogs.Add(viewType.Name, viewType);
-		}
+		_dialogs.Add(typeof(ColorPickerDialog).Name, typeof(ColorPickerDialog));
+		_dialogs.Add(typeof(ProOnlyFeatureDialog).Name, typeof(ProOnlyFeatureDialog));
 	}
 
 	public async Task<ContentDialogResult> ShowAsync(string title, string content)

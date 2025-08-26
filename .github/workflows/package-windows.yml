@@ -24,10 +24,25 @@ jobs:
       Solution_Path: src/Stopwatch
       STEP_TIMEOUT_MINUTES: 60
 
+      # .NET niceties
+      DOTNET_NOLOGO: 1
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      ContinuousIntegrationBuild: true
+
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
+    # Cache NuGet to speed up restores
+    - name: NuGet cache
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.sln*', '**/*.csproj', '**/Directory.Packages.props', '**/global.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
 
     - name: Install Dependencies
       timeout-minutes: ${{ fromJSON(env.STEP_TIMEOUT_MINUTES) }}
@@ -39,7 +54,7 @@ jobs:
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
-      run: msbuild $env:Solution_Fullname /t:Restore /p:Configuration=$env:Configuration /p:TargetFramework=net8.0-windows10.0.26100 /p:PublishReadyToRun=true
+      run: msbuild $env:Solution_Fullname /t:Restore /p:Configuration=$env:Configuration /p:TargetFramework=net9.0-windows10.0.26100 /p:PublishReadyToRun=true
       env:
         Configuration: ${{ matrix.configuration }}
 
@@ -52,7 +67,7 @@ jobs:
 
     # Create the app package by building and packaging the project
     - name: Create the app package
-      run: msbuild $env:Solution_Fullname /p:TargetFramework=net8.0-windows10.0.26100 /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
+      run: msbuild $env:Solution_Fullname /p:TargetFramework=net9.0-windows10.0.26100 /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
       env:
         Appx_Bundle: Never
         Appx_Package_Build_Mode: CI

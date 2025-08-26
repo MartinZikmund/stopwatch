@@ -1,18 +1,24 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
-using Microsoft.Toolkit.Uwp.Helpers;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using MZikmund.Toolkit.WinUI.Services;
 using Stopwatch.Core.Services;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
-using Stopwatch.Services.Data.LiteDb;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Store;
 using Stopwatch.Services.Theming;
 using Stopwatch.Services.Timer;
 using Stopwatch.ViewModels;
+using Stopwatch.Views;
+
+
+#if __IOS__ || __ANDROID__
+using Stopwatch.Services.Data.Files;
+#else
+using Stopwatch.Services.Data.LiteDb;
+#endif
 
 namespace Stopwatch;
 public partial class App : Application
@@ -78,7 +84,6 @@ public partial class App : Application
 		Host = builder.Build();
 		Ioc.Default.ConfigureServices(Host.Services);
 		await (Host.Services.GetRequiredService<IDataSource>()).InitializeAsync();
-		Host.Services.GetRequiredService<SystemInformation>().TrackAppUse(args.UWPLaunchActivatedEventArgs);
 
 		// Do not repeat app initialization when the Window already has content,
 		// just ensure that the window is active
@@ -115,12 +120,15 @@ public partial class App : Application
 
 	private void ConfigureServices(IServiceCollection services)
 	{
+#if __IOS__ || __ANDROID__
+		services.AddSingleton<IDataSource, FileDataSource>();
+#else
 		services.AddSingleton<IDataSource, LiteDbDataSource>();
+#endif
 		services.AddSingleton<IHistoryService, HistoryService>();
 		services.AddSingleton<IDisplayRequestManager, DisplayRequestManager>();
 		services.AddSingleton<IPreferences, Preferences>();
 		services.AddSingleton<IAppPreferences, AppPreferences>();
-		services.AddSingleton<SystemInformation>();
 
 		services.AddScoped<WindowShellViewModel>();
 		services.AddScoped<SettingsViewModel>();
@@ -166,7 +174,7 @@ public partial class App : Application
 		{
 #if __WASM__
             builder.AddProvider(new global::Uno.Extensions.Logging.WebAssembly.WebAssemblyConsoleLoggerProvider());
-#elif __IOS__ || __MACCATALYST__
+#elif __IOS__
             builder.AddProvider(new global::Uno.Extensions.Logging.OSLogLoggerProvider());
 #else
 			builder.AddConsole();
@@ -216,3 +224,4 @@ public partial class App : Application
 #endif
 	}
 }
+

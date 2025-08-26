@@ -3,6 +3,6 @@
     "allowPrerelease": false
   },
 	"msbuild-sdks": {
-		"Uno.Sdk": "6.2.0-dev.81"
+		"Uno.Sdk": "6.3.0-dev.27"
 	}
 }

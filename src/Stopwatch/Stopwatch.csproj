@@ -4,7 +4,6 @@
 			net9.0-windows10.0.26100;
 			net9.0-android;
 			net9.0-ios;
-			net9.0-maccatalyst;
 			net9.0-desktop;
 			net9.0-browserwasm;
 		</TargetFrameworks>
@@ -17,10 +16,10 @@
 		<!-- App Identifier -->
 		<ApplicationId>dev.mzikmund.stopwatch</ApplicationId>
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>1</ApplicationVersion>
+		<ApplicationDisplayVersion>0.9.0</ApplicationDisplayVersion>
+		<ApplicationVersion>19</ApplicationVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-				
+
 		<UnoFeatures>
 			Hosting;
 			Mvvm;
@@ -30,6 +29,9 @@
 			Skia;
 		</UnoFeatures>
 
+		<UnoIconBackgroundFile>Assets/Icons/icon_transparent.svg</UnoIconBackgroundFile>
+		<UnoIconBackgroundFile Condition="'$(IsIOS)' == 'true' or '$(IsAndroid)' == 'true'">Assets/Icons/icon.svg</UnoIconBackgroundFile>
+
 		<UnoIconForegroundScale>1</UnoIconForegroundScale>
 		<UnoIconForegroundScale Condition="'$(IsAndroid)' == 'true'">0.65</UnoIconForegroundScale>
 
@@ -38,13 +40,19 @@
 	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-browserwasm'">
 		<WasmShellEnableIDBFS>true</WasmShellEnableIDBFS>
 	</PropertyGroup>
-	
+
+	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-ios'">
+		<MtouchUseLlvm>false</MtouchUseLlvm>
+		<MtouchLink>SdkOnly</MtouchLink>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
 		<PackageReference Include="CommunityToolkit.WinUI.Converters" />
 		<PackageReference Include="CommunityToolkit.WinUI.Helpers" />
-		<PackageReference Include="LiteDB" />
+		<PackageReference Include="LiteDB" Condition="'!$(IsIOS)' and !'$(IsAndroid)'" />
 		<PackageReference Include="MZikmund.Toolkit.WinUI" />
 		<PackageReference Include="Plugin.InAppBilling" />
 	</ItemGroup>
 </Project>
+
