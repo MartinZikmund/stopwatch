@@ -14,10 +14,10 @@
     d:DesignWidth="400"
     mc:Ignorable="d android">
 
-    <Grid RowSpacing="16">
+    <Grid x:Name="RootGrid" RowSpacing="16">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition x:Name="StopwatchRow" Height="*" />
+            <RowDefinition x:Name="LapListRow" Height="*" />
         </Grid.RowDefinitions>
 
         <Viewbox Grid.Row="0" Stretch="Uniform">
@@ -75,6 +75,7 @@
             </Grid>
         </Viewbox>
         <Expander
+            x:Name="LapsExpander"
             Grid.Row="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Bottom"
@@ -83,6 +84,7 @@
             Header="{ex:Localize Key=Laps}"
             IsExpanded="{x:Bind Stopwatch.IsLapsListExpanded, Mode=TwoWay}">
             <Grid
+                x:Name="LapsGrid"
                 Grid.Row="2"
                 MaxWidth="600"
                 HorizontalAlignment="Stretch">
@@ -92,6 +94,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid
+                    x:Name="LapsHeaderGrid"
                     Grid.Row="0"
                     Padding="8"
                     BorderBrush="{ThemeResource AccentAAFillColorDefaultBrush}"
@@ -115,6 +118,7 @@
                     <TextBlock Grid.Column="3" Text="{ex:Localize Key=Note}" />
                 </Grid>
                 <ListView
+                    x:Name="LapsList"
                     Grid.Row="1"
                     HorizontalAlignment="Stretch"
                     ItemsSource="{x:Bind Stopwatch.Laps, Mode=OneWay}"
@@ -226,5 +230,35 @@
                 </StackPanel>
             </Grid>
         </Expander>
+        
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Normal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="StopwatchRow.Height" Value="*" />
+                        <Setter Target="LapListRow.Height" Value="*" />
+                        <Setter Target="RootGrid.RowSpacing" Value="16" />
+                        <Setter Target="LapsHeaderGrid.Padding" Value="8" />
+                        <Setter Target="LapsHeaderGrid.ColumnSpacing" Value="16" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Compact">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="StopwatchRow.Height" Value="Auto" />
+                        <Setter Target="LapListRow.Height" Value="*" />
+                        <Setter Target="RootGrid.RowSpacing" Value="8" />
+                        <Setter Target="LapsHeaderGrid.Padding" Value="4" />
+                        <Setter Target="LapsHeaderGrid.ColumnSpacing" Value="8" />
+                        <Setter Target="LapsGrid.MaxWidth" Value="800" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>
