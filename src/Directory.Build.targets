@@ -2,16 +2,17 @@
 	<!-- Automated versioning properties -->
 	<PropertyGroup>
 		<!-- Use GitVersioning for ApplicationDisplayVersion and ApplicationVersion -->
-		<ApplicationDisplayVersion Condition="'$(GitVersionMajor)' != ''">$(GitVersionMajor).$(GitVersionMinor).$(GitVersionPatch)</ApplicationDisplayVersion>
-		<ApplicationDisplayVersion Condition="'$(GitVersionMajor)' == ''">0.9.0</ApplicationDisplayVersion>
-		<ApplicationVersion Condition="'$(GitVersionRevision)' != ''">$(GitVersionRevision)</ApplicationVersion>
-		<ApplicationVersion Condition="'$(GitVersionRevision)' == ''">1</ApplicationVersion>
+		<!-- NBGV provides BuildVersion, BuildVersionSimple, and other properties -->
+		<ApplicationDisplayVersion Condition="'$(BuildVersionSimple)' != ''">$(BuildVersionSimple)</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion Condition="'$(BuildVersionSimple)' == ''">0.9.0</ApplicationDisplayVersion>
+		<ApplicationVersion Condition="'$(VersionHeight)' != ''">$(VersionHeight)</ApplicationVersion>
+		<ApplicationVersion Condition="'$(VersionHeight)' == ''">1</ApplicationVersion>
 	</PropertyGroup>
 
 	<!-- Windows package manifest versioning -->
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net9.0-windows10.0.26100'">
-		<!-- Use fallback version if GitVersioning doesn't provide values -->
-		<UnoManifestVersion Condition="'$(GitVersionMajor)' != '' AND '$(GitVersionMinor)' != '' AND '$(GitVersionPatch)' != '' AND '$(GitVersionRevision)' != ''">$(GitVersionMajor).$(GitVersionMinor).$(GitVersionPatch).$(GitVersionRevision)</UnoManifestVersion>
+		<!-- Use NBGV BuildVersion for Windows manifest versioning -->
+		<UnoManifestVersion Condition="'$(BuildVersion)' != ''">$(BuildVersion)</UnoManifestVersion>
 		<UnoManifestVersion Condition="'$(UnoManifestVersion)' == ''">0.9.0.1</UnoManifestVersion>
 	</PropertyGroup>
 
@@ -46,15 +47,16 @@
 	</Target>
 
 	<!-- Target to display version information -->
-	<Target Name="ShowVersionInfo">
-		<Message Text="GitVersionMajor: $(GitVersionMajor)" Importance="high" />
-		<Message Text="GitVersionMinor: $(GitVersionMinor)" Importance="high" />
-		<Message Text="GitVersionPatch: $(GitVersionPatch)" Importance="high" />
-		<Message Text="GitVersionRevision: $(GitVersionRevision)" Importance="high" />
+	<Target Name="ShowVersionInfo" AfterTargets="Build">
+		<Message Text="=== VERSION INFORMATION ===" Importance="high" />
+		<Message Text="BuildVersion: $(BuildVersion)" Importance="high" />
+		<Message Text="BuildVersionSimple: $(BuildVersionSimple)" Importance="high" />
+		<Message Text="VersionHeight: $(VersionHeight)" Importance="high" />
 		<Message Text="ApplicationDisplayVersion: $(ApplicationDisplayVersion)" Importance="high" />
 		<Message Text="ApplicationVersion: $(ApplicationVersion)" Importance="high" />
 		<Message Text="Version: $(Version)" Importance="high" />
 		<Message Text="AssemblyVersion: $(AssemblyVersion)" Importance="high" />
 		<Message Text="FileVersion: $(FileVersion)" Importance="high" />
+		<Message Text="==============================" Importance="high" />
 	</Target>
 </Project>
