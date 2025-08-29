@@ -18,6 +18,9 @@ jobs:
   smoke_test:
     name: Smoke Test (Debug Build of Fluent Stopwatch)
     runs-on: windows-latest
+    env:
+      Solution_Fullname: src/Stopwatch.slnx
+      Solution_Path: src/Stopwatch
     steps:
       - uses: actions/checkout@v4
         with:
