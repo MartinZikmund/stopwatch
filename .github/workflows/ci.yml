@@ -18,6 +18,9 @@ jobs:
   smoke_test:
     name: Smoke Test (Debug Build of Fluent Stopwatch)
     runs-on: windows-latest
+    env:
+      Solution_Fullname: src/Stopwatch.slnx
+      Solution_Path: src/Stopwatch
     steps:
       - uses: actions/checkout@v4
         with:
@@ -32,9 +35,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-          
 
-      - name: Install Dependencies
-        timeout-minutes: ${{ fromJSON(env.STEP_TIMEOUT_MINUTES) }}
-        uses: "./.github/steps/install_dependencies"
+      - name: Setup .NET SDK 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            9.0.x
+
+      - name: Install .NET workloads
+        run:
+          dotnet workload restore "$env:Solution_Fullname"
 
       # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
       - name: Setup MSBuild

@@ -36,10 +36,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Install Dependencies
-        timeout-minutes: ${{ fromJSON(env.STEP_TIMEOUT_MINUTES) }}
-        continue-on-error: true
-        uses: "./.github/steps/install_dependencies"
+      - name: Setup .NET SDK 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            9.0.x
+
+      - name: Install .NET workloads
+        run:
+          dotnet workload restore "$Solution_Fullname"
 
       - name: Select Xcode 16.4
         uses: maxim-lobanov/setup-xcode@v1
