@@ -43,7 +43,7 @@ jobs:
 
       - name: Install .NET workloads
         run:
-          dotnet workload restore "$Solution_Fullname"
+          dotnet workload restore "$env:Solution_Fullname"
 
       # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
       - name: Setup MSBuild
