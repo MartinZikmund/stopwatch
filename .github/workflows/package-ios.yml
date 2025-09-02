@@ -88,3 +88,11 @@ jobs:
           name: iOS_IPA
           path: |
             src/Stopwatch/bin/Release/net9.0-ios/ios-arm64/publish/*.ipa
+      
+      - name: Upload to TestFlight
+        uses: apple-actions/upload-testflight-build@v3
+        with:
+          app-path: "src/Stopwatch/bin/Release/net9.0-ios/ios-arm64/publish/Stopwatch.ipa"
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
