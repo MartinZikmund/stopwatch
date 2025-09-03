@@ -1,4 +1,5 @@
-﻿#pragma warning disable Uno0001
+﻿#if !HAS_UNO
+#pragma warning disable Uno0001
 
 using System.Globalization;
 using Microsoft.UI.Xaml.Controls;
@@ -116,3 +117,4 @@ public class StoreService : IStoreService
 		return _storeContext;
 	}
 }
+#endif
