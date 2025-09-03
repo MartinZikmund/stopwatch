@@ -111,11 +111,19 @@ jobs:
           pattern: MSIX_Package_*
           path: ./msix
 
+      - name: Copy all .msix files to temporary location
+        id: copymsix
+        run: |
+          $msixFiles = Get-ChildItem -Path ./msix -Filter *.msix -Recurse
+          $tmp = Join-Path $env:RUNNER_TEMP ([IO.Path]::GetRandomFileName()); New-Item $tmp -ItemType Directory | Out-Null
+          Copy-Item $msixFiles -Destination $tmp
+          echo "msix_temp_dir=$tmp" >> $env:GITHUB_OUTPUT
+
       - name: Make msixbundle
         id: bundler
         uses: LanceMcCarthy/Action-MsixBundler@v2.0.0
         with:
-          msix-folder: ./msix
+          msix-folder: ${{ steps.copymsix.outputs.msix_temp_dir }}
           msixbundle-filepath: "./msix/Stopwatch_${{ steps.manifest.outputs.version }}.msixbundle"
           msixbundle-version: ${{ steps.manifest.outputs.version }}
 
