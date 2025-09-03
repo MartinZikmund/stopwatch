@@ -28,7 +28,7 @@ jobs:
 
 
       - name: Setup .NET, install workloads, and restore packages
-        uses: ./.github/steps/setup_dotnet_and_restore.yml
+        uses: "./.github/steps/setup_dotnet_and_restore"
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           solution-path: ${{ env.SOLUTION_PATH }}
