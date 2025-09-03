@@ -28,7 +28,9 @@ runs:
         dotnet-version: ${{ inputs.dotnet-version }}
 
     - name: Install .NET workloads
+      shell: pwsh
       run: dotnet workload restore "${{ inputs.solution-path }}"
 
     - name: Restore packages for solution
+      shell: pwsh
       run: dotnet restore "${{ inputs.solution-path }}"
