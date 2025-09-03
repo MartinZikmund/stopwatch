@@ -26,27 +26,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: NuGet cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.sln*', '**/*.csproj', '**/Directory.Packages.props', '**/global.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-          
 
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4
+      - name: Setup .NET, install workloads, and restore packages
+        uses: ./.github/steps/setup_dotnet_and_restore.yml
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+          solution-path: ${{ env.SOLUTION_PATH }}
 
-      - name: Install .NET workloads
-        run:
-          dotnet workload restore "$env:SOLUTION_PATH"
-
-      - name: Restore packages for solution
-        run: dotnet restore "$env:SOLUTION_PATH"
-
-      # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.3.1
 
