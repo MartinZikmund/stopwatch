@@ -132,6 +132,10 @@ jobs:
         run: |
           $bundle = "./msix/Stopwatch_${{ steps.manifest.outputs.version }}.msixbundle"
           $syms = Get-ChildItem -Path ./msix -Recurse -Filter *.msixsym
+          foreach ($sym in $syms) {
+            $newName = [IO.Path]::ChangeExtension($sym.FullName, ".appxsym")
+            Rename-Item -Path $sym.FullName -NewName $newName
+          }
           $tmp = Join-Path $env:RUNNER_TEMP ([IO.Path]::GetRandomFileName()); New-Item $tmp -ItemType Directory | Out-Null
           Copy-Item $bundle $tmp
           Copy-Item $syms $tmp
