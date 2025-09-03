@@ -136,9 +136,10 @@ jobs:
             $newName = [IO.Path]::ChangeExtension($sym.FullName, ".appxsym")
             Rename-Item -Path $sym.FullName -NewName $newName
           }
+          $appxsymFiles = Get-ChildItem -Path ./msix -Recurse -Filter *.appxsym
           $tmp = Join-Path $env:RUNNER_TEMP ([IO.Path]::GetRandomFileName()); New-Item $tmp -ItemType Directory | Out-Null
           Copy-Item $bundle $tmp
-          Copy-Item $syms $tmp
+          Copy-Item $appxsymFiles $tmp
           Compress-Archive -Path (Join-Path $tmp '*') -DestinationPath Stopwatch_${{ steps.manifest.outputs.version }}.msixupload -Force
 
       - name: Upload .msixupload
