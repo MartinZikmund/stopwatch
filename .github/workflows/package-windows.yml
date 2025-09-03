@@ -130,7 +130,7 @@ jobs:
       - name: Make .msixupload
         shell: pwsh
         run: |
-          $bundle = "Stopwatch_${{ steps.manifest.outputs.version }}.msixbundle"
+          $bundle = "./msix/Stopwatch_${{ steps.manifest.outputs.version }}.msixbundle"
           $syms = Get-ChildItem drop -Recurse -Filter *.msixsym
           $tmp = Join-Path $env:RUNNER_TEMP ([IO.Path]::GetRandomFileName()); New-Item $tmp -ItemType Directory | Out-Null
           Copy-Item $bundle $tmp
