@@ -1,0 +1,36 @@
+name: Setup Dotnet and Restore
+
+description: "Composite action to setup NuGet cache, .NET SDK, install workloads, and restore packages."
+
+inputs:
+  dotnet-version:
+    description: 'The .NET SDK version to install.'
+    required: true
+    default: '9.0.x'
+  solution-path:
+    description: 'The path to the solution file.'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: NuGet caching
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.sln*', '**/*.csproj', '**/Directory.Packages.props', '**/global.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ inputs.dotnet-version }}
+
+    - name: Install .NET workloads
+      shell: pwsh
+      run: dotnet workload restore "${{ inputs.solution-path }}"
+
+    - name: Restore solution
+      shell: pwsh
+      run: dotnet restore "${{ inputs.solution-path }}"

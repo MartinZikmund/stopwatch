@@ -8,6 +8,9 @@ on:
       - release/**
 
 env:
+  APP_PROJECT_PATH: src/Stopwatch/Stopwatch.csproj
+  DOTNET_VERSION: '9.0.x'
+  SOLUTION_PATH: src/Stopwatch.slnx
   STEP_TIMEOUT_MINUTES: 60
 
 concurrency:
@@ -16,39 +19,23 @@ concurrency:
 
 jobs:
   smoke_test:
-    name: Smoke Test (Debug Build of Fluent Stopwatch)
+    name: Smoke test
     runs-on: windows-latest
-    env:
-      Solution_Fullname: src/Stopwatch.slnx
-      Solution_Path: src/Stopwatch
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # Cache NuGet to speed up restores
-      - name: NuGet cache
-        uses: actions/cache@v4
+
+      - name: Setup .NET, install workloads, and restore packages
+        uses: "./.github/steps/setup_dotnet_and_restore"
         with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.sln*', '**/*.csproj', '**/Directory.Packages.props', '**/global.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-          
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          solution-path: ${{ env.SOLUTION_PATH }}
 
-      - name: Setup .NET SDK 9
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: |
-            9.0.x
-
-      - name: Install .NET workloads
-        run:
-          dotnet workload restore "$env:Solution_Fullname"
-
-      # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.3.1
 
       - name: Build Stopwatch (Debug)
         shell: pwsh
-        run: msbuild ./src/Stopwatch/Stopwatch.csproj /r
+        run: msbuild $env:APP_PROJECT_PATH /r
