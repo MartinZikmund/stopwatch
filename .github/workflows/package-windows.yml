@@ -96,10 +96,45 @@ jobs:
     runs-on: windows-latest
     needs: create_package
     steps:
-      - name: Merge Artifacts
-        uses: actions/upload-artifact/merge@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          name: MSIX
-          delete-merged: true
+          fetch-depth: 0
+
+      - name: Read package version from manifest
+        id: manifest
+        shell: pwsh
+        run: |
+          [xml]$xml = Get-Content "src/Stopwatch/Package.appxmanifest"
+          $version = $xml.Package.Identity.Version
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Download all MSIX_Package_* artifacts
+        uses: actions/download-artifact@v4
+        with:
           pattern: MSIX_Package_*
-          retention-days: 10
+          path: ./msix
+
+      - name: Make msixbundle
+        id: bundler
+        uses: LanceMcCarthy/Action-MsixBundler@v2.0.0
+        with:
+          msix-folder: ./msix
+          msixbundle-filepath: "./msix/Stopwatch_${{ steps.manifest.outputs.version }}.msixbundle"
+          msixbundle-version: ${{ steps.manifest.outputs.version }}
+
+      - name: Make .msixupload
+        shell: pwsh
+        run: |
+          $bundle = "Stopwatch.msixbundle"
+          $syms = Get-ChildItem drop -Recurse -Filter *.msixsym
+          $tmp = Join-Path $env:RUNNER_TEMP ([IO.Path]::GetRandomFileName()); New-Item $tmp -ItemType Directory | Out-Null
+          Copy-Item $bundle $tmp
+          Copy-Item $syms $tmp
+          Compress-Archive -Path (Join-Path $tmp '*') -DestinationPath Stopwatch_${{ steps.manifest.outputs.version }}.msixupload -Force
+
+      - name: Upload .msixupload
+        uses: actions/upload-artifact@v4
+        with:
+          name: Stopwatch_${{ steps.manifest.outputs.version }}.msixupload
+          path: Stopwatch_${{ steps.manifest.outputs.version }}.msixupload
