@@ -3,6 +3,15 @@ name: Build iOS Packages
 on:
   workflow_dispatch:
 
+env:
+  # App Configuration
+  APP_NAME: Stopwatch
+  DOTNET_VERSION: 9.0.x
+  SOLUTION_FILE: src/Stopwatch.slnx
+  PROJECT_PATH: src/Stopwatch
+  PROJECT_FILE: src/Stopwatch/Stopwatch.csproj
+  IOS_TARGET_FRAMEWORK: net9.0-ios
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -13,9 +22,6 @@ jobs:
     runs-on: macos-15
 
     env:
-      # Adjust these to your repo layout / head project
-      Solution_Fullname: src/Stopwatch.slnx
-      iOS_Project: src/Stopwatch/Stopwatch.csproj
       STEP_TIMEOUT_MINUTES: 60
 
       DOTNET_NOLOGO: 1
@@ -36,15 +42,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Setup .NET SDK 9
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            9.0.x
+            ${{ env.DOTNET_VERSION }}
 
       - name: Install .NET workloads
         run:
-          dotnet workload restore "$Solution_Fullname"
+          dotnet workload restore "${{ env.SOLUTION_FILE }}"
 
       - name: Select Xcode 16.4
         uses: maxim-lobanov/setup-xcode@v1
@@ -70,12 +76,12 @@ jobs:
           ls -l "$HOME/Library/MobileDevice/Provisioning Profiles"
 
       - name: Restore solution
-        run: dotnet restore "$Solution_Fullname"
+        run: dotnet restore "${{ env.SOLUTION_FILE }}"
 
       # Build an archive and produce a signed .ipa
       - name: Publish iOS (signed .ipa)
         run: |
-          dotnet publish "$iOS_Project" -c Release -f net9.0-ios -r ios-arm64 \
+          dotnet publish "${{ env.PROJECT_FILE }}" -c Release -f ${{ env.IOS_TARGET_FRAMEWORK }} -r ios-arm64 \
             -p:ArchiveOnBuild=true \
             -p:BuildIpa=true \
             -p:CodesignKey="${{ secrets.APPLE_CODESIGN_KEY }}" \
@@ -87,12 +93,12 @@ jobs:
         with:
           name: iOS_IPA
           path: |
-            src/Stopwatch/bin/Release/net9.0-ios/ios-arm64/publish/*.ipa
+            ${{ env.PROJECT_PATH }}/bin/Release/${{ env.IOS_TARGET_FRAMEWORK }}/ios-arm64/publish/*.ipa
       
       - name: Upload to TestFlight
         uses: apple-actions/upload-testflight-build@v3
         with:
-          app-path: "src/Stopwatch/bin/Release/net9.0-ios/ios-arm64/publish/Stopwatch.ipa"
+          app-path: "${{ env.PROJECT_PATH }}/bin/Release/${{ env.IOS_TARGET_FRAMEWORK }}/ios-arm64/publish/${{ env.APP_NAME }}.ipa"
           issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
           api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
           api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}

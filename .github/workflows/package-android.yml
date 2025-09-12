@@ -3,6 +3,15 @@ name: Build Android Packages
 on:
   workflow_dispatch:
 
+env:
+  # App Configuration
+  APP_NAME: Stopwatch
+  DOTNET_VERSION: 9.0.x
+  SOLUTION_FILE: src/Stopwatch.slnx
+  PROJECT_PATH: src/Stopwatch
+  PROJECT_FILE: src/Stopwatch/Stopwatch.csproj
+  ANDROID_TARGET_FRAMEWORK: net9.0-android
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -12,9 +21,6 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Adjust these to your repo layout
-      Solution_Fullname: src/Stopwatch.slnx
-      Android_Project: src/Stopwatch/Stopwatch.csproj
       STEP_TIMEOUT_MINUTES: 60
 
       # .NET niceties
@@ -37,18 +43,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Setup .NET SDK 9
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            9.0.x
+            ${{ env.DOTNET_VERSION }}
 
       - name: Install .NET workloads
         run:
-          dotnet workload restore "$Solution_Fullname"
+          dotnet workload restore "${{ env.SOLUTION_FILE }}"
 
       - name: Restore solution
-        run: dotnet restore "$Solution_Fullname"
+        run: dotnet restore "${{ env.SOLUTION_FILE }}"
 
       # --- Signing setup (requires your keystore + secrets) ---
       # Create upload keystore file from a base64 secret
@@ -59,7 +65,7 @@ jobs:
       # --- Build Google Play bundle (AAB) ---
       - name: Publish AAB (signed with Upload Key)
         run: |
-          dotnet publish "$Android_Project" -c Release -f net9.0-android \
+          dotnet publish "${{ env.PROJECT_FILE }}" -c Release -f ${{ env.ANDROID_TARGET_FRAMEWORK }} \
             -p:AndroidKeyStore=true \
             -p:AndroidSigningKeyStore="$GITHUB_WORKSPACE/android-upload.keystore" \
             -p:AndroidSigningKeyAlias='${{ secrets.ANDROID_KEY_ALIAS }}' \
@@ -72,13 +78,13 @@ jobs:
         with:
           name: Android_AAB
           path: |
-            src/Stopwatch/bin/Release/net9.0-android/publish/*.aab
+            ${{ env.PROJECT_PATH }}/bin/Release/${{ env.ANDROID_TARGET_FRAMEWORK }}/publish/*.aab
 
       # --- Optional: also build a signed APK for sideload/internal testing ---
       - name: (Optional) Publish APK (signed) - ARM64
         if: ${{ always() }} # flip to "false" to disable or delete this step
         run: |
-          dotnet publish "$Android_Project" -c Release -f net9.0-android -r android-arm64 \
+          dotnet publish "${{ env.PROJECT_FILE }}" -c Release -f ${{ env.ANDROID_TARGET_FRAMEWORK }} -r android-arm64 \
             -p:AndroidKeyStore=true \
             -p:AndroidSigningKeyStore="$GITHUB_WORKSPACE/android-upload.keystore" \
             -p:AndroidSigningKeyAlias='${{ secrets.ANDROID_KEY_ALIAS }}' \
@@ -93,7 +99,7 @@ jobs:
         with:
           name: Android_APK_arm64
           path: |
-            src/Stopwatch/bin/Release/net9.0-android/android-arm64/publish/*.apk
+            ${{ env.PROJECT_PATH }}/bin/Release/${{ env.ANDROID_TARGET_FRAMEWORK }}/android-arm64/publish/*.apk
 
       # Clean up keystore
       - name: Remove keystore

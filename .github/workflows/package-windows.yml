@@ -3,6 +3,15 @@ name: Build Windows Packages
 on:
   workflow_dispatch:
 
+env:
+  # App Configuration
+  APP_NAME: Stopwatch
+  DOTNET_VERSION: 9.0.x
+  SOLUTION_FILE: src/Stopwatch.slnx
+  PROJECT_PATH: src/Stopwatch
+  PROJECT_FILE: src/Stopwatch/Stopwatch.csproj
+  WINDOWS_TARGET_FRAMEWORK: net9.0-windows10.0.26100
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -20,8 +29,6 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Solution_Fullname: src/Stopwatch.slnx
-      Solution_Path: src/Stopwatch
       STEP_TIMEOUT_MINUTES: 60
 
       # .NET niceties
@@ -44,11 +51,11 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-nuget-
 
-    - name: Setup .NET SDK 9
+    - name: Setup .NET SDK
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
-          9.0.x
+          ${{ env.DOTNET_VERSION }}
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild
@@ -56,7 +63,7 @@ jobs:
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
-      run: msbuild $env:Solution_Fullname /t:Restore /p:Configuration=$env:Configuration /p:TargetFramework=net9.0-windows10.0.26100 /p:PublishReadyToRun=true
+      run: msbuild $env:SOLUTION_FILE /t:Restore /p:Configuration=$env:Configuration /p:TargetFramework=$env:WINDOWS_TARGET_FRAMEWORK /p:PublishReadyToRun=true
       env:
         Configuration: ${{ matrix.configuration }}
 
@@ -69,7 +76,7 @@ jobs:
 
     # Create the app package by building and packaging the project
     - name: Create the app package
-      run: msbuild $env:Solution_Fullname /p:TargetFramework=net9.0-windows10.0.26100 /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
+      run: msbuild $env:SOLUTION_FILE /p:TargetFramework=$env:WINDOWS_TARGET_FRAMEWORK /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
       env:
         Appx_Bundle: Never
         Appx_Package_Build_Mode: CI
@@ -86,7 +93,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: MSIX_Package_${{ matrix.platform }}
-        path: ${{ env.Solution_Path }}\\Packages
+        path: ${{ env.PROJECT_PATH }}\\Packages
 
   merge:
     runs-on: windows-latest
@@ -101,7 +108,7 @@ jobs:
         id: manifest
         shell: pwsh
         run: |
-          [xml]$xml = Get-Content "src/Stopwatch/Package.appxmanifest"
+          [xml]$xml = Get-Content "$env:PROJECT_PATH/Package.appxmanifest"
           $version = $xml.Package.Identity.Version
           echo "version=$version" >> $env:GITHUB_OUTPUT
 
@@ -124,13 +131,13 @@ jobs:
         uses: LanceMcCarthy/Action-MsixBundler@v2.0.0
         with:
           msix-folder: ${{ steps.copymsix.outputs.msix_temp_dir }}
-          msixbundle-filepath: "./msix/Stopwatch_${{ steps.manifest.outputs.version }}.msixbundle"
+          msixbundle-filepath: "./msix/${{ env.APP_NAME }}_${{ steps.manifest.outputs.version }}.msixbundle"
           msixbundle-version: ${{ steps.manifest.outputs.version }}
 
       - name: Make .msixupload
         shell: pwsh
         run: |
-          $bundle = "./msix/Stopwatch_${{ steps.manifest.outputs.version }}.msixbundle"
+          $bundle = "./msix/$env:APP_NAME_${{ steps.manifest.outputs.version }}.msixbundle"
           $syms = Get-ChildItem -Path ./msix -Recurse -Filter *.msixsym
           foreach ($sym in $syms) {
             $newName = [IO.Path]::ChangeExtension($sym.FullName, ".appxsym")
@@ -140,10 +147,10 @@ jobs:
           $tmp = Join-Path $env:RUNNER_TEMP ([IO.Path]::GetRandomFileName()); New-Item $tmp -ItemType Directory | Out-Null
           Copy-Item $bundle $tmp
           Copy-Item $appxsymFiles $tmp
-          Compress-Archive -Path (Join-Path $tmp '*') -DestinationPath Stopwatch_${{ steps.manifest.outputs.version }}.msixupload -Force
+          Compress-Archive -Path (Join-Path $tmp '*') -DestinationPath $env:APP_NAME_${{ steps.manifest.outputs.version }}.msixupload -Force
 
       - name: Upload .msixupload
         uses: actions/upload-artifact@v4
         with:
-          name: Stopwatch_${{ steps.manifest.outputs.version }}.msixupload
-          path: Stopwatch_${{ steps.manifest.outputs.version }}.msixupload
+          name: ${{ env.APP_NAME }}_${{ steps.manifest.outputs.version }}.msixupload
+          path: ${{ env.APP_NAME }}_${{ steps.manifest.outputs.version }}.msixupload
