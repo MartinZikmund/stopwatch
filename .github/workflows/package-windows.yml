@@ -137,7 +137,7 @@ jobs:
       - name: Make .msixupload
         shell: pwsh
         run: |
-          $bundle = "./msix/$env:APP_NAME_${{ steps.manifest.outputs.version }}.msixbundle"
+          $bundle = "./msix/${{ env.APP_NAME }}_${{ steps.manifest.outputs.version }}.msixbundle"
           $syms = Get-ChildItem -Path ./msix -Recurse -Filter *.msixsym
           foreach ($sym in $syms) {
             $newName = [IO.Path]::ChangeExtension($sym.FullName, ".appxsym")
@@ -147,7 +147,7 @@ jobs:
           $tmp = Join-Path $env:RUNNER_TEMP ([IO.Path]::GetRandomFileName()); New-Item $tmp -ItemType Directory | Out-Null
           Copy-Item $bundle $tmp
           Copy-Item $appxsymFiles $tmp
-          Compress-Archive -Path (Join-Path $tmp '*') -DestinationPath $env:APP_NAME_${{ steps.manifest.outputs.version }}.msixupload -Force
+          Compress-Archive -Path (Join-Path $tmp '*') -DestinationPath ${{ env.APP_NAME }}_${{ steps.manifest.outputs.version }}.msixupload -Force
 
       - name: Upload .msixupload
         uses: actions/upload-artifact@v4
