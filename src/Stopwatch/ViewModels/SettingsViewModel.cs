@@ -145,6 +145,13 @@ public partial class SettingsViewModel : PageViewModel
 	private async Task ReviewAppAsync() => await StoreContext.GetDefault().RequestRateAndReviewAppAsync();
 
 	[RelayCommand]
+	private async Task ContactAsync()
+	{
+		var uri = new Uri("mailto:mzikmund@outlook.com?subject=Fluent%20Stopwatch%20Feedback");
+		await Launcher.LaunchUriAsync(uri);
+	}
+
+	[RelayCommand]
 	private async Task PickBackgroundImageAsync()
 	{
 		if (!HasProLicense)

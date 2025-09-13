@@ -329,4 +329,13 @@
     <value>Export to CSV</value>
     <comment>Export to CSV</comment>
   </data>
+  <data name="ContactMe" xml:space="preserve">
+    <value>Get help</value>
+  </data>
+  <data name="ContactMeDescription" xml:space="preserve">
+    <value>Email the developer for help</value>
+  </data>
+  <data name="ContactAction" xml:space="preserve">
+    <value>Send email...</value>
+  </data>
 </root>
