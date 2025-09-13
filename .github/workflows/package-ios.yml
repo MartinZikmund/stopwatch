@@ -11,6 +11,7 @@ env:
   PROJECT_PATH: src/Stopwatch
   PROJECT_FILE: src/Stopwatch/Stopwatch.csproj
   IOS_TARGET_FRAMEWORK: net9.0-ios
+  XCODE_VERSION: '16.4.0'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -55,7 +56,7 @@ jobs:
       - name: Select Xcode 16.4
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: latest-stable
+          xcode-version: ${{ env.XCODE_VERSION }}
 
       - name: Show Xcode version (debug)
         run: xcodebuild -version
