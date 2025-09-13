@@ -329,4 +329,7 @@
     <value>Exportovat do CSV</value>
     <comment>Export to CSV</comment>
   </data>
+  <data name="OpenInNewWindow" xml:space="preserve">
+    <value>Otevřít v novém okně</value>
+  </data>
 </root>

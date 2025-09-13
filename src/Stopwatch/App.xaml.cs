@@ -137,6 +137,8 @@ public partial class App : Application
 		services.AddScoped<HistoryViewModel>();
 		services.AddScoped<GetProViewModel>();
 
+		services.AddTransient<StopwatchWindowViewModel>();
+
 		services.AddScoped<IDialogCoordinator, DialogCoordinator>();
 		services.AddScoped<IConfirmationDialogService, ConfirmationDialogService>();
 		services.AddScoped<IFrameProvider, FrameProvider>();
@@ -146,6 +148,7 @@ public partial class App : Application
 		services.AddScoped<IWindowShellProvider, WindowShellProvider>();
 		services.AddScoped<ITimerFactory, TimerFactory>();
 		services.AddScoped<IThemeManager, ThemeManager>();
+		services.AddScoped<IWindowManager, WindowManager>();
 #if HAS_UNO
 		services.AddScoped<IStoreService, ProStoreService>();
 #elif DEBUG

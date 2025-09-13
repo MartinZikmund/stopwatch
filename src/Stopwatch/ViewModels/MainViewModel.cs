@@ -31,6 +31,7 @@ public partial class MainViewModel : PageViewModel
 	private readonly IDialogService _dialogService;
 	private readonly IConfirmationDialogService _confirmationDialogService;
 	private readonly IDisplayRequestManager _displayRequestManager;
+	private readonly IWindowManager _windowManager;
 	private readonly DispatcherQueueTimer _timer;
 	private readonly SerialDisposable _displayRequestDisposable = new();
 
@@ -39,6 +40,19 @@ public partial class MainViewModel : PageViewModel
 
 	[ObservableProperty]
 	public partial bool HasProLicense { get; set; } = true;
+
+	public bool ShowNewWindowButton => IsMultiWindowSupported();
+
+	private static bool IsMultiWindowSupported()
+	{
+#if HAS_UNO && (__ANDROID__ || __IOS__ || __WASM__)
+		// Multiple windows are not supported on mobile platforms and WASM
+		return false;
+#else
+		// On Windows and other desktop platforms, multiple windows are supported
+		return true;
+#endif
+	}
 
 	public MainViewModel(
 		INavigationService navigationService,
@@ -51,7 +65,8 @@ public partial class MainViewModel : PageViewModel
 		IStoreService storeService,
 		IDialogService dialogService,
 		IConfirmationDialogService confirmationDialogService,
-		IDisplayRequestManager displayRequestManager) : base(navigationService)
+		IDisplayRequestManager displayRequestManager,
+		IWindowManager windowManager) : base(navigationService)
 	{
 		_timerFactory = timerFactory;
 		_dataSource = dataSource;
@@ -63,6 +78,7 @@ public partial class MainViewModel : PageViewModel
 		_dialogService = dialogService;
 		_confirmationDialogService = confirmationDialogService;
 		_displayRequestManager = displayRequestManager;
+		_windowManager = windowManager;
 
 		_timer = timerFactory.Create();
 		_timer.Interval = TimeSpan.FromMilliseconds(50);
@@ -80,6 +96,16 @@ public partial class MainViewModel : PageViewModel
 	{
 		ReloadStopwatches();
 		HasProLicense = await _storeService.HasProAsync();
+
+		// If a specific stopwatch ID is provided, select it
+		if (parameter is int stopwatchId)
+		{
+			var targetStopwatch = Stopwatches.FirstOrDefault(s => s.Id == stopwatchId);
+			if (targetStopwatch != null)
+			{
+				SelectedStopwatch = targetStopwatch;
+			}
+		}
 	}
 
 	public override void ViewLoaded()
@@ -97,16 +123,21 @@ public partial class MainViewModel : PageViewModel
 	{
 		var stopwatches = _dataSource.Stopwatches.GetAll();
 
+		// Exclude stopwatches opened in a secondary window
+		var openedInWindow = Stopwatch.Services.Navigation.WindowManager.GetOpenedInWindowIds();
+		stopwatches = stopwatches.Where(sw => !openedInWindow.Contains(sw.Id)).ToArray();
+
 		if (stopwatches.Length == 0)
 		{
 			_dataSource.Stopwatches.Add(new StopwatchModel(GetNextStopwatchName()));
 			stopwatches = _dataSource.Stopwatches.GetAll();
+			stopwatches = stopwatches.Where(sw => !openedInWindow.Contains(sw.Id)).ToArray();
 		}
 
 		for (int i = Stopwatches.Count - 1; i >= 0; i--)
 		{
 			var existingStopwatch = Stopwatches[i];
-			if (_dataSource.Stopwatches.Get(existingStopwatch.Id) is not { } updatedStopwatch)
+			if (_dataSource.Stopwatches.Get(existingStopwatch.Id) is not { } updatedStopwatch || openedInWindow.Contains(existingStopwatch.Id))
 			{
 				Stopwatches.RemoveAt(i);
 			}
@@ -131,7 +162,7 @@ public partial class MainViewModel : PageViewModel
 			}
 		}
 
-		SelectedStopwatch ??= Stopwatches.First();
+		SelectedStopwatch ??= Stopwatches.FirstOrDefault();
 	}
 
 	partial void OnSelectedStopwatchChanged(StopwatchViewModel? value)
@@ -316,6 +347,17 @@ public partial class MainViewModel : PageViewModel
 	public bool ShowCompactOverlayButton => !IsFullScreen;
 
 	public bool ShowFullScreenButton => !IsCompactOverlay;
+
+	[RelayCommand]
+	public async Task OpenStopwatchInNewWindowAsync()
+	{
+		if (SelectedStopwatch is null)
+		{
+			return;
+		}
+
+		await _windowManager.OpenStopwatchInNewWindowAsync(SelectedStopwatch);
+	}
 
 	private string GetNextStopwatchName()
 	{

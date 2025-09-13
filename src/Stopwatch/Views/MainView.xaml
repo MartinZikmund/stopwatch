@@ -117,6 +117,13 @@
                         Visibility="{x:Bind ViewModel.ShowFullScreenButton, Mode=OneWay}">
                         <FontIcon Glyph="{x:Bind ViewModel.IsFullScreen, Mode=OneWay, Converter={StaticResource IsFullScreenToSymbolConverter}}" />
                     </Button>
+                    <Button
+                        Command="{x:Bind ViewModel.OpenStopwatchInNewWindowCommand}"
+                        Style="{ThemeResource SubtleButtonStyle}"
+                        ToolTipService.ToolTip="{ex:Localize Key=OpenInNewWindow}"
+                        Visibility="{x:Bind ViewModel.ShowNewWindowButton}">
+                        <FontIcon Glyph="&#xE8A7;" />
+                    </Button>
                     <!--<Button
                     Command="{x:Bind ViewModel.ToggleCompactOverlayCommand}"
                     Style="{ThemeResource SubtleButtonStyle}"
@@ -158,10 +165,19 @@
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*" />
                                                         <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
                                                     </Grid.ColumnDefinitions>
                                                     <TextBlock VerticalAlignment="Center" Text="{x:Bind Name, Mode=OneWay}" />
                                                     <Button
                                                         Grid.Column="1"
+                                                        Click="OpenInNewWindowClick"
+                                                        CommandParameter="{x:Bind}"
+                                                        Style="{ThemeResource SubtleButtonStyle}"
+                                                        ToolTipService.ToolTip="{ex:Localize Key=OpenInNewWindow}">
+                                                        <FontIcon Glyph="&#xE8A7;" />
+                                                    </Button>
+                                                    <Button
+                                                        Grid.Column="2"
                                                         Click="CloseTabClick"
                                                         CommandParameter="{x:Bind}"
                                                         Style="{ThemeResource SubtleButtonStyle}">
