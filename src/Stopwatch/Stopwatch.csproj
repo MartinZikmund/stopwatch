@@ -37,6 +37,10 @@
 
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(IsAndroid)'=='true'">
+		<DefineConstants>$(DefineConstants);USE_GOOGLE_BILLING</DefineConstants>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-browserwasm'">
 		<WasmShellEnableIDBFS>true</WasmShellEnableIDBFS>
 	</PropertyGroup>
@@ -47,6 +51,9 @@
 		<PackageReference Include="CommunityToolkit.WinUI.Helpers" />
 		<PackageReference Include="LiteDB" Condition="'!$(IsIOS)' and !'$(IsAndroid)'" />
 		<PackageReference Include="MZikmund.Toolkit.WinUI" />
-		<PackageReference Include="Plugin.InAppBilling" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(IsAndroid)'=='true'">
+		<PackageReference Include="Xamarin.Android.Google.BillingClient" />
 	</ItemGroup>
 </Project>

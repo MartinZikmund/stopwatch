@@ -12,10 +12,12 @@ namespace Stopwatch.Droid;
 )]
 public class MainActivity : Microsoft.UI.Xaml.ApplicationActivity
 {
+	internal static Activity? Current { get; private set; }
+
 	protected override void OnCreate(Bundle? bundle)
 	{
 		global::AndroidX.Core.SplashScreen.SplashScreen.InstallSplashScreen(this);
-
+		Current = this;
 		base.OnCreate(bundle);
 	}
 }
