@@ -1,4 +1,5 @@
-﻿#pragma warning disable Uno0001
+﻿#if !HAS_UNO
+#pragma warning disable Uno0001
 
 using System.Globalization;
 using Microsoft.UI.Xaml.Controls;
@@ -98,6 +99,15 @@ public class StoreService : IStoreService
 		return result;
 	}
 
+	public async Task<bool> TryRestorePurchasesAsync()
+	{
+		// On Windows, we don't need to explicitly restore purchases
+		// The license check automatically includes all purchases associated with the Microsoft account
+		// Just refresh the Pro status
+		_hasPro = null;
+		return await HasProAsync();
+	}
+
 	private async Task ShowError(string errorResourceId, string additionalInformation = "")
 	{
 		var content = Localizer.Instance.GetString(errorResourceId);
@@ -116,3 +126,4 @@ public class StoreService : IStoreService
 		return _storeContext;
 	}
 }
+#endif

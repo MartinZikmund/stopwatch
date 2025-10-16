@@ -146,7 +146,9 @@ public partial class App : Application
 		services.AddScoped<IWindowShellProvider, WindowShellProvider>();
 		services.AddScoped<ITimerFactory, TimerFactory>();
 		services.AddScoped<IThemeManager, ThemeManager>();
-#if HAS_UNO
+#if __IOS__
+		services.AddScoped<IStoreService, StoreService>();
+#elif HAS_UNO
 		services.AddScoped<IStoreService, ProStoreService>();
 #elif DEBUG
 		services.AddScoped<IStoreService, FakeStoreService>();

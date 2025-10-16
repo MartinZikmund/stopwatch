@@ -7,6 +7,7 @@ using Stopwatch.Models;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
 using Stopwatch.Services.Dialogs;
+using Stopwatch.Services.Localization;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Store;
@@ -213,6 +214,28 @@ public partial class SettingsViewModel : PageViewModel
 		BackgroundColor = Colors.Transparent;
 		OnPropertyChanged(nameof(IsBackgroundColorSet));
 		SaveChanges();
+	}
+
+	[RelayCommand]
+	private async Task RestorePurchasesAsync()
+	{
+		IsWorking = true;
+		try
+		{
+			var result = await _storeService.TryRestorePurchasesAsync();
+
+			if (result)
+			{
+				await _dialogService.ShowAsync(
+					Localizer.Instance.GetString("RestorePurchases"),
+					Localizer.Instance.GetString("PurchasesRestored"));
+				HasProLicense = true;
+			}
+		}
+		finally
+		{
+			IsWorking = false;
+		}
 	}
 
 	private void SaveChanges()

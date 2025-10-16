@@ -7,4 +7,6 @@ public interface IStoreService
 	Task<bool> HasProAsync();
 
 	Task<bool> TryPurchaseProAsync();
+
+	Task<bool> TryRestorePurchasesAsync();
 }
