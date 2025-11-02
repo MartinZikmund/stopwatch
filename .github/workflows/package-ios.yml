@@ -11,7 +11,7 @@ env:
   PROJECT_PATH: src/Stopwatch
   PROJECT_FILE: src/Stopwatch/Stopwatch.csproj
   IOS_TARGET_FRAMEWORK: net9.0-ios
-  XCODE_VERSION: '26.0.0'
+  XCODE_VERSION: '26.0'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
