@@ -11,5 +11,6 @@ internal class ProStoreService : IStoreService
 	public Task<string?> GetPriceAsync() => Task.FromResult("Nada");
 	public Task<bool> HasProAsync() => Task.FromResult(true);
 	public Task<bool> TryPurchaseProAsync() => Task.FromResult(true);
+	public Task<bool> TryRestorePurchasesAsync() => Task.FromResult(true);
 }
 #endif

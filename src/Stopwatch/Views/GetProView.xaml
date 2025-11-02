@@ -142,7 +142,7 @@
         <StackPanel
             Grid.Row="2"
             Margin="0"
-            Spacing="16">
+            Spacing="8">
             <Button
                 Padding="30"
                 HorizontalAlignment="Stretch"
@@ -154,6 +154,13 @@
                     <FontIcon FontSize="30" Glyph="&#xE7BF;" />
                     <TextBlock Text="{ex:Localize Key=GetProNow}" />
                 </StackPanel>
+            </Button>
+            <Button
+                Padding="12"
+                HorizontalAlignment="Center"
+                Command="{x:Bind ViewModel.RestorePurchasesCommand}"
+                Style="{StaticResource TextBlockButtonStyle}">
+                <TextBlock Text="{ex:Localize Key=RestorePurchases}" TextDecorations="Underline" />
             </Button>
         </StackPanel>
         <VisualStateManager.VisualStateGroups>

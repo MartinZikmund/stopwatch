@@ -57,5 +57,12 @@ internal class FakeStoreService : IStoreService
 		}
 		return false;
 	}
+
+	public async Task<bool> TryRestorePurchasesAsync()
+	{
+		// Fake implementation - just return current status
+		await Task.Delay(500);
+		return await HasProAsync();
+	}
 }
 #endif
