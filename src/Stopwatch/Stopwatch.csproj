@@ -41,6 +41,21 @@
 		<WasmShellEnableIDBFS>true</WasmShellEnableIDBFS>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-ios'">
+		<!-- Enable IL trimming to remove unused code -->
+		<PublishTrimmed>true</PublishTrimmed>
+		<TrimMode>full</TrimMode>
+		
+		<!-- Enable iOS linker to remove unused native code -->
+		<MtouchLink>Full</MtouchLink>
+		
+		<!-- Enable LLVM compiler for better optimizations and smaller code -->
+		<EnableLLVM>true</EnableLLVM>
+		
+		<!-- Enable concurrent GC for better memory management -->
+		<MtouchEnableSGenConc>true</MtouchEnableSGenConc>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
 		<PackageReference Include="CommunityToolkit.WinUI.Converters" />
