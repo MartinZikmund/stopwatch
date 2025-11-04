@@ -80,6 +80,15 @@ jobs:
           path: |
             ${{ env.PROJECT_PATH }}/bin/Release/${{ env.ANDROID_TARGET_FRAMEWORK }}/publish/*.aab
 
+      - name: Upload to Google Play Console
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: dev.mzikmund.stopwatch
+          releaseFiles: ${{ env.PROJECT_PATH }}/bin/Release/${{ env.ANDROID_TARGET_FRAMEWORK }}/publish/*.aab
+          track: internal
+          status: completed
+
       # --- Optional: also build a signed APK for sideload/internal testing ---
       - name: (Optional) Publish APK (signed) - ARM64
         if: ${{ always() }} # flip to "false" to disable or delete this step
