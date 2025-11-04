@@ -6,6 +6,7 @@ using Stopwatch.Services.Settings;
 using Stopwatch.Services.Theming;
 using Stopwatch.ViewModels;
 using Windows.Foundation.Metadata;
+using Microsoft.UI.Windowing;
 
 namespace Stopwatch;
 
@@ -76,14 +77,12 @@ public sealed partial class WindowShell : Page, IWindowShell
 
 	private void CustomizeWindow()
 	{
-		if (ApiInformation.IsPropertyPresent("Microsoft.UI.Xaml.Window", "ExtendsContentIntoTitleBar"))
+		if (AppWindowTitleBar.IsCustomizationSupported())
 		{
-#if !HAS_UNO
 			_associatedWindow.ExtendsContentIntoTitleBar = true;
 			// TODO: The title bar grid will need to be resized along with TabBar
 			_associatedWindow.SetTitleBar(TitleBarGrid);
 			HasCustomTitleBar = true;
-#endif
 		}
 		if (ApiInformation.IsPropertyPresent("Microsoft.UI.Xaml.Window", "SystemBackdrop"))
 		{

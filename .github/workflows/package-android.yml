@@ -11,6 +11,7 @@ env:
   PROJECT_PATH: src/Stopwatch
   PROJECT_FILE: src/Stopwatch/Stopwatch.csproj
   ANDROID_TARGET_FRAMEWORK: net9.0-android
+  GOOGLE_PLAY_TRACK_STATUS: draft  # Options: completed, draft, halted, inProgress
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -80,26 +81,14 @@ jobs:
           path: |
             ${{ env.PROJECT_PATH }}/bin/Release/${{ env.ANDROID_TARGET_FRAMEWORK }}/publish/*.aab
 
-      # --- Optional: also build a signed APK for sideload/internal testing ---
-      - name: (Optional) Publish APK (signed) - ARM64
-        if: ${{ always() }} # flip to "false" to disable or delete this step
-        run: |
-          dotnet publish "${{ env.PROJECT_FILE }}" -c Release -f ${{ env.ANDROID_TARGET_FRAMEWORK }} -r android-arm64 \
-            -p:AndroidKeyStore=true \
-            -p:AndroidSigningKeyStore="$GITHUB_WORKSPACE/android-upload.keystore" \
-            -p:AndroidSigningKeyAlias='${{ secrets.ANDROID_KEY_ALIAS }}' \
-            -p:AndroidSigningKeyPass='${{ secrets.ANDROID_KEY_PASSWORD }}' \
-            -p:AndroidSigningStorePass='${{ secrets.ANDROID_STORE_PASSWORD }}' \
-            -p:AndroidPackageFormat=apk -p:PackageFormat=apk \
-            --self-contained false
-
-      - name: Upload APK artifact (optional)
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+      - name: Upload to Google Play Console
+        uses: r0adkll/upload-google-play@v1
         with:
-          name: Android_APK_arm64
-          path: |
-            ${{ env.PROJECT_PATH }}/bin/Release/${{ env.ANDROID_TARGET_FRAMEWORK }}/android-arm64/publish/*.apk
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: dev.mzikmund.stopwatch
+          releaseFiles: ${{ env.PROJECT_PATH }}/bin/Release/${{ env.ANDROID_TARGET_FRAMEWORK }}/publish/*-Signed.aab
+          track: internal
+          status: ${{ env.GOOGLE_PLAY_TRACK_STATUS }}
 
       # Clean up keystore
       - name: Remove keystore
