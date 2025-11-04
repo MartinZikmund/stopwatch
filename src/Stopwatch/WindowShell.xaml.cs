@@ -78,12 +78,10 @@ public sealed partial class WindowShell : Page, IWindowShell
 	{
 		if (ApiInformation.IsPropertyPresent("Microsoft.UI.Xaml.Window", "ExtendsContentIntoTitleBar"))
 		{
-#if !HAS_UNO
 			_associatedWindow.ExtendsContentIntoTitleBar = true;
 			// TODO: The title bar grid will need to be resized along with TabBar
 			_associatedWindow.SetTitleBar(TitleBarGrid);
 			HasCustomTitleBar = true;
-#endif
 		}
 		if (ApiInformation.IsPropertyPresent("Microsoft.UI.Xaml.Window", "SystemBackdrop"))
 		{
