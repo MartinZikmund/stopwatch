@@ -1,0 +1,23 @@
+﻿using Uno.RevenueCat.InAppBilling.Enums;
+using Maui.RevenueCat.iOS;
+
+namespace Uno.RevenueCat.InAppBilling.Extensions;
+
+internal static class IntroElegibilityStatusExtensions
+{
+    internal static IntroElegibilityStatus Convert(this RCIntroEligibilityStatus eligibility)
+    {
+        switch (eligibility)
+        {
+            case RCIntroEligibilityStatus.Ineligible:
+                return IntroElegibilityStatus.Ineligible;
+            case RCIntroEligibilityStatus.Eligible:
+                return IntroElegibilityStatus.Eligible;
+            case RCIntroEligibilityStatus.NoIntroOfferExists:
+                return IntroElegibilityStatus.NoIntroOfferExists;
+            case RCIntroEligibilityStatus.Unknown:
+            default:
+                return IntroElegibilityStatus.Unknown;
+        }
+    }
+}

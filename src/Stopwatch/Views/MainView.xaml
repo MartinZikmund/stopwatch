@@ -142,13 +142,14 @@
                         <FontIcon Glyph="&#xE8B7;" />
                         <Button.Flyout>
                             <Flyout>
-                                <Grid>
+                                <Grid RowSpacing="8">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <ListView
                                         Grid.Row="0"
+                                        MaxHeight="320"
                                         ItemsSource="{x:Bind ViewModel.Stopwatches}"
                                         SelectedItem="{x:Bind ViewModel.SelectedStopwatch, Mode=TwoWay}"
                                         SelectionMode="Single">

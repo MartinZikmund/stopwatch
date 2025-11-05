@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Uno.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>
-			net9.0-windows10.0.26100;
 			net9.0-android;
 			net9.0-ios;
 			net9.0-desktop;
 			net9.0-browserwasm;
+			net9.0-windows10.0.26100;
 		</TargetFrameworks>
 
 		<OutputType>Exe</OutputType>
@@ -16,8 +16,8 @@
 		<!-- App Identifier -->
 		<ApplicationId>dev.mzikmund.stopwatch</ApplicationId>
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.9.3</ApplicationDisplayVersion>
-		<ApplicationVersion>22</ApplicationVersion>
+		<ApplicationDisplayVersion>0.9.5</ApplicationDisplayVersion>
+		<ApplicationVersion>24</ApplicationVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 		<UnoFeatures>
@@ -47,6 +47,14 @@
 		<PackageReference Include="CommunityToolkit.WinUI.Helpers" />
 		<PackageReference Include="LiteDB" Condition="'!$(IsIOS)' and !'$(IsAndroid)'" />
 		<PackageReference Include="MZikmund.Toolkit.WinUI" />
-		<PackageReference Include="Plugin.InAppBilling" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
+	  <PackageReference Include="Kebechet.Maui.RevenueCat.Android" />
+	  <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-ios'">
+	  <PackageReference Include="Kebechet.Maui.RevenueCat.iOS" />
 	</ItemGroup>
 </Project>
