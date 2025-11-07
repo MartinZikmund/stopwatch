@@ -47,15 +47,15 @@ public class PackageInfoGenerator : IIncrementalGenerator
 				if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(version))
 				{
 					// Filter out internal/build-only packages
-					if (!ShouldIncludePackage(name))
+					if (!ShouldIncludePackage(name!))
 					{
 						continue;
 					}
 
 					packages.Add(new PackageInfo
 					{
-						Name = name,
-						Version = version,
+						Name = name!,
+						Version = version!,
 						Url = $"https://www.nuget.org/packages/{name}"
 					});
 				}
