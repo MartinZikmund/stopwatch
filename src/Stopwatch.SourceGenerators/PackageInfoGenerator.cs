@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -12,16 +13,37 @@ public class PackageInfoGenerator : IIncrementalGenerator
 {
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
-		// Find the Directory.Packages.props file
+		// Combine both Directory.Packages.props and compilation metadata
 		var packagesPropsFile = context.AdditionalTextsProvider
-			.Where(file => file.Path.EndsWith("Directory.Packages.props"));
+			.Where(file => file.Path.EndsWith("Directory.Packages.props"))
+			.Collect();
+
+		var compilationAndProps = context.CompilationProvider.Combine(packagesPropsFile);
 
 		// Generate the source code
-		context.RegisterSourceOutput(packagesPropsFile, (spc, file) =>
+		context.RegisterSourceOutput(compilationAndProps, (spc, source) =>
 		{
-			var packages = ParsePackagesProps(file);
-			var source = GenerateSource(packages);
-			spc.AddSource("GeneratedPackageInfo.g.cs", SourceText.From(source, Encoding.UTF8));
+			var (compilation, propsFiles) = source;
+			var packages = new List<PackageInfo>();
+
+			// First, add packages from Directory.Packages.props
+			if (propsFiles.Length > 0)
+			{
+				packages.AddRange(ParsePackagesProps(propsFiles[0]));
+			}
+
+			// Then, add packages from metadata references (includes SDK-added packages)
+			packages.AddRange(ExtractPackagesFromMetadata(compilation));
+
+			// Remove duplicates (keep first occurrence)
+			var uniquePackages = packages
+				.GroupBy(p => p.Name)
+				.Select(g => g.First())
+				.OrderBy(p => p.Name)
+				.ToList();
+
+			var sourceCode = GenerateSource(uniquePackages);
+			spc.AddSource("GeneratedPackageInfo.g.cs", SourceText.From(sourceCode, Encoding.UTF8));
 		});
 	}
 
@@ -69,19 +91,117 @@ public class PackageInfoGenerator : IIncrementalGenerator
 		return packages;
 	}
 
+	private static List<PackageInfo> ExtractPackagesFromMetadata(Compilation compilation)
+	{
+		var packages = new List<PackageInfo>();
+
+		foreach (var reference in compilation.References)
+		{
+			if (reference is not PortableExecutableReference peReference)
+			{
+				continue;
+			}
+
+			// Extract package information from the file path
+			// NuGet packages are typically stored in paths like:
+			// .nuget/packages/PackageName/Version/lib/...
+			var path = peReference.FilePath;
+			if (string.IsNullOrEmpty(path))
+			{
+				continue;
+			}
+
+			var parts = path!.Replace('\\', '/').Split('/');
+			var packagesIndex = -1;
+
+			// Find the "packages" directory in the path
+			for (int i = 0; i < parts.Length; i++)
+			{
+				if (parts[i].Equals("packages", System.StringComparison.OrdinalIgnoreCase))
+				{
+					packagesIndex = i;
+					break;
+				}
+			}
+
+			// If we found packages directory and have enough parts after it
+			if (packagesIndex >= 0 && packagesIndex + 2 < parts.Length)
+			{
+				var packageName = parts[packagesIndex + 1];
+				var version = parts[packagesIndex + 2];
+
+				// Skip if already processed or should be filtered
+				if (!ShouldIncludePackage(packageName))
+				{
+					continue;
+				}
+
+				// Check if we haven't already added this package
+				if (!packages.Any(p => p.Name == packageName))
+				{
+					packages.Add(new PackageInfo
+					{
+						Name = packageName,
+						Version = version,
+						Url = $"https://www.nuget.org/packages/{packageName}"
+					});
+				}
+			}
+		}
+
+		return packages;
+	}
+
 	private static bool ShouldIncludePackage(string packageName)
 	{
-		// Exclude internal/build-only packages
+		// Exclude internal/build-only packages and framework packages
 		var excludedPrefixes = new[]
 		{
 			"Microsoft.SourceLink",
+			"Microsoft.NETCore",
+			"Microsoft.NET.Runtime",
+			"Microsoft.NET.Sdk",
+			"Microsoft.NET.Workload",
+			"Microsoft.AspNetCore",
+			"Microsoft.Win32",
+			"Microsoft.Windows.SDK",
+			"Microsoft.Bcl",
+			"Microsoft.Extensions.DependencyModel",
+			"Microsoft.Extensions.FileProviders",
+			"Microsoft.Extensions.FileSystemGlobbing",
 			"System.Private",
-			"System.Text.Json" // This is typically included by the framework
+			"System.Text.Json",
+			"System.Text.Encodings",
+			"System.Resources",
+			"System.Runtime",
+			"System.Security",
+			"System.Threading",
+			"System.Collections",
+			"System.Diagnostics",
+			"System.Reflection",
+			"runtime.",
+			"Xamarin.AndroidX.Annotation",
 		};
 
+		var excludedNames = new[]
+		{
+			"netstandard.library",
+			"NETStandard.Library",
+		};
+
+		// Check prefixes
 		foreach (var prefix in excludedPrefixes)
 		{
-			if (packageName.StartsWith(prefix))
+			if (packageName.StartsWith(prefix, System.StringComparison.OrdinalIgnoreCase))
+			{
+				return false;
+			}
+		}
+
+		// Check exact names
+		foreach (var name in excludedNames)
+		{
+			if (packageName.Equals(name, System.StringComparison.OrdinalIgnoreCase))
 			{
 				return false;
 			}
