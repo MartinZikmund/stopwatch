@@ -238,6 +238,16 @@ public partial class SettingsViewModel : PageViewModel
 		}
 	}
 
+	[RelayCommand]
+	private async Task ShowThirdPartySoftwareAsync()
+	{
+		var dialog = new ThirdPartySoftwareDialog
+		{
+			XamlRoot = _xamlRootProvider.XamlRoot
+		};
+		await dialog.ShowAsync();
+	}
+
 	private void SaveChanges()
 	{
 		if (_isInitializing)
