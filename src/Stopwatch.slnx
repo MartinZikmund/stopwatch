@@ -12,6 +12,7 @@
     <File Path="Directory.Packages.props" />
     <File Path="global.json" />
   </Folder>
+  <Project Path="Stopwatch.SourceGenerators/Stopwatch.SourceGenerators.csproj" />
   <Project Path="Stopwatch/Stopwatch.csproj">
     <Platform Solution="*|ARM64" Project="ARM64" />
     <Platform Solution="*|x64" Project="x64" />

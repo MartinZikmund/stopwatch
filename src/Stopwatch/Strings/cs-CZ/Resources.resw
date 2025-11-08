@@ -216,6 +216,18 @@
   <data name="ReviewAction" xml:space="preserve">
     <value>Ohodnotit...</value>
   </data>
+  <data name="ThirdPartySoftware" xml:space="preserve">
+    <value>Software třetích stran</value>
+  </data>
+  <data name="ThirdPartySoftwareDescription" xml:space="preserve">
+    <value>Zobrazit seznam závislostí používaných v této aplikaci</value>
+  </data>
+  <data name="ThirdPartySoftwareDialogTitle" xml:space="preserve">
+    <value>Software třetích stran</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Zobrazit...</value>
+  </data>
   <data name="Note" xml:space="preserve">
     <value>Poznámka</value>
   </data>

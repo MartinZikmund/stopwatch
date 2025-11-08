@@ -49,4 +49,12 @@
 		<PackageReference Include="MZikmund.Toolkit.WinUI" />
 		<PackageReference Include="Plugin.InAppBilling" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="../Stopwatch.SourceGenerators/Stopwatch.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include="../Directory.Packages.props" />
+	</ItemGroup>
 </Project>

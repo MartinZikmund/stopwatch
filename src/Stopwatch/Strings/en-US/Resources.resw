@@ -216,6 +216,18 @@
   <data name="ReviewAction" xml:space="preserve">
     <value>Review...</value>
   </data>
+  <data name="ThirdPartySoftware" xml:space="preserve">
+    <value>Third party software</value>
+  </data>
+  <data name="ThirdPartySoftwareDescription" xml:space="preserve">
+    <value>View the list of dependencies used in this app</value>
+  </data>
+  <data name="ThirdPartySoftwareDialogTitle" xml:space="preserve">
+    <value>Third party software</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View...</value>
+  </data>
   <data name="Note" xml:space="preserve">
     <value>Note</value>
   </data>

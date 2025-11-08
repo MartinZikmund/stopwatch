@@ -208,6 +208,16 @@
                             Command="{x:Bind ViewModel.ReviewAppCommand}"
                             Content="{ex:Localize Key=ReviewAction}" />
                     </toolkit:SettingsCard>
+
+                    <toolkit:SettingsCard
+                        Description="{ex:Localize Key=ThirdPartySoftwareDescription}"
+                        Header="{ex:Localize Key=ThirdPartySoftware}"
+                        HeaderIcon="{ex:FontIcon Glyph=&#xE8F1;}">
+                        <Button
+                            MinWidth="{StaticResource SettingsControlMinWidth}"
+                            Command="{x:Bind ViewModel.ShowThirdPartySoftwareCommand}"
+                            Content="{ex:Localize Key=View}" />
+                    </toolkit:SettingsCard>
                 </StackPanel>
             </Border>
         </ScrollViewer>
