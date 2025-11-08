@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
@@ -24,36 +21,25 @@ public class PackageInfoGenerator : IIncrementalGenerator
 		context.RegisterSourceOutput(compilationAndProps, (spc, source) =>
 		{
 			var (compilation, propsFiles) = source;
-			var packages = new List<PackageInfo>();
+			var packages = ExtractPackagesFromMetadata(compilation);
 
-			// First, add packages from Directory.Packages.props
-			if (propsFiles.Length > 0)
+			if (packages.Length == 0)
 			{
-				packages.AddRange(ParsePackagesProps(propsFiles[0]));
+				packages = ParsePackagesProps(propsFiles[0]);
 			}
 
-			// Then, add packages from metadata references (includes SDK-added packages)
-			packages.AddRange(ExtractPackagesFromMetadata(compilation));
-
-			// Remove duplicates (keep first occurrence)
-			var uniquePackages = packages
-				.GroupBy(p => p.Name)
-				.Select(g => g.First())
-				.OrderBy(p => p.Name)
-				.ToList();
-
-			var sourceCode = GenerateSource(uniquePackages);
+			var sourceCode = GenerateSource(packages);
 			spc.AddSource("GeneratedPackageInfo.g.cs", SourceText.From(sourceCode, Encoding.UTF8));
 		});
 	}
 
-	private static List<PackageInfo> ParsePackagesProps(AdditionalText file)
+	private static PackageInfo[] ParsePackagesProps(AdditionalText file)
 	{
 		var packages = new List<PackageInfo>();
 		var content = file.GetText()?.ToString();
 		if (string.IsNullOrEmpty(content))
 		{
-			return packages;
+			return [];
 		}
 
 		try
@@ -88,68 +74,91 @@ public class PackageInfoGenerator : IIncrementalGenerator
 			// If parsing fails, return empty list
 		}
 
-		return packages;
+		return packages.ToArray();
 	}
 
-	private static List<PackageInfo> ExtractPackagesFromMetadata(Compilation compilation)
+	private static PackageInfo[] ExtractPackagesFromMetadata(Compilation compilation)
 	{
 		var packages = new List<PackageInfo>();
 
-		foreach (var reference in compilation.References)
+		var portableExecutables = compilation.References.OfType<PortableExecutableReference>().ToArray();
+		var defaultPathSubString = $"nuget{Path.DirectorySeparatorChar}packages{Path.DirectorySeparatorChar}";
+		var nugetPathPrefix = GetNuGetPathPrefix(portableExecutables, defaultPathSubString);
+		if (string.IsNullOrEmpty(nugetPathPrefix))
 		{
-			if (reference is not PortableExecutableReference peReference)
-			{
-				continue;
-			}
+			var alternativePath = $"{Path.DirectorySeparatorChar}nuget{Path.DirectorySeparatorChar}";
+			nugetPathPrefix = GetNuGetPathPrefix(portableExecutables, alternativePath);
+		}
 
+		if (string.IsNullOrEmpty(nugetPathPrefix))
+		{
+			return [];
+		}
+
+		foreach (var reference in portableExecutables)
+		{
 			// Extract package information from the file path
 			// NuGet packages are typically stored in paths like:
 			// .nuget/packages/PackageName/Version/lib/...
-			var path = peReference.FilePath;
-			if (string.IsNullOrEmpty(path))
+			// or D:\Packages\NuGet\PackageName\Version\lib\...
+			var path = reference.FilePath;
+			if (string.IsNullOrEmpty(path) ||
+				path?.StartsWith(nugetPathPrefix, StringComparison.OrdinalIgnoreCase) == false)
 			{
 				continue;
 			}
 
-			var parts = path!.Replace('\\', '/').Split('/');
-			var packagesIndex = -1;
-
-			// Find the "packages" directory in the path
-			for (int i = 0; i < parts.Length; i++)
+			// Get the package name and version from the path
+			var relativePath = path!.Substring(nugetPathPrefix!.Length).TrimStart(Path.DirectorySeparatorChar);
+			var segments = relativePath.Split(Path.DirectorySeparatorChar);
+			if (segments.Length < 2)
 			{
-				if (parts[i].Equals("packages", System.StringComparison.OrdinalIgnoreCase))
-				{
-					packagesIndex = i;
-					break;
-				}
+				continue;
 			}
 
-			// If we found packages directory and have enough parts after it
-			if (packagesIndex >= 0 && packagesIndex + 2 < parts.Length)
+			var packageName = segments[0];
+			var version = segments[1];
+
+			// Skip if already processed or should be filtered
+			if (!ShouldIncludePackage(packageName))
 			{
-				var packageName = parts[packagesIndex + 1];
-				var version = parts[packagesIndex + 2];
+				continue;
+			}
 
-				// Skip if already processed or should be filtered
-				if (!ShouldIncludePackage(packageName))
-				{
-					continue;
-				}
 
-				// Check if we haven't already added this package
-				if (!packages.Any(p => p.Name == packageName))
+			// The folder name is usually lowercase, try to find the last occurrence of the same
+			// string in the full path - the .dll name is usually correctly cased.
+			var lastIndex = path.LastIndexOf(packageName, StringComparison.OrdinalIgnoreCase);
+			if (lastIndex >= 0)
+			{
+				packageName = path.Substring(lastIndex, packageName.Length);
+			}
+
+			// Check if we haven't already added this package
+			if (!packages.Any(p => p.Name == packageName))
+			{
+				packages.Add(new PackageInfo
 				{
-					packages.Add(new PackageInfo
-					{
-						Name = packageName,
-						Version = version,
-						Url = $"https://www.nuget.org/packages/{packageName}"
-					});
-				}
+					Name = packageName,
+					Version = version,
+					Url = $"https://www.nuget.org/packages/{packageName}"
+				});
 			}
 		}
 
-		return packages;
+		return packages.ToArray();
+	}
+
+	private static string? GetNuGetPathPrefix(PortableExecutableReference[] executables, string expectedSubstring)
+	{
+		var nugetPathSource = executables.FirstOrDefault(p => p.FilePath?.Contains(expectedSubstring, StringComparison.OrdinalIgnoreCase) == true)?.FilePath;
+		if (string.IsNullOrEmpty(nugetPathSource))
+		{
+			return null;
+		}
+
+		var nugetPathPrefix = nugetPathSource!.Substring(0, nugetPathSource.IndexOf(expectedSubstring, StringComparison.OrdinalIgnoreCase) + expectedSubstring.Length);
+		return nugetPathPrefix;
 	}
 
 	private static bool ShouldIncludePackage(string packageName)
@@ -210,7 +219,7 @@ public class PackageInfoGenerator : IIncrementalGenerator
 		return true;
 	}
 
-	private static string GenerateSource(List<PackageInfo> packages)
+	private static string GenerateSource(PackageInfo[] packages)
 	{
 		var sb = new StringBuilder();
 		sb.AppendLine("// <auto-generated/>");

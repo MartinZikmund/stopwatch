@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentDialog
     x:Class="Stopwatch.Dialogs.ThirdPartySoftwareDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -8,33 +8,30 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="{ex:Localize Key=ThirdPartySoftwareDialogTitle}"
     CloseButtonText="{ex:Localize Key=Cancel}"
-    Style="{ThemeResource DefaultContentDialogStyle}"
-    mc:Ignorable="d">
-	<ScrollViewer MaxHeight="600">
-		<StackPanel Spacing="8">
-			<TextBlock
-				Text="This application uses the following open source packages:"
-				TextWrapping="Wrap" />
-			<ItemsControl x:Name="PackagesList">
-				<ItemsControl.ItemTemplate>
-					<DataTemplate x:DataType="local:PackageInfo">
-						<StackPanel
-							Margin="0,8,0,0"
-							Orientation="Vertical"
-							Spacing="4">
-							<HyperlinkButton
-								Padding="0"
-								Content="{x:Bind Name}"
-								NavigateUri="{x:Bind Url}" />
-							<TextBlock
-								Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
-								Style="{ThemeResource CaptionTextBlockStyle}"
-								Text="{x:Bind Version}"
-								TextWrapping="Wrap" />
-						</StackPanel>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-		</StackPanel>
-	</ScrollViewer>
+    Style="{ThemeResource DefaultContentDialogStyle}">
+    <ScrollViewer MaxHeight="600">
+        <StackPanel Spacing="8">
+            <TextBlock Text="This application uses the following open source packages:" TextWrapping="Wrap" />
+            <ItemsControl x:Name="PackagesList">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="local:PackageInfo">
+                        <StackPanel
+                            Margin="0,8,0,0"
+                            Orientation="Vertical"
+                            Spacing="4">
+                            <HyperlinkButton
+                                Padding="0"
+                                Content="{x:Bind Name}"
+                                NavigateUri="{x:Bind Url}" />
+                            <TextBlock
+                                Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{x:Bind Version}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
 </ContentDialog>
