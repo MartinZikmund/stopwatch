@@ -151,7 +151,7 @@ public class PackageInfoGenerator : IIncrementalGenerator
 
 	private static string? GetNuGetPathPrefix(PortableExecutableReference[] executables, string expectedSubstring)
 	{
-		var nugetPathSource = executables.FirstOrDefault(p => p.FilePath?.Contains(expectedSubstring, StringComparison.OrdinalIgnoreCase) == true)?.FilePath;
+		var nugetPathSource = executables.FirstOrDefault(p => p.FilePath?.IndexOf(expectedSubstring, StringComparison.OrdinalIgnoreCase) >= 0)?.FilePath;
 		if (string.IsNullOrEmpty(nugetPathSource))
 		{
 			return null;
