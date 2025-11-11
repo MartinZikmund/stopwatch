@@ -148,7 +148,19 @@ public sealed partial class MainView : MainViewBase
 		}
 	}
 
-	private void TabsTeachingTip_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+	private void TabsTeachingTip_ActionButtonClick(TeachingTip sender, object args)
+	{
+		sender.IsOpen = false;
+		HandleTabsTeachingTipDismissal();
+	}
+
+	private void TabsTeachingTip_CloseButtonClick(TeachingTip sender, object args)
+	{
+		sender.IsOpen = false;
+		HandleTabsTeachingTipDismissal();
+	}
+
+	private void HandleTabsTeachingTipDismissal()
 	{
 		if (this.GetServiceProvider() is { } serviceProvider)
 		{

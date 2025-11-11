@@ -213,9 +213,10 @@
             <TeachingTip
                 x:Name="TabsTeachingTip"
                 Title="{ex:Localize Key=TeachingTip_AddTabs_Title}"
+                ActionButtonClick="TabsTeachingTip_ActionButtonClick"
+                CloseButtonClick="TabsTeachingTip_CloseButtonClick"
                 Subtitle="{ex:Localize Key=TeachingTip_AddTabs_Subtitle}"
-                Target="{x:Bind TabListButton}"
-                Closed="TabsTeachingTip_Closed">
+                Target="{x:Bind TabListButton}">
                 <TeachingTip.ActionButtonContent>
                     <TextBlock Text="{ex:Localize Key=GotIt}" />
                 </TeachingTip.ActionButtonContent>

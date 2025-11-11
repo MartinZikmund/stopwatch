@@ -236,9 +236,10 @@
         <TeachingTip
             x:Name="RenameTeachingTip"
             Title="{ex:Localize Key=TeachingTip_RenameStopwatch_Title}"
+            ActionButtonClick="RenameTeachingTip_ActionButtonClick"
+            CloseButtonClick="RenameTeachingTip_CloseButtonClick"
             Subtitle="{ex:Localize Key=TeachingTip_RenameStopwatch_Subtitle}"
-            Target="{x:Bind StopwatchNameTextBox}"
-            Closed="RenameTeachingTip_Closed">
+            Target="{x:Bind StopwatchNameTextBox}">
             <TeachingTip.ActionButtonContent>
                 <TextBlock Text="{ex:Localize Key=GotIt}" />
             </TeachingTip.ActionButtonContent>
@@ -247,9 +248,10 @@
         <TeachingTip
             x:Name="LapsTeachingTip"
             Title="{ex:Localize Key=TeachingTip_Laps_Title}"
+            ActionButtonClick="LapsTeachingTip_ActionButtonClick"
+            CloseButtonClick="LapsTeachingTip_CloseButtonClick"
             Subtitle="{ex:Localize Key=TeachingTip_Laps_Subtitle}"
-            Target="{x:Bind LapButton}"
-            Closed="LapsTeachingTip_Closed">
+            Target="{x:Bind LapButton}">
             <TeachingTip.ActionButtonContent>
                 <TextBlock Text="{ex:Localize Key=GotIt}" />
             </TeachingTip.ActionButtonContent>
@@ -258,9 +260,10 @@
         <TeachingTip
             x:Name="ExportTeachingTip"
             Title="{ex:Localize Key=TeachingTip_Export_Title}"
+            ActionButtonClick="ExportTeachingTip_ActionButtonClick"
+            CloseButtonClick="ExportTeachingTip_CloseButtonClick"
             Subtitle="{ex:Localize Key=TeachingTip_Export_Subtitle}"
-            Target="{x:Bind LapsExpander}"
-            Closed="ExportTeachingTip_Closed">
+            Target="{x:Bind LapsExpander}">
             <TeachingTip.ActionButtonContent>
                 <TextBlock Text="{ex:Localize Key=GotIt}" />
             </TeachingTip.ActionButtonContent>

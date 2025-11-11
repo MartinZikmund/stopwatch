@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using Stopwatch.Services.Settings;
 using Stopwatch.ViewModels;
 using Stopwatch.Extensions;
+using Stopwatch.Views;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -81,7 +82,19 @@ public sealed partial class StopwatchDisplayControl : UserControl
 			typeof(StopwatchDisplayControl),
 			new PropertyMetadata(null));
 
-	private void RenameTeachingTip_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+	private void RenameTeachingTip_ActionButtonClick(TeachingTip sender, object args)
+	{
+		sender.IsOpen = false;
+		HandleRenameTeachingTipDismissal();
+	}
+
+	private void RenameTeachingTip_CloseButtonClick(TeachingTip sender, object args)
+	{
+		sender.IsOpen = false;
+		HandleRenameTeachingTipDismissal();
+	}
+
+	private void HandleRenameTeachingTipDismissal()
 	{
 		if (this.GetServiceProvider() is { } serviceProvider)
 		{
@@ -97,7 +110,19 @@ public sealed partial class StopwatchDisplayControl : UserControl
 		}
 	}
 
-	private void LapsTeachingTip_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+	private void LapsTeachingTip_ActionButtonClick(TeachingTip sender, object args)
+	{
+		sender.IsOpen = false;
+		HandleLapsTeachingTipDismissal();
+	}
+
+	private void LapsTeachingTip_CloseButtonClick(TeachingTip sender, object args)
+	{
+		sender.IsOpen = false;
+		HandleLapsTeachingTipDismissal();
+	}
+
+	private void HandleLapsTeachingTipDismissal()
 	{
 		if (this.GetServiceProvider() is { } serviceProvider)
 		{
@@ -113,7 +138,19 @@ public sealed partial class StopwatchDisplayControl : UserControl
 		}
 	}
 
-	private void ExportTeachingTip_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+	private void ExportTeachingTip_ActionButtonClick(TeachingTip sender, object args)
+	{
+		sender.IsOpen = false;
+		HandleExportTeachingTipDismissal();
+	}
+
+	private void ExportTeachingTip_CloseButtonClick(TeachingTip sender, object args)
+	{
+		sender.IsOpen = false;
+		HandleExportTeachingTipDismissal();
+	}
+
+	private void HandleExportTeachingTipDismissal()
 	{
 		if (this.GetServiceProvider() is { } serviceProvider)
 		{
