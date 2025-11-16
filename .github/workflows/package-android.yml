@@ -6,11 +6,11 @@ on:
 env:
   # App Configuration
   APP_NAME: Stopwatch
-  DOTNET_VERSION: 9.0.x
+  DOTNET_VERSION: 10.0.x
   SOLUTION_FILE: src/Stopwatch.slnx
   PROJECT_PATH: src/Stopwatch
   PROJECT_FILE: src/Stopwatch/Stopwatch.csproj
-  ANDROID_TARGET_FRAMEWORK: net9.0-android
+  ANDROID_TARGET_FRAMEWORK: net10.0-android
   GOOGLE_PLAY_TRACK_STATUS: draft  # Options: completed, draft, halted, inProgress
 
 concurrency:
