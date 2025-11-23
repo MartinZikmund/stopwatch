@@ -12,9 +12,9 @@ on:
 env:
   # App Configuration
   APP_NAME: Stopwatch
-  DOTNET_VERSION: 9.x
+  DOTNET_VERSION: 10.x
   PROJECT_PATH: src/Stopwatch
-  WASM_TARGET_FRAMEWORK: net9.0-browserwasm
+  WASM_TARGET_FRAMEWORK: net10.0-browserwasm
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
