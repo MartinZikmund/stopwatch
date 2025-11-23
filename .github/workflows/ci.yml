@@ -46,8 +46,9 @@ jobs:
             ${{ env.DOTNET_VERSION }}
 
       - name: Install .NET workloads
-        run:
+        run: |
           dotnet workload restore "$env:SOLUTION_FILE"
+          dotnet workload install wasm-tools
 
       # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
       - name: Setup MSBuild
