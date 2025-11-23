@@ -341,4 +341,34 @@
     <value>Exportovat do CSV</value>
     <comment>Export to CSV</comment>
   </data>
+  <data name="TeachingTip_RenameStopwatch_Title" xml:space="preserve">
+    <value>Přejmenujte své stopky</value>
+  </data>
+  <data name="TeachingTip_RenameStopwatch_Subtitle" xml:space="preserve">
+    <value>Klikněte na název stopek a přejmenujte je, aby se snáze identifikovaly</value>
+  </data>
+  <data name="TeachingTip_AddTabs_Title" xml:space="preserve">
+    <value>Více stopek</value>
+  </data>
+  <data name="TeachingTip_AddTabs_Subtitle" xml:space="preserve">
+    <value>Klikněte na tlačítko "+" nebo použijte seznam stopek k přidání více stopek</value>
+  </data>
+  <data name="TeachingTip_Laps_Title" xml:space="preserve">
+    <value>Sledujte své kola</value>
+  </data>
+  <data name="TeachingTip_Laps_Subtitle" xml:space="preserve">
+    <value>Klikněte na tlačítko vlajky pro záznam časů kol a rozbalte sekci kol pro jejich zobrazení</value>
+  </data>
+  <data name="TeachingTip_Export_Title" xml:space="preserve">
+    <value>Spravujte svá kola</value>
+  </data>
+  <data name="TeachingTip_Export_Subtitle" xml:space="preserve">
+    <value>Klikněte pravým tlačítkem na záznamy kol, abyste je mohli smazat nebo přidat poznámky ke sledování výkonu</value>
+  </data>
+  <data name="GotIt" xml:space="preserve">
+    <value>Rozumím</value>
+  </data>
+  <data name="ShowTips" xml:space="preserve">
+    <value>Zobrazit tipy</value>
+  </data>
 </root>
