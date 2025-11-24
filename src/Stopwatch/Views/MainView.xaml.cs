@@ -7,6 +7,7 @@ using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.ViewModels;
 using Windows.Foundation.Metadata;
+using CommunityToolkit.WinUI;
 
 namespace Stopwatch.Views;
 
@@ -46,7 +47,11 @@ public sealed partial class MainView : MainViewBase
 	{
 		if (ViewModel is not null)
 		{
-			ViewModel.ShowTabsTeachingTip = () => TabsTeachingTip.IsOpen = true;
+			ViewModel.ShowTabsTeachingTip = () =>
+			{
+				TabsTeachingTip.Target = TabListButton.Visibility == Visibility.Visible ? TabListButton : StopwatchTabView.FindDescendant("AddButton");
+				TabsTeachingTip.IsOpen = true;
+			};
 		}
 	}
 

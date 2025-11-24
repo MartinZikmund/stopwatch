@@ -19,7 +19,7 @@
             </Grid.RowDefinitions>
 
             <!--  Title bar area  -->
-            <Grid x:Name="TitleBarArea" Height="40">
+            <Grid x:Name="TitleBarArea" Height="48">
 
                 <Border
                     Height="1"
@@ -209,7 +209,7 @@
                     Stopwatch="{x:Bind ViewModel.SelectedStopwatch, Mode=OneWay}" />
             </Grid>
 
-            <!-- TeachingTips -->
+            <!--  TeachingTips  -->
             <TeachingTip
                 x:Name="TabsTeachingTip"
                 Title="{ex:Localize Key=TeachingTip_AddTabs_Title}"
