@@ -252,8 +252,10 @@ public partial class SettingsViewModel : PageViewModel
 	private void ShowOnboardingTips()
 	{
 		SaveChanges();
-		// Navigate to MainView with a special parameter to trigger teaching tips
-		NavigationService.Navigate<MainViewModel>("ShowTeachingTips");
+		// Reset the teaching tip flag so they show when navigating back
+		_appSettings.HasSeenTabsTeachingTip = false;
+		// Navigate back to MainView
+		NavigationService.Navigate<MainViewModel>();
 	}
 
 	private void SaveChanges()

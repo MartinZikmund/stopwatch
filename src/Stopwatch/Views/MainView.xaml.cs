@@ -47,12 +47,14 @@ public sealed partial class MainView : MainViewBase
 	{
 		if (ViewModel is not null)
 		{
-			ViewModel.ShowTabsTeachingTip = () =>
-			{
-				TabsTeachingTip.Target = TabListButton.Visibility == Visibility.Visible ? TabListButton : StopwatchTabView.FindDescendant("AddButton");
-				TabsTeachingTip.IsOpen = true;
-			};
+			ViewModel.ShowTabsTeachingTip = () => ShowTabsTeachingTip();
 		}
+	}
+
+	private void ShowTabsTeachingTip()
+	{
+		TabsTeachingTip.Target = TabListButton.Visibility == Visibility.Visible ? TabListButton : StopwatchTabView.FindDescendant("AddButton");
+		TabsTeachingTip.IsOpen = true;
 	}
 
 	private void StopwatchTabView_SizeChanged(object sender, SizeChangedEventArgs e)

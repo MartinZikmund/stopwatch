@@ -81,25 +81,12 @@ public partial class MainViewModel : PageViewModel
 		ReloadStopwatches();
 		HasProLicense = await _storeService.HasProAsync();
 
-		// Check if teaching tips should be shown
-		bool shouldShowTeachingTips = false;
-		
-		// Show teaching tips if explicitly requested from settings
-		if (parameter is string paramString && paramString == "ShowTeachingTips")
-		{
-			shouldShowTeachingTips = true;
-		}
-		// Or show for first-time users
-		else if (_appPreferences.FirstStart && !_appPreferences.HasSeenTabsTeachingTip)
-		{
-			shouldShowTeachingTips = true;
-		}
-
-		if (shouldShowTeachingTips)
+		// Show teaching tips for first-time users or when returning from settings
+		if (_appPreferences.FirstStart && !_appPreferences.HasSeenTabsTeachingTip)
 		{
 			// Delay to ensure UI is loaded
 			await Task.Delay(1000);
-			ShowTeachingTips();
+			ShowTabsTeachingTip?.Invoke();
 		}
 	}
 
@@ -256,19 +243,6 @@ public partial class MainViewModel : PageViewModel
 				SelectedStopwatch = Stopwatches.Last();
 			}
 		}
-	}
-
-	[RelayCommand]
-	public void ShowTeachingTips()
-	{
-		// Reset all teaching tip preferences to false to show them again
-		_appPreferences.HasSeenRenameTeachingTip = false;
-		_appPreferences.HasSeenTabsTeachingTip = false;
-		_appPreferences.HasSeenLapsTeachingTip = false;
-		_appPreferences.HasSeenExportTeachingTip = false;
-
-		// Trigger showing the first teaching tip (tabs)
-		ShowTabsTeachingTip?.Invoke();
 	}
 
 	public Action? ShowTabsTeachingTip { get; set; }
