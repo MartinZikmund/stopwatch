@@ -254,8 +254,8 @@ public partial class SettingsViewModel : PageViewModel
 		SaveChanges();
 		// Reset the teaching tip flag so they show when navigating back
 		_appSettings.HasSeenTabsTeachingTip = false;
-		// Navigate back to MainView
-		NavigationService.Navigate<MainViewModel>();
+		// Navigate back
+		GoBack();
 	}
 
 	private void SaveChanges()

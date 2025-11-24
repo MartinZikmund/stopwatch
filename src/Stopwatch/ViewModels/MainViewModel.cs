@@ -82,7 +82,7 @@ public partial class MainViewModel : PageViewModel
 		HasProLicense = await _storeService.HasProAsync();
 
 		// Show teaching tips for first-time users or when returning from settings
-		if (_appPreferences.FirstStart && !_appPreferences.HasSeenTabsTeachingTip)
+		if (!_appPreferences.HasSeenTabsTeachingTip)
 		{
 			// Delay to ensure UI is loaded
 			await Task.Delay(1000);
