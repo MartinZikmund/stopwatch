@@ -86,7 +86,7 @@ public partial class MainViewModel : PageViewModel
 		{
 			// Delay to ensure UI is loaded
 			await Task.Delay(1000);
-			ShowTabsTeachingTip?.Invoke();
+			TriggerTeachingTips?.Invoke();
 		}
 	}
 
@@ -245,10 +245,7 @@ public partial class MainViewModel : PageViewModel
 		}
 	}
 
-	public Action? ShowTabsTeachingTip { get; set; }
-	public Action? ShowRenameTeachingTip { get; set; }
-	public Action? ShowLapsTeachingTip { get; set; }
-	public Action? ShowExportTeachingTip { get; set; }
+	public Action? TriggerTeachingTips { get; set; }
 
 	[RelayCommand]
 	public async Task ExportToJsonAsync()

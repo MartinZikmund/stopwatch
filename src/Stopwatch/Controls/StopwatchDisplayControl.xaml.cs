@@ -1,9 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Stopwatch.Services.Settings;
 using Stopwatch.ViewModels;
-using Stopwatch.Extensions;
-using Stopwatch.Views;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -14,41 +11,6 @@ public sealed partial class StopwatchDisplayControl : UserControl
 	{
 		this.InitializeComponent();
 		this.Loaded += StopwatchDisplayControl_Loaded;
-		this.DataContextChanged += StopwatchDisplayControl_DataContextChanged;
-	}
-
-	private void StopwatchDisplayControl_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-	{
-		SetupTeachingTipActions();
-	}
-
-	private void SetupTeachingTipActions()
-	{
-		if (this.GetServiceProvider() is { } serviceProvider)
-		{
-			var mainViewModel = FindMainViewModel();
-			if (mainViewModel is not null)
-			{
-				mainViewModel.ShowRenameTeachingTip = () => RenameTeachingTip.IsOpen = true;
-				mainViewModel.ShowLapsTeachingTip = () => LapsTeachingTip.IsOpen = true;
-				mainViewModel.ShowExportTeachingTip = () => ExportTeachingTip.IsOpen = true;
-			}
-		}
-	}
-
-	private MainViewModel? FindMainViewModel()
-	{
-		// Find the MainView in the visual tree to get its ViewModel
-		var current = this.Parent;
-		while (current != null)
-		{
-			if (current is MainView mainView)
-			{
-				return mainView.ViewModel;
-			}
-			current = (current as FrameworkElement)?.Parent;
-		}
-		return null;
 	}
 
 	private void StopwatchDisplayControl_Loaded(object sender, RoutedEventArgs e)
@@ -82,81 +44,5 @@ public sealed partial class StopwatchDisplayControl : UserControl
 			typeof(StopwatchDisplayControl),
 			new PropertyMetadata(null));
 
-	private void RenameTeachingTip_ActionButtonClick(TeachingTip sender, object args)
-	{
-		sender.IsOpen = false;
-		HandleRenameTeachingTipDismissal();
-	}
 
-	private void RenameTeachingTip_CloseButtonClick(TeachingTip sender, object args)
-	{
-		sender.IsOpen = false;
-		HandleRenameTeachingTipDismissal();
-	}
-
-	private void HandleRenameTeachingTipDismissal()
-	{
-		if (this.GetServiceProvider() is { } serviceProvider)
-		{
-			var appPreferences = serviceProvider.GetRequiredService<IAppPreferences>();
-			appPreferences.HasSeenRenameTeachingTip = true;
-
-			// Show next teaching tip if this is first time
-			if (!appPreferences.HasSeenLapsTeachingTip)
-			{
-				var mainViewModel = FindMainViewModel();
-				mainViewModel?.ShowLapsTeachingTip?.Invoke();
-			}
-		}
-	}
-
-	private void LapsTeachingTip_ActionButtonClick(TeachingTip sender, object args)
-	{
-		sender.IsOpen = false;
-		HandleLapsTeachingTipDismissal();
-	}
-
-	private void LapsTeachingTip_CloseButtonClick(TeachingTip sender, object args)
-	{
-		sender.IsOpen = false;
-		HandleLapsTeachingTipDismissal();
-	}
-
-	private void HandleLapsTeachingTipDismissal()
-	{
-		if (this.GetServiceProvider() is { } serviceProvider)
-		{
-			var appPreferences = serviceProvider.GetRequiredService<IAppPreferences>();
-			appPreferences.HasSeenLapsTeachingTip = true;
-
-			// Show next teaching tip if this is first time
-			if (!appPreferences.HasSeenExportTeachingTip)
-			{
-				var mainViewModel = FindMainViewModel();
-				mainViewModel?.ShowExportTeachingTip?.Invoke();
-			}
-		}
-	}
-
-	private void ExportTeachingTip_ActionButtonClick(TeachingTip sender, object args)
-	{
-		sender.IsOpen = false;
-		HandleExportTeachingTipDismissal();
-	}
-
-	private void ExportTeachingTip_CloseButtonClick(TeachingTip sender, object args)
-	{
-		sender.IsOpen = false;
-		HandleExportTeachingTipDismissal();
-	}
-
-	private void HandleExportTeachingTipDismissal()
-	{
-		if (this.GetServiceProvider() is { } serviceProvider)
-		{
-			var appPreferences = serviceProvider.GetRequiredService<IAppPreferences>();
-			appPreferences.HasSeenExportTeachingTip = true;
-			appPreferences.FirstStart = false; // Mark that first start is complete
-		}
-	}
 }

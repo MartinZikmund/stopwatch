@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using Stopwatch.Extensions;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
+using Stopwatch.Services.Localization;
 using Stopwatch.ViewModels;
 using Windows.Foundation.Metadata;
 using CommunityToolkit.WinUI;
@@ -43,18 +44,121 @@ public sealed partial class MainView : MainViewBase
 		this.DataContextChanged += MainView_DataContextChanged;
 	}
 
+	private TeachingTip? _renameTeachingTip;
+	private TeachingTip? _lapsTeachingTip;
+	private TeachingTip? _exportTeachingTip;
+
 	private void MainView_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 	{
 		if (ViewModel is not null)
 		{
-			ViewModel.ShowTabsTeachingTip = () => ShowTabsTeachingTip();
+			ViewModel.TriggerTeachingTips = () => ShowTeachingTips();
 		}
 	}
 
-	private void ShowTabsTeachingTip()
+	private void ShowTeachingTips()
 	{
+		// Start with the tabs teaching tip
 		TabsTeachingTip.Target = TabListButton.Visibility == Visibility.Visible ? TabListButton : StopwatchTabView.FindDescendant("AddButton");
 		TabsTeachingTip.IsOpen = true;
+	}
+
+	private void ShowRenameTeachingTip()
+	{
+		if (_renameTeachingTip == null)
+		{
+			_renameTeachingTip = CreateTeachingTip(
+				"TeachingTip_RenameStopwatch_Title",
+				"TeachingTip_RenameStopwatch_Subtitle",
+				HandleRenameTeachingTipDismissal);
+		}
+
+		// Find the StopwatchNameTextBox inside StopwatchDisplayControl
+		var stopwatchDisplay = this.FindDescendant<Controls.StopwatchDisplayControl>();
+		if (stopwatchDisplay != null)
+		{
+			var target = stopwatchDisplay.FindDescendant<TextBox>("StopwatchNameTextBox");
+			if (target != null)
+			{
+				_renameTeachingTip.Target = target;
+				_renameTeachingTip.IsOpen = true;
+			}
+		}
+	}
+
+	private void ShowLapsTeachingTip()
+	{
+		if (_lapsTeachingTip == null)
+		{
+			_lapsTeachingTip = CreateTeachingTip(
+				"TeachingTip_Laps_Title",
+				"TeachingTip_Laps_Subtitle",
+				HandleLapsTeachingTipDismissal);
+		}
+
+		// Find the LapButton inside StopwatchDisplayControl
+		var stopwatchDisplay = this.FindDescendant<Controls.StopwatchDisplayControl>();
+		if (stopwatchDisplay != null)
+		{
+			var target = stopwatchDisplay.FindDescendant<Button>("LapButton");
+			if (target != null)
+			{
+				_lapsTeachingTip.Target = target;
+				_lapsTeachingTip.IsOpen = true;
+			}
+		}
+	}
+
+	private void ShowExportTeachingTip()
+	{
+		if (_exportTeachingTip == null)
+		{
+			_exportTeachingTip = CreateTeachingTip(
+				"TeachingTip_Export_Title",
+				"TeachingTip_Export_Subtitle",
+				HandleExportTeachingTipDismissal);
+		}
+
+		// Find the LapsExpander inside StopwatchDisplayControl
+		var stopwatchDisplay = this.FindDescendant<Controls.StopwatchDisplayControl>();
+		if (stopwatchDisplay != null)
+		{
+			var target = stopwatchDisplay.FindDescendant<Expander>("LapsExpander");
+			if (target != null)
+			{
+				_exportTeachingTip.Target = target;
+				_exportTeachingTip.IsOpen = true;
+			}
+		}
+	}
+
+	private TeachingTip CreateTeachingTip(string titleKey, string subtitleKey, Action<TeachingTip> dismissalHandler)
+	{
+		var teachingTip = new TeachingTip
+		{
+			Title = Localizer.Instance.GetString(titleKey),
+			Subtitle = Localizer.Instance.GetString(subtitleKey)
+		};
+
+		var actionButton = new TextBlock { Text = Localizer.Instance.GetString("GotIt") };
+		teachingTip.ActionButtonContent = actionButton;
+
+		teachingTip.ActionButtonClick += (sender, args) =>
+		{
+			sender.IsOpen = false;
+			dismissalHandler(sender);
+		};
+
+		teachingTip.CloseButtonClick += (sender, args) =>
+		{
+			sender.IsOpen = false;
+			dismissalHandler(sender);
+		};
+
+		// Add to the visual tree
+		((Grid)Content).Children.Add(teachingTip);
+
+		return teachingTip;
 	}
 
 	private void StopwatchTabView_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -177,8 +281,48 @@ public sealed partial class MainView : MainViewBase
 			// Show next teaching tip if this is first time
 			if (!appPreferences.HasSeenRenameTeachingTip)
 			{
-				ViewModel?.ShowRenameTeachingTip?.Invoke();
+				ShowRenameTeachingTip();
 			}
+		}
+	}
+
+	private void HandleRenameTeachingTipDismissal(TeachingTip sender)
+	{
+		if (this.GetServiceProvider() is { } serviceProvider)
+		{
+			var appPreferences = serviceProvider.GetRequiredService<IAppPreferences>();
+			appPreferences.HasSeenRenameTeachingTip = true;
+
+			// Show next teaching tip if this is first time
+			if (!appPreferences.HasSeenLapsTeachingTip)
+			{
+				ShowLapsTeachingTip();
+			}
+		}
+	}
+
+	private void HandleLapsTeachingTipDismissal(TeachingTip sender)
+	{
+		if (this.GetServiceProvider() is { } serviceProvider)
+		{
+			var appPreferences = serviceProvider.GetRequiredService<IAppPreferences>();
+			appPreferences.HasSeenLapsTeachingTip = true;
+
+			// Show next teaching tip if this is first time
+			if (!appPreferences.HasSeenExportTeachingTip)
+			{
+				ShowExportTeachingTip();
+			}
+		}
+	}
+
+	private void HandleExportTeachingTipDismissal(TeachingTip sender)
+	{
+		if (this.GetServiceProvider() is { } serviceProvider)
+		{
+			var appPreferences = serviceProvider.GetRequiredService<IAppPreferences>();
+			appPreferences.HasSeenExportTeachingTip = true;
+			appPreferences.FirstStart = false; // Mark that first start is complete
 		}
 	}
 }
