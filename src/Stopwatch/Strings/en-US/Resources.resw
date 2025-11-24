@@ -383,4 +383,10 @@
   <data name="ShowTips" xml:space="preserve">
     <value>Show tips</value>
   </data>
+  <data name="ShowOnboardingTips" xml:space="preserve">
+    <value>Show onboarding tips</value>
+  </data>
+  <data name="ShowOnboardingTipsDescription" xml:space="preserve">
+    <value>Display interactive tips to learn about the app's features</value>
+  </data>
 </root>

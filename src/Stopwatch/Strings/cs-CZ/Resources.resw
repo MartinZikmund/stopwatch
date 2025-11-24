@@ -371,4 +371,10 @@
   <data name="ShowTips" xml:space="preserve">
     <value>Zobrazit tipy</value>
   </data>
+  <data name="ShowOnboardingTips" xml:space="preserve">
+    <value>Zobrazit tipy pro začátečníky</value>
+  </data>
+  <data name="ShowOnboardingTipsDescription" xml:space="preserve">
+    <value>Zobrazte interaktivní tipy pro seznámení s funkcemi aplikace</value>
+  </data>
 </root>

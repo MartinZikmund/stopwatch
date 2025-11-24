@@ -194,13 +194,6 @@
                             </AnimatedIcon.FallbackIconSource>
                         </AnimatedIcon>
                     </Button>
-                    <Button
-                        x:Name="ShowTipsButton"
-                        Command="{x:Bind ViewModel.ShowTeachingTipsCommand}"
-                        Style="{ThemeResource SubtleButtonStyle}"
-                        ToolTipService.ToolTip="{ex:Localize Key=ShowTips}">
-                        <FontIcon Glyph="&#xE9A9;" />
-                    </Button>
                 </StackPanel>
 
                 <controls:StopwatchDisplayControl

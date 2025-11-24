@@ -248,6 +248,14 @@ public partial class SettingsViewModel : PageViewModel
 		await dialog.ShowAsync();
 	}
 
+	[RelayCommand]
+	private void ShowOnboardingTips()
+	{
+		SaveChanges();
+		// Navigate to MainView with a special parameter to trigger teaching tips
+		NavigationService.Navigate<MainViewModel>("ShowTeachingTips");
+	}
+
 	private void SaveChanges()
 	{
 		if (_isInitializing)

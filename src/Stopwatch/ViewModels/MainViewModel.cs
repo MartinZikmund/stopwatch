@@ -81,12 +81,25 @@ public partial class MainViewModel : PageViewModel
 		ReloadStopwatches();
 		HasProLicense = await _storeService.HasProAsync();
 
-		// Show teaching tips for first-time users
-		if (_appPreferences.FirstStart && !_appPreferences.HasSeenTabsTeachingTip)
+		// Check if teaching tips should be shown
+		bool shouldShowTeachingTips = false;
+		
+		// Show teaching tips if explicitly requested from settings
+		if (parameter is string paramString && paramString == "ShowTeachingTips")
+		{
+			shouldShowTeachingTips = true;
+		}
+		// Or show for first-time users
+		else if (_appPreferences.FirstStart && !_appPreferences.HasSeenTabsTeachingTip)
+		{
+			shouldShowTeachingTips = true;
+		}
+
+		if (shouldShowTeachingTips)
 		{
 			// Delay to ensure UI is loaded
 			await Task.Delay(1000);
-			ShowTabsTeachingTip?.Invoke();
+			ShowTeachingTips();
 		}
 	}
 
