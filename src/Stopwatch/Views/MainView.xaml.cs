@@ -52,8 +52,10 @@ public sealed partial class MainView : MainViewBase
 		}
 	}
 
-	private void ShowTeachingTips()
-	{
+	private async void ShowTeachingTips()
+	{           
+		// Delay to make the initial teaching tip more noticeable
+		await Task.Delay(200);
 		ShowTabsTeachingTip();
 		var serviceProvider = this.GetServiceProvider();
 		if (serviceProvider is null)

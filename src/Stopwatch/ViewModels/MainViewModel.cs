@@ -84,8 +84,6 @@ public partial class MainViewModel : PageViewModel
 		// Show teaching tips for first-time users or when returning from settings
 		if (!_appPreferences.HasSeenOnboardingTips)
 		{
-			// Delay to ensure UI is loaded
-			await Task.Delay(1000);
 			TriggerTeachingTips?.Invoke();
 		}
 	}
