@@ -43,6 +43,4 @@ public sealed partial class StopwatchDisplayControl : UserControl
 			typeof(MainViewModel),
 			typeof(StopwatchDisplayControl),
 			new PropertyMetadata(null));
-
-
 }

@@ -253,7 +253,7 @@ public partial class SettingsViewModel : PageViewModel
 	{
 		SaveChanges();
 		// Reset the teaching tip flag so they show when navigating back
-		_appSettings.HasSeenTabsTeachingTip = false;
+		_appSettings.HasSeenOnboardingTips = false;
 		// Navigate back
 		GoBack();
 	}

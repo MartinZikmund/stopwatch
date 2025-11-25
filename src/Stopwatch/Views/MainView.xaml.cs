@@ -44,11 +44,6 @@ public sealed partial class MainView : MainViewBase
 		this.DataContextChanged += MainView_DataContextChanged;
 	}
 
-	private TeachingTip? _tabsTeachingTip;
-	private TeachingTip? _renameTeachingTip;
-	private TeachingTip? _lapsTeachingTip;
-	private TeachingTip? _exportTeachingTip;
-
 	private void MainView_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 	{
 		if (ViewModel is not null)
@@ -60,124 +55,76 @@ public sealed partial class MainView : MainViewBase
 	private void ShowTeachingTips()
 	{
 		ShowTabsTeachingTip();
-	}
-
-	private void ShowTabsTeachingTip()
-	{
-		if (_tabsTeachingTip == null)
+		var serviceProvider = this.GetServiceProvider();
+		if (serviceProvider is null)
 		{
-			_tabsTeachingTip = CreateTeachingTip(
-				"TeachingTip_AddTabs_Title",
-				"TeachingTip_AddTabs_Subtitle",
-				HandleTabsTeachingTipDismissal);
+			return;
 		}
 
-		// Target either the TabListButton (narrow) or the AddButton in TabView (wide)
-		var target = TabListButton.Visibility == Visibility.Visible ? TabListButton : StopwatchTabView.FindDescendant("AddButton");
+		var appPreferences = serviceProvider.GetRequiredService<IAppPreferences>();
+		appPreferences.HasSeenOnboardingTips = true;
+	}
+
+	private void ShowTabsTeachingTip() =>
+		ShowTeachingTip(
+			"TeachingTip_AddTabs_Title",
+			"TeachingTip_AddTabs_Subtitle",
+			TabListButton.Visibility == Visibility.Visible ? TabListButton : StopwatchTabView.FindDescendant("AddButton"),
+			ShowRenameTeachingTip);
+
+	private void ShowRenameTeachingTip() =>
+		ShowTeachingTip(
+			"TeachingTip_RenameStopwatch_Title",
+			"TeachingTip_RenameStopwatch_Subtitle",
+			this.FindDescendant<Controls.StopwatchDisplayControl>()?.FindDescendant("StopwatchNameTextBox"),
+			ShowLapsTeachingTip);
+
+	private void ShowLapsTeachingTip() =>
+		ShowTeachingTip(
+			"TeachingTip_Laps_Title",
+			"TeachingTip_Laps_Subtitle",
+			this.FindDescendant<Controls.StopwatchDisplayControl>()?.FindDescendant("LapButton"),
+			ShowExportTeachingTip);
+
+	private void ShowExportTeachingTip() =>
+		ShowTeachingTip(
+			"TeachingTip_Export_Title",
+			"TeachingTip_Export_Subtitle",
+			this.FindDescendant<Controls.StopwatchDisplayControl>()?.FindDescendant("LapsExpander"),
+			null);
+
+	private void ShowTeachingTip(string titleKey, string subtitleKey, FrameworkElement? target, Action? dismissalAction)
+	{
+		var teachingTip = Resources["OnboardingTeachingTip"] as TeachingTip;
+		if (teachingTip is null)
+		{
+			throw new InvalidOperationException("TeachingTip resource not found.");
+		}
+
+		teachingTip.Title = Localizer.Instance.GetString(titleKey);
+		teachingTip.Subtitle = Localizer.Instance.GetString(subtitleKey);
+
+		void OnTeachingTipClosed(TeachingTip sender, TeachingTipClosedEventArgs args)
+		{
+			sender.Closed -= OnTeachingTipClosed;
+			dismissalAction?.Invoke();
+		}
+
+		teachingTip.Closed += OnTeachingTipClosed;
+
 		if (target is not null)
 		{
-			_tabsTeachingTip.Target = target;
+			teachingTip.Target = target;
 		}
-		_tabsTeachingTip.IsOpen = true;
+		else
+		{
+			teachingTip.Target = this;
+		}
+
+		teachingTip.IsOpen = true;
 	}
 
-	private void ShowRenameTeachingTip()
-	{
-		if (_renameTeachingTip == null)
-		{
-			_renameTeachingTip = CreateTeachingTip(
-				"TeachingTip_RenameStopwatch_Title",
-				"TeachingTip_RenameStopwatch_Subtitle",
-				HandleRenameTeachingTipDismissal);
-		}
-
-		// Find the StopwatchNameTextBox inside StopwatchDisplayControl
-		var stopwatchDisplay = this.FindDescendant<Controls.StopwatchDisplayControl>();
-		if (stopwatchDisplay != null)
-		{
-			var target = stopwatchDisplay.FindDescendant("StopwatchNameTextBox");
-			if (target != null)
-			{
-				_renameTeachingTip.Target = target;
-				_renameTeachingTip.IsOpen = true;
-			}
-		}
-	}
-
-	private void ShowLapsTeachingTip()
-	{
-		if (_lapsTeachingTip == null)
-		{
-			_lapsTeachingTip = CreateTeachingTip(
-				"TeachingTip_Laps_Title",
-				"TeachingTip_Laps_Subtitle",
-				HandleLapsTeachingTipDismissal);
-		}
-
-		// Find the LapButton inside StopwatchDisplayControl
-		var stopwatchDisplay = this.FindDescendant<Controls.StopwatchDisplayControl>();
-		if (stopwatchDisplay != null)
-		{
-			var target = stopwatchDisplay.FindDescendant("LapButton");
-			if (target != null)
-			{
-				_lapsTeachingTip.Target = target;
-				_lapsTeachingTip.IsOpen = true;
-			}
-		}
-	}
-
-	private void ShowExportTeachingTip()
-	{
-		if (_exportTeachingTip == null)
-		{
-			_exportTeachingTip = CreateTeachingTip(
-				"TeachingTip_Export_Title",
-				"TeachingTip_Export_Subtitle",
-				HandleExportTeachingTipDismissal);
-		}
-
-		// Find the LapsExpander inside StopwatchDisplayControl
-		var stopwatchDisplay = this.FindDescendant<Controls.StopwatchDisplayControl>();
-		if (stopwatchDisplay != null)
-		{
-			var target = stopwatchDisplay.FindDescendant("LapsExpander");
-			if (target != null)
-			{
-				_exportTeachingTip.Target = target;
-				_exportTeachingTip.IsOpen = true;
-			}
-		}
-	}
-
-	private TeachingTip CreateTeachingTip(string titleKey, string subtitleKey, Action<TeachingTip> dismissalHandler)
-	{
-		var teachingTip = new TeachingTip
-		{
-			Title = Localizer.Instance.GetString(titleKey),
-			Subtitle = Localizer.Instance.GetString(subtitleKey)
-		};
-
-		var actionButton = new TextBlock { Text = Localizer.Instance.GetString("GotIt") };
-		teachingTip.ActionButtonContent = actionButton;
-
-		teachingTip.ActionButtonClick += (sender, args) =>
-		{
-			sender.IsOpen = false;
-			dismissalHandler(sender);
-		};
-
-		teachingTip.CloseButtonClick += (sender, args) =>
-		{
-			sender.IsOpen = false;
-			dismissalHandler(sender);
-		};
-
-		// Add to the visual tree
-		((Grid)Content).Children.Add(teachingTip);
-
-		return teachingTip;
-	}
+	private void OnTeachingTipClick(TeachingTip sender, object args) => sender.IsOpen = false;
 
 	private void StopwatchTabView_SizeChanged(object sender, SizeChangedEventArgs e)
 	{
@@ -274,61 +221,6 @@ public sealed partial class MainView : MainViewBase
 		if (button.CommandParameter is StopwatchViewModel stopwatchViewModel && ViewModel is not null)
 		{
 			await ViewModel.CloseStopwatchAsync(stopwatchViewModel);
-		}
-	}
-
-	private void HandleTabsTeachingTipDismissal(TeachingTip sender)
-	{
-		if (this.GetServiceProvider() is { } serviceProvider)
-		{
-			var appPreferences = serviceProvider.GetRequiredService<IAppPreferences>();
-			appPreferences.HasSeenTabsTeachingTip = true;
-
-			// Show next teaching tip if this is first time
-			if (!appPreferences.HasSeenRenameTeachingTip)
-			{
-				ShowRenameTeachingTip();
-			}
-		}
-	}
-
-	private void HandleRenameTeachingTipDismissal(TeachingTip sender)
-	{
-		if (this.GetServiceProvider() is { } serviceProvider)
-		{
-			var appPreferences = serviceProvider.GetRequiredService<IAppPreferences>();
-			appPreferences.HasSeenRenameTeachingTip = true;
-
-			// Show next teaching tip if this is first time
-			if (!appPreferences.HasSeenLapsTeachingTip)
-			{
-				ShowLapsTeachingTip();
-			}
-		}
-	}
-
-	private void HandleLapsTeachingTipDismissal(TeachingTip sender)
-	{
-		if (this.GetServiceProvider() is { } serviceProvider)
-		{
-			var appPreferences = serviceProvider.GetRequiredService<IAppPreferences>();
-			appPreferences.HasSeenLapsTeachingTip = true;
-
-			// Show next teaching tip if this is first time
-			if (!appPreferences.HasSeenExportTeachingTip)
-			{
-				ShowExportTeachingTip();
-			}
-		}
-	}
-
-	private void HandleExportTeachingTipDismissal(TeachingTip sender)
-	{
-		if (this.GetServiceProvider() is { } serviceProvider)
-		{
-			var appPreferences = serviceProvider.GetRequiredService<IAppPreferences>();
-			appPreferences.HasSeenExportTeachingTip = true;
-			appPreferences.FirstStart = false; // Mark that first start is complete
 		}
 	}
 }

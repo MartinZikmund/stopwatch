@@ -76,35 +76,11 @@ public class AppPreferences : IAppPreferences
 		set => _preferences.Set(KeepScreenOnKey, value);
 	}
 
-	private const string HasSeenRenameTeachingTipKey = "HasSeenRenameTeachingTip";
+	private const string HasSeenOnboardingTipsKey = "HasSeenOnboardingTipsKey";
 
-	public bool HasSeenRenameTeachingTip
+	public bool HasSeenOnboardingTips
 	{
-		get => _preferences.Get(HasSeenRenameTeachingTipKey, false);
-		set => _preferences.Set(HasSeenRenameTeachingTipKey, value);
-	}
-
-	private const string HasSeenTabsTeachingTipKey = "HasSeenTabsTeachingTip";
-
-	public bool HasSeenTabsTeachingTip
-	{
-		get => _preferences.Get(HasSeenTabsTeachingTipKey, false);
-		set => _preferences.Set(HasSeenTabsTeachingTipKey, value);
-	}
-
-	private const string HasSeenLapsTeachingTipKey = "HasSeenLapsTeachingTip";
-
-	public bool HasSeenLapsTeachingTip
-	{
-		get => _preferences.Get(HasSeenLapsTeachingTipKey, false);
-		set => _preferences.Set(HasSeenLapsTeachingTipKey, value);
-	}
-
-	private const string HasSeenExportTeachingTipKey = "HasSeenExportTeachingTip";
-
-	public bool HasSeenExportTeachingTip
-	{
-		get => _preferences.Get(HasSeenExportTeachingTipKey, false);
-		set => _preferences.Set(HasSeenExportTeachingTipKey, value);
+		get => _preferences.Get(HasSeenOnboardingTipsKey, false);
+		set => _preferences.Set(HasSeenOnboardingTipsKey, value);
 	}
 }

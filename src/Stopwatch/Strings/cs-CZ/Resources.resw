@@ -315,6 +315,19 @@
   <data name="GetProNow" xml:space="preserve">
     <value>Koupit Pro nyní</value>
   </data>
+  <data name="RestorePurchases" xml:space="preserve">
+    <value>Obnovit nákupy</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="NoPurchasesToRestore" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value>Nebyly nalezeny žádné nákupy k obnovení.</value>
+  </data>
+  <data name="RestorePurchasesError" xml:space="preserve">
+    <value>Při pokusu o obnovení nákupů došlo k chybě. Zkuste to prosím znovu.</value>
+  </data>
+  <data name="PurchasesRestored" xml:space="preserve">
+    <value>Vaše nákupy byly úspěšně obnoveny!</value>
+  </data>
   <data name="ProOnlyFeatureDescription" xml:space="preserve">
     <value>Tato funkce je dostupná pouze ve verzi Pro</value>
   </data>
@@ -376,5 +389,8 @@
   </data>
   <data name="ShowOnboardingTipsDescription" xml:space="preserve">
     <value>Zobrazte interaktivní tipy pro seznámení s funkcemi aplikace</value>
+  </data>
+  <data name="ProOnlyTabLimitDescription" xml:space="preserve">
+    <value>Pouze verze Pro umožňuje mít otevřeny více než dvoje stopky najednou.</value>
   </data>
 </root>

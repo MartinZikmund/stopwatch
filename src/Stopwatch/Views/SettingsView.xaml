@@ -23,25 +23,14 @@
     </local:SettingsViewBase.Resources>
 
     <Grid RowSpacing="8">
-		<VisualStateManager.VisualStateGroups>
-			<VisualStateGroup>
-				<VisualState x:Name="Narrow" />
-				<VisualState x:Name="Wide">
-					<VisualState.StateTriggers>
-						<AdaptiveTrigger MinWindowWidth="640" />
-					</VisualState.StateTriggers>
-					<VisualState.Setters>
-						<Setter Target="HeaderPanel.Margin" Value="24,60,24,24" />
-						<Setter Target="ContentRoot.Margin" Value="24,0,24,24" />
-					</VisualState.Setters>
-				</VisualState>
-			</VisualStateGroup>
-		</VisualStateManager.VisualStateGroups>
-		<Grid.RowDefinitions>
+        <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid x:Name="HeaderPanel" Margin="12,48,12,8" ColumnSpacing="8">
+        <Grid
+            x:Name="HeaderPanel"
+            Margin="12,48,12,8"
+            ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -56,7 +45,7 @@
             <Border>
                 <!--  Workaround for https://github.com/unoplatform/uno/issues/7000  -->
                 <StackPanel
-					x:Name="ContentRoot"
+                    x:Name="ContentRoot"
                     Margin="12,0,12,12"
                     Orientation="Vertical"
                     Spacing="8">
@@ -210,16 +199,6 @@
                     </toolkit:SettingsCard>
 
                     <toolkit:SettingsCard
-                        Description="{ex:Localize Key=ThirdPartySoftwareDescription}"
-                        Header="{ex:Localize Key=ThirdPartySoftware}"
-                        HeaderIcon="{ex:FontIcon Glyph=&#xE8F1;}">
-                        <Button
-                            MinWidth="{StaticResource SettingsControlMinWidth}"
-                            Command="{x:Bind ViewModel.ShowThirdPartySoftwareCommand}"
-                            Content="{ex:Localize Key=View}" />
-                    </toolkit:SettingsCard>
-
-                    <toolkit:SettingsCard
                         Description="{ex:Localize Key=ShowOnboardingTipsDescription}"
                         Header="{ex:Localize Key=ShowOnboardingTips}"
                         HeaderIcon="{ex:FontIcon Glyph=&#xE9A9;}">
@@ -228,8 +207,32 @@
                             Command="{x:Bind ViewModel.ShowOnboardingTipsCommand}"
                             Content="{ex:Localize Key=View}" />
                     </toolkit:SettingsCard>
+
+                    <toolkit:SettingsCard
+                        Description="{ex:Localize Key=ThirdPartySoftwareDescription}"
+                        Header="{ex:Localize Key=ThirdPartySoftware}"
+                        HeaderIcon="{ex:FontIcon Glyph=&#xE8F1;}">
+                        <Button
+                            MinWidth="{StaticResource SettingsControlMinWidth}"
+                            Command="{x:Bind ViewModel.ShowThirdPartySoftwareCommand}"
+                            Content="{ex:Localize Key=View}" />
+                    </toolkit:SettingsCard>
                 </StackPanel>
             </Border>
         </ScrollViewer>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Narrow" />
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderPanel.Margin" Value="24,60,24,24" />
+                        <Setter Target="ContentRoot.Margin" Value="24,0,24,24" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </local:SettingsViewBase>

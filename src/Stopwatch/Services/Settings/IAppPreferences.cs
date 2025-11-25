@@ -20,11 +20,5 @@ public interface IAppPreferences
 
 	bool KeepScreenOn { get; set; }
 
-	bool HasSeenRenameTeachingTip { get; set; }
-
-	bool HasSeenTabsTeachingTip { get; set; }
-
-	bool HasSeenLapsTeachingTip { get; set; }
-
-	bool HasSeenExportTeachingTip { get; set; }
+	bool HasSeenOnboardingTips { get; set; }
 }

@@ -389,4 +389,7 @@
   <data name="ShowOnboardingTipsDescription" xml:space="preserve">
     <value>Display interactive tips to learn about the app's features</value>
   </data>
+  <data name="ProOnlyTabLimitDescription" xml:space="preserve">
+    <value>Only Fluent Stopwatch Pro allows more than two stopwatches opened at once.</value>
+  </data>
 </root>
