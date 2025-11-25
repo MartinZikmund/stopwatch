@@ -60,6 +60,9 @@ jobs:
       - name: Show Xcode version (debug)
         run: xcodebuild -version
 
+      - name: Download iOS Platform (workaround for https://github.com/actions/runner-images/issues/13275)
+        run: xcodebuild -downloadPlatform iOS
+
       # --- Code signing: import Apple Distribution cert into a temp keychain ---
       - name: Import signing certificate
         uses: apple-actions/import-codesign-certs@v1
