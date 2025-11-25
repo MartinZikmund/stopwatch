@@ -16,8 +16,8 @@
 		<!-- App Identifier -->
 		<ApplicationId>dev.mzikmund.stopwatch</ApplicationId>
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.9.3</ApplicationDisplayVersion>
-		<ApplicationVersion>22</ApplicationVersion>
+		<ApplicationDisplayVersion>0.10.1</ApplicationDisplayVersion>
+		<ApplicationVersion>30</ApplicationVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 		<UnoFeatures>
