@@ -140,6 +140,8 @@ public partial class SettingsViewModel : PageViewModel
 
 	public bool IsBackgroundColorSet => BackgroundColor != Colors.Transparent;
 
+	public bool ShouldAllowRestorePurchases => OperatingSystem.IsIOS() || OperatingSystem.IsTvOS() || OperatingSystem.IsMacOS();
+
 	public string PackageVersionString => Package.Current.Id.Version.ToFormattedString();
 
 	[RelayCommand]

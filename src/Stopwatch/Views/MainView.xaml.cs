@@ -9,11 +9,13 @@ using Stopwatch.Services.Localization;
 using Stopwatch.ViewModels;
 using Windows.Foundation.Metadata;
 using CommunityToolkit.WinUI;
+using Uno.Disposables;
 
 namespace Stopwatch.Views;
 
 public sealed partial class MainView : MainViewBase
 {
+	private readonly SerialDisposable _teachingTipTriggerDisposable = new();
 	private DispatcherQueueTimer _fadeOutTimer;
 	private AppWindow _appWindow;
 	private WindowShell _shell;
@@ -46,9 +48,14 @@ public sealed partial class MainView : MainViewBase
 
 	private void MainView_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 	{
+		_teachingTipTriggerDisposable.Disposable = null;
 		if (ViewModel is not null)
 		{
-			ViewModel.TriggerTeachingTips = () => ShowTeachingTips();
+			ViewModel.TriggerTeachingTips = ShowTeachingTips;
+			_teachingTipTriggerDisposable.Disposable = Disposable.Create(() =>
+			{
+				ViewModel.TriggerTeachingTips = null;
+			});
 		}
 	}
 
@@ -169,6 +176,7 @@ public sealed partial class MainView : MainViewBase
 		}
 
 		XamlRoot.Changed += XamlRoot_Changed;
+
 		_appWindow = serviceProvider.GetRequiredService<IWindowShellProvider>().Window.AppWindow;
 
 		_shell = serviceProvider.GetRequiredService<IWindowShellProvider>().Shell;
@@ -182,6 +190,7 @@ public sealed partial class MainView : MainViewBase
 	private void MainView_Unloaded(object sender, RoutedEventArgs e)
 	{
 		XamlRoot.Changed -= XamlRoot_Changed;
+		_teachingTipTriggerDisposable.Disposable = null;
 
 		_shell.SetTitleBar(null);
 		_shell = null;

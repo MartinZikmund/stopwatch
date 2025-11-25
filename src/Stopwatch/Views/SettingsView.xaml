@@ -174,18 +174,11 @@
                         Description="{ex:Localize Key=NoPurchasesToRestore}"
                         Header="{ex:Localize Key=RestorePurchases}"
                         HeaderIcon="{ex:FontIcon Glyph=&#xE777;}"
-                        Visibility="{x:Bind ViewModel.HasProLicense, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
+                        Visibility="{x:Bind ViewModel.ShouldAllowRestorePurchases, Mode=OneWay}">
                         <Button
                             MinWidth="{StaticResource SettingsControlMinWidth}"
                             Command="{x:Bind ViewModel.RestorePurchasesCommand}"
                             Content="{ex:Localize Key=RestorePurchases}" />
-                    </toolkit:SettingsCard>
-
-                    <toolkit:SettingsCard Description="{ex:Localize Key=AboutAppDescription}" Header="{ex:Localize Key=ApplicationName}">
-                        <toolkit:SettingsCard.HeaderIcon>
-                            <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/Icons/icon_foreground.png" />
-                        </toolkit:SettingsCard.HeaderIcon>
-                        <TextBlock Text="{x:Bind ViewModel.PackageVersionString, Mode=OneWay}" />
                     </toolkit:SettingsCard>
 
                     <toolkit:SettingsCard
@@ -216,6 +209,13 @@
                             MinWidth="{StaticResource SettingsControlMinWidth}"
                             Command="{x:Bind ViewModel.ShowThirdPartySoftwareCommand}"
                             Content="{ex:Localize Key=View}" />
+                    </toolkit:SettingsCard>
+
+                    <toolkit:SettingsCard Description="{ex:Localize Key=AboutAppDescription}" Header="{ex:Localize Key=ApplicationName}">
+                        <toolkit:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/Icons/icon_foreground.png" />
+                        </toolkit:SettingsCard.HeaderIcon>
+                        <TextBlock Text="{x:Bind ViewModel.PackageVersionString, Mode=OneWay}" />
                     </toolkit:SettingsCard>
                 </StackPanel>
             </Border>
