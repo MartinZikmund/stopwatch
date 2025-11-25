@@ -73,7 +73,11 @@ public sealed partial class MainView : MainViewBase
 		}
 
 		// Target either the TabListButton (narrow) or the AddButton in TabView (wide)
-		_tabsTeachingTip.Target = TabListButton.Visibility == Visibility.Visible ? TabListButton : StopwatchTabView.FindDescendant("AddButton");
+		var target = TabListButton.Visibility == Visibility.Visible ? TabListButton : StopwatchTabView.FindDescendant("AddButton");
+		if (target is not null)
+		{
+			_tabsTeachingTip.Target = target;
+		}
 		_tabsTeachingTip.IsOpen = true;
 	}
 
@@ -91,7 +95,7 @@ public sealed partial class MainView : MainViewBase
 		var stopwatchDisplay = this.FindDescendant<Controls.StopwatchDisplayControl>();
 		if (stopwatchDisplay != null)
 		{
-			var target = stopwatchDisplay.FindDescendant<TextBox>("StopwatchNameTextBox");
+			var target = stopwatchDisplay.FindDescendant("StopwatchNameTextBox");
 			if (target != null)
 			{
 				_renameTeachingTip.Target = target;
@@ -114,7 +118,7 @@ public sealed partial class MainView : MainViewBase
 		var stopwatchDisplay = this.FindDescendant<Controls.StopwatchDisplayControl>();
 		if (stopwatchDisplay != null)
 		{
-			var target = stopwatchDisplay.FindDescendant<Button>("LapButton");
+			var target = stopwatchDisplay.FindDescendant("LapButton");
 			if (target != null)
 			{
 				_lapsTeachingTip.Target = target;
@@ -137,7 +141,7 @@ public sealed partial class MainView : MainViewBase
 		var stopwatchDisplay = this.FindDescendant<Controls.StopwatchDisplayControl>();
 		if (stopwatchDisplay != null)
 		{
-			var target = stopwatchDisplay.FindDescendant<Expander>("LapsExpander");
+			var target = stopwatchDisplay.FindDescendant("LapsExpander");
 			if (target != null)
 			{
 				_exportTeachingTip.Target = target;
