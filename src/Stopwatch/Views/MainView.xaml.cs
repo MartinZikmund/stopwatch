@@ -44,6 +44,7 @@ public sealed partial class MainView : MainViewBase
 		this.DataContextChanged += MainView_DataContextChanged;
 	}
 
+	private TeachingTip? _tabsTeachingTip;
 	private TeachingTip? _renameTeachingTip;
 	private TeachingTip? _lapsTeachingTip;
 	private TeachingTip? _exportTeachingTip;
@@ -58,9 +59,22 @@ public sealed partial class MainView : MainViewBase
 
 	private void ShowTeachingTips()
 	{
-		// Start with the tabs teaching tip
-		TabsTeachingTip.Target = TabListButton.Visibility == Visibility.Visible ? TabListButton : StopwatchTabView.FindDescendant("AddButton");
-		TabsTeachingTip.IsOpen = true;
+		ShowTabsTeachingTip();
+	}
+
+	private void ShowTabsTeachingTip()
+	{
+		if (_tabsTeachingTip == null)
+		{
+			_tabsTeachingTip = CreateTeachingTip(
+				"TeachingTip_AddTabs_Title",
+				"TeachingTip_AddTabs_Subtitle",
+				HandleTabsTeachingTipDismissal);
+		}
+
+		// Target either the TabListButton (narrow) or the AddButton in TabView (wide)
+		_tabsTeachingTip.Target = TabListButton.Visibility == Visibility.Visible ? TabListButton : StopwatchTabView.FindDescendant("AddButton");
+		_tabsTeachingTip.IsOpen = true;
 	}
 
 	private void ShowRenameTeachingTip()
@@ -259,19 +273,7 @@ public sealed partial class MainView : MainViewBase
 		}
 	}
 
-	private void TabsTeachingTip_ActionButtonClick(TeachingTip sender, object args)
-	{
-		sender.IsOpen = false;
-		HandleTabsTeachingTipDismissal();
-	}
-
-	private void TabsTeachingTip_CloseButtonClick(TeachingTip sender, object args)
-	{
-		sender.IsOpen = false;
-		HandleTabsTeachingTipDismissal();
-	}
-
-	private void HandleTabsTeachingTipDismissal()
+	private void HandleTabsTeachingTipDismissal(TeachingTip sender)
 	{
 		if (this.GetServiceProvider() is { } serviceProvider)
 		{
