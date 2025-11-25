@@ -80,6 +80,12 @@ public partial class MainViewModel : PageViewModel
 	{
 		ReloadStopwatches();
 		HasProLicense = await _storeService.HasProAsync();
+
+		// Show teaching tips for first-time users or when returning from settings
+		if (!_appPreferences.HasSeenOnboardingTips)
+		{
+			TriggerTeachingTips?.Invoke();
+		}
 	}
 
 	public override void ViewLoaded()
@@ -236,6 +242,8 @@ public partial class MainViewModel : PageViewModel
 			}
 		}
 	}
+
+	public Action? TriggerTeachingTips { get; set; }
 
 	[RelayCommand]
 	public async Task ExportToJsonAsync()

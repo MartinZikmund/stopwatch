@@ -353,4 +353,43 @@
     <value>Export to CSV</value>
     <comment>Export to CSV</comment>
   </data>
+  <data name="TeachingTip_RenameStopwatch_Title" xml:space="preserve">
+    <value>Rename your stopwatch</value>
+  </data>
+  <data name="TeachingTip_RenameStopwatch_Subtitle" xml:space="preserve">
+    <value>Click on the stopwatch name to rename it and make it easier to identify</value>
+  </data>
+  <data name="TeachingTip_AddTabs_Title" xml:space="preserve">
+    <value>Multiple stopwatches</value>
+  </data>
+  <data name="TeachingTip_AddTabs_Subtitle" xml:space="preserve">
+    <value>Click the "+" button or use the stopwatch list to add multiple stopwatches</value>
+  </data>
+  <data name="TeachingTip_Laps_Title" xml:space="preserve">
+    <value>Track your laps</value>
+  </data>
+  <data name="TeachingTip_Laps_Subtitle" xml:space="preserve">
+    <value>Click the flag button to record lap times and expand the laps section to view them</value>
+  </data>
+  <data name="TeachingTip_Export_Title" xml:space="preserve">
+    <value>Manage your laps</value>
+  </data>
+  <data name="TeachingTip_Export_Subtitle" xml:space="preserve">
+    <value>Right-click on lap entries to delete them or add notes to track your performance</value>
+  </data>
+  <data name="GotIt" xml:space="preserve">
+    <value>Got it</value>
+  </data>
+  <data name="ShowTips" xml:space="preserve">
+    <value>Show tips</value>
+  </data>
+  <data name="ShowOnboardingTips" xml:space="preserve">
+    <value>Show onboarding tips</value>
+  </data>
+  <data name="ShowOnboardingTipsDescription" xml:space="preserve">
+    <value>Display interactive tips to learn about the app's features</value>
+  </data>
+  <data name="ProOnlyTabLimitDescription" xml:space="preserve">
+    <value>Only Fluent Stopwatch Pro allows more than two stopwatches opened at once.</value>
+  </data>
 </root>

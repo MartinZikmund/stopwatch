@@ -75,4 +75,12 @@ public class AppPreferences : IAppPreferences
 		get => _preferences.Get(KeepScreenOnKey, true);
 		set => _preferences.Set(KeepScreenOnKey, value);
 	}
+
+	private const string HasSeenOnboardingTipsKey = "HasSeenOnboardingTipsKey";
+
+	public bool HasSeenOnboardingTips
+	{
+		get => _preferences.Get(HasSeenOnboardingTipsKey, false);
+		set => _preferences.Set(HasSeenOnboardingTipsKey, value);
+	}
 }

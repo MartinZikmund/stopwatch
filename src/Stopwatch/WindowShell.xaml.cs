@@ -80,6 +80,7 @@ public sealed partial class WindowShell : Page, IWindowShell
 		if (AppWindowTitleBar.IsCustomizationSupported())
 		{
 			_associatedWindow.ExtendsContentIntoTitleBar = true;
+			_associatedWindow.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
 			// TODO: The title bar grid will need to be resized along with TabBar
 			_associatedWindow.SetTitleBar(TitleBarGrid);
 			HasCustomTitleBar = true;

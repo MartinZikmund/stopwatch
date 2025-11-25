@@ -17,7 +17,7 @@
 
         <Grid
             x:Name="TitleBarGrid"
-            Height="40"
+            Height="48"
             Padding="0,0"
             VerticalAlignment="Top"
             Background="#11000000"
@@ -43,7 +43,7 @@
 
         <Grid
             Width="44"
-            Height="40"
+            Height="48"
             Padding="0,8,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"

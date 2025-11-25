@@ -19,4 +19,6 @@ public interface IAppPreferences
 	bool AutoHideButtons { get; set; }
 
 	bool KeepScreenOn { get; set; }
+
+	bool HasSeenOnboardingTips { get; set; }
 }

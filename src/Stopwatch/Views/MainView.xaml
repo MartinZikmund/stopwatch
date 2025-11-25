@@ -11,6 +11,17 @@
     xmlns:vm="using:Stopwatch.ViewModels"
     xmlns:wctc="using:CommunityToolkit.WinUI.Converters">
 
+    <local:MainViewBase.Resources>
+        <TeachingTip
+            x:Key="OnboardingTeachingTip"
+            ActionButtonClick="OnTeachingTipClick"
+            CloseButtonClick="OnTeachingTipClick">
+            <TeachingTip.ActionButtonContent>
+                <TextBlock Text="{ex:Localize Key=GotIt}" />
+            </TeachingTip.ActionButtonContent>
+        </TeachingTip>
+    </local:MainViewBase.Resources>
+
     <Grid x:Name="RootGrid">
         <Grid PointerMoved="RootGridPointerEvent" PointerPressed="RootGridPointerEvent">
             <Grid.RowDefinitions>
@@ -19,7 +30,7 @@
             </Grid.RowDefinitions>
 
             <!--  Title bar area  -->
-            <Grid x:Name="TitleBarArea" Height="40">
+            <Grid x:Name="TitleBarArea" Height="48">
 
                 <Border
                     Height="1"

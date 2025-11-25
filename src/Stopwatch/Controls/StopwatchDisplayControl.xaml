@@ -33,6 +33,7 @@
                     Spacing="8">
                     <!--<FontIcon Glyph="{x:Bind Stopwatch.Icon, Mode=OneWay}" />-->
                     <TextBox
+                        x:Name="StopwatchNameTextBox"
                         Padding="4"
                         HorizontalAlignment="Center"
                         Background="Transparent"
@@ -65,7 +66,10 @@
                         Style="{StaticResource AccentControlButtonStyle}">
                         <FontIcon Glyph="{x:Bind Stopwatch.IsRunning, Mode=OneWay, Converter={StaticResource IsRunningToSymbolConverter}}" />
                     </Button>
-                    <Button Command="{x:Bind Stopwatch.LapCommand, Mode=OneWay}" Style="{StaticResource ControlButtonStyle}">
+                    <Button
+                        x:Name="LapButton"
+                        Command="{x:Bind Stopwatch.LapCommand, Mode=OneWay}"
+                        Style="{StaticResource ControlButtonStyle}">
                         <SymbolIcon Symbol="Flag" />
                     </Button>
                     <Button Command="{x:Bind Stopwatch.ResetCommand, Mode=OneWay}" Style="{StaticResource ControlButtonStyle}">
@@ -75,6 +79,7 @@
             </Grid>
         </Viewbox>
         <Expander
+            x:Name="LapsExpander"
             Grid.Row="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Bottom"
