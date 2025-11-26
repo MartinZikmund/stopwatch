@@ -1,12 +1,12 @@
-﻿using Stopwatch.Services;
+﻿using Microsoft.UI.Windowing;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using Stopwatch.Infrastructure;
+using Stopwatch.Services;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Theming;
 using Stopwatch.ViewModels;
 using Windows.Foundation.Metadata;
-using Microsoft.UI.Windowing;
 
 namespace Stopwatch;
 
@@ -24,7 +24,9 @@ public sealed partial class WindowShell : Page, IWindowShell
 		var windowShellProvider = (WindowShellProvider)ServiceProvider.GetRequiredService<IWindowShellProvider>();
 		windowShellProvider.SetShell(this, associatedWindow);
 
-		ServiceProvider.GetRequiredService<INavigationService>().RegisterViewsFromAssembly(typeof(Stopwatch.App).Assembly);
+		var navigationService = ServiceProvider.GetRequiredService<INavigationService>();
+		navigationService.RegisterViewsFromAssembly(typeof(Stopwatch.App).Assembly);
+		navigationService.Initialize();
 		ServiceProvider.GetRequiredService<IDialogService>().RegisterDialogsFromAssembly(typeof(Stopwatch.App).Assembly);
 
 		var settings = ServiceProvider.GetRequiredService<IAppPreferences>();

@@ -7,12 +7,12 @@ namespace Stopwatch.Views;
 /// </summary>
 public sealed partial class OnboardingView : OnboardingViewBase
 {
-    public OnboardingView()
-    {
-        this.InitializeComponent();
-    }
+	public OnboardingView()
+	{
+		this.InitializeComponent();
+	}
 }
 
 public partial class OnboardingViewBase : PageBase<OnboardingViewModel>
-{ 
+{
 }

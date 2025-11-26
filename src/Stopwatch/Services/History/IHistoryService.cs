@@ -1,6 +1,7 @@
 ﻿using Stopwatch.Models;
 
 namespace Stopwatch.Services;
+
 public interface IHistoryService
 {
 	HistoryEntryModel[] GetAll();

@@ -1,10 +1,10 @@
-﻿using Windows.Foundation;
+﻿using Stopwatch.Services.Navigation;
+using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Media.Capture;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
-using Stopwatch.Services.Navigation;
 
 namespace Stopwatch.Core.Services;
 
