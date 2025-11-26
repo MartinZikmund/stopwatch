@@ -68,18 +68,29 @@ public class NavigationService : INavigationService
 
 	private void NavigationManagerBackRequested(object? sender, BackRequestedEventArgs? e)
 	{
-		if (CanGoBack)
+		if (e is null)
 		{
-			e.Handled = true;
-			GoBack();
+			return;
 		}
+
+		HandleBackNavigation(() => e.Handled = true);
 	}
 
-	private void NavigationManagerCloseRequested(object? sender, SystemNavigationCloseRequestedPreviewEventArgs e)
+	private void NavigationManagerCloseRequested(object? sender, SystemNavigationCloseRequestedPreviewEventArgs? e)
+	{
+		if (e is null)
+		{
+			return;
+		}
+
+		HandleBackNavigation(() => e.Handled = true);
+	}
+
+	private void HandleBackNavigation(Action markHandled)
 	{
 		if (CanGoBack)
 		{
-			e.Handled = true;
+			markHandled();
 			GoBack();
 		}
 	}
