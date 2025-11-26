@@ -24,7 +24,9 @@ public sealed partial class WindowShell : Page, IWindowShell
 		var windowShellProvider = (WindowShellProvider)ServiceProvider.GetRequiredService<IWindowShellProvider>();
 		windowShellProvider.SetShell(this, associatedWindow);
 
-		ServiceProvider.GetRequiredService<INavigationService>().RegisterViewsFromAssembly(typeof(Stopwatch.App).Assembly);
+		var navigationService = ServiceProvider.GetRequiredService<INavigationService>();
+		navigationService.Initialize();
+		navigationService.RegisterViewsFromAssembly(typeof(Stopwatch.App).Assembly);
 		ServiceProvider.GetRequiredService<IDialogService>().RegisterDialogsFromAssembly(typeof(Stopwatch.App).Assembly);
 
 		var settings = ServiceProvider.GetRequiredService<IAppPreferences>();
