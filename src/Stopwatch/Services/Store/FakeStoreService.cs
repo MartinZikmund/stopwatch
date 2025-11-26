@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MZikmund.Toolkit.WinUI.Services;
 
 namespace Stopwatch.Services.Store;
+
 internal class FakeStoreService : IStoreService
 {
 	private readonly IPreferences _preferences;

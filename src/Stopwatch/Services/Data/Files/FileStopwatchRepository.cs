@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Stopwatch.Models;
 
 namespace Stopwatch.Services.Data.Files;
+
 internal class FileStopwatchRepository : FileRepository<StopwatchModel>, IStopwatchRepository
 {
 	private readonly FileDataSource _dataSource;

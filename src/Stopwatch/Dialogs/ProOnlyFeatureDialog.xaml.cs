@@ -4,6 +4,7 @@ using Stopwatch.Services.Navigation;
 using Stopwatch.ViewModels;
 
 namespace Stopwatch.Services.Dialogs;
+
 public sealed partial class ProOnlyFeatureDialog : ContentDialog
 {
 	public ProOnlyFeatureDialog()

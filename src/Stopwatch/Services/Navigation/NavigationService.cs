@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Windows.UI.Core;
+using Windows.UI.Core.Preview;
 
 namespace Stopwatch.Services.Navigation;
 
@@ -59,10 +60,40 @@ public class NavigationService : INavigationService
 		_views.Add(typeof(Stopwatch.Views.OnboardingView).Name, typeof(Stopwatch.Views.OnboardingView));
 	}
 
-	public void Initialize() =>
+	public void Initialize()
+	{
 		SystemNavigationManager.GetForCurrentView().BackRequested += NavigationManagerBackRequested;
+		SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += NavigationManagerCloseRequested;
+	}
 
-	private void NavigationManagerBackRequested(object? sender, BackRequestedEventArgs? e) => GoBack();
+	private void NavigationManagerBackRequested(object? sender, BackRequestedEventArgs? e)
+	{
+		if (e is null)
+		{
+			return;
+		}
+
+		HandleBackNavigation(() => e.Handled = true);
+	}
+
+	private void NavigationManagerCloseRequested(object? sender, SystemNavigationCloseRequestedPreviewEventArgs? e)
+	{
+		if (e is null)
+		{
+			return;
+		}
+
+		HandleBackNavigation(() => e.Handled = true);
+	}
+
+	private void HandleBackNavigation(Action markHandled)
+	{
+		if (CanGoBack)
+		{
+			markHandled();
+			GoBack();
+		}
+	}
 
 	public void ClearBackStack() => Frame.BackStack.Clear();
 }
