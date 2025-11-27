@@ -63,6 +63,11 @@
 		<PackageReference Include="Xamarin.AndroidX.SavedState.SavedState.Ktx" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(IsIOS)' == 'true'">
+		<BundleResource Include="Platforms\iOS\en.lproj\InfoPlist.strings" />
+		<BundleResource Include="Platforms\iOS\cs.lproj\InfoPlist.strings" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="../Stopwatch.SourceGenerators/Stopwatch.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
