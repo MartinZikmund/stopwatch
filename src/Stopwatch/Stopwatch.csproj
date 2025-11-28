@@ -16,8 +16,8 @@
 		<!-- App Identifier -->
 		<ApplicationId>dev.mzikmund.stopwatch</ApplicationId>
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.10.1</ApplicationDisplayVersion>
-		<ApplicationVersion>30</ApplicationVersion>
+		<ApplicationDisplayVersion>0.10.2</ApplicationDisplayVersion>
+		<ApplicationVersion>31</ApplicationVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 		<UnoFeatures>
@@ -61,6 +61,11 @@
 		<PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime.Ktx.Android" />
 		<PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel.Ktx" />
 		<PackageReference Include="Xamarin.AndroidX.SavedState.SavedState.Ktx" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(IsIOS)' == 'true'">
+		<BundleResource Include="Platforms\iOS\en.lproj\InfoPlist.strings" />
+		<BundleResource Include="Platforms\iOS\cs.lproj\InfoPlist.strings" />
 	</ItemGroup>
 
 	<ItemGroup>
