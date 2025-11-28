@@ -17,4 +17,8 @@
 		-->
 		<NoWarn>$(NoWarn);NU1507;NETSDK1201;PRI257</NoWarn>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="All"/>
+	</ItemGroup>
 </Project>
