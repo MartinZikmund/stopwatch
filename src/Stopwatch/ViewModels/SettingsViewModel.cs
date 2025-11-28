@@ -1,3 +1,4 @@
+using System.Reflection;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI;
 using MZikmund.Toolkit.WinUI.Infrastructure;
@@ -142,7 +143,30 @@ public partial class SettingsViewModel : PageViewModel
 
 	public bool ShouldAllowRestorePurchases => OperatingSystem.IsIOS() || OperatingSystem.IsTvOS() || OperatingSystem.IsMacOS();
 
-	public string PackageVersionString => Package.Current.Id.Version.ToFormattedString();
+	public string PackageVersionString
+	{
+		get
+		{
+			var assemblyInformationalVersion = Assembly.GetExecutingAssembly()
+				.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version;
+			if (assemblyInformationalVersion is not null)
+			{
+				// Return just the first three components (major.minor.build)
+				var parts = assemblyInformationalVersion.Split('.');
+				if (parts.Length >= 3)
+				{
+					var versionParts = assemblyInformationalVersion.Split('.');
+					return $"{versionParts[0]}.{versionParts[1]}.{versionParts[2]}";
+				}
+
+				return assemblyInformationalVersion.ToString();
+			}
+
+			return Package.Current.Id.Version.ToFormattedString();
+		}
+	}
+
+	public string CopyrightYear => DateTime.Now.Year.ToString();
 
 	[RelayCommand]
 	private async Task ReviewAppAsync() => await StoreContext.GetDefault().RequestRateAndReviewAppAsync();
