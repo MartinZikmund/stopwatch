@@ -166,6 +166,8 @@ public partial class SettingsViewModel : PageViewModel
 		}
 	}
 
+	public string CopyrightYear => DateTime.Now.Year.ToString();
+
 	[RelayCommand]
 	private async Task ReviewAppAsync() => await StoreContext.GetDefault().RequestRateAndReviewAppAsync();
 
