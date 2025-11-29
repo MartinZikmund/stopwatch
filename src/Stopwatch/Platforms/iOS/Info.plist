@@ -35,10 +35,17 @@
 		<true/>
 		<key>CFBundleIdentifier</key>
 		<string>dev.mzikmund.stopwatch</string>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>en</string>
+		<key>CFBundleLocalizations</key>
+		<array>
+			<string>en</string>
+			<string>cs</string>
+		</array>
 		<key>CFBundleName</key>
-		<string>FluentStopwatch</string>
+		<string>Stopwatch</string>
 		<key>CFBundleDisplayName</key>
-		<string>Fluent Stopwatch</string>
+		<string>Stopwatch</string>
 		<key>ITSAppUsesNonExemptEncryption</key>
 		<false/>
 	</dict>
