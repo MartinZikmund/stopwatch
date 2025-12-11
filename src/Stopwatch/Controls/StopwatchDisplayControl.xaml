@@ -89,7 +89,6 @@
             IsExpanded="{x:Bind Stopwatch.IsLapsListExpanded, Mode=TwoWay}">
             <ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Auto">
                 <Grid
-                    Grid.Row="2"
                     MinWidth="400"
                     MaxWidth="600"
                     HorizontalAlignment="Stretch">
