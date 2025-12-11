@@ -160,6 +160,11 @@
                                         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
                                         <Setter Property="TextWrapping" Value="NoWrap" />
                                     </Style>
+                                    <Style x:Key="LapHighlightFontIconStyle" TargetType="FontIcon">
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                        <Setter Property="FontSize" Value="12" />
+                                        <Setter Property="FontWeight" Value="Bold" />
+                                    </Style>
                                     <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
                                         <Setter Property="Background" Value="Transparent" />
                                         <Setter Property="BorderBrush" Value="Transparent" />
@@ -181,23 +186,19 @@
                                         HorizontalAlignment="Center"
                                         FontWeight="Bold"
                                         Text="{x:Bind Order}" />
-                                    <TextBlock
-                                        x:Name="FastestBlock"
+                                    <FontIcon
+                                        x:Name="FastestIcon"
                                         Grid.Column="1"
-                                        VerticalAlignment="Center"
                                         x:Load="True"
-                                        Style="{ThemeResource LapHighlightTextBlockStyle}"
-                                        Text="{ex:Localize Key=Fastest}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="NoWrap"
+                                        Style="{StaticResource LapHighlightFontIconStyle}"
+                                        Glyph="&#xEDD7;"
                                         Visibility="{x:Bind IsFastest, Mode=OneWay}" />
-                                    <TextBlock
-                                        x:Name="SlowestBlock"
+                                    <FontIcon
+                                        x:Name="SlowestIcon"
                                         Grid.Column="1"
-                                        VerticalAlignment="Center"
                                         x:Load="True"
-                                        Style="{ThemeResource LapHighlightTextBlockStyle}"
-                                        Text="{ex:Localize Key=Slowest}"
+                                        Style="{StaticResource LapHighlightFontIconStyle}"
+                                        Glyph="&#xEDD8;"
                                         Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
                                 </Grid>
                                 <TextBlock Grid.Column="1" Text="{x:Bind TimeString}" />
