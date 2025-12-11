@@ -87,10 +87,12 @@
             ExpandDirection="Up"
             Header="{ex:Localize Key=Laps}"
             IsExpanded="{x:Bind Stopwatch.IsLapsListExpanded, Mode=TwoWay}">
-            <Grid
-                Grid.Row="2"
-                MaxWidth="600"
-                HorizontalAlignment="Stretch">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Auto">
+                <Grid
+                    Grid.Row="2"
+                    MinWidth="400"
+                    MaxWidth="600"
+                    HorizontalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -230,7 +232,8 @@
                         </Button.Flyout>
                     </Button>
                 </StackPanel>
-            </Grid>
+                </Grid>
+            </ScrollViewer>
         </Expander>
     </Grid>
 </UserControl>
