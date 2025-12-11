@@ -186,6 +186,7 @@
                                         Grid.Column="1"
                                         VerticalAlignment="Center"
                                         x:Load="True"
+                                        FontSize="12"
                                         FontWeight="Bold"
                                         Glyph="&#xEDD7;"
                                         Visibility="{x:Bind IsFastest, Mode=OneWay}" />
@@ -194,6 +195,7 @@
                                         Grid.Column="1"
                                         VerticalAlignment="Center"
                                         x:Load="True"
+                                        FontSize="12"
                                         FontWeight="Bold"
                                         Glyph="&#xEDD8;"
                                         Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
