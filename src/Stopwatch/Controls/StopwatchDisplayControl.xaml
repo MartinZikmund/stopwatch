@@ -88,9 +88,137 @@
             Header="{ex:Localize Key=Laps}"
             IsExpanded="{x:Bind Stopwatch.IsLapsListExpanded, Mode=TwoWay}">
             <Grid
+                x:Name="LapListRoot"
                 Grid.Row="2"
                 MaxWidth="600"
                 HorizontalAlignment="Stretch">
+                <Grid.Resources>
+                    <!--  Wide layout DataTemplate  -->
+                    <DataTemplate x:Key="WideItemTemplate" x:DataType="lapVM:LapViewModel">
+                        <Grid Background="Transparent" ColumnSpacing="16">
+                            <Grid.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem
+                                        Command="{x:Bind RequestDeleteCommand}"
+                                        Icon="Delete"
+                                        Text="Delete" />
+                                </MenuFlyout>
+                            </Grid.ContextFlyout>
+                            <Grid.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                </Style>
+                                <Style BasedOn="{StaticResource DefaultTextBoxStyle}" TargetType="TextBox">
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderThickness" Value="0,0,0,2" />
+                                </Style>
+                                <Style x:Key="LapHighlightFontIconStyle" TargetType="FontIcon">
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                    <Setter Property="FontSize" Value="12" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.8*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="16" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Text="{x:Bind Order}" />
+                                <FontIcon
+                                    Grid.Column="1"
+                                    x:Load="True"
+                                    Style="{StaticResource LapHighlightFontIconStyle}"
+                                    Glyph="&#xEDD7;"
+                                    Visibility="{x:Bind IsFastest, Mode=OneWay}" />
+                                <FontIcon
+                                    Grid.Column="1"
+                                    x:Load="True"
+                                    Style="{StaticResource LapHighlightFontIconStyle}"
+                                    Glyph="&#xEDD8;"
+                                    Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
+                            </Grid>
+                            <TextBlock Grid.Column="1" Text="{x:Bind TimeString}" />
+                            <TextBlock Grid.Column="2" Text="{x:Bind TotalTimeString}" />
+                            <TextBox Grid.Column="3" Text="{x:Bind Note, Mode=TwoWay}" />
+                        </Grid>
+                    </DataTemplate>
+                    
+                    <!--  Narrow layout DataTemplate  -->
+                    <DataTemplate x:Key="NarrowItemTemplate" x:DataType="lapVM:LapViewModel">
+                        <Grid Background="Transparent" RowSpacing="4">
+                            <Grid.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem
+                                        Command="{x:Bind RequestDeleteCommand}"
+                                        Icon="Delete"
+                                        Text="Delete" />
+                                </MenuFlyout>
+                            </Grid.ContextFlyout>
+                            <Grid.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                </Style>
+                                <Style BasedOn="{StaticResource DefaultTextBoxStyle}" TargetType="TextBox">
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderThickness" Value="0,0,0,2" />
+                                </Style>
+                                <Style x:Key="LapHighlightFontIconStyle" TargetType="FontIcon">
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                    <Setter Property="FontSize" Value="12" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <!--  First row: Lap number and LapTime  -->
+                            <Grid Grid.Row="0" Grid.Column="0" ColumnSpacing="8" Margin="0,0,16,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="16" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Text="{x:Bind Order}" />
+                                <FontIcon
+                                    Grid.Column="1"
+                                    x:Load="True"
+                                    Style="{StaticResource LapHighlightFontIconStyle}"
+                                    Glyph="&#xEDD7;"
+                                    Visibility="{x:Bind IsFastest, Mode=OneWay}" />
+                                <FontIcon
+                                    Grid.Column="1"
+                                    x:Load="True"
+                                    Style="{StaticResource LapHighlightFontIconStyle}"
+                                    Glyph="&#xEDD8;"
+                                    Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
+                            </Grid>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{x:Bind TimeString}" />
+                            
+                            <!--  Second row: TotalTime and Note  -->
+                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,16,0" Opacity="0.7" Text="{x:Bind TotalTimeString}" />
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{x:Bind Note, Mode=TwoWay}" />
+                        </Grid>
+                    </DataTemplate>
+                </Grid.Resources>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -157,8 +285,10 @@
                     </VisualStateManager.VisualStateGroups>
                 </Grid>
                 <ListView
+                    x:Name="LapsListView"
                     Grid.Row="1"
                     HorizontalAlignment="Stretch"
+                    ItemTemplate="{StaticResource WideItemTemplate}"
                     ItemsSource="{x:Bind Stopwatch.Laps, Mode=OneWay}"
                     SelectionMode="Single">
                     <ListView.ItemContainerStyle>
@@ -168,152 +298,6 @@
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         </Style>
                     </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="lapVM:LapViewModel">
-                            <Grid x:Name="LapItemRoot" Background="Transparent">
-                                <Grid.ContextFlyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem
-                                            Command="{x:Bind RequestDeleteCommand}"
-                                            Icon="Delete"
-                                            Text="Delete" />
-                                    </MenuFlyout>
-                                </Grid.ContextFlyout>
-                                <Grid.Resources>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="VerticalAlignment" Value="Center" />
-                                    </Style>
-                                    <Style BasedOn="{StaticResource DefaultTextBoxStyle}" TargetType="TextBox">
-                                        <Setter Property="VerticalAlignment" Value="Center" />
-                                        <Setter Property="Background" Value="Transparent" />
-                                        <Setter Property="BorderThickness" Value="0,0,0,2" />
-                                    </Style>
-                                    <Style
-                                        x:Key="LapHighlightTextBlockStyle"
-                                        BasedOn="{StaticResource CaptionTextBlockStyle}"
-                                        TargetType="TextBlock">
-                                        <Setter Property="VerticalAlignment" Value="Center" />
-                                        <Setter Property="FontWeight" Value="Bold" />
-                                        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
-                                        <Setter Property="TextWrapping" Value="NoWrap" />
-                                    </Style>
-                                    <Style x:Key="LapHighlightFontIconStyle" TargetType="FontIcon">
-                                        <Setter Property="VerticalAlignment" Value="Center" />
-                                        <Setter Property="FontSize" Value="12" />
-                                        <Setter Property="FontWeight" Value="Bold" />
-                                    </Style>
-                                    <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
-                                        <Setter Property="Background" Value="Transparent" />
-                                        <Setter Property="BorderBrush" Value="Transparent" />
-                                        <Setter Property="HorizontalAlignment" Value="Right" />
-                                    </Style>
-                                </Grid.Resources>
-                                
-                                <!--  Wide layout: Single row with 4 columns  -->
-                                <Grid x:Name="WideLayout" ColumnSpacing="16">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="0.8*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid ColumnSpacing="8">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="16" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            FontWeight="Bold"
-                                            Text="{x:Bind Order}" />
-                                        <FontIcon
-                                            x:Name="FastestIconWide"
-                                            Grid.Column="1"
-                                            x:Load="True"
-                                            Style="{StaticResource LapHighlightFontIconStyle}"
-                                            Glyph="&#xEDD7;"
-                                            Visibility="{x:Bind IsFastest, Mode=OneWay}" />
-                                        <FontIcon
-                                            x:Name="SlowestIconWide"
-                                            Grid.Column="1"
-                                            x:Load="True"
-                                            Style="{StaticResource LapHighlightFontIconStyle}"
-                                            Glyph="&#xEDD8;"
-                                            Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
-                                    </Grid>
-                                    <TextBlock Grid.Column="1" Text="{x:Bind TimeString}" />
-                                    <TextBlock Grid.Column="2" Text="{x:Bind TotalTimeString}" />
-                                    <TextBox Grid.Column="3" Text="{x:Bind Note, Mode=TwoWay}" />
-                                </Grid>
-                                
-                                <!--  Narrow layout: Two rows  -->
-                                <Grid x:Name="NarrowLayout" RowSpacing="4" Visibility="Collapsed">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    
-                                    <!--  First row: Lap number and LapTime  -->
-                                    <Grid Grid.Row="0" Grid.Column="0" ColumnSpacing="8" Margin="0,0,16,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="16" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            FontWeight="Bold"
-                                            Text="{x:Bind Order}" />
-                                        <FontIcon
-                                            x:Name="FastestIconNarrow"
-                                            Grid.Column="1"
-                                            x:Load="True"
-                                            Style="{StaticResource LapHighlightFontIconStyle}"
-                                            Glyph="&#xEDD7;"
-                                            Visibility="{x:Bind IsFastest, Mode=OneWay}" />
-                                        <FontIcon
-                                            x:Name="SlowestIconNarrow"
-                                            Grid.Column="1"
-                                            x:Load="True"
-                                            Style="{StaticResource LapHighlightFontIconStyle}"
-                                            Glyph="&#xEDD8;"
-                                            Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
-                                    </Grid>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{x:Bind TimeString}" />
-                                    
-                                    <!--  Second row: TotalTime and Note  -->
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,16,0" Opacity="0.7" Text="{x:Bind TotalTimeString}" />
-                                    <TextBox Grid.Row="1" Grid.Column="1" Text="{x:Bind Note, Mode=TwoWay}" />
-                                </Grid>
-                                
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup>
-                                        <VisualState x:Name="Wide">
-                                            <VisualState.StateTriggers>
-                                                <AdaptiveTrigger MinWindowWidth="500" />
-                                            </VisualState.StateTriggers>
-                                            <VisualState.Setters>
-                                                <Setter Target="WideLayout.Visibility" Value="Visible" />
-                                                <Setter Target="NarrowLayout.Visibility" Value="Collapsed" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="Narrow">
-                                            <VisualState.StateTriggers>
-                                                <AdaptiveTrigger MinWindowWidth="0" />
-                                            </VisualState.StateTriggers>
-                                            <VisualState.Setters>
-                                                <Setter Target="WideLayout.Visibility" Value="Collapsed" />
-                                                <Setter Target="NarrowLayout.Visibility" Value="Visible" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
                 </ListView>
                 <StackPanel
                     Grid.Row="2"
@@ -337,6 +321,26 @@
                         </Button.Flyout>
                     </Button>
                 </StackPanel>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup>
+                        <VisualState x:Name="WideState">
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowWidth="500" />
+                            </VisualState.StateTriggers>
+                            <VisualState.Setters>
+                                <Setter Target="LapsListView.ItemTemplate" Value="{StaticResource WideItemTemplate}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="NarrowState">
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowWidth="0" />
+                            </VisualState.StateTriggers>
+                            <VisualState.Setters>
+                                <Setter Target="LapsListView.ItemTemplate" Value="{StaticResource NarrowItemTemplate}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
             </Grid>
         </Expander>
     </Grid>
