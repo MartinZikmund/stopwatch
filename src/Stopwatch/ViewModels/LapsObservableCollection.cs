@@ -6,7 +6,7 @@ using Stopwatch.Models;
 
 namespace Stopwatch.ViewModels;
 
-public partial class LapsObservableCollection : ObservableCollection<LapViewModel>
+public class LapsObservableCollection : ObservableCollection<LapViewModel>
 {
 	private readonly StopwatchViewModel _owner;
 
