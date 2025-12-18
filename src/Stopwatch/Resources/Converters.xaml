@@ -5,6 +5,7 @@
     xmlns:wct="using:CommunityToolkit.WinUI.Converters">
 
     <converter:EnumLocalizationConverter x:Key="EnumLocalizationConverter" />
+    <converter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
     <wct:BoolNegationConverter x:Key="BoolNegationConverter" />
     <wct:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <wct:BoolToVisibilityConverter
