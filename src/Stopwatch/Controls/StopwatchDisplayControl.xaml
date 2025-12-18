@@ -87,38 +87,74 @@
             ExpandDirection="Up"
             Header="{ex:Localize Key=Laps}"
             IsExpanded="{x:Bind Stopwatch.IsLapsListExpanded, Mode=TwoWay}">
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Auto">
-                <Grid
-                    MinWidth="400"
-                    MaxWidth="600"
-                    HorizontalAlignment="Stretch">
+            <Grid
+                Grid.Row="2"
+                MaxWidth="600"
+                HorizontalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid
+                    x:Name="HeaderGrid"
                     Grid.Row="0"
                     Padding="8"
                     BorderBrush="{ThemeResource AccentAAFillColorDefaultBrush}"
-                    BorderThickness="0,0,0,1"
-                    ColumnSpacing="16">
+                    BorderThickness="0,0,0,1">
                     <Grid.Resources>
                         <Style TargetType="TextBlock">
                             <Setter Property="FontWeight" Value="SemiBold" />
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                     </Grid.Resources>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.8*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{ex:Localize Key=Lap}" />
-                    <TextBlock Grid.Column="1" Text="{ex:Localize Key=LapTime}" />
-                    <TextBlock Grid.Column="2" Text="{ex:Localize Key=TotalTime}" />
-                    <TextBlock Grid.Column="3" Text="{ex:Localize Key=Note}" />
+                    
+                    <!--  Wide layout header  -->
+                    <Grid x:Name="HeaderWideLayout" ColumnSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.8*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{ex:Localize Key=Lap}" />
+                        <TextBlock Grid.Column="1" Text="{ex:Localize Key=LapTime}" />
+                        <TextBlock Grid.Column="2" Text="{ex:Localize Key=TotalTime}" />
+                        <TextBlock Grid.Column="3" Text="{ex:Localize Key=Note}" />
+                    </Grid>
+                    
+                    <!--  Narrow layout header  -->
+                    <Grid x:Name="HeaderNarrowLayout" Visibility="Collapsed">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{ex:Localize Key=Lap}" Margin="0,0,16,0" />
+                        <TextBlock Grid.Column="1" Text="{ex:Localize Key=LapTime}" />
+                    </Grid>
+                    
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup>
+                            <VisualState x:Name="HeaderWide">
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowWidth="500" />
+                                </VisualState.StateTriggers>
+                                <VisualState.Setters>
+                                    <Setter Target="HeaderWideLayout.Visibility" Value="Visible" />
+                                    <Setter Target="HeaderNarrowLayout.Visibility" Value="Collapsed" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="HeaderNarrow">
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowWidth="0" />
+                                </VisualState.StateTriggers>
+                                <VisualState.Setters>
+                                    <Setter Target="HeaderWideLayout.Visibility" Value="Collapsed" />
+                                    <Setter Target="HeaderNarrowLayout.Visibility" Value="Visible" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
                 </Grid>
                 <ListView
                     Grid.Row="1"
@@ -134,7 +170,7 @@
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="lapVM:LapViewModel">
-                            <Grid Background="Transparent" ColumnSpacing="16">
+                            <Grid x:Name="LapItemRoot" Background="Transparent">
                                 <Grid.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem
@@ -172,39 +208,109 @@
                                         <Setter Property="HorizontalAlignment" Value="Right" />
                                     </Style>
                                 </Grid.Resources>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.8*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid ColumnSpacing="8">
+                                
+                                <!--  Wide layout: Single row with 4 columns  -->
+                                <Grid x:Name="WideLayout" ColumnSpacing="16">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="16" />
+                                        <ColumnDefinition Width="0.8*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        FontWeight="Bold"
-                                        Text="{x:Bind Order}" />
-                                    <FontIcon
-                                        x:Name="FastestIcon"
-                                        Grid.Column="1"
-                                        x:Load="True"
-                                        Style="{StaticResource LapHighlightFontIconStyle}"
-                                        Glyph="&#xEDD7;"
-                                        Visibility="{x:Bind IsFastest, Mode=OneWay}" />
-                                    <FontIcon
-                                        x:Name="SlowestIcon"
-                                        Grid.Column="1"
-                                        x:Load="True"
-                                        Style="{StaticResource LapHighlightFontIconStyle}"
-                                        Glyph="&#xEDD8;"
-                                        Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
+                                    <Grid ColumnSpacing="8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="16" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            FontWeight="Bold"
+                                            Text="{x:Bind Order}" />
+                                        <FontIcon
+                                            x:Name="FastestIconWide"
+                                            Grid.Column="1"
+                                            x:Load="True"
+                                            Style="{StaticResource LapHighlightFontIconStyle}"
+                                            Glyph="&#xEDD7;"
+                                            Visibility="{x:Bind IsFastest, Mode=OneWay}" />
+                                        <FontIcon
+                                            x:Name="SlowestIconWide"
+                                            Grid.Column="1"
+                                            x:Load="True"
+                                            Style="{StaticResource LapHighlightFontIconStyle}"
+                                            Glyph="&#xEDD8;"
+                                            Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
+                                    </Grid>
+                                    <TextBlock Grid.Column="1" Text="{x:Bind TimeString}" />
+                                    <TextBlock Grid.Column="2" Text="{x:Bind TotalTimeString}" />
+                                    <TextBox Grid.Column="3" Text="{x:Bind Note, Mode=TwoWay}" />
                                 </Grid>
-                                <TextBlock Grid.Column="1" Text="{x:Bind TimeString}" />
-                                <TextBlock Grid.Column="2" Text="{x:Bind TotalTimeString}" />
-                                <TextBox Grid.Column="3" Text="{x:Bind Note, Mode=TwoWay}" />
+                                
+                                <!--  Narrow layout: Two rows  -->
+                                <Grid x:Name="NarrowLayout" RowSpacing="4" Visibility="Collapsed">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <!--  First row: Lap number and LapTime  -->
+                                    <Grid Grid.Row="0" Grid.Column="0" ColumnSpacing="8" Margin="0,0,16,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="16" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            FontWeight="Bold"
+                                            Text="{x:Bind Order}" />
+                                        <FontIcon
+                                            x:Name="FastestIconNarrow"
+                                            Grid.Column="1"
+                                            x:Load="True"
+                                            Style="{StaticResource LapHighlightFontIconStyle}"
+                                            Glyph="&#xEDD7;"
+                                            Visibility="{x:Bind IsFastest, Mode=OneWay}" />
+                                        <FontIcon
+                                            x:Name="SlowestIconNarrow"
+                                            Grid.Column="1"
+                                            x:Load="True"
+                                            Style="{StaticResource LapHighlightFontIconStyle}"
+                                            Glyph="&#xEDD8;"
+                                            Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
+                                    </Grid>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{x:Bind TimeString}" />
+                                    
+                                    <!--  Second row: TotalTime and Note  -->
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,16,0" Opacity="0.7" Text="{x:Bind TotalTimeString}" />
+                                    <TextBox Grid.Row="1" Grid.Column="1" Text="{x:Bind Note, Mode=TwoWay}" />
+                                </Grid>
+                                
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup>
+                                        <VisualState x:Name="Wide">
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger MinWindowWidth="500" />
+                                            </VisualState.StateTriggers>
+                                            <VisualState.Setters>
+                                                <Setter Target="WideLayout.Visibility" Value="Visible" />
+                                                <Setter Target="NarrowLayout.Visibility" Value="Collapsed" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Narrow">
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger MinWindowWidth="0" />
+                                            </VisualState.StateTriggers>
+                                            <VisualState.Setters>
+                                                <Setter Target="WideLayout.Visibility" Value="Collapsed" />
+                                                <Setter Target="NarrowLayout.Visibility" Value="Visible" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -231,8 +337,7 @@
                         </Button.Flyout>
                     </Button>
                 </StackPanel>
-                </Grid>
-            </ScrollViewer>
+            </Grid>
         </Expander>
     </Grid>
 </UserControl>
