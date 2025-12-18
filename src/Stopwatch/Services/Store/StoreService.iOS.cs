@@ -17,7 +17,7 @@ public class StoreService : IStoreService
 	public StoreService(IDialogService dialogService, IAppPreferences appPreferences)
 	{
 		_dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
-		_appPreferences = appPreferences;
+		_appPreferences = appPreferences ?? throw new ArgumentNullException(nameof(appPreferences));
 	}
 
 	public async Task<string?> GetPriceAsync()
