@@ -95,9 +95,12 @@
                     <TextBlock Grid.Column="0" Text="{ex:Localize Key=Laps}" VerticalAlignment="Center" />
                     <TextBlock 
                         Grid.Column="1" 
-                        Text="{x:Bind Stopwatch.Laps.AverageLapString, Mode=OneWay}" 
                         VerticalAlignment="Center"
-                        Visibility="{x:Bind Stopwatch.Laps.Count, Mode=OneWay, Converter={StaticResource CountToVisibilityConverter}}" />
+                        Visibility="{x:Bind Stopwatch.Laps.Count, Mode=OneWay, Converter={StaticResource CountToVisibilityConverter}}">
+                        <Run Text="{ex:Localize Key=Average}" />
+                        <Run Text=": " />
+                        <Run Text="{x:Bind Stopwatch.Laps.AverageLapString, Mode=OneWay}" />
+                    </TextBlock>
                 </Grid>
             </Expander.Header>
             <Grid
