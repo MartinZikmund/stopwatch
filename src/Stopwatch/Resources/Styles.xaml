@@ -488,6 +488,15 @@
         </Setter>
     </Style>
 
+    <Style
+        x:Key="LargeAccentControlButtonStyle"
+        BasedOn="{StaticResource AccentControlButtonStyle}"
+        TargetType="Button">
+        <Setter Property="Width" Value="96" />
+        <Setter Property="Height" Value="96" />
+        <Setter Property="CornerRadius" Value="48" />
+    </Style>
+
     <Style x:Key="ControlButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="{ThemeResource ButtonBackground}" />
         <Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
@@ -524,6 +533,7 @@
                         ContentTemplate="{TemplateBinding ContentTemplate}"
                         ContentTransitions="{TemplateBinding ContentTransitions}"
                         CornerRadius="{TemplateBinding CornerRadius}"
+                        FontSize="{TemplateBinding FontSize}"
                         Foreground="{TemplateBinding Foreground}">
                         <ContentPresenter.BackgroundTransition>
                             <BrushTransition Duration="0:0:0.083" />

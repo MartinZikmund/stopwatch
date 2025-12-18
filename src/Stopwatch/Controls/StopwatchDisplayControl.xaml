@@ -15,6 +15,154 @@
     mc:Ignorable="d android">
 
     <Grid RowSpacing="16">
+        <Grid.Resources>
+            <SolidColorBrush
+                x:Name="SubtleForegroundBrush"
+                Opacity="0.8"
+                Color="{ThemeResource TextFillColorPrimary}" />
+            <!--  Wide layout DataTemplate  -->
+            <DataTemplate x:Key="WideItemTemplate" x:DataType="lapVM:LapViewModel">
+                <Grid
+                    Padding="8"
+                    Background="Transparent"
+                    ColumnSpacing="16">
+                    <Grid.ContextFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem
+                                Command="{x:Bind RequestDeleteCommand}"
+                                Icon="Delete"
+                                Text="Delete" />
+                        </MenuFlyout>
+                    </Grid.ContextFlyout>
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                        <Style BasedOn="{StaticResource DefaultTextBoxStyle}" TargetType="TextBox">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="0,0,0,2" />
+                        </Style>
+                        <Style x:Key="LapHighlightFontIconStyle" TargetType="FontIcon">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.8*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontWeight="Bold"
+                            Text="{x:Bind Order}" />
+                        <FontIcon
+                            Grid.Column="1"
+                            Glyph="&#xEDD7;"
+                            Style="{StaticResource LapHighlightFontIconStyle}"
+                            Visibility="{x:Bind IsFastest, Mode=OneWay}" />
+                        <FontIcon
+                            Grid.Column="1"
+                            Glyph="&#xEDD8;"
+                            Style="{StaticResource LapHighlightFontIconStyle}"
+                            Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
+                    </Grid>
+                    <TextBlock Grid.Column="1" Text="{x:Bind TimeString}" />
+                    <TextBlock Grid.Column="2" Text="{x:Bind TotalTimeString}" />
+                    <TextBox Grid.Column="3" Text="{x:Bind Note, Mode=TwoWay}" />
+                </Grid>
+            </DataTemplate>
+
+            <!--  Narrow layout DataTemplate  -->
+            <DataTemplate x:Key="NarrowItemTemplate" x:DataType="lapVM:LapViewModel">
+                <Grid
+                    Padding="8"
+                    Background="Transparent"
+                    RowSpacing="4">
+                    <Grid.ContextFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem
+                                Command="{x:Bind RequestDeleteCommand}"
+                                Icon="Delete"
+                                Text="Delete" />
+                        </MenuFlyout>
+                    </Grid.ContextFlyout>
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                        <Style BasedOn="{StaticResource DefaultTextBoxStyle}" TargetType="TextBox">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="0,0,0,2" />
+                        </Style>
+                        <Style x:Key="LapHighlightFontIconStyle" TargetType="FontIcon">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  First row: Lap number and LapTime  -->
+                    <Grid
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="0,0,16,0"
+                        ColumnSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontWeight="Bold"
+                            Text="{x:Bind Order}" />
+                        <FontIcon
+                            Grid.Column="1"
+                            Glyph="&#xEDD7;"
+                            Style="{StaticResource LapHighlightFontIconStyle}"
+                            Visibility="{x:Bind IsFastest, Mode=OneWay}" />
+                        <FontIcon
+                            Grid.Column="1"
+                            Glyph="&#xEDD8;"
+                            Style="{StaticResource LapHighlightFontIconStyle}"
+                            Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
+                    </Grid>
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Text="{x:Bind TimeString}" />
+
+                    <!--  Second row: TotalTime and Note  -->
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Text="{x:Bind Note, Mode=TwoWay}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="0,0,16,0"
+                        Opacity="0.7"
+                        Text="{x:Bind TotalTimeString}" />
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
@@ -47,8 +195,14 @@
                     VerticalAlignment="Center">
                     <not_android:TextBlock win:FontFamily="Segoe UI">
                         <Run FontSize="120" Text="{x:Bind Stopwatch.CurrentTime, Mode=OneWay}" />
-                        <Run FontSize="80" Text="." />
-                        <Run FontSize="80" Text="{x:Bind Stopwatch.CurrentTimeMilliseconds, Mode=OneWay}" />
+                        <Run
+                            FontSize="80"
+                            Foreground="{ThemeResource SubtleForegroundBrush}"
+                            Text="." />
+                        <Run
+                            FontSize="80"
+                            Foreground="{ThemeResource SubtleForegroundBrush}"
+                            Text="{x:Bind Stopwatch.CurrentTimeMilliseconds, Mode=OneWay}" />
                     </not_android:TextBlock>
                     <!--  Workaround for https://github.com/unoplatform/uno/issues/17282  -->
                     <android:TextBlock FontSize="120">
@@ -60,20 +214,20 @@
                     HorizontalAlignment="Center"
                     Orientation="Horizontal"
                     Spacing="8">
+                    <Button Command="{x:Bind Stopwatch.ResetCommand, Mode=OneWay}" Style="{StaticResource ControlButtonStyle}">
+                        <SymbolIcon Symbol="Undo" />
+                    </Button>
                     <Button
                         x:Name="StartStopButton"
                         Command="{x:Bind Stopwatch.StartStopCommand, Mode=OneWay}"
-                        Style="{StaticResource AccentControlButtonStyle}">
-                        <FontIcon Glyph="{x:Bind Stopwatch.IsRunning, Mode=OneWay, Converter={StaticResource IsRunningToSymbolConverter}}" />
+                        Style="{StaticResource LargeAccentControlButtonStyle}">
+                        <FontIcon FontSize="32" Glyph="{x:Bind Stopwatch.IsRunning, Mode=OneWay, Converter={StaticResource IsRunningToSymbolConverter}}" />
                     </Button>
                     <Button
                         x:Name="LapButton"
                         Command="{x:Bind Stopwatch.LapCommand, Mode=OneWay}"
                         Style="{StaticResource ControlButtonStyle}">
                         <SymbolIcon Symbol="Flag" />
-                    </Button>
-                    <Button Command="{x:Bind Stopwatch.ResetCommand, Mode=OneWay}" Style="{StaticResource ControlButtonStyle}">
-                        <SymbolIcon Symbol="Undo" />
                     </Button>
                 </StackPanel>
             </Grid>
@@ -88,40 +242,61 @@
             Header="{ex:Localize Key=Laps}"
             IsExpanded="{x:Bind Stopwatch.IsLapsListExpanded, Mode=TwoWay}">
             <Grid
+                x:Name="LapListRoot"
                 Grid.Row="2"
                 MaxWidth="600"
                 HorizontalAlignment="Stretch">
+                <Grid.Resources />
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid
+                    x:Name="HeaderGrid"
                     Grid.Row="0"
                     Padding="8"
                     BorderBrush="{ThemeResource AccentAAFillColorDefaultBrush}"
-                    BorderThickness="0,0,0,1"
-                    ColumnSpacing="16">
+                    BorderThickness="0,0,0,1">
                     <Grid.Resources>
                         <Style TargetType="TextBlock">
                             <Setter Property="FontWeight" Value="SemiBold" />
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                     </Grid.Resources>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.8*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{ex:Localize Key=Lap}" />
-                    <TextBlock Grid.Column="1" Text="{ex:Localize Key=LapTime}" />
-                    <TextBlock Grid.Column="2" Text="{ex:Localize Key=TotalTime}" />
-                    <TextBlock Grid.Column="3" Text="{ex:Localize Key=Note}" />
+
+                    <!--  Wide layout header  -->
+                    <Grid x:Name="HeaderWideLayout" ColumnSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.8*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{ex:Localize Key=Lap}" />
+                        <TextBlock Grid.Column="1" Text="{ex:Localize Key=LapTime}" />
+                        <TextBlock Grid.Column="2" Text="{ex:Localize Key=TotalTime}" />
+                        <TextBlock Grid.Column="3" Text="{ex:Localize Key=Note}" />
+                    </Grid>
+
+                    <!--  Narrow layout header  -->
+                    <Grid x:Name="HeaderNarrowLayout" Visibility="Collapsed">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,16,0"
+                            Text="{ex:Localize Key=Lap}" />
+                        <TextBlock Grid.Column="1" Text="{ex:Localize Key=LapTime}" />
+                    </Grid>
                 </Grid>
                 <ListView
+                    x:Name="LapsListView"
                     Grid.Row="1"
                     HorizontalAlignment="Stretch"
+                    ItemTemplate="{StaticResource WideItemTemplate}"
                     ItemsSource="{x:Bind Stopwatch.Laps, Mode=OneWay}"
                     SelectionMode="Single">
                     <ListView.ItemContainerStyle>
@@ -131,82 +306,6 @@
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         </Style>
                     </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="lapVM:LapViewModel">
-                            <Grid Background="Transparent" ColumnSpacing="16">
-                                <Grid.ContextFlyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem
-                                            Command="{x:Bind RequestDeleteCommand}"
-                                            Icon="Delete"
-                                            Text="Delete" />
-                                    </MenuFlyout>
-                                </Grid.ContextFlyout>
-                                <Grid.Resources>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="VerticalAlignment" Value="Center" />
-                                    </Style>
-                                    <Style BasedOn="{StaticResource DefaultTextBoxStyle}" TargetType="TextBox">
-                                        <Setter Property="VerticalAlignment" Value="Center" />
-                                        <Setter Property="Background" Value="Transparent" />
-                                        <Setter Property="BorderThickness" Value="0,0,0,2" />
-                                    </Style>
-                                    <Style
-                                        x:Key="LapHighlightTextBlockStyle"
-                                        BasedOn="{StaticResource CaptionTextBlockStyle}"
-                                        TargetType="TextBlock">
-                                        <Setter Property="VerticalAlignment" Value="Center" />
-                                        <Setter Property="FontWeight" Value="Bold" />
-                                        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
-                                        <Setter Property="TextWrapping" Value="NoWrap" />
-                                    </Style>
-                                    <Style x:Key="LapHighlightFontIconStyle" TargetType="FontIcon">
-                                        <Setter Property="VerticalAlignment" Value="Center" />
-                                        <Setter Property="FontSize" Value="12" />
-                                        <Setter Property="FontWeight" Value="Bold" />
-                                    </Style>
-                                    <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
-                                        <Setter Property="Background" Value="Transparent" />
-                                        <Setter Property="BorderBrush" Value="Transparent" />
-                                        <Setter Property="HorizontalAlignment" Value="Right" />
-                                    </Style>
-                                </Grid.Resources>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.8*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid ColumnSpacing="8">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="16" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        FontWeight="Bold"
-                                        Text="{x:Bind Order}" />
-                                    <FontIcon
-                                        x:Name="FastestIcon"
-                                        Grid.Column="1"
-                                        x:Load="True"
-                                        Style="{StaticResource LapHighlightFontIconStyle}"
-                                        Glyph="&#xEDD7;"
-                                        Visibility="{x:Bind IsFastest, Mode=OneWay}" />
-                                    <FontIcon
-                                        x:Name="SlowestIcon"
-                                        Grid.Column="1"
-                                        x:Load="True"
-                                        Style="{StaticResource LapHighlightFontIconStyle}"
-                                        Glyph="&#xEDD8;"
-                                        Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
-                                </Grid>
-                                <TextBlock Grid.Column="1" Text="{x:Bind TimeString}" />
-                                <TextBlock Grid.Column="2" Text="{x:Bind TotalTimeString}" />
-                                <TextBox Grid.Column="3" Text="{x:Bind Note, Mode=TwoWay}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
                 </ListView>
                 <StackPanel
                     Grid.Row="2"
@@ -232,5 +331,29 @@
                 </StackPanel>
             </Grid>
         </Expander>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderWideLayout.Visibility" Value="Visible" />
+                        <Setter Target="HeaderNarrowLayout.Visibility" Value="Collapsed" />
+                        <Setter Target="LapsListView.ItemTemplate" Value="{StaticResource WideItemTemplate}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderWideLayout.Visibility" Value="Collapsed" />
+                        <Setter Target="HeaderNarrowLayout.Visibility" Value="Visible" />
+                        <Setter Target="LapsListView.ItemTemplate" Value="{StaticResource NarrowItemTemplate}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>

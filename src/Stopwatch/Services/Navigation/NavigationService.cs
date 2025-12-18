@@ -59,15 +59,8 @@ public class NavigationService : INavigationService
 		_views.Add(typeof(Stopwatch.Views.OnboardingView).Name, typeof(Stopwatch.Views.OnboardingView));
 	}
 
-	public void Initialize() =>
-		SystemNavigationManager.GetForCurrentView().BackRequested += NavigationManagerBackRequested;
-
-	private void NavigationManagerBackRequested(object? sender, BackRequestedEventArgs? e)
-	{
-		if (GoBack())
-		{
-			e.Handled = true;
-		}
+	public void Initialize()
+	{ 
 	}
 
 	public void ClearBackStack() => Frame.BackStack.Clear();
