@@ -60,20 +60,20 @@
                     HorizontalAlignment="Center"
                     Orientation="Horizontal"
                     Spacing="8">
+                    <Button Command="{x:Bind Stopwatch.ResetCommand, Mode=OneWay}" Style="{StaticResource ControlButtonStyle}">
+                        <SymbolIcon Symbol="Undo" />
+                    </Button>
                     <Button
                         x:Name="StartStopButton"
                         Command="{x:Bind Stopwatch.StartStopCommand, Mode=OneWay}"
-                        Style="{StaticResource AccentControlButtonStyle}">
-                        <FontIcon Glyph="{x:Bind Stopwatch.IsRunning, Mode=OneWay, Converter={StaticResource IsRunningToSymbolConverter}}" />
+                        Style="{StaticResource LargeAccentControlButtonStyle}">
+                        <FontIcon FontSize="32" Glyph="{x:Bind Stopwatch.IsRunning, Mode=OneWay, Converter={StaticResource IsRunningToSymbolConverter}}" />
                     </Button>
                     <Button
                         x:Name="LapButton"
                         Command="{x:Bind Stopwatch.LapCommand, Mode=OneWay}"
                         Style="{StaticResource ControlButtonStyle}">
                         <SymbolIcon Symbol="Flag" />
-                    </Button>
-                    <Button Command="{x:Bind Stopwatch.ResetCommand, Mode=OneWay}" Style="{StaticResource ControlButtonStyle}">
-                        <SymbolIcon Symbol="Undo" />
                     </Button>
                 </StackPanel>
             </Grid>

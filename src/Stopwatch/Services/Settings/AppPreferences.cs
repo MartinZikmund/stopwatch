@@ -1,5 +1,4 @@
 using MZikmund.Toolkit.WinUI.Services;
-using Stopwatch.Models;
 
 namespace Stopwatch.Services.Settings;
 
@@ -82,5 +81,13 @@ public class AppPreferences : IAppPreferences
 	{
 		get => _preferences.Get(HasSeenOnboardingTipsKey, false);
 		set => _preferences.Set(HasSeenOnboardingTipsKey, value);
+	}
+
+	private const string HasProKey = "HasPro";
+
+	public bool HasPro
+	{
+		get => _preferences.Get(HasProKey, false);
+		set => _preferences.Set(HasProKey, value);
 	}
 }
