@@ -21,4 +21,6 @@ public interface IAppPreferences
 	bool KeepScreenOn { get; set; }
 
 	bool HasSeenOnboardingTips { get; set; }
+
+	bool HasPro { get; set; }
 }

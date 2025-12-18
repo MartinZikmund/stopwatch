@@ -2,6 +2,7 @@
 using Plugin.InAppBilling;
 using Stopwatch.Services.Localization;
 using Stopwatch.Services.Navigation;
+using Stopwatch.Services.Settings;
 
 namespace Stopwatch.Services.Store;
 
@@ -10,11 +11,13 @@ public class StoreService : IStoreService
 	private const string StopwatchProProductId = "dev.mzikmund.stopwatch.pro";
 
 	private readonly IDialogService _dialogService;
+	private readonly IAppPreferences _appPreferences;
 	private bool? _hasPro = null;
 
-	public StoreService(IDialogService dialogService)
+	public StoreService(IDialogService dialogService, IAppPreferences appPreferences)
 	{
 		_dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
+		_appPreferences = appPreferences;
 	}
 
 	public async Task<string?> GetPriceAsync()
@@ -43,22 +46,9 @@ public class StoreService : IStoreService
 	{
 		if (_hasPro is null)
 		{
-			try
-			{
-				var billing = CrossInAppBilling.Current;
-				await billing.ConnectAsync();
-
-				var purchases = await billing.GetPurchasesAsync(ItemType.InAppPurchase);
-				_hasPro = purchases?.Any(p => p.ProductId == StopwatchProProductId && p.State == PurchaseState.Purchased) ?? false;
-
-				await billing.DisconnectAsync();
-			}
-			catch (Exception ex)
-			{
-				// Log error or handle gracefully
-				System.Diagnostics.Debug.WriteLine($"Error checking Pro status: {ex.Message}");
-				_hasPro = false;
-			}
+			// iOS requires explicit call to restore purchases. Instead,
+			// we check pro status via preferences.
+			_hasPro = _appPreferences.HasPro;
 		}
 
 		return _hasPro.Value;
@@ -144,6 +134,7 @@ public class StoreService : IStoreService
 			if (hasPro)
 			{
 				_hasPro = true;
+				_appPreferences.HasPro = true;
 				return true;
 			}
 			else
