@@ -92,13 +92,15 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="{ex:Localize Key=Laps}" VerticalAlignment="Center" />
-                    <TextBlock 
-                        Grid.Column="1" 
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Text="{ex:Localize Key=Laps}" />
+                    <TextBlock
+                        Grid.Column="1"
                         VerticalAlignment="Center"
                         Visibility="{x:Bind Stopwatch.Laps.Count, Mode=OneWay, Converter={StaticResource CountToVisibilityConverter}}">
-                        <Run Text="{ex:Localize Key=Average}" />
-                        <Run Text=": " />
+                        <Run Text="{ex:Localize Key=Average}" /><Run Text=": " />
                         <Run Text="{x:Bind Stopwatch.Laps.AverageLapString, Mode=OneWay}" />
                     </TextBlock>
                 </Grid>
@@ -206,15 +208,15 @@
                                         x:Name="FastestIcon"
                                         Grid.Column="1"
                                         x:Load="True"
-                                        Style="{StaticResource LapHighlightFontIconStyle}"
                                         Glyph="&#xEDD7;"
+                                        Style="{StaticResource LapHighlightFontIconStyle}"
                                         Visibility="{x:Bind IsFastest, Mode=OneWay}" />
                                     <FontIcon
                                         x:Name="SlowestIcon"
                                         Grid.Column="1"
                                         x:Load="True"
-                                        Style="{StaticResource LapHighlightFontIconStyle}"
                                         Glyph="&#xEDD8;"
+                                        Style="{StaticResource LapHighlightFontIconStyle}"
                                         Visibility="{x:Bind IsSlowest, Mode=OneWay}" />
                                 </Grid>
                                 <TextBlock Grid.Column="1" Text="{x:Bind TimeString}" />
