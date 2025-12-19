@@ -144,6 +144,9 @@
   <data name="Laps" xml:space="preserve">
     <value>Laps</value>
   </data>
+  <data name="Average" xml:space="preserve">
+    <value>Average</value>
+  </data>
   <data name="LapTime" xml:space="preserve">
     <value>Lap time</value>
   </data>

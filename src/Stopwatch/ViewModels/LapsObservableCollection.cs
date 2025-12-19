@@ -1,6 +1,7 @@
 ﻿#nullable enable
 
 using System.Collections.ObjectModel;
+using Stopwatch.Extensions;
 using Stopwatch.Models;
 
 namespace Stopwatch.ViewModels;
@@ -32,6 +33,7 @@ public class LapsObservableCollection : ObservableCollection<LapViewModel>
 	{
 		AddLapInner(lap);
 		UpdateExtremes();
+		UpdateAverageLap();
 	}
 
 	public void RemoveLap(LapModel lap)
@@ -44,6 +46,7 @@ public class LapsObservableCollection : ObservableCollection<LapViewModel>
 		Remove(lapViewModel);
 		UpdateExtremes();
 		ResetOrders();
+		UpdateAverageLap();
 	}
 
 	private void AddLapInner(LapModel lap)
@@ -69,4 +72,12 @@ public class LapsObservableCollection : ObservableCollection<LapViewModel>
 	}
 
 	public TimeSpan? AverageLap => Count == 0 ? null : TimeSpan.FromTicks((long)this.Select(l => l.LapTime.Ticks).Average());
+
+	public string AverageLapString => AverageLap?.ToStopwatchString(true) ?? string.Empty;
+
+	private void UpdateAverageLap()
+	{
+		OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(AverageLap)));
+		OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(AverageLapString)));
+	}
 }

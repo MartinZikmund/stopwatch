@@ -144,6 +144,9 @@
   <data name="Laps" xml:space="preserve">
     <value>Kola</value>
   </data>
+  <data name="Average" xml:space="preserve">
+    <value>Průměr</value>
+  </data>
   <data name="LapTime" xml:space="preserve">
     <value>Čas kola</value>
   </data>
