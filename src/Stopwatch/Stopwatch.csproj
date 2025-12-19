@@ -13,8 +13,13 @@
 
 		<!-- Display name -->
 		<ApplicationTitle>Fluent Stopwatch</ApplicationTitle>
+		<ApplicationTitle Condition="'$(Configuration)' == 'Debug'">Fluent Stopwatch Dev</ApplicationTitle>
 		<!-- App Identifier -->
 		<ApplicationId>dev.mzikmund.stopwatch</ApplicationId>
+		<ApplicationId Condition="'$(Configuration)' == 'Debug'">dev.mzikmund.stopwatch.dev</ApplicationId>
+		<!-- Windows Identity (used in Package.appxmanifest) -->
+		<UnoAppIdentifier>5143MartinZikmund.12487707CCE79</UnoAppIdentifier>
+		<UnoAppIdentifier Condition="'$(Configuration)' == 'Debug'">5143MartinZikmund.12487707CCE79.Dev</UnoAppIdentifier>
 		<!-- Versions -->
 		<ApplicationDisplayVersion>0.10.2</ApplicationDisplayVersion>
 		<ApplicationVersion>31</ApplicationVersion>

@@ -8,7 +8,7 @@
   IgnorableNamespaces="uap rescap mp">
 
   <Identity
-    Name="5143MartinZikmund.12487707CCE79"
+    Name="$(UnoAppIdentifier)"
     Publisher="CN=5EDFBB6C-AD5D-4B76-B479-1C5F44017714"
     Version="0.10.1.0" />
 
