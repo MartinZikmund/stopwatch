@@ -33,8 +33,6 @@
 		<string>Assets.xcassets/icon.appiconset</string>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
-		<key>CFBundleIdentifier</key>
-		<string>dev.mzikmund.stopwatch</string>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>en</string>
 		<key>CFBundleLocalizations</key>

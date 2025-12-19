@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  IgnorableNamespaces="uap rescap mp">
+
+  <Identity
+    Name="5143MartinZikmund.12487707CCE79.Debug"
+    Publisher="CN=5EDFBB6C-AD5D-4B76-B479-1C5F44017714"
+    Version="0.10.1.0" />
+
+  <Properties>
+    <DisplayName>Fluent Stopwatch (Debug)</DisplayName>
+    <PublisherDisplayName>Martin Zikmund</PublisherDisplayName>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+
+  <Applications>
+    <Application Id="App"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="$targetentrypoint$">
+      <uap:VisualElements
+        DisplayName="ms-resource:ApplicationName"
+        Description="Stopwatch">
+        <uap:SplashScreen />
+        <uap:DefaultTile/>
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+
+  <mp:PhoneIdentity PhoneProductId="dd022524-04d6-489a-8a33-c5cc7339fa86" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+</Package>
