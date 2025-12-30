@@ -8,5 +8,5 @@ namespace Stopwatch.Models;
 
 public interface IId
 {
-	int Id { get; set;}
+	int Id { get; set; }
 }
