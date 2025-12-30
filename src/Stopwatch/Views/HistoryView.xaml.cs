@@ -1,5 +1,4 @@
-﻿using Microsoft.UI.Xaml.Controls;
-using Stopwatch.ViewModels;
+﻿using Stopwatch.ViewModels;
 
 namespace Stopwatch.Views;
 
