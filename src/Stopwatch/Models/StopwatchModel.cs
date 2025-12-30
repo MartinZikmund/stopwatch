@@ -14,7 +14,28 @@ public class StopwatchModel : IId
 
 	public StopwatchModel(string name)
 	{
-		Name = name;	
+		Name = name;
+	}
+
+	public static StopwatchModel FromHistoryEntry(HistoryEntryModel historyEntry)
+	{
+		return new StopwatchModel(historyEntry.Name)
+		{
+			Icon = historyEntry.Icon,
+			BackgroundImageUri = historyEntry.BackgroundImageUri,
+			BackgroundImageOpacity = historyEntry.BackgroundImageOpacity,
+			BackgroundColor = historyEntry.BackgroundColor,
+			Laps = historyEntry.Laps.Select(lap => new LapModel
+			{
+				TotalTime = lap.TotalTime,
+				Note = lap.Note
+			}).ToArray(),
+			// Timing properties reset to defaults (fresh stopwatch)
+			InitialStartTime = null,
+			LastStartTime = null,
+			PausedElapsedTime = TimeSpan.Zero,
+			Theme = ElementTheme.Default
+		};
 	}
 
 	public int Id { get; set; }
