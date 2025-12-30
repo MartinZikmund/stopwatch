@@ -136,9 +136,9 @@
 						<FontIcon Glyph="{x:Bind ViewModel.IsCompactOverlay, Mode=OneWay, Converter={StaticResource IsCompactOverlayToSymbolConverter}}" />
 					</Grid>
 					</Button>-->
-                    <!--<Button Command="{x:Bind ViewModel.GoToHistoryCommand}" Style="{ThemeResource SubtleButtonStyle}">
+                    <Button Command="{x:Bind ViewModel.GoToHistoryCommand}" Style="{ThemeResource SubtleButtonStyle}" ToolTipService.ToolTip="{ex:Localize Key=History}">
 						<FontIcon Glyph="&#xE81C;" />
-					</Button>-->
+					</Button>
                     <Button
                         Command="{x:Bind ViewModel.GoToGetProCommand}"
                         Foreground="Gold"
