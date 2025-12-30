@@ -2,83 +2,94 @@
     x:Class="Stopwatch.Views.HistoryView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Stopwatch.Views"
-	xmlns:vm="using:Stopwatch.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ex="using:Stopwatch.Extensions.Xaml"
+    xmlns:local="using:Stopwatch.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:ex="using:Stopwatch.Extensions.Xaml"
+    xmlns:vm="using:Stopwatch.ViewModels"
     mc:Ignorable="d">
 
-	<Grid RowSpacing="8">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-		<Grid Margin="36,60,36,36" ColumnSpacing="8">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
-			<Button Command="{x:Bind ViewModel.GoBackCommand}" Style="{ThemeResource NavigationBackButtonStyle}" />
-			<TextBlock
+    <Grid RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Margin="36,60,36,36" ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Command="{x:Bind ViewModel.GoBackCommand}" Style="{ThemeResource NavigationBackButtonStyle}" />
+            <TextBlock
                 Grid.Column="1"
                 Style="{ThemeResource TitleTextBlockStyle}"
                 Text="{ex:Localize Key=History}" />
-			<Button Grid.Column="2" Command="{x:Bind ViewModel.ExportAllCommand}" Style="{ThemeResource SubtleButtonStyle}" ToolTipService.ToolTip="Export All History">
-				<FontIcon Glyph="&#xE72D;" />
-				<!--  Save icon  -->
-			</Button>
-			<Button Grid.Column="3" Command="{x:Bind ViewModel.ClearAllCommand}" Style="{ThemeResource SubtleButtonStyle}" ToolTipService.ToolTip="Clear All History">
-				<SymbolIcon Symbol="Delete" />
-			</Button>
-		</Grid>
-		<Grid Grid.Row="1" Margin="36,0,36,36">
-			<ListView
-				ItemsSource="{x:Bind ViewModel.HistoryEntries}"
-				IsItemClickEnabled="True"
-				SelectionMode="None"
-				ItemClick="ListView_ItemClick">
-				<ListView.ItemTemplate>
-					<DataTemplate x:DataType="vm:HistoryEntryViewModel">
-						<Grid Padding="12,8" ColumnSpacing="12">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
-								<!--  Icon  -->
-								<ColumnDefinition Width="*" />
-								<!--  Details  -->
-								<ColumnDefinition Width="Auto" />
-								<!--  Chevron  -->
-							</Grid.ColumnDefinitions>
+            <Button
+                Grid.Column="2"
+                Command="{x:Bind ViewModel.ExportAllCommand}"
+                Style="{ThemeResource SubtleButtonStyle}"
+                ToolTipService.ToolTip="Export All History">
+                <FontIcon Glyph="&#xE72D;" />
+                <!--  Save icon  -->
+            </Button>
+            <Button
+                Grid.Column="3"
+                Command="{x:Bind ViewModel.ClearAllCommand}"
+                Style="{ThemeResource SubtleButtonStyle}"
+                ToolTipService.ToolTip="Clear All History">
+                <SymbolIcon Symbol="Delete" />
+            </Button>
+        </Grid>
+        <Grid Grid.Row="1" Margin="36,0,36,36">
+            <ListView
+                IsItemClickEnabled="True"
+                ItemClick="ListView_ItemClick"
+                ItemsSource="{x:Bind ViewModel.HistoryEntries}"
+                SelectionMode="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:HistoryEntryViewModel">
+                        <Grid Padding="12,8" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <!--  Icon  -->
+                                <ColumnDefinition Width="*" />
+                                <!--  Details  -->
+                                <ColumnDefinition Width="Auto" />
+                                <!--  Chevron  -->
+                            </Grid.ColumnDefinitions>
 
-							<FontIcon FontSize="24" Glyph="{x:Bind Stopwatch.Icon}" />
+                            <FontIcon FontSize="24" Glyph="{x:Bind Stopwatch.Icon}" />
 
-							<StackPanel Grid.Column="1" Spacing="4">
-								<TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind Stopwatch.Name}" />
-								<StackPanel Orientation="Horizontal" Spacing="16">
-									<TextBlock>
-										<Run Text="Time: " />
-										<Run FontWeight="SemiBold" Text="{x:Bind Stopwatch.PausedElapsedTime}" />
-									</TextBlock>
-									<TextBlock>
-										<Run Text="Laps: " />
-										<Run FontWeight="SemiBold" Text="{x:Bind LapCount}" />
-									</TextBlock>
-								</StackPanel>
-								<TextBlock Opacity="0.7" Style="{ThemeResource CaptionTextBlockStyle}" Text="{x:Bind Stopwatch.InitialStartTime}" />
-							</StackPanel>
+                            <StackPanel Grid.Column="1" Spacing="4">
+                                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind Stopwatch.Name}" />
+                                <StackPanel Orientation="Horizontal" Spacing="16">
+                                    <TextBlock>
+                                        <Run Text="Time: " />
+                                        <Run FontWeight="SemiBold" Text="{x:Bind Stopwatch.PausedElapsedTime}" />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run Text="Laps: " />
+                                        <Run FontWeight="SemiBold" Text="{x:Bind LapCount}" />
+                                    </TextBlock>
+                                </StackPanel>
+                                <TextBlock
+                                    Opacity="0.7"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="{x:Bind Stopwatch.InitialStartTime}" />
+                            </StackPanel>
 
-							<FontIcon
-								Grid.Column="2"
-								FontSize="16"
-								Glyph="&#xE76C;"
-								Opacity="0.6" />
-						</Grid>
-					</DataTemplate>
-				</ListView.ItemTemplate>
-			</ListView>
-		</Grid>
-	</Grid>
+                            <FontIcon
+                                Grid.Column="2"
+                                FontSize="16"
+                                Glyph="&#xE76C;"
+                                Opacity="0.6" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Grid>
 
 </local:HistoryViewBase>
