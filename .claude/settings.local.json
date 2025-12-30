@@ -3,7 +3,8 @@
     "allow": [
       "mcp__backlog__task_search",
       "mcp__backlog__task_create",
-      "mcp__backlog__task_view"
+      "mcp__backlog__task_view",
+      "Bash(find:*)"
     ]
   }
 }
