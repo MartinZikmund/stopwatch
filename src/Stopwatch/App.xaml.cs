@@ -139,6 +139,7 @@ public partial class App : Application
 		services.AddScoped<MainViewModel>();
 		services.AddScoped<OnboardingViewModel>();
 		services.AddScoped<HistoryViewModel>();
+		services.AddScoped<HistoryDetailViewModel>();
 		services.AddScoped<GetProViewModel>();
 
 		services.AddScoped<IDialogCoordinator, DialogCoordinator>();

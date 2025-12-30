@@ -53,6 +53,7 @@ public class NavigationService : INavigationService
 	public void RegisterViewsFromAssembly(Assembly sourceAssembly)
 	{
 		_views.Add(typeof(Stopwatch.Views.HistoryView).Name, typeof(Stopwatch.Views.HistoryView));
+		_views.Add(typeof(Stopwatch.Views.HistoryDetailView).Name, typeof(Stopwatch.Views.HistoryDetailView));
 		_views.Add(typeof(Stopwatch.Views.GetProView).Name, typeof(Stopwatch.Views.GetProView));
 		_views.Add(typeof(Stopwatch.Views.SettingsView).Name, typeof(Stopwatch.Views.SettingsView));
 		_views.Add(typeof(Stopwatch.Views.MainView).Name, typeof(Stopwatch.Views.MainView));
