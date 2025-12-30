@@ -244,6 +244,14 @@
                                     Command="{x:Bind MainViewModel.ExportToJsonCommand}"
                                     Icon="Page"
                                     Text="{ex:Localize Key=ExportToJson}" />
+                                <MenuFlyoutItem
+                                    Command="{x:Bind MainViewModel.ExportToXmlCommand}"
+                                    Icon="Page"
+                                    Text="{ex:Localize Key=ExportToXml}" />
+                                <MenuFlyoutItem
+                                    Command="{x:Bind MainViewModel.ExportToExcelCommand}"
+                                    Icon="Document"
+                                    Text="{ex:Localize Key=ExportToExcel}" />
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
