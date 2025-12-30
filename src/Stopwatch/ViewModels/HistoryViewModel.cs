@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using Stopwatch.Models;
 using Stopwatch.Services;
+using Stopwatch.Services.Export;
 using Stopwatch.Services.Localization;
 using Stopwatch.Services.Navigation;
 
@@ -10,13 +11,19 @@ public partial class HistoryViewModel : PageViewModel
 {
 	private readonly IHistoryService _historyService;
 	private readonly IConfirmationDialogService _confirmationDialogService;
+	private readonly IExportService _exportService;
 	[ObservableProperty]
 	public partial ObservableCollection<HistoryEntryViewModel> HistoryEntries { get; set; } = new();
 
-	public HistoryViewModel(INavigationService navigationService, IHistoryService historyService, IConfirmationDialogService confirmationDialogService) : base(navigationService)
+	public HistoryViewModel(
+		INavigationService navigationService,
+		IHistoryService historyService,
+		IConfirmationDialogService confirmationDialogService,
+		IExportService exportService) : base(navigationService)
 	{
 		_historyService = historyService;
 		_confirmationDialogService = confirmationDialogService;
+		_exportService = exportService;
 	}
 
 	public override void ViewNavigatedTo(object? parameter)
@@ -58,5 +65,17 @@ public partial class HistoryViewModel : PageViewModel
 			_historyService.Clear();
 			HistoryEntries.Clear();
 		}
+	}
+
+	[RelayCommand]
+	internal async Task ExportAllAsync()
+	{
+		var entries = _historyService.GetAll();
+		if (entries.Length == 0)
+		{
+			return;
+		}
+
+		await _exportService.ExportAllHistoryToJsonAsync(entries);
 	}
 }
