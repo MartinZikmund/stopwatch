@@ -22,6 +22,7 @@ using Stopwatch.Services.Data.LiteDb;
 #endif
 
 namespace Stopwatch;
+
 public partial class App : Application
 {
 	/// <summary>

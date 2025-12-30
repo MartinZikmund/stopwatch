@@ -1,12 +1,12 @@
-﻿using Stopwatch.Services;
+﻿using Microsoft.UI.Windowing;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using Stopwatch.Infrastructure;
+using Stopwatch.Services;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Theming;
 using Stopwatch.ViewModels;
 using Windows.Foundation.Metadata;
-using Microsoft.UI.Windowing;
 
 namespace Stopwatch;
 

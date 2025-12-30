@@ -13,5 +13,5 @@ namespace Stopwatch.Models;
 [JsonSerializable(typeof(List<StopwatchModel>))]
 public partial class StopwatchJsonContext : JsonSerializerContext
 {
-    // The source generator will provide the Default property
+	// The source generator will provide the Default property
 }
