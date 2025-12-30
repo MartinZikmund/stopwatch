@@ -19,13 +19,18 @@
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<Button Command="{x:Bind ViewModel.GoBackCommand}" Style="{ThemeResource NavigationBackButtonStyle}" />
 			<TextBlock
                 Grid.Column="1"
                 Style="{ThemeResource TitleTextBlockStyle}"
                 Text="{ex:Localize Key=History}" />
-			<Button Grid.Column="2" Command="{x:Bind ViewModel.ClearAllCommand}" Style="{ThemeResource SubtleButtonStyle}">
+			<Button Grid.Column="2" Command="{x:Bind ViewModel.ExportAllCommand}" Style="{ThemeResource SubtleButtonStyle}" ToolTipService.ToolTip="Export All History">
+				<FontIcon Glyph="&#xE72D;" />
+				<!--  Save icon  -->
+			</Button>
+			<Button Grid.Column="3" Command="{x:Bind ViewModel.ClearAllCommand}" Style="{ThemeResource SubtleButtonStyle}" ToolTipService.ToolTip="Clear All History">
 				<SymbolIcon Symbol="Delete" />
 			</Button>
 		</Grid>
