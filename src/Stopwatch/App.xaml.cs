@@ -5,6 +5,7 @@ using MZikmund.Toolkit.WinUI.Services;
 using Stopwatch.Core.Services;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
+using Stopwatch.Services.Export;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Store;
@@ -149,6 +150,7 @@ public partial class App : Application
 		services.AddScoped<IWindowShellProvider, WindowShellProvider>();
 		services.AddScoped<ITimerFactory, TimerFactory>();
 		services.AddScoped<IThemeManager, ThemeManager>();
+		services.AddScoped<IExportService, ExportService>();
 #if __IOS__
 		services.AddScoped<IStoreService, StoreService>();
 #elif HAS_UNO
