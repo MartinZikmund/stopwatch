@@ -4,7 +4,14 @@
       "mcp__backlog__task_search",
       "mcp__backlog__task_create",
       "mcp__backlog__task_view",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(dotnet build:*)",
+      "Bash(dotnet restore:*)",
+      "Bash(dotnet format:*)",
+      "Bash(git restore:*)"
     ]
   }
 }
