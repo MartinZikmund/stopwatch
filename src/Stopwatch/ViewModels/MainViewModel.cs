@@ -85,6 +85,16 @@ public partial class MainViewModel : PageViewModel
 		ReloadStopwatches();
 		HasProLicense = await _storeService.HasProAsync();
 
+		// Handle restored stopwatch navigation
+		if (parameter is int stopwatchId)
+		{
+			var stopwatch = Stopwatches.FirstOrDefault(sw => sw.Id == stopwatchId);
+			if (stopwatch != null)
+			{
+				SelectedStopwatch = stopwatch;
+			}
+		}
+
 		// Show teaching tips for first-time users or when returning from settings
 		if (!_appPreferences.HasSeenOnboardingTips)
 		{
