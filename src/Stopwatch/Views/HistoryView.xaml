@@ -30,23 +30,45 @@
 			</Button>
 		</Grid>
 		<Grid Grid.Row="1" Margin="36,0,36,36">
-			<ListView ItemsSource="{x:Bind ViewModel.HistoryEntries}">
+			<ListView
+				ItemsSource="{x:Bind ViewModel.HistoryEntries}"
+				IsItemClickEnabled="True"
+				SelectionMode="None"
+				ItemClick="ListView_ItemClick">
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="vm:HistoryEntryViewModel">
-						<Grid Padding="8">
-							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto" />
-								<RowDefinition Height="Auto" />
-							</Grid.RowDefinitions>
-							<TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" Text="{x:Bind Stopwatch.Name}" />
-							<Grid Grid.Row="1">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
-								<TextBlock Text="{x:Bind Stopwatch.PausedElapsedTime}" />
-								<TextBlock Grid.Column="1" Text="{x:Bind Stopwatch.InitialStartTime}" />
-							</Grid>
+						<Grid Padding="12,8" ColumnSpacing="12">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<!--  Icon  -->
+								<ColumnDefinition Width="*" />
+								<!--  Details  -->
+								<ColumnDefinition Width="Auto" />
+								<!--  Chevron  -->
+							</Grid.ColumnDefinitions>
+
+							<FontIcon FontSize="24" Glyph="{x:Bind Stopwatch.Icon}" />
+
+							<StackPanel Grid.Column="1" Spacing="4">
+								<TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind Stopwatch.Name}" />
+								<StackPanel Orientation="Horizontal" Spacing="16">
+									<TextBlock>
+										<Run Text="Time: " />
+										<Run FontWeight="SemiBold" Text="{x:Bind Stopwatch.PausedElapsedTime}" />
+									</TextBlock>
+									<TextBlock>
+										<Run Text="Laps: " />
+										<Run FontWeight="SemiBold" Text="{x:Bind LapCount}" />
+									</TextBlock>
+								</StackPanel>
+								<TextBlock Opacity="0.7" Style="{ThemeResource CaptionTextBlockStyle}" Text="{x:Bind Stopwatch.InitialStartTime}" />
+							</StackPanel>
+
+							<FontIcon
+								Grid.Column="2"
+								FontSize="16"
+								Glyph="&#xE76C;"
+								Opacity="0.6" />
 						</Grid>
 					</DataTemplate>
 				</ListView.ItemTemplate>

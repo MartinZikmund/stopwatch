@@ -15,6 +15,8 @@ public partial class HistoryEntryViewModel : ObservableObject
 
 	public HistoryEntryModel Stopwatch => _stopwatch;
 
+	public int LapCount => _stopwatch.Laps.Length;
+
 	[RelayCommand]
 	public async Task DeleteAsync() => await _owner.DeleteAsync(this);
 

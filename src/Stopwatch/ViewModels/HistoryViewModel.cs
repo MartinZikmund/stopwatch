@@ -41,7 +41,8 @@ public partial class HistoryViewModel : PageViewModel
 
 	internal async Task OpenAsync(HistoryEntryViewModel historyEntryViewModel)
 	{
-
+		NavigationService.Navigate<HistoryDetailViewModel>(historyEntryViewModel.Stopwatch.Id);
+		await Task.CompletedTask;
 	}
 
 	[RelayCommand]
