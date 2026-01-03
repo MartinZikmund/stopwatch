@@ -236,14 +236,9 @@ public partial class MainViewModel : PageViewModel
 
 		if (wasSelected)
 		{
-			if (index < Stopwatches.Count)
-			{
-				SelectedStopwatch = Stopwatches[index];
-			}
-			else
-			{
-				SelectedStopwatch = Stopwatches.Last();
-			}
+			SelectedStopwatch = index < Stopwatches.Count
+				? Stopwatches[index]
+				: Stopwatches.Last();
 		}
 	}
 
