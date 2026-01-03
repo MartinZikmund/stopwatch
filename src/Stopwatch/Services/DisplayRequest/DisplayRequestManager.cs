@@ -14,6 +14,7 @@ internal class DisplayRequestManager : IDisplayRequestManager
 	{
 		var currentGeneration = _generation;
 		_displayRequest.RequestActive();
+		_activeRequestCount++;
 		return Disposable.Create(() =>
 		{
 			// Ensure we did not Clear in-between.
