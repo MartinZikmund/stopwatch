@@ -78,13 +78,20 @@ public partial class MainViewModel : PageViewModel
 
 	public override async void ViewNavigatedTo(object? parameter)
 	{
-		ReloadStopwatches();
-		HasProLicense = await _storeService.HasProAsync();
-
-		// Show teaching tips for first-time users or when returning from settings
-		if (!_appPreferences.HasSeenOnboardingTips)
+		try
 		{
-			TriggerTeachingTips?.Invoke();
+			ReloadStopwatches();
+			HasProLicense = await _storeService.HasProAsync();
+
+			// Show teaching tips for first-time users or when returning from settings
+			if (!_appPreferences.HasSeenOnboardingTips)
+			{
+				TriggerTeachingTips?.Invoke();
+			}
+		}
+		catch (Exception ex)
+		{
+			System.Diagnostics.Debug.WriteLine($"Error in ViewNavigatedTo: {ex.Message}");
 		}
 	}
 
