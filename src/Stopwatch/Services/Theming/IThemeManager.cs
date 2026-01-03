@@ -1,6 +1,6 @@
 ﻿namespace Stopwatch.Services.Theming;
 
-public interface IThemeManager
+public interface IThemeManager : IDisposable
 {
 	void SetTheme(ElementTheme theme);
 
