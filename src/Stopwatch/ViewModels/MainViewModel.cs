@@ -12,6 +12,7 @@ using Stopwatch.Services.Settings;
 using Stopwatch.Services.Store;
 using Stopwatch.Services.Theming;
 using Stopwatch.Services.Timer;
+using Microsoft.Extensions.Logging;
 using Uno.Disposables;
 using Uno.Extensions;
 using Windows.Storage;
@@ -31,6 +32,7 @@ public partial class MainViewModel : PageViewModel
 	private readonly IDialogService _dialogService;
 	private readonly IConfirmationDialogService _confirmationDialogService;
 	private readonly IDisplayRequestManager _displayRequestManager;
+	private readonly ILogger<MainViewModel> _logger;
 	private readonly DispatcherQueueTimer _timer;
 	private readonly SerialDisposable _displayRequestDisposable = new();
 
@@ -51,7 +53,8 @@ public partial class MainViewModel : PageViewModel
 		IStoreService storeService,
 		IDialogService dialogService,
 		IConfirmationDialogService confirmationDialogService,
-		IDisplayRequestManager displayRequestManager) : base(navigationService)
+		IDisplayRequestManager displayRequestManager,
+		ILogger<MainViewModel> logger) : base(navigationService)
 	{
 		_timerFactory = timerFactory;
 		_dataSource = dataSource;
@@ -63,6 +66,7 @@ public partial class MainViewModel : PageViewModel
 		_dialogService = dialogService;
 		_confirmationDialogService = confirmationDialogService;
 		_displayRequestManager = displayRequestManager;
+		_logger = logger;
 
 		_timer = timerFactory.Create();
 		_timer.Interval = TimeSpan.FromMilliseconds(50);
@@ -271,9 +275,9 @@ public partial class MainViewModel : PageViewModel
 				await FileIO.WriteTextAsync(file, jsonContent);
 			}
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
-			// Handle error silently for now - could show error dialog in future
+			_logger.LogError(ex, "Failed to export stopwatch to JSON");
 		}
 	}
 
@@ -303,9 +307,9 @@ public partial class MainViewModel : PageViewModel
 				await FileIO.WriteTextAsync(file, csvContent);
 			}
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
-			// Handle error silently for now - could show error dialog in future
+			_logger.LogError(ex, "Failed to export stopwatch to CSV");
 		}
 	}
 
