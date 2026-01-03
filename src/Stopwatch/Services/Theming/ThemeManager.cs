@@ -80,4 +80,9 @@ public class ThemeManager : IThemeManager
 			UpdateTitleBarTheming();
 		});
 	}
+
+	public void Dispose()
+	{
+		_uiSettings.ColorValuesChanged -= OnColorValuesChanged;
+	}
 }
