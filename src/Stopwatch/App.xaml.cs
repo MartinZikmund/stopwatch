@@ -5,6 +5,7 @@ using MZikmund.Toolkit.WinUI.Services;
 using Stopwatch.Core.Services;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
+using Stopwatch.Services.Export;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Store;
@@ -21,6 +22,7 @@ using Stopwatch.Services.Data.LiteDb;
 #endif
 
 namespace Stopwatch;
+
 public partial class App : Application
 {
 	/// <summary>
@@ -138,6 +140,7 @@ public partial class App : Application
 		services.AddScoped<MainViewModel>();
 		services.AddScoped<OnboardingViewModel>();
 		services.AddScoped<HistoryViewModel>();
+		services.AddScoped<HistoryDetailViewModel>();
 		services.AddScoped<GetProViewModel>();
 
 		services.AddScoped<IDialogCoordinator, DialogCoordinator>();
@@ -149,6 +152,7 @@ public partial class App : Application
 		services.AddScoped<IWindowShellProvider, WindowShellProvider>();
 		services.AddScoped<ITimerFactory, TimerFactory>();
 		services.AddScoped<IThemeManager, ThemeManager>();
+		services.AddScoped<IExportService, ExportService>();
 #if __IOS__
 		services.AddScoped<IStoreService, StoreService>();
 #elif HAS_UNO

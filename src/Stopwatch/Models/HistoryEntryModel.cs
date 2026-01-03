@@ -40,6 +40,8 @@ public class HistoryEntryModel : IId
 
 	public LapModel[] Laps { get; set; } = Array.Empty<LapModel>();
 
+	public int LapCount => Laps.Length;
+
 	public string? BackgroundImageUri { get; set; }
 
 	public double BackgroundImageOpacity { get; set; } = 0.8;

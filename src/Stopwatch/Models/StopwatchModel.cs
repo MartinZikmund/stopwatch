@@ -9,12 +9,33 @@ namespace Stopwatch.Models;
 public class StopwatchModel : IId
 {
 	public StopwatchModel()
-	{		
+	{
 	}
 
 	public StopwatchModel(string name)
 	{
-		Name = name;	
+		Name = name;
+	}
+
+	public static StopwatchModel FromHistoryEntry(HistoryEntryModel historyEntry)
+	{
+		return new StopwatchModel(historyEntry.Name)
+		{
+			Icon = historyEntry.Icon,
+			BackgroundImageUri = historyEntry.BackgroundImageUri,
+			BackgroundImageOpacity = historyEntry.BackgroundImageOpacity,
+			BackgroundColor = historyEntry.BackgroundColor,
+			Laps = historyEntry.Laps.Select(lap => new LapModel
+			{
+				TotalTime = lap.TotalTime,
+				Note = lap.Note
+			}).ToArray(),
+			// Timing properties reset to defaults (fresh stopwatch)
+			InitialStartTime = null,
+			LastStartTime = null,
+			PausedElapsedTime = TimeSpan.Zero,
+			Theme = ElementTheme.Default
+		};
 	}
 
 	public int Id { get; set; }
@@ -47,7 +68,7 @@ public class StopwatchModel : IId
 		for (var i = 0; i < Laps.Length; i++)
 		{
 			var lap = Laps[i];
-			var previousLapTime = i > 0 ? Laps[i-1].TotalTime : TimeSpan.Zero;
+			var previousLapTime = i > 0 ? Laps[i - 1].TotalTime : TimeSpan.Zero;
 			var lapTime = lap.TotalTime - previousLapTime;
 			csv.AppendLine($"{lapTime},{lap.TotalTime},{lap.Note}");
 		}
@@ -57,21 +78,21 @@ public class StopwatchModel : IId
 
 	public string ToJson()
 	{
-        var lapExports = new LapExportModel[Laps.Length];
-        for (int i = 0; i < Laps.Length; i++)
-        {
-            var previousTotal = i > 0 ? Laps[i - 1].TotalTime : TimeSpan.Zero;
-            var lapTime = Laps[i].TotalTime - previousTotal;
-            lapExports[i] = new LapExportModel(lapTime, Laps[i].TotalTime, Laps[i].Note);
-        }
-        var exportData = new StopwatchExportModel(
-            Name,
-            InitialStartTime,
-            LastStartTime,
-            PausedElapsedTime,
-            lapExports
-        );
-        return System.Text.Json.JsonSerializer.Serialize(exportData, StopwatchJsonContext.Default.StopwatchExportModel);
+		var lapExports = new LapExportModel[Laps.Length];
+		for (int i = 0; i < Laps.Length; i++)
+		{
+			var previousTotal = i > 0 ? Laps[i - 1].TotalTime : TimeSpan.Zero;
+			var lapTime = Laps[i].TotalTime - previousTotal;
+			lapExports[i] = new LapExportModel(lapTime, Laps[i].TotalTime, Laps[i].Note);
+		}
+		var exportData = new StopwatchExportModel(
+			Name,
+			InitialStartTime,
+			LastStartTime,
+			PausedElapsedTime,
+			lapExports
+		);
+		return System.Text.Json.JsonSerializer.Serialize(exportData, StopwatchJsonContext.Default.StopwatchExportModel);
 	}
 
 	public string ToXml()
@@ -86,7 +107,7 @@ public class StopwatchModel : IId
 		for (var i = 0; i < Laps.Length; i++)
 		{
 			var lap = Laps[i];
-			var previousLapTime = i > 0 ? Laps[i-1].TotalTime : TimeSpan.Zero;
+			var previousLapTime = i > 0 ? Laps[i - 1].TotalTime : TimeSpan.Zero;
 			xml.AppendLine($"<Lap>");
 			xml.AppendLine($"<LapTime>{lap.TotalTime - previousLapTime}</LapTime>");
 			xml.AppendLine($"<TotalTime>{lap.TotalTime}</TotalTime>");

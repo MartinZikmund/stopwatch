@@ -6,6 +6,7 @@ using Stopwatch.Models;
 using Stopwatch.Services;
 using Stopwatch.Services.Data;
 using Stopwatch.Services.Dialogs;
+using Stopwatch.Services.Export;
 using Stopwatch.Services.Localization;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
@@ -31,6 +32,7 @@ public partial class MainViewModel : PageViewModel
 	private readonly IDialogService _dialogService;
 	private readonly IConfirmationDialogService _confirmationDialogService;
 	private readonly IDisplayRequestManager _displayRequestManager;
+	private readonly IExportService _exportService;
 	private readonly DispatcherQueueTimer _timer;
 	private readonly SerialDisposable _displayRequestDisposable = new();
 
@@ -51,7 +53,8 @@ public partial class MainViewModel : PageViewModel
 		IStoreService storeService,
 		IDialogService dialogService,
 		IConfirmationDialogService confirmationDialogService,
-		IDisplayRequestManager displayRequestManager) : base(navigationService)
+		IDisplayRequestManager displayRequestManager,
+		IExportService exportService) : base(navigationService)
 	{
 		_timerFactory = timerFactory;
 		_dataSource = dataSource;
@@ -63,6 +66,7 @@ public partial class MainViewModel : PageViewModel
 		_dialogService = dialogService;
 		_confirmationDialogService = confirmationDialogService;
 		_displayRequestManager = displayRequestManager;
+		_exportService = exportService;
 
 		_timer = timerFactory.Create();
 		_timer.Interval = TimeSpan.FromMilliseconds(50);
@@ -80,6 +84,16 @@ public partial class MainViewModel : PageViewModel
 	{
 		ReloadStopwatches();
 		HasProLicense = await _storeService.HasProAsync();
+
+		// Handle restored stopwatch navigation
+		if (parameter is int stopwatchId)
+		{
+			var stopwatch = Stopwatches.FirstOrDefault(sw => sw.Id == stopwatchId);
+			if (stopwatch != null)
+			{
+				SelectedStopwatch = stopwatch;
+			}
+		}
 
 		// Show teaching tips for first-time users or when returning from settings
 		if (!_appPreferences.HasSeenOnboardingTips)
@@ -253,28 +267,9 @@ public partial class MainViewModel : PageViewModel
 			return;
 		}
 
-		try
-		{
-			var savePicker = new FileSavePicker();
-			savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-			savePicker.FileTypeChoices.Add("JSON files", new List<string> { ".json" });
-			savePicker.SuggestedFileName = $"{SelectedStopwatch.Name}_export_{DateTime.Now:yyyyMMdd_HHmmss}";
-
-			// Get the current window handle from the injected service
-			var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(_windowShellProvider.Window);
-			WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hwnd);
-
-			var file = await savePicker.PickSaveFileAsync();
-			if (file != null)
-			{
-				var jsonContent = SelectedStopwatch.Stopwatch.ToJson();
-				await FileIO.WriteTextAsync(file, jsonContent);
-			}
-		}
-		catch (Exception)
-		{
-			// Handle error silently for now - could show error dialog in future
-		}
+		await _exportService.ExportToJsonAsync(
+			SelectedStopwatch.Stopwatch,
+			$"{SelectedStopwatch.Name}_export_{DateTime.Now:yyyyMMdd_HHmmss}");
 	}
 
 	[RelayCommand]
@@ -285,28 +280,35 @@ public partial class MainViewModel : PageViewModel
 			return;
 		}
 
-		try
-		{
-			var savePicker = new FileSavePicker();
-			savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-			savePicker.FileTypeChoices.Add("CSV files", new List<string> { ".csv" });
-			savePicker.SuggestedFileName = $"{SelectedStopwatch.Name}_laps_{DateTime.Now:yyyyMMdd_HHmmss}";
+		await _exportService.ExportToCsvAsync(
+			SelectedStopwatch.Stopwatch,
+			$"{SelectedStopwatch.Name}_laps_{DateTime.Now:yyyyMMdd_HHmmss}");
+	}
 
-			// Get the current window handle from the injected service
-			var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(_windowShellProvider.Window);
-			WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hwnd);
-
-			var file = await savePicker.PickSaveFileAsync();
-			if (file != null)
-			{
-				var csvContent = SelectedStopwatch.Stopwatch.LapsToCsv();
-				await FileIO.WriteTextAsync(file, csvContent);
-			}
-		}
-		catch (Exception)
+	[RelayCommand]
+	public async Task ExportToXmlAsync()
+	{
+		if (SelectedStopwatch is null)
 		{
-			// Handle error silently for now - could show error dialog in future
+			return;
 		}
+
+		await _exportService.ExportToXmlAsync(
+			SelectedStopwatch.Stopwatch,
+			$"{SelectedStopwatch.Name}_export_{DateTime.Now:yyyyMMdd_HHmmss}");
+	}
+
+	[RelayCommand]
+	public async Task ExportToExcelAsync()
+	{
+		if (SelectedStopwatch is null)
+		{
+			return;
+		}
+
+		await _exportService.ExportToExcelAsync(
+			SelectedStopwatch.Stopwatch,
+			$"{SelectedStopwatch.Name}_laps_{DateTime.Now:yyyyMMdd_HHmmss}");
 	}
 
 	private void UpdatePresenterButtons()

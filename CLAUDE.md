@@ -33,14 +33,14 @@ You MUST read the overview resource to understand the complete workflow. The inf
 
 ## Project Overview
 
-Fluent Stopwatch is a cross-platform Uno Platform application built with .NET 9.0 that runs on Android, iOS, Desktop, WebAssembly, and WinUI. It provides stopwatch functionality with lap tracking, history, and customizable interface.
+Fluent Stopwatch is a cross-platform Uno Platform application built with .NET 10.0 that runs on Android, iOS, Desktop, WebAssembly, and WinUI. It provides stopwatch functionality with lap tracking, history, and customizable interface.
 
 ## Build and Development Commands
 
 ### Environment Setup
 ```bash
-# Install .NET 9.0 SDK
-curl -fsSL https://dot.net/v1/dotnet-install.sh | bash -s -- --channel 9.0
+# Install .NET 10.0 SDK
+curl -fsSL https://dot.net/v1/dotnet-install.sh | bash -s -- --channel 10.0
 export PATH="$HOME/.dotnet:$PATH"
 
 # Install uno-check tool
@@ -53,10 +53,10 @@ dotnet tool install --global --version 1.28.3 uno.check
 ### Build Commands
 ```bash
 # WebAssembly build (recommended for testing) - 5 seconds
-dotnet build src/Stopwatch/Stopwatch.csproj -f net9.0-browserwasm
+dotnet build src/Stopwatch/Stopwatch.csproj -f net10.0-browserwasm
 
 # Desktop build - 4 seconds
-dotnet build src/Stopwatch/Stopwatch.csproj -f net9.0-desktop
+dotnet build src/Stopwatch/Stopwatch.csproj -f net10.0-desktop
 
 # DO NOT use full multi-target build - FAILS due to network restrictions blocking Android dependencies
 # dotnet build src/Stopwatch/Stopwatch.csproj
@@ -73,14 +73,14 @@ dotnet format src/Stopwatch/Stopwatch.csproj --verify-no-changes
 
 ### Testing in Browser (WebAssembly)
 ```bash
-cd src/Stopwatch/bin/Debug/net9.0-browserwasm/wwwroot
+cd src/Stopwatch/bin/Debug/net10.0-browserwasm/wwwroot
 python3 -m http.server 8080
 # Open http://localhost:8080/
 ```
 
 ### Validation Checklist
 After making code changes, ALWAYS:
-1. Build for WebAssembly: `dotnet build src/Stopwatch/Stopwatch.csproj -f net9.0-browserwasm`
+1. Build for WebAssembly: `dotnet build src/Stopwatch/Stopwatch.csproj -f net10.0-browserwasm`
 2. Test in browser by serving the WebAssembly output and verifying the stopwatch UI loads
 3. Check formatting: `dotnet format src/Stopwatch/Stopwatch.csproj --verify-no-changes`
 4. Test basic stopwatch functionality: play button, timer display, lap recording
@@ -170,7 +170,7 @@ LiteDbRepository/FileRepository persists to disk
 - **ViewModels**: Resolved from scoped provider when PageBase loads
 
 ### Platform Abstractions
-- **Single codebase** targets: net9.0-windows10.0.26100, net9.0-android, net9.0-ios, net9.0-desktop, net9.0-browserwasm
+- **Single codebase** targets: net10.0-windows10.0.26100, net10.0-android, net10.0-ios, net10.0-desktop, net10.0-browserwasm
 - **UnoSingleProject** mode with conditional compilation
 - **Platform Entry Points**:
   - Desktop: `Platforms/Desktop/Program.cs`

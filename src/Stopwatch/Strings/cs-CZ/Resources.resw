@@ -395,4 +395,28 @@
   <data name="ProOnlyTabLimitDescription" xml:space="preserve">
     <value>Pouze verze Pro umožňuje mít otevřeny více než dvoje stopky najednou.</value>
   </data>
+  <data name="ExportToXml" xml:space="preserve">
+    <value>Exportovat do XML</value>
+  </data>
+  <data name="ExportToExcel" xml:space="preserve">
+    <value>Exportovat do Excelu</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Exportovat</value>
+  </data>
+  <data name="RestoreStopwatch" xml:space="preserve">
+    <value>Obnovit stopky</value>
+  </data>
+  <data name="Started" xml:space="preserve">
+    <value>Zahájeno</value>
+  </data>
+  <data name="NoHistoryEntries" xml:space="preserve">
+    <value>Zatím žádné záznamy</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Vymazat vše</value>
+  </data>
+  <data name="DeleteEntry" xml:space="preserve">
+    <value>Odstranit</value>
+  </data>
 </root>

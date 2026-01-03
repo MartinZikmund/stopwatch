@@ -395,4 +395,28 @@
   <data name="ProOnlyTabLimitDescription" xml:space="preserve">
     <value>Only Fluent Stopwatch Pro allows more than two stopwatches opened at once.</value>
   </data>
+  <data name="ExportToXml" xml:space="preserve">
+    <value>Export to XML</value>
+  </data>
+  <data name="ExportToExcel" xml:space="preserve">
+    <value>Export to Excel</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="RestoreStopwatch" xml:space="preserve">
+    <value>Restore Stopwatch</value>
+  </data>
+  <data name="Started" xml:space="preserve">
+    <value>Started</value>
+  </data>
+  <data name="NoHistoryEntries" xml:space="preserve">
+    <value>No history entries yet</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Clear all</value>
+  </data>
+  <data name="DeleteEntry" xml:space="preserve">
+    <value>Delete</value>
+  </data>
 </root>

@@ -8,6 +8,7 @@ using LiteDB;
 using Stopwatch.Models;
 
 namespace Stopwatch.Services.Data.LiteDb;
+
 internal class LiteDbRepository<T> : IRepository<T> where T : class, IId
 {
 	private readonly LiteDatabase _database;
