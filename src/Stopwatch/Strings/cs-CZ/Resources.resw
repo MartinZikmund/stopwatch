@@ -410,4 +410,13 @@
   <data name="Started" xml:space="preserve">
     <value>Zahájeno</value>
   </data>
+  <data name="NoHistoryEntries" xml:space="preserve">
+    <value>Zatím žádné záznamy</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Vymazat vše</value>
+  </data>
+  <data name="DeleteEntry" xml:space="preserve">
+    <value>Odstranit</value>
+  </data>
 </root>

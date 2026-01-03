@@ -14,7 +14,12 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Margin="36,60,36,36" ColumnSpacing="8">
+
+        <!--  Header  -->
+        <Grid
+            x:Name="HeaderPanel"
+            Margin="12,48,12,8"
+            ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -24,72 +29,141 @@
             <Button Command="{x:Bind ViewModel.GoBackCommand}" Style="{ThemeResource NavigationBackButtonStyle}" />
             <TextBlock
                 Grid.Column="1"
+                VerticalAlignment="Center"
                 Style="{ThemeResource TitleTextBlockStyle}"
                 Text="{ex:Localize Key=History}" />
             <Button
                 Grid.Column="2"
                 Command="{x:Bind ViewModel.ExportAllCommand}"
                 Style="{ThemeResource SubtleButtonStyle}"
-                ToolTipService.ToolTip="Export All History">
+                ToolTipService.ToolTip="{ex:Localize Key=Export}">
                 <FontIcon Glyph="&#xE72D;" />
-                <!--  Save icon  -->
             </Button>
             <Button
                 Grid.Column="3"
                 Command="{x:Bind ViewModel.ClearAllCommand}"
                 Style="{ThemeResource SubtleButtonStyle}"
-                ToolTipService.ToolTip="Clear All History">
+                ToolTipService.ToolTip="{ex:Localize Key=ClearAll}">
                 <SymbolIcon Symbol="Delete" />
             </Button>
         </Grid>
-        <Grid Grid.Row="1" Margin="36,0,36,36">
+
+        <!--  Content  -->
+        <Grid x:Name="ContentRoot" Grid.Row="1" Margin="12,0,12,12">
+            <!--  Empty state  -->
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="16"
+                Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}">
+                <FontIcon
+                    HorizontalAlignment="Center"
+                    FontSize="48"
+                    Glyph="&#xE81C;"
+                    Opacity="0.5" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    Opacity="0.7"
+                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                    Text="{ex:Localize Key=NoHistoryEntries}" />
+            </StackPanel>
+
+            <!--  History list  -->
             <ListView
                 IsItemClickEnabled="True"
                 ItemClick="ListView_ItemClick"
                 ItemsSource="{x:Bind ViewModel.HistoryEntries}"
                 SelectionMode="None">
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Padding" Value="8,4" />
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:HistoryEntryViewModel">
-                        <Grid Padding="12,8" ColumnSpacing="12">
+                        <Grid
+                            Padding="8"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            ColumnSpacing="12"
+                            CornerRadius="4">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
-                                <!--  Icon  -->
                                 <ColumnDefinition Width="*" />
-                                <!--  Details  -->
                                 <ColumnDefinition Width="Auto" />
-                                <!--  Chevron  -->
                             </Grid.ColumnDefinitions>
 
-                            <FontIcon FontSize="24" Glyph="{x:Bind Stopwatch.Icon}" />
-
-                            <StackPanel Grid.Column="1" Spacing="4">
-                                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind Stopwatch.Name}" />
-                                <StackPanel Orientation="Horizontal" Spacing="16">
-                                    <TextBlock>
-                                        <Run Text="Time: " />
-                                        <Run FontWeight="SemiBold" Text="{x:Bind Stopwatch.PausedElapsedTime}" />
-                                    </TextBlock>
-                                    <TextBlock>
-                                        <Run Text="Laps: " />
-                                        <Run FontWeight="SemiBold" Text="{x:Bind LapCount}" />
-                                    </TextBlock>
-                                </StackPanel>
+                            <!--  Icon  -->
+                            <Border
+                                Width="48"
+                                Height="48"
+                                Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                                CornerRadius="24">
                                 <TextBlock
-                                    Opacity="0.7"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="24"
+                                    Text="{x:Bind Stopwatch.Icon}" />
+                            </Border>
+
+                            <!--  Details  -->
+                            <StackPanel
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Spacing="2">
+                                <TextBlock
+                                    Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                    Text="{x:Bind Stopwatch.Name}"
+                                    TextTrimming="CharacterEllipsis" />
+                                <TextBlock Style="{ThemeResource BodyTextBlockStyle}">
+                                    <Run FontWeight="SemiBold" Text="{x:Bind Stopwatch.PausedElapsedTime}" />
+                                    <Run Text=" · " />
+                                    <Run Text="{x:Bind LapCount}" />
+                                    <Run Text=" " />
+                                    <Run Text="{ex:Localize Key=Laps}" />
+                                </TextBlock>
+                                <TextBlock
+                                    Opacity="0.6"
                                     Style="{ThemeResource CaptionTextBlockStyle}"
                                     Text="{x:Bind Stopwatch.InitialStartTime}" />
                             </StackPanel>
 
+                            <!--  Chevron  -->
                             <FontIcon
                                 Grid.Column="2"
-                                FontSize="16"
+                                VerticalAlignment="Center"
+                                FontSize="12"
                                 Glyph="&#xE76C;"
-                                Opacity="0.6" />
+                                Opacity="0.5" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderPanel.Margin" Value="12,48,12,8" />
+                        <Setter Target="ContentRoot.Margin" Value="12,0,12,12" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderPanel.Margin" Value="24,60,24,24" />
+                        <Setter Target="ContentRoot.Margin" Value="24,0,24,24" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 
 </local:HistoryViewBase>

@@ -6,157 +6,240 @@
     xmlns:ex="using:Stopwatch.Extensions.Xaml"
     xmlns:local="using:Stopwatch.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:Stopwatch.Models"
+    xmlns:vm="using:Stopwatch.ViewModels"
     mc:Ignorable="d">
 
     <Grid RowSpacing="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <!--  Header  -->
             <RowDefinition Height="*" />
-            <!--  Content  -->
         </Grid.RowDefinitions>
 
-        <!--  Header: Back + Title  -->
-        <Grid Margin="36,60,36,36" ColumnSpacing="8">
+        <!--  Header  -->
+        <Grid
+            x:Name="HeaderPanel"
+            Margin="12,48,12,8"
+            ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Button Command="{x:Bind ViewModel.GoBackCommand}" Style="{ThemeResource NavigationBackButtonStyle}" />
-            <TextBlock
+
+            <!--  Icon  -->
+            <Border
                 Grid.Column="1"
+                Width="36"
+                Height="36"
+                Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                CornerRadius="18">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="18"
+                    Text="{x:Bind ViewModel.HistoryEntry.Icon, Mode=OneWay}" />
+            </Border>
+
+            <TextBlock
+                Grid.Column="2"
+                VerticalAlignment="Center"
                 Style="{ThemeResource TitleTextBlockStyle}"
-                Text="{x:Bind ViewModel.HistoryEntry.Name, Mode=OneWay}" />
+                Text="{x:Bind ViewModel.HistoryEntry.Name, Mode=OneWay}"
+                TextTrimming="CharacterEllipsis" />
+
+            <!--  Export button  -->
+            <Button
+                Grid.Column="3"
+                Style="{ThemeResource SubtleButtonStyle}"
+                ToolTipService.ToolTip="{ex:Localize Key=Export}">
+                <FontIcon Glyph="&#xE72D;" />
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.ExportToJsonCommand}" Text="JSON" />
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.ExportToCsvCommand}" Text="CSV" />
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.ExportToXmlCommand}" Text="XML" />
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.ExportToExcelCommand}" Text="Excel" />
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+
+            <!--  Delete button  -->
+            <Button
+                Grid.Column="4"
+                Command="{x:Bind ViewModel.DeleteCommand}"
+                Style="{ThemeResource SubtleButtonStyle}"
+                ToolTipService.ToolTip="{ex:Localize Key=Delete}">
+                <SymbolIcon Symbol="Delete" />
+            </Button>
         </Grid>
 
-        <!--  Content: Read-only display + Actions  -->
+        <!--  Content  -->
         <ScrollViewer Grid.Row="1">
             <StackPanel
+                x:Name="ContentRoot"
                 MaxWidth="800"
-                Margin="36,0,36,36"
+                Margin="12,0,12,12"
                 Spacing="24">
 
-                <!--  Stopwatch Display (read-only)  -->
-                <StackPanel Spacing="16">
-                    <!--  Icon + Name  -->
-                    <StackPanel HorizontalAlignment="Center" Spacing="12">
+                <!--  Summary Card  -->
+                <Grid
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Spacing="8">
+                        <!--  Large time display  -->
                         <TextBlock
-                            HorizontalAlignment="Center"
-                            FontSize="48"
-                            Text="{x:Bind ViewModel.HistoryEntry.Icon, Mode=OneWay}" />
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            Style="{ThemeResource TitleTextBlockStyle}"
-                            Text="{x:Bind ViewModel.HistoryEntry.Name, Mode=OneWay}" />
+                            FontSize="36"
+                            FontWeight="SemiBold"
+                            Text="{x:Bind ViewModel.HistoryEntry.PausedElapsedTime, Mode=OneWay}" />
+
+                        <!--  Meta info  -->
+                        <StackPanel Orientation="Horizontal" Spacing="16">
+                            <TextBlock Opacity="0.7" Style="{ThemeResource BodyTextBlockStyle}">
+                                <Run Text="{ex:Localize Key=Started}" />
+                                <Run Text=": " />
+                                <Run FontWeight="SemiBold" Text="{x:Bind ViewModel.HistoryEntry.InitialStartTime, Mode=OneWay}" />
+                            </TextBlock>
+                            <TextBlock Opacity="0.7" Style="{ThemeResource BodyTextBlockStyle}">
+                                <Run Text="{ex:Localize Key=Laps}" />
+                                <Run Text=": " />
+                                <Run FontWeight="SemiBold" Text="{x:Bind ViewModel.HistoryEntry.LapCount, Mode=OneWay}" />
+                            </TextBlock>
+                        </StackPanel>
                     </StackPanel>
 
-                    <!--  Large time display  -->
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        FontSize="48"
-                        FontWeight="SemiBold"
-                        Text="{x:Bind ViewModel.HistoryEntry.PausedElapsedTime, Mode=OneWay}" />
-
-                    <!--  Date/time info  -->
-                    <StackPanel HorizontalAlignment="Center" Spacing="8">
-                        <TextBlock HorizontalAlignment="Center" Opacity="0.7">
-                            <Run Text="{ex:Localize Key=Started}" />
-                            <Run Text=": " />
-                            <Run Text="{x:Bind ViewModel.HistoryEntry.InitialStartTime, Mode=OneWay}" />
-                        </TextBlock>
-                        <TextBlock HorizontalAlignment="Center" Opacity="0.7">
-                            <Run Text="{ex:Localize Key=Laps}" />
-                            <Run Text=": " />
-                            <Run Text="{x:Bind ViewModel.HistoryEntry.LapCount, Mode=OneWay}" />
-                        </TextBlock>
-                    </StackPanel>
-                </StackPanel>
+                    <!--  Restore button  -->
+                    <Button
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Command="{x:Bind ViewModel.RestoreCommand}"
+                        Style="{ThemeResource AccentButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE777;" />
+                            <TextBlock Text="{ex:Localize Key=RestoreStopwatch}" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
 
                 <!--  Laps Section  -->
                 <StackPanel Spacing="8">
                     <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{ex:Localize Key=Laps}" />
 
-                    <!--  Laps Header  -->
-                    <Grid Padding="8,4" ColumnSpacing="8">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <!--  Lap Time  -->
-                            <ColumnDefinition Width="*" />
-                            <!--  Total Time  -->
-                            <ColumnDefinition Width="2*" />
-                            <!--  Note  -->
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Opacity="0.7" Text="{ex:Localize Key=LapTime}" />
-                        <TextBlock
-                            Grid.Column="1"
-                            Opacity="0.7"
-                            Text="{ex:Localize Key=TotalTime}" />
-                        <TextBlock
-                            Grid.Column="2"
-                            Opacity="0.7"
-                            Text="{ex:Localize Key=Note}" />
-                    </Grid>
+                    <!--  Laps Table  -->
+                    <Border
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        CornerRadius="8">
+                        <StackPanel>
+                            <!--  Laps Header  -->
+                            <Grid
+                                Padding="12,8"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,0,1"
+                                ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Opacity="0.7"
+                                    Text="#" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    FontWeight="SemiBold"
+                                    Opacity="0.7"
+                                    Text="{ex:Localize Key=LapTime}" />
+                                <TextBlock
+                                    Grid.Column="2"
+                                    FontWeight="SemiBold"
+                                    Opacity="0.7"
+                                    Text="{ex:Localize Key=TotalTime}" />
+                                <TextBlock
+                                    Grid.Column="3"
+                                    FontWeight="SemiBold"
+                                    Opacity="0.7"
+                                    Text="{ex:Localize Key=Note}" />
+                            </Grid>
 
-                    <!--  Laps List  -->
-                    <ListView ItemsSource="{x:Bind ViewModel.HistoryEntry.Laps, Mode=OneWay}" SelectionMode="None">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalAlignment" Value="Stretch" />
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="models:LapModel">
-                                <Grid Padding="8,4" ColumnSpacing="8">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="2*" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Bind TotalTime}" />
-                                    <TextBlock Grid.Column="1" Text="{x:Bind TotalTime}" />
-                                    <TextBlock
-                                        Grid.Column="2"
-                                        Text="{x:Bind Note}"
-                                        TextWrapping="Wrap" />
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackPanel>
-
-                <!--  Actions  -->
-                <StackPanel Spacing="8">
-                    <Button
-                        HorizontalAlignment="Stretch"
-                        Command="{x:Bind ViewModel.RestoreCommand}"
-                        Style="{ThemeResource AccentButtonStyle}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Glyph="&#xE777;" />
-                            <!--  Refresh icon  -->
-                            <TextBlock Text="{ex:Localize Key=RestoreStopwatch}" />
+                            <!--  Laps List  -->
+                            <ListView
+                                ItemsSource="{x:Bind ViewModel.LapViewModels, Mode=OneWay}"
+                                SelectionMode="None">
+                                <ListView.ItemContainerStyle>
+                                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="MinHeight" Value="40" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:HistoryLapViewModel">
+                                        <Grid Padding="12,8" ColumnSpacing="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="48" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="2*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock
+                                                Opacity="0.6"
+                                                Text="{x:Bind LapNumber}" />
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                FontWeight="SemiBold"
+                                                Text="{x:Bind LapTime}" />
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                Opacity="0.8"
+                                                Text="{x:Bind TotalTime}" />
+                                            <TextBlock
+                                                Grid.Column="3"
+                                                Opacity="0.7"
+                                                Text="{x:Bind Note}"
+                                                TextTrimming="CharacterEllipsis" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
                         </StackPanel>
-                    </Button>
-
-                    <Button HorizontalAlignment="Stretch">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Glyph="&#xE72D;" />
-                            <!--  Save icon  -->
-                            <TextBlock Text="{ex:Localize Key=Export}" />
-                        </StackPanel>
-                        <Button.Flyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Command="{x:Bind ViewModel.ExportToJsonCommand}" Text="JSON" />
-                                <MenuFlyoutItem Command="{x:Bind ViewModel.ExportToCsvCommand}" Text="CSV" />
-                                <MenuFlyoutItem Command="{x:Bind ViewModel.ExportToXmlCommand}" Text="XML" />
-                                <MenuFlyoutItem Command="{x:Bind ViewModel.ExportToExcelCommand}" Text="Excel" />
-                            </MenuFlyout>
-                        </Button.Flyout>
-                    </Button>
+                    </Border>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderPanel.Margin" Value="12,48,12,8" />
+                        <Setter Target="ContentRoot.Margin" Value="12,0,12,12" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderPanel.Margin" Value="24,60,24,24" />
+                        <Setter Target="ContentRoot.Margin" Value="24,0,24,24" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 
 </local:HistoryDetailViewBase>

@@ -410,4 +410,13 @@
   <data name="Started" xml:space="preserve">
     <value>Started</value>
   </data>
+  <data name="NoHistoryEntries" xml:space="preserve">
+    <value>No history entries yet</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Clear all</value>
+  </data>
+  <data name="DeleteEntry" xml:space="preserve">
+    <value>Delete</value>
+  </data>
 </root>

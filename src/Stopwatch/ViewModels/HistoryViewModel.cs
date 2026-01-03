@@ -12,8 +12,12 @@ public partial class HistoryViewModel : PageViewModel
 	private readonly IHistoryService _historyService;
 	private readonly IConfirmationDialogService _confirmationDialogService;
 	private readonly IExportService _exportService;
+
 	[ObservableProperty]
+	[NotifyPropertyChangedFor(nameof(IsEmpty))]
 	public partial ObservableCollection<HistoryEntryViewModel> HistoryEntries { get; set; } = new();
+
+	public bool IsEmpty => HistoryEntries.Count == 0;
 
 	public HistoryViewModel(
 		INavigationService navigationService,
