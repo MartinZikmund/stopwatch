@@ -60,8 +60,8 @@ public class LapsObservableCollection : ObservableCollection<LapViewModel>
 	{
 		if (Count >= 2)
 		{
-			var fastest = this.OrderBy(l => l.LapTime).FirstOrDefault();
-			var slowest = this.OrderByDescending(l => l.LapTime).FirstOrDefault();
+			var fastest = Enumerable.MinBy(this, l => l.LapTime);
+			var slowest = Enumerable.MaxBy(this, l => l.LapTime);
 
 			foreach (var lap in this)
 			{
