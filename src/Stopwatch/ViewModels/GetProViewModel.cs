@@ -21,10 +21,17 @@ public partial class GetProViewModel : PageViewModel
 
 	public override async void ViewNavigatedTo(object? parameter)
 	{
-		var price = await _storeService.GetPriceAsync();
-		if (price is not null)
+		try
 		{
-			CurrentPrice = price;
+			var price = await _storeService.GetPriceAsync();
+			if (price is not null)
+			{
+				CurrentPrice = price;
+			}
+		}
+		catch (Exception ex)
+		{
+			System.Diagnostics.Debug.WriteLine($"Error in ViewNavigatedTo: {ex.Message}");
 		}
 	}
 

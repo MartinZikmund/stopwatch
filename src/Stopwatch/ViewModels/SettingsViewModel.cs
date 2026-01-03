@@ -99,6 +99,10 @@ public partial class SettingsViewModel : PageViewModel
 				BackgroundColor = ColorHelper.ToColor(_stopwatch.BackgroundColor);
 			}
 		}
+		catch (Exception ex)
+		{
+			System.Diagnostics.Debug.WriteLine($"Error in ViewNavigatedTo: {ex.Message}");
+		}
 		finally
 		{
 			_isInitializing = false;
