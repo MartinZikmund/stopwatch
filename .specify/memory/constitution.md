@@ -1,11 +1,14 @@
 <!--
   Sync Impact Report
   ==================
-  Version change: 1.0.0 → 1.1.0 (MINOR: expand Cross-Platform Parity for platform-exclusive features)
+  Version change: 1.1.0 → 1.2.0 (MINOR: add visual verification and granular commit guidance)
   Modified principles:
     - I. Cross-Platform Parity: Added platform-exclusive feature allowance
-      (Android Widgets, desktop multi-window, iOS Live Activities, etc.)
-  Added sections: None
+      (Android Widgets, desktop multi-window, iOS Live Activities, etc.) [1.1.0]
+  Modified sections:
+    - Commit Conventions: Added granular commit requirement for feature work
+  Added sections:
+    - Visual Verification: uno-app MCP validation with screenshot evidence
   Removed sections: None
   Templates requiring updates:
     - .specify/templates/plan-template.md: ✅ compatible (Constitution Check section aligns)
@@ -165,6 +168,15 @@ Every change MUST pass these gates before merge:
 - All commits MUST follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
   (e.g., `feat:`, `fix:`, `refactor:`, `docs:`).
 - Commit messages MUST describe the "why", not just the "what".
+- **Granular commits**: When implementing a feature, changes MUST be
+  committed in logical, incremental portions rather than as a single
+  monolithic commit. Each commit SHOULD represent one coherent unit of
+  work (e.g., "add the data model", "implement the service layer",
+  "add the ViewModel", "create the View and bindings"). This:
+  - Makes code review easier by allowing reviewers to follow the
+    implementation step by step.
+  - Makes the development process transparent and auditable.
+  - Simplifies bisecting and reverting if issues arise later.
 
 ### Testing Policy
 
@@ -174,6 +186,22 @@ Every change MUST pass these gates before merge:
   minimum quality gate.
 - Manual testing via WebAssembly (`python -m http.server`) is
   recommended for UI verification.
+
+### Visual Verification
+
+New features and bug fixes MUST be visually verified using the uno-app
+MCP tools to run the application and confirm correct behavior.
+
+- The agent MUST use uno-app MCP to launch the app, reproduce the
+  issue or exercise the new feature, and verify it works as expected.
+- **Screenshots** of the running app MUST be captured during
+  verification and stored in the `.specify/screenshots/` directory
+  alongside the implementation plan artifacts.
+- Screenshots serve as evidence for human reviewers during PR review
+  and MUST clearly demonstrate the before/after state or the new
+  feature in action.
+- Screenshot files are git-ignored and MUST NOT be committed to the
+  repository. They are ephemeral review artifacts only.
 
 ### Known Build Limitations
 
@@ -207,4 +235,4 @@ arise.
 - **Runtime guidance**: See `CLAUDE.md` for development commands,
   build instructions, and architecture reference.
 
-**Version**: 1.1.0 | **Ratified**: 2026-02-09 | **Last Amended**: 2026-02-09
+**Version**: 1.2.0 | **Ratified**: 2026-02-09 | **Last Amended**: 2026-02-09
