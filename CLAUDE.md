@@ -33,37 +33,34 @@ You MUST read the overview resource to understand the complete workflow. The inf
 
 ## Project Overview
 
-Fluent Stopwatch is a cross-platform Uno Platform application built with .NET 9.0 that runs on Android, iOS, Desktop, WebAssembly, and WinUI. It provides stopwatch functionality with lap tracking, history, and customizable interface.
+Fluent Stopwatch is a cross-platform Uno Platform application built with .NET 10 that runs on Android, iOS, Desktop, WebAssembly, and WinUI. It provides stopwatch functionality with lap tracking, history, and customizable interface.
 
 ## Build and Development Commands
 
 ### Environment Setup
-```bash
-# Install .NET 9.0 SDK
-curl -fsSL https://dot.net/v1/dotnet-install.sh | bash -s -- --channel 9.0
-export PATH="$HOME/.dotnet:$PATH"
+```powershell
+# Install .NET 10 SDK (Windows - primary dev environment)
+# Download from https://dotnet.microsoft.com/download/dotnet/10.0
 
-# Install uno-check tool
-dotnet tool install --global --version 1.28.3 uno.check
-
-# Install workloads (takes 6-7 minutes - NEVER CANCEL, set timeout to 15+ minutes)
-~/.dotnet/tools/uno-check --ci --fix --non-interactive --verbose --skip openjdk
+# Install workloads
+dotnet workload restore src/Stopwatch.slnx
+dotnet workload install wasm-tools
 ```
 
 ### Build Commands
-```bash
-# WebAssembly build (recommended for testing) - 5 seconds
-dotnet build src/Stopwatch/Stopwatch.csproj -f net9.0-browserwasm
+```powershell
+# WebAssembly build (recommended for testing) - ~5 seconds
+dotnet build src/Stopwatch/Stopwatch.csproj -f net10.0-browserwasm
 
-# Desktop build - 4 seconds
-dotnet build src/Stopwatch/Stopwatch.csproj -f net9.0-desktop
+# Desktop build - ~4 seconds
+dotnet build src/Stopwatch/Stopwatch.csproj -f net10.0-desktop
 
 # DO NOT use full multi-target build - FAILS due to network restrictions blocking Android dependencies
 # dotnet build src/Stopwatch/Stopwatch.csproj
 ```
 
 ### Code Formatting
-```bash
+```powershell
 # Format code
 dotnet format src/Stopwatch/Stopwatch.csproj
 
@@ -72,176 +69,90 @@ dotnet format src/Stopwatch/Stopwatch.csproj --verify-no-changes
 ```
 
 ### Testing in Browser (WebAssembly)
-```bash
-cd src/Stopwatch/bin/Debug/net9.0-browserwasm/wwwroot
-python3 -m http.server 8080
+```powershell
+cd src/Stopwatch/bin/Debug/net10.0-browserwasm/wwwroot
+python -m http.server 8080
 # Open http://localhost:8080/
 ```
 
 ### Validation Checklist
 After making code changes, ALWAYS:
-1. Build for WebAssembly: `dotnet build src/Stopwatch/Stopwatch.csproj -f net9.0-browserwasm`
-2. Test in browser by serving the WebAssembly output and verifying the stopwatch UI loads
-3. Check formatting: `dotnet format src/Stopwatch/Stopwatch.csproj --verify-no-changes`
-4. Test basic stopwatch functionality: play button, timer display, lap recording
+1. Build for WebAssembly: `dotnet build src/Stopwatch/Stopwatch.csproj -f net10.0-browserwasm`
+2. Check formatting: `dotnet format src/Stopwatch/Stopwatch.csproj --verify-no-changes`
+3. No formal unit tests exist in this repository
 
 ## High-Level Architecture
 
 ### MVVM Pattern
-- **Base Classes**:
-  - `PageViewModel` - Abstract base for ViewModels providing navigation and lifecycle hooks (ViewCreated, ViewLoading, ViewLoaded, ViewUnloaded, ViewNavigatedTo)
-  - `PageBase<TViewModel>` - Base for Views that automatically resolves ViewModels from DI and manages lifecycle coordination
-- **Source Generators**: Uses CommunityToolkit.Mvvm with `ObservableRecipient`, `ObservableProperty`, and `RelayCommand` attributes
-- **Key ViewModels**:
-  - `MainViewModel` - Orchestrates multiple stopwatches, manages tabs, handles pro features
-  - `StopwatchViewModel` - Wraps StopwatchModel, handles start/stop/lap/reset commands
-  - `HistoryViewModel` - Manages history entries display and deletion
-  - `SettingsViewModel` - App settings management
+- **Base Classes**: `PageViewModel` (abstract ViewModel base with lifecycle hooks) and `PageBase<TViewModel>` (View base that resolves ViewModels from DI)
+- **Source Generators**: CommunityToolkit.Mvvm with `ObservableRecipient`, `ObservableProperty`, and `RelayCommand` attributes
+- **Key ViewModels**: `MainViewModel` (orchestrates multiple stopwatches, manages tabs), `StopwatchViewModel` (wraps StopwatchModel via StopwatchService), `HistoryViewModel`, `SettingsViewModel`
 
 ### Service Layer Architecture
 
 **Data Persistence** - Platform-Specific Strategy:
 - **Interface**: `IDataSource` with two repositories: `Stopwatches` and `HistoryStopwatches`
-- **LiteDB Implementation** (Desktop/WebAssembly/WinUI):
-  - `LiteDbDataSource` - Creates database in LocalFolder/Data/stopwatch.db
-  - `LiteDbRepository<T>` - Generic repository using LiteDB collections
-- **File-based Implementation** (iOS/Android):
-  - `FileDataSource` - Uses JSON files in LocalFolder/Data/
-  - `FileRepository<T>` - Generic JSON file-based repository
-- **Selection**: Platform-specific implementation chosen at DI registration using conditional compilation
+- **LiteDB** (Desktop/WebAssembly/WinUI): `LiteDbDataSource` → `LiteDbRepository<T>` → `LocalFolder/Data/stopwatch.db`
+- **File-based** (iOS/Android): `FileDataSource` → `FileRepository<T>` → JSON files in `LocalFolder/Data/`
+- **Selection**: Conditional compilation (`#if __IOS__ || __ANDROID__`) in `App.xaml.cs` ConfigureServices
 
 **Core Services**:
-- `StopwatchService` - Business logic for start/stop/reset/lap operations
-- `HistoryService` - Manages saving/loading/deleting stopwatch history
-- `ITimerFactory`/`TimerFactory` - Creates DispatcherQueueTimer instances for UI updates (50ms tick interval)
+- `StopwatchService` - Business logic for start/stop/reset/lap
+- `HistoryService` - Saving/loading/deleting stopwatch history
+- `TimerFactory` - Creates DispatcherQueueTimer instances (50ms tick interval)
 - `DisplayRequestManager` - Prevents screen sleep during active stopwatches
 
-**Navigation**:
-- `NavigationService` - Convention-based navigation (ViewModel → View name resolution)
-- `IFrameProvider`/`FrameProvider` - Provides Frame for current scope
-- Shell-based navigation: `App.xaml.cs` → `WindowShell` → `MainView` (default) → other views
+**Navigation**: Convention-based (`NavigationService` maps ViewModel name → View name). Shell flow: `App.xaml.cs` → `WindowShell` → `MainView` → other views
 
-**Platform Services**:
-- `IStoreService` - In-app purchase abstraction with platform-specific implementations (StoreService.iOS.cs, StoreService.Windows.cs, FakeStoreService for debug)
-- `IThemeManager`/`ThemeManager` - Manages app theme and title bar theming
-- `IImagePickerService`/`ImagePickerService` - Background image selection
+**Platform Services**: `IStoreService` (in-app purchases with iOS/Windows/Debug implementations), `IThemeManager`, `IImagePickerService`
 
 ### Data Flow Patterns
 
-**Stopwatch State Flow**:
-```
-StopwatchModel (data)
-  ↓ (wrapped by)
-StopwatchService (business logic)
-  ↓ (wrapped by)
-StopwatchViewModel (UI logic)
-  ↓ (rendered by)
-MainView → StopwatchDisplayControl
-```
+**Stopwatch State**: `StopwatchModel` (data) → `StopwatchService` (business logic) → `StopwatchViewModel` (UI logic) → `StopwatchDisplayControl` (view)
 
-**Timer Update Flow**:
-```
-MainViewModel creates DispatcherQueueTimer (50ms interval)
-  ↓ (on tick)
-MainViewModel.OnTick() → SelectedStopwatch?.OnTick()
-  ↓
-StopwatchViewModel.OnTick() updates properties
-  ↓ (via ObservableProperty)
-UI automatically updates via data binding
-```
+**Timer Updates**: `MainViewModel` creates DispatcherQueueTimer (50ms) → `OnTick()` → `StopwatchViewModel.OnTick()` updates observable properties → UI bindings update
 
-**Persistence Flow**:
-```
-User Action (Start/Stop/Lap)
-  ↓
-StopwatchViewModel.RelayCommand
-  ↓
-StopwatchService modifies StopwatchModel
-  ↓
-_dataSource.Stopwatches.Update(stopwatch)
-  ↓
-LiteDbRepository/FileRepository persists to disk
-```
+**Persistence**: User action → `RelayCommand` → `StopwatchService` modifies model → `_dataSource.Stopwatches.Update()` → LiteDB/File repository persists
 
 ### Dependency Injection Scopes
-- **Host-level (App.xaml.cs)**: Singleton services (IDataSource, IHistoryService, IDisplayRequestManager, IPreferences, IAppPreferences)
-- **Window-level**: Scoped services per window (ViewModels, Navigation, Dialogs, ThemeManager, StoreService)
-- **WindowShell**: Creates scoped ServiceProvider for its window
-- **ViewModels**: Resolved from scoped provider when PageBase loads
+- **Singleton (Host-level)**: `IDataSource`, `IHistoryService`, `IDisplayRequestManager`, `IPreferences`, `IAppPreferences`
+- **Scoped (Window-level)**: All ViewModels, `INavigationService`, `IDialogService`, `IThemeManager`, `IStoreService`, `ITimerFactory`
+- **WindowShell**: Creates scoped `ServiceProvider` for its window; ViewModels resolved from scoped provider when `PageBase` loads
 
 ### Platform Abstractions
-- **Single codebase** targets: net9.0-windows10.0.26100, net9.0-android, net9.0-ios, net9.0-desktop, net9.0-browserwasm
-- **UnoSingleProject** mode with conditional compilation
-- **Platform Entry Points**:
-  - Desktop: `Platforms/Desktop/Program.cs`
-  - WebAssembly: `Platforms/WebAssembly/Program.cs` (IDBFS enabled)
-  - Android: `Platforms/Android/Main.Android.cs` and `MainActivity.Android.cs`
-  - iOS: `Platforms/iOS/Main.iOS.cs`
-
-### Key Architectural Patterns
-1. **Repository Pattern** - IRepository<T>/IStopwatchRepository with platform-specific implementations
-2. **Service Locator** - ServiceProvider accessed via WindowShell
-3. **MVVM with Commands** - CommunityToolkit.Mvvm source generators
-4. **Dependency Injection** - Microsoft.Extensions.DependencyInjection with Uno.Extensions.Hosting
-5. **Convention-based Navigation** - ViewModel name → View name mapping
-6. **Strategy Pattern** - Platform-specific IDataSource implementations selected at DI registration
+- **Target frameworks**: net10.0-windows10.0.26100, net10.0-android, net10.0-ios, net10.0-desktop, net10.0-browserwasm
+- **UnoSingleProject** mode with conditional compilation (`#if __IOS__`, `#if HAS_UNO`, etc.)
+- **Platform Entry Points**: `Platforms/Desktop/Program.cs`, `Platforms/WebAssembly/Program.cs` (IDBFS enabled), `Platforms/Android/`, `Platforms/iOS/`
 
 ## Key Technologies
 
-- **Uno Platform** SDK 6.2.0-dev.81 - Cross-platform UI framework
-- **LiteDB** - Local database storage (Desktop/WebAssembly/WinUI)
+- **Uno Platform** SDK 6.5.0-dev.39 (via `src/global.json`)
+- **.NET 10** with C# preview language features
+- **LiteDB** 5.0.21 - Local database (Desktop/WebAssembly/WinUI only)
 - **CommunityToolkit.WinUI** - Controls, converters, and helpers
 - **MZikmund.Toolkit.WinUI** - Additional WinUI controls
-- **SkiaSharp** - Graphics rendering
 - **Plugin.InAppBilling** - In-app purchases
-
-## Project Structure
-
-```
-src/
-├── Stopwatch/
-│   ├── Stopwatch.csproj          # Main Uno Platform project
-│   ├── App.xaml                  # Application entry point and DI configuration
-│   ├── WindowShell.xaml          # Main window shell with navigation
-│   ├── Views/                    # XAML pages and controls
-│   ├── ViewModels/               # MVVM view models
-│   ├── Services/                 # Application services
-│   ├── Models/                   # Data models
-│   ├── Platforms/                # Platform-specific code and entry points
-│   └── Properties/               # Project properties
-├── Stopwatch.SourceGenerators/   # Source generators
-├── Stopwatch.slnx                # Solution file
-├── Directory.Build.props         # Shared build properties
-└── Directory.Packages.props      # Centralized package management
-```
+- **Nerdbank.GitVersioning** - Version management
 
 ## Important Files
 
-- `src/Stopwatch/Stopwatch.csproj` - Main project targeting multiple platforms
-- `src/.editorconfig` - Code style rules (tabs, C# conventions)
+- `src/Stopwatch/Stopwatch.csproj` - Main project file (Uno.Sdk, UnoFeatures: Hosting, Mvvm, Localization, ThemeService, SkiaRenderer, Skia)
 - `src/Stopwatch/App.xaml.cs` - DI container configuration and platform-specific service registration
 - `src/Stopwatch/WindowShell.xaml.cs` - Creates scoped ServiceProvider per window
-- `.github/workflows/ci.yml` - CI pipeline (Windows-only, uses MSBuild)
+- `src/.editorconfig` - Code style: **tabs** for indentation, file-scoped namespaces, `_camelCase` for private fields
+- `src/global.json` - Uno SDK version pin
+- `src/Directory.Packages.props` - Centralized package version management
+- `.github/workflows/ci.yml` - CI pipeline (Windows-only, MSBuild, .NET 10)
 
-## Build Timing and Known Limitations
+## Known Limitations
 
-- **uno-check workload installation**: 6-7 minutes (NEVER CANCEL - set timeout to 15+ minutes)
-- **WebAssembly build**: ~5 seconds
-- **Desktop build**: ~4 seconds
-- **Full multi-target build**: FAILS due to network restrictions blocking Android dependencies from dl.google.com
-- **No formal unit tests** exist in this repository
-- **CI runs on Windows runners only** and uses MSBuild
-
-## Common Errors
-
-- **XBD001 errors** downloading from dl.google.com: Expected due to network restrictions. Use single target framework builds instead.
-- **Package version constraint warnings**: Normal, do not affect build success.
-- **Formatting violations**: Run `dotnet format` to fix whitespace and import ordering issues.
+- **Full multi-target build FAILS** due to network restrictions blocking Android dependencies (dl.google.com). Always use `-f net10.0-browserwasm` or `-f net10.0-desktop`.
+- **XBD001 errors** downloading from dl.google.com are expected. Use single target framework builds.
+- **Package version constraint warnings** are normal and don't affect build success.
+- **CI runs on Windows runners only** and uses MSBuild (`msbuild $env:PROJECT_FILE /r`).
 
 ## Contributing Guidelines
 
-- Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification for commit messages
-- Create descriptive branch names (e.g., `feature-name`, `bugfix-name`)
-- Ensure code follows the project's coding standards in `.editorconfig`
-- Always run formatting checks before committing
-- Test WebAssembly build in browser to verify UI functionality
+- Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages
+- Run `dotnet format src/Stopwatch/Stopwatch.csproj --verify-no-changes` before committing
+- Test WebAssembly build to verify UI loads correctly
