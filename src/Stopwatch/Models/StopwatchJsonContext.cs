@@ -10,8 +10,9 @@ namespace Stopwatch.Models;
 [JsonSerializable(typeof(HistoryEntryModel[]))]
 [JsonSerializable(typeof(List<HistoryEntryModel>))]
 [JsonSerializable(typeof(StopwatchModel[]))]
+[JsonSerializable(typeof(LapModel[]))]
 [JsonSerializable(typeof(List<StopwatchModel>))]
 public partial class StopwatchJsonContext : JsonSerializerContext
 {
-    // The source generator will provide the Default property
+	// The source generator will provide the Default property
 }

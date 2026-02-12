@@ -9,6 +9,8 @@
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     <PackageVersion Include="MZikmund.Toolkit.WinUI" Version="0.1.13-dev.43" />
     <PackageVersion Include="Plugin.InAppBilling" Version="9.1.0" />
+    <PackageVersion Include="sqlite-net-e" Version="1.11.0" />
+    <PackageVersion Include="SourceGear.sqlite3" Version="3.50.4.5" />
     <!-- Fix for AndroidX dependency constraint warnings (NU1608) -->
     <PackageVersion Include="Xamarin.AndroidX.Activity.Ktx" Version="1.10.1.2" />
     <PackageVersion Include="Xamarin.AndroidX.Collection.Ktx" Version="1.5.0.2" />
