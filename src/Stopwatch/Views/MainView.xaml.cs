@@ -1,15 +1,15 @@
-﻿using Microsoft.UI.Dispatching;
+﻿using CommunityToolkit.WinUI;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Stopwatch.Extensions;
+using Stopwatch.Services.Localization;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
-using Stopwatch.Services.Localization;
 using Stopwatch.ViewModels;
-using Windows.Foundation.Metadata;
-using CommunityToolkit.WinUI;
 using Uno.Disposables;
+using Windows.Foundation.Metadata;
 
 namespace Stopwatch.Views;
 
@@ -60,7 +60,7 @@ public sealed partial class MainView : MainViewBase
 	}
 
 	private async void ShowTeachingTips()
-	{           
+	{
 		// Delay to make the initial teaching tip more noticeable
 		await Task.Delay(200);
 		ShowTabsTeachingTip();

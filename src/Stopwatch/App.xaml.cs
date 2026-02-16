@@ -7,6 +7,7 @@ using Stopwatch.Services;
 using Stopwatch.Services.Data;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
+using Stopwatch.Services.PopOut;
 using Stopwatch.Services.Store;
 using Stopwatch.Services.Theming;
 using Stopwatch.Services.Timer;
@@ -21,6 +22,7 @@ using Stopwatch.Services.Data.LiteDb;
 #endif
 
 namespace Stopwatch;
+
 public partial class App : Application
 {
 	/// <summary>
@@ -107,6 +109,12 @@ public partial class App : Application
 			windowShell.ServiceProvider.GetRequiredService<INavigationService>().Navigate<MainViewModel>(args.Arguments);
 		}
 
+		// Close all secondary windows when the main window closes
+		MainWindow.Closed += (sender, args) =>
+		{
+			Host.Services.GetRequiredService<IPopOutService>().CloseAll();
+		};
+
 		// Ensure the current window is active
 		MainWindow.Activate();
 	}
@@ -132,6 +140,7 @@ public partial class App : Application
 		services.AddSingleton<IDisplayRequestManager, DisplayRequestManager>();
 		services.AddSingleton<IPreferences, Preferences>();
 		services.AddSingleton<IAppPreferences, AppPreferences>();
+		services.AddSingleton<IPopOutService, PopOutService>();
 
 		services.AddScoped<WindowShellViewModel>();
 		services.AddScoped<SettingsViewModel>();
@@ -139,6 +148,7 @@ public partial class App : Application
 		services.AddScoped<OnboardingViewModel>();
 		services.AddScoped<HistoryViewModel>();
 		services.AddScoped<GetProViewModel>();
+		services.AddScoped<StopwatchWindowViewModel>();
 
 		services.AddScoped<IDialogCoordinator, DialogCoordinator>();
 		services.AddScoped<IConfirmationDialogService, ConfirmationDialogService>();

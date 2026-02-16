@@ -237,11 +237,11 @@
                         <Button.Flyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem
-                                    Command="{x:Bind MainViewModel.ExportToCsvCommand}"
+                                    Command="{x:Bind Stopwatch.ExportToCsvCommand}"
                                     Icon="Document"
                                     Text="{ex:Localize Key=ExportToCsv}" />
                                 <MenuFlyoutItem
-                                    Command="{x:Bind MainViewModel.ExportToJsonCommand}"
+                                    Command="{x:Bind Stopwatch.ExportToJsonCommand}"
                                     Icon="Page"
                                     Text="{ex:Localize Key=ExportToJson}" />
                             </MenuFlyout>

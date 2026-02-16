@@ -56,7 +56,10 @@
                         TabItemsSource="{x:Bind ViewModel.Stopwatches}">
                         <TabView.TabItemTemplate>
                             <DataTemplate x:DataType="vm:StopwatchViewModel">
-                                <TabViewItem Header="{x:Bind Name, Mode=OneWay}" IsClosable="True" />
+                                <TabViewItem
+                                    Header="{x:Bind Name, Mode=OneWay}"
+                                    IsClosable="{x:Bind IsPoppedOut, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                                    IsEnabled="{x:Bind IsPoppedOut, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                             </DataTemplate>
                         </TabView.TabItemTemplate>
                         <TabView.TabStripFooter>
@@ -121,6 +124,15 @@
                     HorizontalAlignment="Right"
                     Orientation="Horizontal"
                     Spacing="8">
+                    <Button
+                        x:Name="PopOutButton"
+                        AutomationProperties.Name="{ex:Localize Key=PopOut}"
+                        Command="{x:Bind ViewModel.PopOutStopwatchCommand}"
+                        Style="{ThemeResource SubtleButtonStyle}"
+                        ToolTipService.ToolTip="{ex:Localize Key=PopOut}"
+                        Visibility="{x:Bind ViewModel.ShowPopOutButton, Mode=OneWay}">
+                        <FontIcon Glyph="&#xE8A7;" />
+                    </Button>
                     <Button
                         Command="{x:Bind ViewModel.ToggleFullScreenCommand}"
                         Style="{ThemeResource SubtleButtonStyle}"
@@ -209,7 +221,6 @@
 
                 <controls:StopwatchDisplayControl
                     Grid.Row="2"
-                    MainViewModel="{x:Bind ViewModel}"
                     Stopwatch="{x:Bind ViewModel.SelectedStopwatch, Mode=OneWay}" />
             </Grid>
         </Grid>

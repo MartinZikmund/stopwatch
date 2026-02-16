@@ -395,4 +395,7 @@
   <data name="ProOnlyTabLimitDescription" xml:space="preserve">
     <value>Only Fluent Stopwatch Pro allows more than two stopwatches opened at once.</value>
   </data>
+  <data name="PopOut" xml:space="preserve">
+    <value>Pop out to new window</value>
+  </data>
 </root>

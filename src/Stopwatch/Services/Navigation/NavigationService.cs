@@ -57,6 +57,7 @@ public class NavigationService : INavigationService
 		_views.Add(typeof(Stopwatch.Views.SettingsView).Name, typeof(Stopwatch.Views.SettingsView));
 		_views.Add(typeof(Stopwatch.Views.MainView).Name, typeof(Stopwatch.Views.MainView));
 		_views.Add(typeof(Stopwatch.Views.OnboardingView).Name, typeof(Stopwatch.Views.OnboardingView));
+		_views.Add(typeof(Stopwatch.Views.StopwatchWindowView).Name, typeof(Stopwatch.Views.StopwatchWindowView));
 	}
 
 	public void Initialize()

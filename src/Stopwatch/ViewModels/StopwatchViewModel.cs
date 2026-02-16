@@ -10,6 +10,8 @@ using Stopwatch.Services.Localization;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Timer;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI;
 
 namespace Stopwatch.ViewModels;
@@ -20,6 +22,7 @@ public partial class StopwatchViewModel : ObservableObject
 	private readonly IConfirmationDialogService _confirmationDialogService;
 	private readonly IDataSource _dataSource;
 	private readonly IHistoryService _historyService;
+	private readonly IWindowShellProvider _windowShellProvider;
 	private readonly StopwatchService _stopwatchService;
 
 	public StopwatchViewModel(
@@ -27,11 +30,13 @@ public partial class StopwatchViewModel : ObservableObject
 		IDataSource dataSource,
 		IAppPreferences appPreferences,
 		IHistoryService historyService,
-		IConfirmationDialogService confirmationDialogService)
+		IConfirmationDialogService confirmationDialogService,
+		IWindowShellProvider windowShellProvider)
 	{
 		_stopwatch = stopwatch;
 		_confirmationDialogService = confirmationDialogService;
 		_dataSource = dataSource;
+		_windowShellProvider = windowShellProvider;
 		Laps = new(this, stopwatch);
 		IsLapsListExpanded = Laps.Count > 0;
 		_historyService = historyService;
@@ -47,6 +52,9 @@ public partial class StopwatchViewModel : ObservableObject
 
 	[ObservableProperty]
 	public partial bool IsLapsListExpanded { get; set; }
+
+	[ObservableProperty]
+	public partial bool IsPoppedOut { get; set; }
 
 	public Color BackgroundColor => ColorHelper.ToColor(_stopwatch.BackgroundColor);
 
@@ -149,6 +157,56 @@ public partial class StopwatchViewModel : ObservableObject
 	{
 		_stopwatchService.Stop();
 		OnTick();
+	}
+
+	[RelayCommand]
+	public async Task ExportToJsonAsync()
+	{
+		try
+		{
+			var savePicker = new FileSavePicker();
+			savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+			savePicker.FileTypeChoices.Add("JSON files", new List<string> { ".json" });
+			savePicker.SuggestedFileName = $"{Name}_export_{DateTime.Now:yyyyMMdd_HHmmss}";
+
+			var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(_windowShellProvider.Window);
+			WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hwnd);
+
+			var file = await savePicker.PickSaveFileAsync();
+			if (file != null)
+			{
+				var jsonContent = _stopwatch.ToJson();
+				await FileIO.WriteTextAsync(file, jsonContent);
+			}
+		}
+		catch (Exception)
+		{
+		}
+	}
+
+	[RelayCommand]
+	public async Task ExportToCsvAsync()
+	{
+		try
+		{
+			var savePicker = new FileSavePicker();
+			savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+			savePicker.FileTypeChoices.Add("CSV files", new List<string> { ".csv" });
+			savePicker.SuggestedFileName = $"{Name}_laps_{DateTime.Now:yyyyMMdd_HHmmss}";
+
+			var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(_windowShellProvider.Window);
+			WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hwnd);
+
+			var file = await savePicker.PickSaveFileAsync();
+			if (file != null)
+			{
+				var csvContent = _stopwatch.LapsToCsv();
+				await FileIO.WriteTextAsync(file, csvContent);
+			}
+		}
+		catch (Exception)
+		{
+		}
 	}
 
 	internal void OnLapUpdated() => _dataSource.Stopwatches.Update(_stopwatch);

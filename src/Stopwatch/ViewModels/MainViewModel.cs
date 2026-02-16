@@ -8,14 +8,13 @@ using Stopwatch.Services.Data;
 using Stopwatch.Services.Dialogs;
 using Stopwatch.Services.Localization;
 using Stopwatch.Services.Navigation;
+using Stopwatch.Services.PopOut;
 using Stopwatch.Services.Settings;
 using Stopwatch.Services.Store;
 using Stopwatch.Services.Theming;
 using Stopwatch.Services.Timer;
 using Uno.Disposables;
 using Uno.Extensions;
-using Windows.Storage;
-using Windows.Storage.Pickers;
 
 namespace Stopwatch.ViewModels;
 
@@ -31,6 +30,7 @@ public partial class MainViewModel : PageViewModel
 	private readonly IDialogService _dialogService;
 	private readonly IConfirmationDialogService _confirmationDialogService;
 	private readonly IDisplayRequestManager _displayRequestManager;
+	private readonly IPopOutService _popOutService;
 	private readonly DispatcherQueueTimer _timer;
 	private readonly SerialDisposable _displayRequestDisposable = new();
 
@@ -51,7 +51,8 @@ public partial class MainViewModel : PageViewModel
 		IStoreService storeService,
 		IDialogService dialogService,
 		IConfirmationDialogService confirmationDialogService,
-		IDisplayRequestManager displayRequestManager) : base(navigationService)
+		IDisplayRequestManager displayRequestManager,
+		IPopOutService popOutService) : base(navigationService)
 	{
 		_timerFactory = timerFactory;
 		_dataSource = dataSource;
@@ -63,6 +64,7 @@ public partial class MainViewModel : PageViewModel
 		_dialogService = dialogService;
 		_confirmationDialogService = confirmationDialogService;
 		_displayRequestManager = displayRequestManager;
+		_popOutService = popOutService;
 
 		_timer = timerFactory.Create();
 		_timer.Interval = TimeSpan.FromMilliseconds(50);
@@ -98,11 +100,22 @@ public partial class MainViewModel : PageViewModel
 	public override void ViewLoaded()
 	{
 		_timer.Start();
+		_popOutService.StopwatchReturned += OnStopwatchReturned;
 	}
 
 	public override void ViewUnloaded()
 	{
 		_timer.Stop();
+		_popOutService.StopwatchReturned -= OnStopwatchReturned;
+	}
+
+	private void OnStopwatchReturned(int stopwatchId)
+	{
+		var stopwatch = Stopwatches.FirstOrDefault(s => s.Id == stopwatchId);
+		if (stopwatch is not null)
+		{
+			stopwatch.IsPoppedOut = false;
+		}
 	}
 
 	[MemberNotNull(nameof(SelectedStopwatch))]
@@ -126,7 +139,7 @@ public partial class MainViewModel : PageViewModel
 			else
 			{
 				bool wasSelected = Stopwatches[i] == SelectedStopwatch;
-				var replacementStopwatch = new StopwatchViewModel(updatedStopwatch, _dataSource, _appPreferences, _historyService, _confirmationDialogService);
+				var replacementStopwatch = new StopwatchViewModel(updatedStopwatch, _dataSource, _appPreferences, _historyService, _confirmationDialogService, _windowShellProvider);
 				Stopwatches[i] = replacementStopwatch;
 				if (wasSelected)
 				{
@@ -140,7 +153,7 @@ public partial class MainViewModel : PageViewModel
 		{
 			if (Stopwatches.All(s => s.Id != stopwatch.Id))
 			{
-				Stopwatches.Add(new StopwatchViewModel(stopwatch, _dataSource, _appPreferences, _historyService, _confirmationDialogService));
+				Stopwatches.Add(new StopwatchViewModel(stopwatch, _dataSource, _appPreferences, _historyService, _confirmationDialogService, _windowShellProvider));
 			}
 		}
 
@@ -191,6 +204,20 @@ public partial class MainViewModel : PageViewModel
 	}
 
 	[RelayCommand]
+	public void PopOutStopwatch()
+	{
+		if (SelectedStopwatch is null || SelectedStopwatch.IsPoppedOut)
+		{
+			return;
+		}
+
+		_popOutService.PopOut(SelectedStopwatch.Id);
+		SelectedStopwatch.IsPoppedOut = true;
+
+		SelectNextAvailableStopwatch();
+	}
+
+	[RelayCommand]
 	public void AddStopwatch()
 	{
 		if (!HasProLicense && Stopwatches.Count > 1)
@@ -202,13 +229,18 @@ public partial class MainViewModel : PageViewModel
 
 		var newStopwatch = new StopwatchModel(GetNextStopwatchName());
 		_dataSource.Stopwatches.Add(newStopwatch);
-		Stopwatches.Add(new StopwatchViewModel(newStopwatch, _dataSource, _appPreferences, _historyService, _confirmationDialogService));
+		Stopwatches.Add(new StopwatchViewModel(newStopwatch, _dataSource, _appPreferences, _historyService, _confirmationDialogService, _windowShellProvider));
 		SelectedStopwatch = Stopwatches.Last();
 	}
 
 	[RelayCommand]
 	public async Task CloseStopwatchAsync(StopwatchViewModel viewModel)
 	{
+		if (viewModel.IsPoppedOut)
+		{
+			return;
+		}
+
 		if (viewModel.IsRunning)
 		{
 			// Confirm closing
@@ -239,82 +271,11 @@ public partial class MainViewModel : PageViewModel
 
 		if (wasSelected)
 		{
-			if (index < Stopwatches.Count)
-			{
-				SelectedStopwatch = Stopwatches[index];
-			}
-			else
-			{
-				SelectedStopwatch = Stopwatches.Last();
-			}
+			SelectNextAvailableStopwatch();
 		}
 	}
 
 	public Action? TriggerTeachingTips { get; set; }
-
-	[RelayCommand]
-	public async Task ExportToJsonAsync()
-	{
-		if (SelectedStopwatch is null)
-		{
-			return;
-		}
-
-		try
-		{
-			var savePicker = new FileSavePicker();
-			savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-			savePicker.FileTypeChoices.Add("JSON files", new List<string> { ".json" });
-			savePicker.SuggestedFileName = $"{SelectedStopwatch.Name}_export_{DateTime.Now:yyyyMMdd_HHmmss}";
-
-			// Get the current window handle from the injected service
-			var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(_windowShellProvider.Window);
-			WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hwnd);
-
-			var file = await savePicker.PickSaveFileAsync();
-			if (file != null)
-			{
-				var jsonContent = SelectedStopwatch.Stopwatch.ToJson();
-				await FileIO.WriteTextAsync(file, jsonContent);
-			}
-		}
-		catch (Exception)
-		{
-			// Handle error silently for now - could show error dialog in future
-		}
-	}
-
-	[RelayCommand]
-	public async Task ExportToCsvAsync()
-	{
-		if (SelectedStopwatch is null)
-		{
-			return;
-		}
-
-		try
-		{
-			var savePicker = new FileSavePicker();
-			savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-			savePicker.FileTypeChoices.Add("CSV files", new List<string> { ".csv" });
-			savePicker.SuggestedFileName = $"{SelectedStopwatch.Name}_laps_{DateTime.Now:yyyyMMdd_HHmmss}";
-
-			// Get the current window handle from the injected service
-			var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(_windowShellProvider.Window);
-			WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hwnd);
-
-			var file = await savePicker.PickSaveFileAsync();
-			if (file != null)
-			{
-				var csvContent = SelectedStopwatch.Stopwatch.LapsToCsv();
-				await FileIO.WriteTextAsync(file, csvContent);
-			}
-		}
-		catch (Exception)
-		{
-			// Handle error silently for now - could show error dialog in future
-		}
-	}
 
 	private void UpdatePresenterButtons()
 	{
@@ -331,6 +292,19 @@ public partial class MainViewModel : PageViewModel
 	public bool ShowCompactOverlayButton => !IsFullScreen;
 
 	public bool ShowFullScreenButton => !IsCompactOverlay;
+
+	public bool ShowPopOutButton =>
+#if __IOS__ || __ANDROID__ || __WASM__
+		false;
+#else
+		true;
+#endif
+
+	private void SelectNextAvailableStopwatch()
+	{
+		var next = Stopwatches.FirstOrDefault(s => !s.IsPoppedOut);
+		SelectedStopwatch = next;
+	}
 
 	private string GetNextStopwatchName()
 	{

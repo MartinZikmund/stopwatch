@@ -5,6 +5,7 @@ using Stopwatch.ViewModels;
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Stopwatch.Controls;
+
 public sealed partial class StopwatchDisplayControl : UserControl
 {
 	public StopwatchDisplayControl()
@@ -31,16 +32,4 @@ public sealed partial class StopwatchDisplayControl : UserControl
 			typeof(StopwatchDisplayControl),
 			new PropertyMetadata(null));
 
-	public MainViewModel MainViewModel
-	{
-		get => (MainViewModel)GetValue(MainViewModelProperty);
-		set => SetValue(MainViewModelProperty, value);
-	}
-
-	public static DependencyProperty MainViewModelProperty { get; } =
-		DependencyProperty.Register(
-			nameof(MainViewModel),
-			typeof(MainViewModel),
-			typeof(StopwatchDisplayControl),
-			new PropertyMetadata(null));
 }
