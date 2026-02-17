@@ -39,7 +39,7 @@ public class RevenueCatStoreService : IStoreService
 		}
 
 #if __IOS__
-		var apiKey = _options.iOSApiKey;
+		var apiKey = _options.IOSApiKey;
 #elif __ANDROID__
 		var apiKey = _options.AndroidApiKey;
 #endif

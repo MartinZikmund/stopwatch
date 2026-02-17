@@ -132,7 +132,7 @@ public partial class App : Application
 		var revenueCatSection = context.Configuration.GetSection(RevenueCatOptions.SectionName);
 		var revenueCatOptions = new RevenueCatOptions
 		{
-			iOSApiKey = revenueCatSection[nameof(RevenueCatOptions.iOSApiKey)] ?? string.Empty,
+			IOSApiKey = revenueCatSection[nameof(RevenueCatOptions.IOSApiKey)] ?? string.Empty,
 			AndroidApiKey = revenueCatSection[nameof(RevenueCatOptions.AndroidApiKey)] ?? string.Empty,
 		};
 		services.AddSingleton(revenueCatOptions);
