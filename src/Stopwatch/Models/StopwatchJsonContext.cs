@@ -1,6 +1,4 @@
 using Stopwatch.Services.Data;
-using Stopwatch.Services.Store;
-
 namespace Stopwatch.Models;
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
@@ -13,7 +11,6 @@ namespace Stopwatch.Models;
 [JsonSerializable(typeof(StopwatchModel[]))]
 [JsonSerializable(typeof(LapModel[]))]
 [JsonSerializable(typeof(List<StopwatchModel>))]
-[JsonSerializable(typeof(RevenueCatOptions))]
 public partial class StopwatchJsonContext : JsonSerializerContext
 {
 	// The source generator will provide the Default property

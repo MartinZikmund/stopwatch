@@ -72,6 +72,7 @@ public partial class App : Application
 				.UseConfiguration(configure: configBuilder =>
 					configBuilder
 						.EmbeddedSource<App>()
+						.Section<RevenueCatConfig>()
 				)
 				.UseLocalization()
 				.UseDefaultServiceProvider((context, options) =>
@@ -79,7 +80,7 @@ public partial class App : Application
 					options.ValidateScopes = true;
 					options.ValidateOnBuild = true;
 				})
-				.ConfigureServices((context, services) => ConfigureServices(context, services))
+				.ConfigureServices((context, services) => ConfigureServices(services))
 			);
 		MainWindow = builder.Window;
 
@@ -127,19 +128,8 @@ public partial class App : Application
 	}
 #endif
 
-	private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
+	private void ConfigureServices(IServiceCollection services)
 	{
-		var revenueCatSection = context.Configuration.GetSection(RevenueCatOptions.SectionName);
-		var revenueCatOptions = new RevenueCatOptions
-		{
-			IOSApiKey = revenueCatSection[nameof(RevenueCatOptions.IOSApiKey)] ?? string.Empty,
-			AndroidApiKey = revenueCatSection[nameof(RevenueCatOptions.AndroidApiKey)] ?? string.Empty,
-			EntitlementId = revenueCatSection[nameof(RevenueCatOptions.EntitlementId)] ?? string.Empty,
-			IOSProProductId = revenueCatSection[nameof(RevenueCatOptions.IOSProProductId)] ?? string.Empty,
-			AndroidProProductId = revenueCatSection[nameof(RevenueCatOptions.AndroidProProductId)] ?? string.Empty,
-		};
-		services.AddSingleton(revenueCatOptions);
-
 #if __IOS__ || __ANDROID__
 		services.AddSingleton<IDataSource, SqliteDataSource>();
 #else

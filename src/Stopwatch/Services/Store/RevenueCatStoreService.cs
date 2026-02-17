@@ -1,4 +1,5 @@
 #if __IOS__ || __ANDROID__
+using Microsoft.Extensions.Options;
 using Uno.RevenueCat.Enums;
 using Uno.RevenueCat.Services;
 using Stopwatch.Services.Localization;
@@ -12,7 +13,7 @@ public class RevenueCatStoreService : IStoreService
 	private readonly IRevenueCatBilling _billing;
 	private readonly IDialogService _dialogService;
 	private readonly IAppPreferences _appPreferences;
-	private readonly RevenueCatOptions _options;
+	private readonly RevenueCatConfig _options;
 	private bool? _hasPro = null;
 	private bool _isInitialized = false;
 
@@ -27,12 +28,12 @@ public class RevenueCatStoreService : IStoreService
 		IRevenueCatBilling billing,
 		IDialogService dialogService,
 		IAppPreferences appPreferences,
-		RevenueCatOptions options)
+		IOptions<RevenueCatConfig> options)
 	{
 		_billing = billing ?? throw new ArgumentNullException(nameof(billing));
 		_dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
 		_appPreferences = appPreferences ?? throw new ArgumentNullException(nameof(appPreferences));
-		_options = options ?? throw new ArgumentNullException(nameof(options));
+		_options = options.Value ?? throw new ArgumentNullException(nameof(options));
 	}
 
 	private void EnsureInitialized()
