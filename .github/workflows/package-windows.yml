@@ -25,8 +25,8 @@ jobs:
         configuration: [Release]
         platform: [x86,x64,ARM64]
 
-    runs-on: windows-latest  # For a list of available runner types, refer to
-                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    runs-on: windows-2025-vs2026  # For a list of available runner types, refer to
+                                  # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
       STEP_TIMEOUT_MINUTES: 60
@@ -96,7 +96,7 @@ jobs:
         path: ${{ env.PROJECT_PATH }}\\Packages
 
   merge:
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
     needs: create_package
     steps:
       - name: Checkout
