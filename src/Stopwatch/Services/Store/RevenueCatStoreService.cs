@@ -9,15 +9,19 @@ namespace Stopwatch.Services.Store;
 
 public class RevenueCatStoreService : IStoreService
 {
-	private const string ProEntitlementIdentifier = "stopwatch_pro";
-	private const string StopwatchProProductId = "dev.mzikmund.stopwatch.pro";
-
 	private readonly IRevenueCatBilling _billing;
 	private readonly IDialogService _dialogService;
 	private readonly IAppPreferences _appPreferences;
 	private readonly RevenueCatOptions _options;
 	private bool? _hasPro = null;
 	private bool _isInitialized = false;
+
+	private string ProProductId =>
+#if __IOS__
+		_options.IOSProProductId;
+#elif __ANDROID__
+		_options.AndroidProProductId;
+#endif
 
 	public RevenueCatStoreService(
 		IRevenueCatBilling billing,
@@ -62,7 +66,7 @@ public class RevenueCatStoreService : IStoreService
 
 			// Find the Pro package by product ID
 			var proPackage = currentOffering.AvailablePackages
-				.FirstOrDefault(p => p.Product.Sku == StopwatchProProductId);
+				.FirstOrDefault(p => p.Product.Sku == ProProductId);
 
 			return proPackage?.Product.Pricing?.PriceLocalized;
 		}
@@ -95,7 +99,7 @@ public class RevenueCatStoreService : IStoreService
 			if (customerInfo != null)
 			{
 				var proEntitlement = customerInfo.Entitlements
-					.FirstOrDefault(e => e.Identifier == ProEntitlementIdentifier);
+					.FirstOrDefault(e => e.Identifier == _options.EntitlementId);
 
 				_hasPro = proEntitlement?.IsActive ?? false;
 
@@ -133,7 +137,7 @@ public class RevenueCatStoreService : IStoreService
 			}
 
 			var proPackage = currentOffering.AvailablePackages
-				.FirstOrDefault(p => p.Product.Sku == StopwatchProProductId);
+				.FirstOrDefault(p => p.Product.Sku == ProProductId);
 
 			if (proPackage == null)
 			{
@@ -196,7 +200,7 @@ public class RevenueCatStoreService : IStoreService
 			if (customerInfo != null)
 			{
 				var proEntitlement = customerInfo.Entitlements
-					.FirstOrDefault(e => e.Identifier == ProEntitlementIdentifier);
+					.FirstOrDefault(e => e.Identifier == _options.EntitlementId);
 
 				if (proEntitlement?.IsActive == true)
 				{

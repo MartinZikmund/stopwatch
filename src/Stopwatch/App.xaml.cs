@@ -134,6 +134,9 @@ public partial class App : Application
 		{
 			IOSApiKey = revenueCatSection[nameof(RevenueCatOptions.IOSApiKey)] ?? string.Empty,
 			AndroidApiKey = revenueCatSection[nameof(RevenueCatOptions.AndroidApiKey)] ?? string.Empty,
+			EntitlementId = revenueCatSection[nameof(RevenueCatOptions.EntitlementId)] ?? string.Empty,
+			IOSProProductId = revenueCatSection[nameof(RevenueCatOptions.IOSProProductId)] ?? string.Empty,
+			AndroidProProductId = revenueCatSection[nameof(RevenueCatOptions.AndroidProProductId)] ?? string.Empty,
 		};
 		services.AddSingleton(revenueCatOptions);
 
