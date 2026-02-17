@@ -7,6 +7,7 @@ public class NavigationService : INavigationService
 {
 	private readonly Dictionary<string, Type> _views = new();
 	private readonly IFrameProvider _frameProvider;
+	private bool _backRequestedSubscribed;
 
 	public NavigationService(IFrameProvider frameProvider)
 	{
@@ -62,9 +63,38 @@ public class NavigationService : INavigationService
 	public void Initialize()
 	{
 #if HAS_UNO
-		SystemNavigationManager.GetForCurrentView().BackRequested += NavigationManagerBackRequested;
+		Frame.Navigated += OnFrameNavigated;
+		UpdateBackRequestedSubscription();
 #endif
 	}
+
+#if HAS_UNO
+	private void OnFrameNavigated(object sender, Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
+	{
+		UpdateBackRequestedSubscription();
+	}
+
+	/// <summary>
+	/// Manages the BackRequested subscription based on whether back navigation is possible.
+	/// On Android 16+, the subscription state (not just Handled) determines whether the app
+	/// or the system handles the back gesture. Unsubscribing when CanGoBack is false allows
+	/// the system to handle back navigation (e.g., exit the app).
+	/// </summary>
+	private void UpdateBackRequestedSubscription()
+	{
+		var manager = SystemNavigationManager.GetForCurrentView();
+		if (Frame.CanGoBack && !_backRequestedSubscribed)
+		{
+			manager.BackRequested += NavigationManagerBackRequested;
+			_backRequestedSubscribed = true;
+		}
+		else if (!Frame.CanGoBack && _backRequestedSubscribed)
+		{
+			manager.BackRequested -= NavigationManagerBackRequested;
+			_backRequestedSubscribed = false;
+		}
+	}
+#endif
 
 	private void NavigationManagerBackRequested(object? sender, BackRequestedEventArgs? e)
 	{
@@ -72,7 +102,16 @@ public class NavigationService : INavigationService
 		{
 			e.Handled = true;
 		}
+#if HAS_UNO
+		UpdateBackRequestedSubscription();
+#endif
 	}
 
-	public void ClearBackStack() => Frame.BackStack.Clear();
+	public void ClearBackStack()
+	{
+		Frame.BackStack.Clear();
+#if HAS_UNO
+		UpdateBackRequestedSubscription();
+#endif
+	}
 }
