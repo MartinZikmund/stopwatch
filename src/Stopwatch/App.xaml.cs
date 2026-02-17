@@ -15,12 +15,13 @@ using Stopwatch.Views;
 
 
 #if __IOS__ || __ANDROID__
-using Stopwatch.Services.Data.Files;
+using Stopwatch.Services.Data.Sqlite;
 #else
 using Stopwatch.Services.Data.LiteDb;
 #endif
 
 namespace Stopwatch;
+
 public partial class App : Application
 {
 	/// <summary>
@@ -124,7 +125,7 @@ public partial class App : Application
 	private void ConfigureServices(IServiceCollection services)
 	{
 #if __IOS__ || __ANDROID__
-		services.AddSingleton<IDataSource, FileDataSource>();
+		services.AddSingleton<IDataSource, SqliteDataSource>();
 #else
 		services.AddSingleton<IDataSource, LiteDbDataSource>();
 #endif

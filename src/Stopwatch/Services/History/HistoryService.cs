@@ -7,6 +7,7 @@ using Stopwatch.Models;
 using Stopwatch.Services.Data;
 
 namespace Stopwatch.Services;
+
 internal class HistoryService : IHistoryService
 {
 	private readonly IDataSource _dataSource;

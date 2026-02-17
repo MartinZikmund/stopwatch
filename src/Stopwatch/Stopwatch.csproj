@@ -45,9 +45,14 @@
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
 		<PackageReference Include="CommunityToolkit.WinUI.Converters" />
 		<PackageReference Include="CommunityToolkit.WinUI.Helpers" />
-		<PackageReference Include="LiteDB" Condition="'!$(IsIOS)' and !'$(IsAndroid)'" />
+		<PackageReference Include="LiteDB" Condition="'$(IsIOS)' != 'true' and '$(IsAndroid)' != 'true'" />
 		<PackageReference Include="MZikmund.Toolkit.WinUI" />
 		<PackageReference Include="Plugin.InAppBilling" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(IsIOS)' == 'true' or '$(IsAndroid)' == 'true'">
+		<PackageReference Include="sqlite-net-e" />
+		<PackageReference Include="SourceGear.sqlite3" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(IsAndroid)' == 'true'">
