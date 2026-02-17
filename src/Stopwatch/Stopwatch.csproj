@@ -21,6 +21,7 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 		<UnoFeatures>
+			Configuration;
 			Hosting;
 			Mvvm;
 			Localization;

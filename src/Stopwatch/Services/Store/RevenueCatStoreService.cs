@@ -15,17 +15,20 @@ public class RevenueCatStoreService : IStoreService
 	private readonly IRevenueCatBilling _billing;
 	private readonly IDialogService _dialogService;
 	private readonly IAppPreferences _appPreferences;
+	private readonly RevenueCatOptions _options;
 	private bool? _hasPro = null;
 	private bool _isInitialized = false;
 
 	public RevenueCatStoreService(
 		IRevenueCatBilling billing,
 		IDialogService dialogService,
-		IAppPreferences appPreferences)
+		IAppPreferences appPreferences,
+		RevenueCatOptions options)
 	{
 		_billing = billing ?? throw new ArgumentNullException(nameof(billing));
 		_dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
 		_appPreferences = appPreferences ?? throw new ArgumentNullException(nameof(appPreferences));
+		_options = options ?? throw new ArgumentNullException(nameof(options));
 	}
 
 	private void EnsureInitialized()
@@ -35,7 +38,11 @@ public class RevenueCatStoreService : IStoreService
 			return;
 		}
 
-		var apiKey = RevenueCatApiKeys.GetApiKey();
+#if __IOS__
+		var apiKey = _options.iOSApiKey;
+#elif __ANDROID__
+		var apiKey = _options.AndroidApiKey;
+#endif
 		_billing.Initialize(apiKey);
 		_isInitialized = true;
 	}

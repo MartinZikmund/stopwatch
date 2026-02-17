@@ -69,13 +69,17 @@ public partial class App : Application
 				// Switch to Development environment when running in DEBUG
 				.UseEnvironment(Environments.Development)
 #endif
+				.UseConfiguration(configure: configBuilder =>
+					configBuilder
+						.EmbeddedSource<App>()
+				)
 				.UseLocalization()
 				.UseDefaultServiceProvider((context, options) =>
 				{
 					options.ValidateScopes = true;
 					options.ValidateOnBuild = true;
 				})
-				.ConfigureServices((context, services) => ConfigureServices(services))
+				.ConfigureServices((context, services) => ConfigureServices(context, services))
 			);
 		MainWindow = builder.Window;
 
@@ -123,8 +127,16 @@ public partial class App : Application
 	}
 #endif
 
-	private void ConfigureServices(IServiceCollection services)
+	private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
 	{
+		var revenueCatSection = context.Configuration.GetSection(RevenueCatOptions.SectionName);
+		var revenueCatOptions = new RevenueCatOptions
+		{
+			iOSApiKey = revenueCatSection[nameof(RevenueCatOptions.iOSApiKey)] ?? string.Empty,
+			AndroidApiKey = revenueCatSection[nameof(RevenueCatOptions.AndroidApiKey)] ?? string.Empty,
+		};
+		services.AddSingleton(revenueCatOptions);
+
 #if __IOS__ || __ANDROID__
 		services.AddSingleton<IDataSource, SqliteDataSource>();
 #else
