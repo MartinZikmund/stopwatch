@@ -57,6 +57,15 @@ jobs:
       - name: Restore solution
         run: dotnet restore "${{ env.SOLUTION_FILE }}"
 
+      - name: Inject RevenueCat API keys
+        shell: bash
+        run: |
+          file="${{ env.PROJECT_PATH }}/appsettings.json"
+          content=$(cat "$file")
+          content="${content//REVENUECAT_IOS_API_KEY/${{ secrets.REVENUECAT_IOS_API_KEY }}}"
+          content="${content//REVENUECAT_ANDROID_API_KEY/${{ secrets.REVENUECAT_ANDROID_API_KEY }}}"
+          echo "$content" > "$file"
+
       # --- Signing setup (requires your keystore + secrets) ---
       # Create upload keystore file from a base64 secret
       - name: Decode Android upload keystore
