@@ -75,7 +75,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="../Stopwatch.SourceGenerators/Stopwatch.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="../Stopwatch.SourceGenerators/Stopwatch.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" GlobalPropertiesToRemove="TargetFramework;Platform" />
 	</ItemGroup>
 
 	<ItemGroup>
