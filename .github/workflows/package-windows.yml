@@ -63,7 +63,7 @@ jobs:
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
-      run: msbuild $env:SOLUTION_FILE /t:Restore /p:Configuration=$env:Configuration /p:TargetFramework=$env:WINDOWS_TARGET_FRAMEWORK /p:PublishReadyToRun=true
+      run: msbuild $env:PROJECT_FILE /t:Restore /p:Configuration=$env:Configuration /p:TargetFramework=$env:WINDOWS_TARGET_FRAMEWORK /p:PublishReadyToRun=true
       env:
         Configuration: ${{ matrix.configuration }}
 
@@ -85,7 +85,7 @@ jobs:
 
     # Create the app package by building and packaging the project
     - name: Create the app package
-      run: msbuild $env:SOLUTION_FILE /p:TargetFramework=$env:WINDOWS_TARGET_FRAMEWORK /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
+      run: msbuild $env:PROJECT_FILE /p:TargetFramework=$env:WINDOWS_TARGET_FRAMEWORK /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
       env:
         Appx_Bundle: Never
         Appx_Package_Build_Mode: CI
