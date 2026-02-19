@@ -34,7 +34,7 @@
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>CFBundleIdentifier</key>
-		<string>dev.mzikmund.stopwatch</string>
+		<string>$(ApplicationId)</string>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>en</string>
 		<key>CFBundleLocalizations</key>
@@ -43,9 +43,9 @@
 			<string>cs</string>
 		</array>
 		<key>CFBundleName</key>
-		<string>Stopwatch</string>
+		<string>$(ApplicationTitle)</string>
 		<key>CFBundleDisplayName</key>
-		<string>Stopwatch</string>
+		<string>$(ApplicationTitle)</string>
 		<key>ITSAppUsesNonExemptEncryption</key>
 		<false/>
 	</dict>
