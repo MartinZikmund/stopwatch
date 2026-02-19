@@ -67,6 +67,15 @@ jobs:
       env:
         Configuration: ${{ matrix.configuration }}
 
+    - name: Inject RevenueCat API keys
+      shell: pwsh
+      run: |
+        $file = "$env:PROJECT_PATH/appsettings.json"
+        $content = Get-Content $file -Raw
+        $content = $content -replace 'REVENUECAT_IOS_API_KEY', '${{ secrets.REVENUECAT_IOS_API_KEY }}'
+        $content = $content -replace 'REVENUECAT_ANDROID_API_KEY', '${{ secrets.REVENUECAT_ANDROID_API_KEY }}'
+        Set-Content $file $content
+
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     - name: Decode the pfx
       run: |
