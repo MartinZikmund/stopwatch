@@ -51,10 +51,17 @@ jobs:
         run:
           dotnet workload restore "${{ env.SOLUTION_FILE }}"
 
-      - name: Select Xcode Latest
+      - name: Detect required Xcode version
+        id: xcode-version
+        run: |
+          REQUIRED_XCODE=$(ls -d ~/.dotnet/packs/Microsoft.iOS.Sdk*/ 2>/dev/null | head -1 | sed -n 's/.*_\([0-9]*\.[0-9]*\)\/.*/\1/p')
+          echo "version=$REQUIRED_XCODE" >> "$GITHUB_OUTPUT"
+          echo "Required Xcode version: $REQUIRED_XCODE"
+
+      - name: Select Xcode ${{ steps.xcode-version.outputs.version }}
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: latest-stable
+          xcode-version: ${{ steps.xcode-version.outputs.version }}
 
       - name: Show Xcode version (debug)
         run: xcodebuild -version
