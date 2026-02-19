@@ -26,7 +26,7 @@ concurrency:
 jobs:
   smoke_test:
     name: Smoke Test (Debug Build)
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,6 +55,15 @@ jobs:
       # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.3.1
+
+      - name: Inject RevenueCat API keys
+        shell: pwsh
+        run: |
+          $file = "$env:PROJECT_PATH/appsettings.json"
+          $content = Get-Content $file -Raw
+          $content = $content -replace 'REVENUECAT_IOS_API_KEY', '${{ secrets.REVENUECAT_IOS_API_KEY }}'
+          $content = $content -replace 'REVENUECAT_ANDROID_API_KEY', '${{ secrets.REVENUECAT_ANDROID_API_KEY }}'
+          Set-Content $file $content
 
       - name: Build ${{ env.APP_NAME }} (Debug)
         shell: pwsh

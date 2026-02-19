@@ -406,3 +406,6 @@ FodyWeavers.xsd
 solution-config.props
 # Publish Profiles
 !**/Properties/PublishProfiles/*.pubxml
+
+# Local development settings (may contain real API keys)
+appsettings.development.json

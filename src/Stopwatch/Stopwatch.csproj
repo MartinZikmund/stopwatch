@@ -21,6 +21,7 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 		<UnoFeatures>
+			Configuration;
 			Hosting;
 			Mvvm;
 			Localization;
@@ -47,7 +48,7 @@
 		<PackageReference Include="CommunityToolkit.WinUI.Helpers" />
 		<PackageReference Include="LiteDB" Condition="'$(IsIOS)' != 'true' and '$(IsAndroid)' != 'true'" />
 		<PackageReference Include="MZikmund.Toolkit.WinUI" />
-		<PackageReference Include="Plugin.InAppBilling" />
+		<PackageReference Include="MZikmund.Uno.RevenueCat" Condition="'$(IsIOS)' == 'true' or '$(IsAndroid)' == 'true'" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(IsIOS)' == 'true' or '$(IsAndroid)' == 'true'">

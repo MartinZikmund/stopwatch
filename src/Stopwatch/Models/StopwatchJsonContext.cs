@@ -1,5 +1,4 @@
 using Stopwatch.Services.Data;
-
 namespace Stopwatch.Models;
 
 [JsonSourceGenerationOptions(WriteIndented = true)]

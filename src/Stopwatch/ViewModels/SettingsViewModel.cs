@@ -145,7 +145,9 @@ public partial class SettingsViewModel : PageViewModel
 
 	public bool IsBackgroundColorSet => BackgroundColor != Colors.Transparent;
 
-	public bool ShouldAllowRestorePurchases => OperatingSystem.IsIOS() || OperatingSystem.IsTvOS() || OperatingSystem.IsMacOS();
+	public bool ShouldAllowRestorePurchases =>
+		OperatingSystem.IsIOS() || OperatingSystem.IsTvOS() ||
+		OperatingSystem.IsMacOS() || OperatingSystem.IsAndroid();
 
 	public string PackageVersionString
 	{

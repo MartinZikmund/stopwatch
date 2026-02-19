@@ -16,6 +16,7 @@ using Stopwatch.Views;
 
 #if __IOS__ || __ANDROID__
 using Stopwatch.Services.Data.Sqlite;
+using Uno.RevenueCat;
 #else
 using Stopwatch.Services.Data.LiteDb;
 #endif
@@ -68,6 +69,11 @@ public partial class App : Application
 				// Switch to Development environment when running in DEBUG
 				.UseEnvironment(Environments.Development)
 #endif
+				.UseConfiguration(configure: configBuilder =>
+					configBuilder
+						.EmbeddedSource<App>()
+						.Section<RevenueCatConfig>()
+				)
 				.UseLocalization()
 				.UseDefaultServiceProvider((context, options) =>
 				{
@@ -150,8 +156,9 @@ public partial class App : Application
 		services.AddScoped<IWindowShellProvider, WindowShellProvider>();
 		services.AddScoped<ITimerFactory, TimerFactory>();
 		services.AddScoped<IThemeManager, ThemeManager>();
-#if __IOS__
-		services.AddScoped<IStoreService, StoreService>();
+#if __IOS__ || __ANDROID__
+		services.AddRevenueCat();
+		services.AddScoped<IStoreService, RevenueCatStoreService>();
 #elif HAS_UNO
 		services.AddScoped<IStoreService, ProStoreService>();
 #elif DEBUG
