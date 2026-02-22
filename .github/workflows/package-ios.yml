@@ -7,7 +7,7 @@ env:
   # App Configuration
   APP_NAME: Stopwatch
   DOTNET_VERSION: 10.0.x
-  SOLUTION_FILE: src/Stopwatch.slnx
+  SOLUTION_FILE: Stopwatch.slnx
   PROJECT_PATH: src/Stopwatch
   PROJECT_FILE: src/Stopwatch/Stopwatch.csproj
   IOS_TARGET_FRAMEWORK: net10.0-ios

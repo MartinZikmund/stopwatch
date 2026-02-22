@@ -43,7 +43,7 @@ Fluent Stopwatch is a cross-platform Uno Platform application built with .NET 10
 # Download from https://dotnet.microsoft.com/download/dotnet/10.0
 
 # Install workloads
-dotnet workload restore src/Stopwatch.slnx
+dotnet workload restore Stopwatch.slnx
 dotnet workload install wasm-tools
 ```
 
