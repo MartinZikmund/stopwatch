@@ -395,4 +395,7 @@
   <data name="ProOnlyTabLimitDescription" xml:space="preserve">
     <value>Pouze verze Pro umožňuje mít otevřeny více než dvoje stopky najednou.</value>
   </data>
+  <data name="CompactOverlay" xml:space="preserve">
+    <value>Kompaktní překryv</value>
+  </data>
 </root>

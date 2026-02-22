@@ -44,4 +44,24 @@ public sealed partial class StopwatchDisplayControl : UserControl
 			typeof(MainViewModel),
 			typeof(StopwatchDisplayControl),
 			new PropertyMetadata(null));
+
+	public bool IsCompactOverlay
+	{
+		get => (bool)GetValue(IsCompactOverlayProperty);
+		set => SetValue(IsCompactOverlayProperty, value);
+	}
+
+	public static DependencyProperty IsCompactOverlayProperty { get; } =
+		DependencyProperty.Register(
+			nameof(IsCompactOverlay),
+			typeof(bool),
+			typeof(StopwatchDisplayControl),
+			new PropertyMetadata(false, OnIsCompactOverlayChanged));
+
+	private static void OnIsCompactOverlayChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		var control = (StopwatchDisplayControl)d;
+		var isCompact = (bool)e.NewValue;
+		VisualStateManager.GoToState(control, isCompact ? "CompactOverlayMode" : "NormalMode", true);
+	}
 }

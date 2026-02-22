@@ -173,6 +173,12 @@ public partial class MainViewModel : PageViewModel
 	public void GoToGetPro() => NavigationService.Navigate<GetProViewModel>();
 
 	[RelayCommand]
+	public void CloseWindow()
+	{
+		_windowShellProvider.Window.Close();
+	}
+
+	[RelayCommand]
 	public void ToggleCompactOverlay()
 	{
 		var newPresenterKind = IsCompactOverlay ? Microsoft.UI.Windowing.AppWindowPresenterKind.Default : Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay;
