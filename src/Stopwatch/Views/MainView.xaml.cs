@@ -18,7 +18,7 @@ public sealed partial class MainView : MainViewBase
 	private readonly SerialDisposable _teachingTipTriggerDisposable = new();
 	private DispatcherQueueTimer _fadeOutTimer;
 	private AppWindow _appWindow;
-	private WindowShell _shell;
+	private WindowShell? _shell;
 
 	public MainView()
 	{
