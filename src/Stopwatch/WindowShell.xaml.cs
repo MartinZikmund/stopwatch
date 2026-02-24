@@ -63,7 +63,12 @@ public sealed partial class WindowShell : Page, IWindowShell
 		}
 	}
 
-	private void OnWindowClosed(object sender, WindowEventArgs args) => _isWindowClosed = true;
+	private void OnWindowClosed(object sender, WindowEventArgs args)
+	{
+		_isWindowClosed = true;
+		_associatedWindow.AppWindow.Changed -= AppWindow_Changed;
+		ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
+	}
 
 	private void WindowShell_Loading(FrameworkElement sender, object args)
 	{
