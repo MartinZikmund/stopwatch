@@ -101,4 +101,15 @@ public sealed partial class WindowShell : Page, IWindowShell
 			_associatedWindow.SetTitleBar(titleBar ?? TitleBarGrid);
 		}
 	}
+
+	public void SetCompactOverlayMode(bool isCompactOverlay)
+	{
+		VisualStateManager.GoToState(this, isCompactOverlay ? "CompactOverlayMode" : "NormalMode", true);
+
+		if (AppWindowTitleBar.IsCustomizationSupported())
+		{
+			_associatedWindow.AppWindow.TitleBar.PreferredHeightOption =
+				isCompactOverlay ? TitleBarHeightOption.Standard : TitleBarHeightOption.Tall;
+		}
+	}
 }

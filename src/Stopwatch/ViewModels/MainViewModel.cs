@@ -33,6 +33,7 @@ public partial class MainViewModel : PageViewModel
 	private readonly IDisplayRequestManager _displayRequestManager;
 	private readonly DispatcherQueueTimer _timer;
 	private readonly SerialDisposable _displayRequestDisposable = new();
+	private bool _isCompactOverlay;
 
 	[ObservableProperty]
 	public partial StopwatchViewModel? SelectedStopwatch { get; set; }
@@ -173,23 +174,53 @@ public partial class MainViewModel : PageViewModel
 	public void GoToGetPro() => NavigationService.Navigate<GetProViewModel>();
 
 	[RelayCommand]
-	public void CloseWindow()
-	{
-		_windowShellProvider.Window.Close();
-	}
-
-	[RelayCommand]
 	public void ToggleCompactOverlay()
 	{
-		var newPresenterKind = IsCompactOverlay ? Microsoft.UI.Windowing.AppWindowPresenterKind.Default : Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay;
-		_windowShellProvider.Window.AppWindow.SetPresenter(newPresenterKind);
+#if WINDOWS
+		if (_isCompactOverlay)
+		{
+			// Exit compact overlay - restore default presenter
+			_windowShellProvider.Window.AppWindow.SetPresenter(AppWindowPresenterKind.Default);
+			_isCompactOverlay = false;
+		}
+		else
+		{
+			// Enter compact overlay using OverlappedPresenter for resizability
+			var presenter = OverlappedPresenter.Create();
+			presenter.IsAlwaysOnTop = true;
+			presenter.IsResizable = true;
+			presenter.IsMaximizable = false;
+			presenter.IsMinimizable = false;
+			_windowShellProvider.Window.AppWindow.SetPresenter(presenter);
+
+			var scale = _windowShellProvider.Window.Content.XamlRoot.RasterizationScale;
+			var width = (int)(500 * scale);
+			var height = (int)(360 * scale);
+			_windowShellProvider.Window.AppWindow.Resize(new Windows.Graphics.SizeInt32(width, height));
+
+			// Position in the top-right corner of the screen
+			var displayArea = DisplayArea.GetFromWindowId(_windowShellProvider.Window.AppWindow.Id, DisplayAreaFallback.Primary);
+			var workArea = displayArea.WorkArea;
+			var margin = (int)(12 * scale);
+			var x = workArea.X + workArea.Width - width - margin;
+			var y = workArea.Y + margin;
+			_windowShellProvider.Window.AppWindow.Move(new Windows.Graphics.PointInt32(x, y));
+
+			_isCompactOverlay = true;
+		}
 
 		UpdatePresenterButtons();
+#endif
 	}
 
 	[RelayCommand]
 	public void ToggleFullScreen()
 	{
+		if (_isCompactOverlay)
+		{
+			_isCompactOverlay = false;
+		}
+
 		var newPresenterKind = IsFullScreen ? Microsoft.UI.Windowing.AppWindowPresenterKind.Default : Microsoft.UI.Windowing.AppWindowPresenterKind.FullScreen;
 		_windowShellProvider.Window.AppWindow.SetPresenter(newPresenterKind);
 
@@ -332,9 +363,15 @@ public partial class MainViewModel : PageViewModel
 
 	public bool IsFullScreen => _windowShellProvider.Window.AppWindow.Presenter is FullScreenPresenter;
 
-	public bool IsCompactOverlay => _windowShellProvider.Window.AppWindow.Presenter is CompactOverlayPresenter;
+#if WINDOWS
+	public bool IsCompactOverlay => _isCompactOverlay;
 
 	public bool ShowCompactOverlayButton => !IsFullScreen;
+#else
+	public bool IsCompactOverlay => false;
+
+	public bool ShowCompactOverlayButton => false;
+#endif
 
 	public bool ShowFullScreenButton => !IsCompactOverlay;
 

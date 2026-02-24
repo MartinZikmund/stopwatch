@@ -22,7 +22,7 @@
                     <VisualState.Setters>
                         <Setter Target="StopwatchNamePanel.Visibility" Value="Collapsed" />
                         <Setter Target="LapsExpander.Visibility" Value="Collapsed" />
-                        <Setter Target="TimeLabelsPanel.Visibility" Value="Visible" />
+                        <Setter Target="LapsRow.Height" Value="Auto" />
                         <Setter Target="ResetButton.Style" Value="{StaticResource CompactControlButtonStyle}" />
                         <Setter Target="StartStopButton.Style" Value="{StaticResource CompactAccentControlButtonStyle}" />
                         <Setter Target="StartStopButtonIcon.FontSize" Value="24" />
@@ -34,13 +34,12 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition x:Name="LapsRow" Height="*" />
         </Grid.RowDefinitions>
 
         <Viewbox Grid.Row="0" Stretch="Uniform">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -75,29 +74,7 @@
                     </android:TextBlock>
                 </Grid>
                 <StackPanel
-                    x:Name="TimeLabelsPanel"
                     Grid.Row="2"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal"
-                    Visibility="Collapsed">
-                    <TextBlock
-                        Width="120"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="hr"
-                        TextAlignment="Center" />
-                    <TextBlock
-                        Width="120"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="min"
-                        TextAlignment="Center" />
-                    <TextBlock
-                        Width="120"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="sec"
-                        TextAlignment="Center" />
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="3"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal"
                     Spacing="8">

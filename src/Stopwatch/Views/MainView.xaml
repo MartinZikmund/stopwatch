@@ -103,13 +103,6 @@
                     ToolTipService.ToolTip="{ex:Localize Key=CompactOverlay}">
                     <FontIcon FontSize="14" Glyph="&#xEE47;" />
                 </Button>
-                <Button
-                    Command="{x:Bind ViewModel.CloseWindowCommand}"
-                    Style="{ThemeResource SubtleButtonStyle}"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center">
-                    <FontIcon FontSize="14" Glyph="&#xE711;" />
-                </Button>
             </Grid>
 
             <!--  Background color  -->
