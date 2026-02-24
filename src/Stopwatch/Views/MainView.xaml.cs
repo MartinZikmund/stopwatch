@@ -65,8 +65,6 @@ public sealed partial class MainView : MainViewBase
 	{
 		if (e.PropertyName == nameof(MainViewModel.IsCompactOverlay) && _shell is not null)
 		{
-			_shell.SetCompactOverlayMode(ViewModel.IsCompactOverlay);
-
 			if (ViewModel.IsCompactOverlay)
 			{
 				_shell.SetTitleBar(CompactOverlayDraggableArea);
