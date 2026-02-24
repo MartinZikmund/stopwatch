@@ -36,6 +36,7 @@ public sealed partial class WindowShell : Page, IWindowShell
 		//_uiSettings.ColorValuesChanged += ColorValuesChanged;
 		_associatedWindow = associatedWindow;
 		_associatedWindow.Closed += OnWindowClosed;
+		_associatedWindow.AppWindow.Changed += AppWindow_Changed;
 		CustomizeWindow();
 
 		ViewModel = ServiceProvider.GetRequiredService<WindowShellViewModel>();
@@ -99,6 +100,21 @@ public sealed partial class WindowShell : Page, IWindowShell
 		if (!_isWindowClosed)
 		{
 			_associatedWindow.SetTitleBar(titleBar ?? TitleBarGrid);
+		}
+	}
+
+	private void AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs args)
+	{
+		if (args.DidPresenterChange)
+		{
+			var isCompactOverlay = sender.Presenter is OverlappedPresenter { IsAlwaysOnTop: true };
+			VisualStateManager.GoToState(this, isCompactOverlay ? "CompactOverlayMode" : "NormalMode", true);
+
+			if (AppWindowTitleBar.IsCustomizationSupported())
+			{
+				sender.TitleBar.PreferredHeightOption =
+					isCompactOverlay ? TitleBarHeightOption.Standard : TitleBarHeightOption.Tall;
+			}
 		}
 	}
 }

@@ -395,4 +395,7 @@
   <data name="ProOnlyTabLimitDescription" xml:space="preserve">
     <value>Only Fluent Stopwatch Pro allows more than two stopwatches opened at once.</value>
   </data>
+  <data name="CompactOverlay" xml:space="preserve">
+    <value>Compact overlay</value>
+  </data>
 </root>

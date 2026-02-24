@@ -497,6 +497,24 @@
         <Setter Property="CornerRadius" Value="48" />
     </Style>
 
+    <Style
+        x:Key="CompactAccentControlButtonStyle"
+        BasedOn="{StaticResource AccentControlButtonStyle}"
+        TargetType="Button">
+        <Setter Property="Width" Value="56" />
+        <Setter Property="Height" Value="56" />
+        <Setter Property="CornerRadius" Value="28" />
+    </Style>
+
+    <Style
+        x:Key="CompactControlButtonStyle"
+        BasedOn="{StaticResource ControlButtonStyle}"
+        TargetType="Button">
+        <Setter Property="Width" Value="48" />
+        <Setter Property="Height" Value="48" />
+        <Setter Property="CornerRadius" Value="24" />
+    </Style>
+
     <Style x:Key="ControlButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="{ThemeResource ButtonBackground}" />
         <Setter Property="BackgroundSizing" Value="InnerBorderEdge" />

@@ -52,10 +52,27 @@ public sealed partial class MainView : MainViewBase
 		if (ViewModel is not null)
 		{
 			ViewModel.TriggerTeachingTips = ShowTeachingTips;
+			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 			_teachingTipTriggerDisposable.Disposable = Disposable.Create(() =>
 			{
 				ViewModel.TriggerTeachingTips = null;
+				ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
 			});
+		}
+	}
+
+	private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+	{
+		if (e.PropertyName == nameof(MainViewModel.IsCompactOverlay) && _shell is not null)
+		{
+			if (ViewModel.IsCompactOverlay)
+			{
+				_shell.SetTitleBar(CompactOverlayDraggableArea);
+			}
+			else
+			{
+				_shell.SetTitleBar(DraggableArea);
+			}
 		}
 	}
 
@@ -199,7 +216,10 @@ public sealed partial class MainView : MainViewBase
 	private void RootGridPointerEvent(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 	{
 		_fadeOutTimer.Stop();
-		ControlButtonsPanel.Opacity = 1;
+		if (ViewModel is not null && !ViewModel.IsCompactOverlay)
+		{
+			ControlButtonsPanel.Opacity = 1;
+		}
 		StartAutoHide();
 	}
 

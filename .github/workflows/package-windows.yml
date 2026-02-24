@@ -137,7 +137,7 @@ jobs:
 
       - name: Make msixbundle
         id: bundler
-        uses: LanceMcCarthy/Action-MsixBundler@v2.0.0
+        uses: LanceMcCarthy/Action-MsixBundler@v3
         with:
           msix-folder: ${{ steps.copymsix.outputs.msix_temp_dir }}
           msixbundle-filepath: "./msix/${{ env.APP_NAME }}_${{ steps.manifest.outputs.version }}.msixbundle"

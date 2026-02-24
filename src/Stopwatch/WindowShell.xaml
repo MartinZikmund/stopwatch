@@ -10,6 +10,18 @@
     mc:Ignorable="d">
 
     <Grid toolkit:VisibleBoundsPadding.PaddingMask="All">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="OverlayStates">
+                <VisualState x:Name="NormalMode" />
+                <VisualState x:Name="CompactOverlayMode">
+                    <VisualState.Setters>
+                        <Setter Target="AppIconGrid.Visibility" Value="Collapsed" />
+                        <Setter Target="TitleBarGrid.Background" Value="Transparent" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -42,6 +54,7 @@
             Grid.RowSpan="2" />
 
         <Grid
+            x:Name="AppIconGrid"
             Width="44"
             Height="48"
             Padding="0,8,0,0"
