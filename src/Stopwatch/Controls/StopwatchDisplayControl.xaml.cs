@@ -39,7 +39,6 @@ public sealed partial class StopwatchDisplayControl : UserControl
 			// Full-screen timer with laps as flyout button at bottom
 			LapsRowDefinition.Height = new GridLength(0, GridUnitType.Auto);
 			LapsColumnDefinition.Width = new GridLength(0);
-			RootGrid.RowSpacing = 4;
 			RootGrid.ColumnSpacing = 0;
 			LapsExpander.Visibility = Visibility.Collapsed;
 			LapsFlyoutButton.Visibility = Visibility.Visible;
@@ -50,7 +49,6 @@ public sealed partial class StopwatchDisplayControl : UserControl
 			// Vertical stack: timer top, laps bottom
 			LapsRowDefinition.Height = new GridLength(1, GridUnitType.Star);
 			LapsColumnDefinition.Width = new GridLength(0);
-			RootGrid.RowSpacing = 16;
 			RootGrid.ColumnSpacing = 0;
 			LapsExpander.Visibility = Visibility.Visible;
 			LapsFlyoutButton.Visibility = Visibility.Collapsed;
