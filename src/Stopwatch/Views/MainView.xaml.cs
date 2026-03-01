@@ -4,6 +4,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Stopwatch.Extensions;
+using Stopwatch.Helpers;
 using Stopwatch.Services.Localization;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
@@ -18,7 +19,8 @@ public sealed partial class MainView : MainViewBase
 	private readonly SerialDisposable _teachingTipTriggerDisposable = new();
 	private DispatcherQueueTimer _fadeOutTimer;
 	private AppWindow _appWindow;
-	private WindowShell _shell;
+	private WindowShell? _shell;
+	private bool _isCompactLandscape;
 
 	public MainView()
 	{
@@ -39,6 +41,7 @@ public sealed partial class MainView : MainViewBase
 		StopwatchTabView.SizeChanged += StopwatchTabView_SizeChanged;
 		this.Loaded += MainView_Loaded;
 		this.Unloaded += MainView_Unloaded;
+		this.SizeChanged += MainView_SizeChanged;
 		TabViewContainer.RegisterPropertyChangedCallback(
 			FrameworkElement.VisibilityProperty,
 			(s, e) => UpdateTitleBarMetrics()
@@ -164,7 +167,7 @@ public sealed partial class MainView : MainViewBase
 
 	private void UpdateTitleBarMetrics()
 	{
-		if (XamlRoot is null || _appWindow is null || TabViewContainer.Visibility == Visibility.Collapsed)
+		if (XamlRoot is null || _appWindow is null || _isCompactLandscape || TabViewContainer.Visibility == Visibility.Collapsed)
 		{
 #if HAS_UNO
 			TitleBarArea.Visibility = Visibility.Collapsed;
@@ -209,8 +212,21 @@ public sealed partial class MainView : MainViewBase
 		XamlRoot.Changed -= XamlRoot_Changed;
 		_teachingTipTriggerDisposable.Disposable = null;
 
-		_shell.SetTitleBar(null);
+		_shell?.SetTitleBar(null);
 		_shell = null;
+	}
+
+	private void MainView_SizeChanged(object sender, SizeChangedEventArgs e)
+	{
+		var compactLandscape = LayoutConstants.IsCompactLandscape(e.NewSize.Width, e.NewSize.Height);
+		if (compactLandscape != _isCompactLandscape)
+		{
+			_isCompactLandscape = compactLandscape;
+			ContentRoot.Padding = compactLandscape
+				? new Thickness(8, 2, 8, 2)
+				: new Thickness(12);
+			UpdateTitleBarMetrics();
+		}
 	}
 
 	private void RootGridPointerEvent(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
