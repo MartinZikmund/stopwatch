@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Stopwatch.Helpers;
 using Stopwatch.ViewModels;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -24,7 +25,7 @@ public sealed partial class StopwatchDisplayControl : UserControl
 
 	private void StopwatchDisplayControl_SizeChanged(object sender, SizeChangedEventArgs e)
 	{
-		var landscape = e.NewSize.Width > e.NewSize.Height && e.NewSize.Height < 450;
+		var landscape = LayoutConstants.IsCompactLandscape(e.NewSize.Width, e.NewSize.Height);
 		if (landscape != _isLandscape)
 		{
 			_isLandscape = landscape;

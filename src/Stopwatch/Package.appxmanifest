@@ -7,6 +7,7 @@
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   IgnorableNamespaces="uap rescap mp">
 
+  <!-- Version is intentionally 0.0.0.0; it is overridden at build time by Nerdbank.GitVersioning (NBGV). -->
   <Identity
     Name="5143MartinZikmund.12487707CCE79"
     Publisher="CN=5EDFBB6C-AD5D-4B76-B479-1C5F44017714"

@@ -4,6 +4,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Stopwatch.Extensions;
+using Stopwatch.Helpers;
 using Stopwatch.Services.Localization;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
@@ -211,13 +212,13 @@ public sealed partial class MainView : MainViewBase
 		XamlRoot.Changed -= XamlRoot_Changed;
 		_teachingTipTriggerDisposable.Disposable = null;
 
-		_shell.SetTitleBar(null);
+		_shell?.SetTitleBar(null);
 		_shell = null;
 	}
 
 	private void MainView_SizeChanged(object sender, SizeChangedEventArgs e)
 	{
-		var compactLandscape = e.NewSize.Width > e.NewSize.Height && e.NewSize.Height < 450;
+		var compactLandscape = LayoutConstants.IsCompactLandscape(e.NewSize.Width, e.NewSize.Height);
 		if (compactLandscape != _isCompactLandscape)
 		{
 			_isCompactLandscape = compactLandscape;
