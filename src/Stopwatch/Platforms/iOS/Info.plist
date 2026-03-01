@@ -43,9 +43,9 @@
 			<string>cs</string>
 		</array>
 		<key>CFBundleName</key>
-		<string>Stopwatch</string>
+		<string>FluentStopwatch</string>
 		<key>CFBundleDisplayName</key>
-		<string>Stopwatch</string>
+		<string>Fluent Stopwatch</string>
 		<key>ITSAppUsesNonExemptEncryption</key>
 		<false/>
 	</dict>
