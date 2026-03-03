@@ -1,2 +1,3 @@
 /* App icon label - displayed under the app icon on home screen */
-"CFBundleDisplayName" = "Stopky";
+"CFBundleDisplayName" = "Stopwatch";
+"CFBundleName" = "Stopwatch";
