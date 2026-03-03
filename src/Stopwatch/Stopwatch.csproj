@@ -70,8 +70,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(IsIOS)' == 'true'">
-		<BundleResource Include="Platforms\iOS\en.lproj\InfoPlist.strings" />
-		<BundleResource Include="Platforms\iOS\cs.lproj\InfoPlist.strings" />
+		<BundleResource Include="Platforms\iOS\Resources\**" TargetPath="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
 	<ItemGroup>
