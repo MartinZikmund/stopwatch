@@ -38,6 +38,13 @@
 
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(IsAndroid)' == 'true'">
+		<!-- Fix: minSdkVersion 21 is too low for androidx.lifecycle.runtime (requires 23) -->
+		<SupportedOSPlatformVersion>23</SupportedOSPlatformVersion>
+		<!-- Fix: Duplicate namespace errors (XAAMM0000) with Android SDK Build Tools 36+ -->
+		<AndroidEnableManifestMergerDotNet>true</AndroidEnableManifestMergerDotNet>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(TargetFramework)'=='net10.0-browserwasm'">
 		<WasmShellEnableIDBFS>true</WasmShellEnableIDBFS>
 	</PropertyGroup>
@@ -58,14 +65,22 @@
 
 	<ItemGroup Condition="'$(IsAndroid)' == 'true'">
 		<!-- Fix for AndroidX dependency constraint warnings (NU1608) -->
+		<PackageReference Include="Xamarin.AndroidX.Activity" />
 		<PackageReference Include="Xamarin.AndroidX.Activity.Ktx" />
 		<PackageReference Include="Xamarin.AndroidX.Collection.Ktx" />
+		<PackageReference Include="Xamarin.AndroidX.Lifecycle.Common" />
 		<PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" />
+		<PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core" />
 		<PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core.Ktx" />
 		<PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Ktx" />
+		<PackageReference Include="Xamarin.AndroidX.Lifecycle.Process" />
+		<PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime" />
 		<PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime.Ktx" />
 		<PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime.Ktx.Android" />
+		<PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel" />
 		<PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel.Ktx" />
+		<PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModelSavedState" />
+		<PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModelSavedState.Android" />
 		<PackageReference Include="Xamarin.AndroidX.SavedState.SavedState.Ktx" />
 	</ItemGroup>
 
