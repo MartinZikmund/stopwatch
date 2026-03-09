@@ -38,6 +38,13 @@
 
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(IsAndroid)' == 'true'">
+		<!-- Fix: minSdkVersion 21 is too low for androidx.lifecycle.runtime (requires 23) -->
+		<SupportedOSPlatformVersion>23</SupportedOSPlatformVersion>
+		<!-- Fix: Duplicate namespace errors (XAAMM0000) with Android SDK Build Tools 36+ -->
+		<AndroidEnableManifestMergerDotNet>true</AndroidEnableManifestMergerDotNet>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(TargetFramework)'=='net10.0-browserwasm'">
 		<WasmShellEnableIDBFS>true</WasmShellEnableIDBFS>
 	</PropertyGroup>
