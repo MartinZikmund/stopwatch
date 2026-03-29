@@ -15,6 +15,10 @@ env:
   ANDROID_TARGET_FRAMEWORK: net10.0-android
   GOOGLE_PLAY_TRACK_STATUS: draft  # Options: completed, draft, halted, inProgress
 
+permissions:
+  contents: read
+  actions: write
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -51,6 +55,11 @@ jobs:
         with:
           dotnet-version: |
             ${{ env.DOTNET_VERSION }}
+
+      - name: Set version title
+        uses: ./.github/steps/set_version_title
+        with:
+          token: ${{ github.token }}
 
       - name: Install .NET workloads
         run:

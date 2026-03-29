@@ -9,6 +9,10 @@ on:
       - main
       - release/**
 
+permissions:
+  contents: read
+  actions: write
+
 env:
   # App Configuration
   APP_NAME: Stopwatch
@@ -16,7 +20,7 @@ env:
   SOLUTION_FILE: Stopwatch.slnx
   PROJECT_PATH: src/Stopwatch
   PROJECT_FILE: src/Stopwatch/Stopwatch.csproj
-  
+
   STEP_TIMEOUT_MINUTES: 60
 
 concurrency:
@@ -46,6 +50,11 @@ jobs:
         with:
           dotnet-version: |
             ${{ env.DOTNET_VERSION }}
+
+      - name: Set version title
+        uses: ./.github/steps/set_version_title
+        with:
+          token: ${{ github.token }}
 
       - name: Install .NET workloads
         run: |

@@ -1,0 +1,28 @@
+name: Set workflow run version title
+description: Installs nbgv, extracts NuGetPackageVersion, and updates the workflow run title.
+
+inputs:
+  token:
+    description: GitHub token with actions:write permission
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Get app version
+      id: version
+      shell: bash
+      run: |
+        dotnet tool install -g nbgv
+        export PATH="$HOME/.dotnet/tools:$PATH"
+        VERSION=$(nbgv get-version -v NuGetPackageVersion)
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+    - name: Set workflow run title
+      if: ${{ !github.event.pull_request.head.repo.fork }}
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+      run: |
+        gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id }} \
+          --method PATCH -f name="${{ github.workflow }} (v${{ steps.version.outputs.version }})"

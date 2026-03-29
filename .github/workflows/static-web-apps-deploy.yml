@@ -25,6 +25,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+      actions: write
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
@@ -47,6 +48,12 @@ jobs:
         uses: actions/setup-dotnet@v4.2.0
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Set version title
+        uses: ./.github/steps/set_version_title
+        with:
+          token: ${{ github.token }}
+
       - run: |
           cd ${{ env.PROJECT_PATH }}
           dotnet workload restore
