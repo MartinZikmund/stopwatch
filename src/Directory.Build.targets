@@ -1,2 +1,11 @@
-﻿<Project>
+<Project>
+    <Target Name="SetNbgvVersionForUnoWindows"
+            Condition="'$(TargetPlatformIdentifier)' == 'windows'"
+            BeforeTargets="UnoGeneratePackageAppxManifest"
+            DependsOnTargets="GetBuildVersion">
+        <PropertyGroup>
+            <ApplicationVersion>0</ApplicationVersion>
+            <ApplicationDisplayVersion>$(BuildVersionSimple)</ApplicationDisplayVersion>
+        </PropertyGroup>
+    </Target>
 </Project>

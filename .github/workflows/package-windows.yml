@@ -115,12 +115,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Read package version from manifest
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            ${{ env.DOTNET_VERSION }}
+
+      - name: Get package version from NBGV
         id: manifest
         shell: pwsh
         run: |
-          [xml]$xml = Get-Content "$env:PROJECT_PATH/Package.appxmanifest"
-          $version = $xml.Package.Identity.Version
+          dotnet tool install -g nbgv
+          $raw = nbgv get-version -v SimpleVersion
+          $version = "$raw.0"
           echo "version=$version" >> $env:GITHUB_OUTPUT
 
       - name: Download all MSIX_Package_* artifacts
