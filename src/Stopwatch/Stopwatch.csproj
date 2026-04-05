@@ -13,8 +13,9 @@
 
 		<!-- Display name -->
 		<ApplicationTitle>Fluent Stopwatch</ApplicationTitle>
-		<!-- App Identifier -->
-		<ApplicationId>dev.mzikmund.stopwatch</ApplicationId>
+		<!-- App Identifier - Debug builds use different ID to allow sideloading alongside production -->
+		<ApplicationId Condition="'$(Configuration)' == 'Debug'">dev.mzikmund.stopwatch.debug</ApplicationId>
+		<ApplicationId Condition="'$(Configuration)' != 'Debug'">dev.mzikmund.stopwatch</ApplicationId>
 		<!-- Versions -->
 		<ApplicationDisplayVersion>0.10.2</ApplicationDisplayVersion>
 		<ApplicationVersion>31</ApplicationVersion>
@@ -45,6 +46,11 @@
 
 	<PropertyGroup Condition="'$(TargetFramework)'=='net10.0-browserwasm'">
 		<WasmShellEnableIDBFS>true</WasmShellEnableIDBFS>
+	</PropertyGroup>
+
+	<!-- Use debug manifest for Debug builds on Windows to allow sideloading alongside production -->
+	<PropertyGroup Condition="'$(IsWindows)' == 'true' and '$(Configuration)' == 'Debug'">
+		<AppxManifest>Package.Debug.appxmanifest</AppxManifest>
 	</PropertyGroup>
 
 	<ItemGroup>
