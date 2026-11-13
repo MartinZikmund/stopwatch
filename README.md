@@ -53,6 +53,7 @@ This project is licensed under the GNU General Public License. See the [LICENSE]
 - **CommunityToolkit.WinUI.Controls.SettingsControls**: Used for settings controls in WinUI.
 - **CommunityToolkit.WinUI.Converters**: Used for various converters in WinUI.
 - **CommunityToolkit.WinUI.Helpers**: Used for helper functions in WinUI.
+  The Community Toolkit parts are a source copy until it targets Uno 7, see [`ThirdParty/CommunityToolkit`](src/Stopwatch/ThirdParty/CommunityToolkit/README.md).
 - **LiteDB**: Used for local database storage.
 - **MZikmund.Toolkit.WinUI**: Used for additional WinUI controls and helpers.
 - **Plugin.InAppBilling**: Used for handling in-app purchases.

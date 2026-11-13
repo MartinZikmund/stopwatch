@@ -126,21 +126,21 @@ After making code changes, ALWAYS:
 
 ## Key Technologies
 
-- **Uno Platform** SDK 6.5.0-dev.39 (via `src/global.json`)
+- **Uno Platform** 7.0 (`Uno.Sdk` 7.0.5, via `global.json`)
 - **.NET 10** with C# preview language features
 - **LiteDB** 5.0.21 - Local database (Desktop/WebAssembly/WinUI only)
-- **CommunityToolkit.WinUI** - Controls, converters, and helpers
+- **CommunityToolkit.WinUI** - Controls, converters, and helpers, as a source copy until it targets Uno 7 (see `src/Stopwatch/ThirdParty/CommunityToolkit/README.md`)
 - **MZikmund.Toolkit.WinUI** - Additional WinUI controls
 - **Plugin.InAppBilling** - In-app purchases
 - **Nerdbank.GitVersioning** - Version management
 
 ## Important Files
 
-- `src/Stopwatch/Stopwatch.csproj` - Main project file (Uno.Sdk, UnoFeatures: Hosting, Mvvm, Localization, ThemeService, SkiaRenderer, Skia)
+- `src/Stopwatch/Stopwatch.csproj` - Main project file (Uno.Sdk, UnoFeatures: Configuration, Hosting, Mvvm, Localization, ThemeService)
 - `src/Stopwatch/App.xaml.cs` - DI container configuration and platform-specific service registration
 - `src/Stopwatch/WindowShell.xaml.cs` - Creates scoped ServiceProvider per window
 - `src/.editorconfig` - Code style: **tabs** for indentation, file-scoped namespaces, `_camelCase` for private fields
-- `src/global.json` - Uno SDK version pin
+- `global.json` - Uno SDK version pin
 - `src/Directory.Packages.props` - Centralized package version management
 - `.github/workflows/ci.yml` - CI pipeline (Windows-only, MSBuild, .NET 10)
 

@@ -5,11 +5,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mux="using:Microsoft.UI.Xaml.Controls"
-    xmlns:toolkit="using:Uno.UI.Toolkit"
+    xmlns:uub="using:Uno.UI.Behaviors"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid toolkit:VisibleBoundsPadding.PaddingMask="All">
+    <Grid uub:VisibleBoundsPadding.PaddingMask="All">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="OverlayStates">
                 <VisualState x:Name="NormalMode" />
