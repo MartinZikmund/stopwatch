@@ -51,6 +51,12 @@
 		<PackageReference Include="SourceGear.sqlite3" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(IsAndroid)' == 'true'">
+		<PackageReference Include="Xamarin.AndroidX.Collection.Ktx" />
+		<PackageReference Include="Xamarin.AndroidX.Fragment.Ktx" />
+		<PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core.Ktx" />
+	</ItemGroup>
+
 	<ItemGroup Condition="'$(IsIOS)' == 'true'">
 		<BundleResource Include="Platforms\iOS\Resources\**" TargetPath="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
