@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI;
 using MZikmund.Toolkit.WinUI.Infrastructure;
 using MZikmund.Toolkit.WinUI.Services;
 using Stopwatch.Core.Services;
@@ -119,13 +118,8 @@ public partial class App : Application
 	}
 
 #if !HAS_UNO
-	private async void OnInstanceActivated(object? sender, Microsoft.Windows.AppLifecycle.AppActivationArguments e)
-	{
-		await MainWindow.DispatcherQueue.EnqueueAsync(() =>
-		{
-			MainWindow.Activate();
-		});
-	}
+	private void OnInstanceActivated(object? sender, Microsoft.Windows.AppLifecycle.AppActivationArguments e) =>
+		MainWindow?.DispatcherQueue.TryEnqueue(() => MainWindow.Activate());
 #endif
 
 	private void ConfigureServices(IServiceCollection services)
