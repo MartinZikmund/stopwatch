@@ -5,6 +5,7 @@ using Uno.RevenueCat.Services;
 using Stopwatch.Services.Localization;
 using Stopwatch.Services.Navigation;
 using Stopwatch.Services.Settings;
+using Types.Result;
 
 namespace Stopwatch.Services.Store;
 
@@ -58,7 +59,7 @@ public class RevenueCatStoreService : IStoreService
 		{
 			EnsureInitialized();
 
-			var offerings = await _billing.GetOfferingsAsync();
+			var offerings = Unwrap(await _billing.GetOfferingsAsync());
 			var currentOffering = offerings.FirstOrDefault(o => o.IsCurrent);
 			if (currentOffering == null)
 			{
@@ -96,7 +97,7 @@ public class RevenueCatStoreService : IStoreService
 		{
 			EnsureInitialized();
 
-			var customerInfo = await _billing.GetCustomerInfoAsync();
+			var customerInfo = Unwrap(await _billing.GetCustomerInfoAsync());
 			if (customerInfo != null)
 			{
 				var proEntitlement = customerInfo.Entitlements
@@ -129,7 +130,7 @@ public class RevenueCatStoreService : IStoreService
 		{
 			EnsureInitialized();
 
-			var offerings = await _billing.GetOfferingsAsync();
+			var offerings = Unwrap(await _billing.GetOfferingsAsync());
 			var currentOffering = offerings.FirstOrDefault(o => o.IsCurrent);
 			if (currentOffering == null)
 			{
@@ -156,7 +157,7 @@ public class RevenueCatStoreService : IStoreService
 			}
 
 			// Handle specific error cases
-			switch (purchaseResult.ErrorStatus)
+			switch (purchaseResult.Error)
 			{
 				case PurchaseErrorStatus.PurchaseCancelledError:
 					// User cancelled, no error message needed
@@ -177,7 +178,7 @@ public class RevenueCatStoreService : IStoreService
 					break;
 
 				default:
-					await ShowError("PurchaseUnknownError", purchaseResult.ErrorStatus?.ToString() ?? "");
+					await ShowError("PurchaseUnknownError", purchaseResult.Error?.ToString() ?? "");
 					break;
 			}
 
@@ -196,7 +197,7 @@ public class RevenueCatStoreService : IStoreService
 		{
 			EnsureInitialized();
 
-			var customerInfo = await _billing.RestoreTransactionsAsync();
+			var customerInfo = Unwrap(await _billing.RestoreTransactionsAsync());
 
 			if (customerInfo != null)
 			{
@@ -224,6 +225,10 @@ public class RevenueCatStoreService : IStoreService
 			return false;
 		}
 	}
+
+	// Failures now come back as results; rethrow so the existing catch blocks still handle them.
+	private static T Unwrap<T>(DataResult<T, PurchaseErrorStatus> result) =>
+		result.IsSuccess ? result.Value : throw result.ErrorException ?? new InvalidOperationException(result.Error?.ToString());
 
 	private async Task ShowError(string errorResourceId, string additionalInformation = "")
 	{
